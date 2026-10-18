@@ -1671,3 +1671,25 @@ generator, and no record, configuration, pre-registration or source file changed
   numpy 2.4.6, scipy 1.18.0) before this change: 684 passed, 2 skipped (no
   LaTeX). RUNBOOK_CMAME's suite lines now read `684 passed, 3 deselected`.
   Suite 687 (686 + 1).
+
+## Stage 11, stamp (18 Oct 2026) -- PREREG_HOLDOUT stamped before the run
+
+- The sandbox scanned again before the stamp (PREREG_HOLDOUT Sec. 7), over
+  the same directories: `python scripts/holdout_scan_sets.py /home/claude
+  /tmp /mnt/user-data`, 18 October 2026 at 07:45 UTC, exit 0, within the
+  bounds of Sec. 2. Three dimensions with a band of mesh sizes: 86 sets,
+  the longest 80 (the cross-branch regression's miniature); three
+  dimensions at one size: 85 sets, the longest 20; two dimensions: 49
+  sets, the longest 80 (the regression's two-dimensional miniature). Two
+  copies of the two-dimensional corpus's manifest, with no instance file
+  beside them. Instance files without a manifest in 32 directories: corpus
+  files 0 to 10 in two (copies from the authors' July 2026 archive, Sec. 2)
+  and the suite's miniature labels in 30.
+- `scripts/stamp_prereg_holdout.py --date "18 October 2026"`:
+  CONFIG_SHA256[holdout_v1] = 0266f0d015bc7004512eb8f22de22b8dacc8afbe0b32c157c79c63710564af5a,
+  the status line, and the file's SHA-256 in its last line,
+  3d6680970c3298009f87549a8be1e35f75bec8a6d0cce69ecc30ffb079ee9a1c; read
+  back and verified, and checked again apart from the script (the
+  configuration's canonical hash, the self-hash).
+- Tag `prereg-holdout`, annotated, on this commit, and no other tag on it.
+  The branch is frozen until the run has returned. Suite 687.
