@@ -1,6 +1,6 @@
 # records/cmame -- cmame-paper records
 
-## Default path against wp8-lejepa (Stage 2, run again at Stages 9 and 11)
+## Default path against wp8-lejepa (Stage 2, run again at Stages 9, 11 and 12)
 
 Stage 2 changed `src` (opt-in additions only: the stiffness-norm loss of the
 supervised trainer, its E8 row, an E8 run that trains a supervised grid beside
@@ -23,11 +23,18 @@ two modules that no run imports (`fejepa.analysis.holdout` and
 `fejepa.analysis.adjudicate_holdout`, PREREG_HOLDOUT's evaluation and
 adjudication); the regression ran again on 14 October 2026 in the same way,
 with the same result (Stage 9's tree was `7cc8ac1b6b16673f14609a422f7e95479d968df0`;
-the runs took 60 s and 147 s):
+the runs took 60 s and 147 s). Stage 12 (PREREG_K3D) changed `src` in two
+places, both taken from wp9-pool Stage 2 (PREREG_FINE3D r5): the supervised
+trainer keeps the loss of the last step of every epoch (`history`, carried
+across a resume, returned with its result), and `load_epoch_checkpoint` moves
+aside an epoch checkpoint it cannot read and stops on one it can read but not
+restore (it had deleted both); the regression ran again on 20 October 2026 in
+the same way, with the same result (Stage 11's tree was
+`b719ea99d4063cf01fd183395745e0e87eba9591`):
 
 | | source tree (`git rev-parse <commit>:src`) |
 |---|---|
-| this side | the Stage 11 code: `src` = tree `b719ea99d4063cf01fd183395745e0e87eba9591` |
+| this side | the Stage 12 code: `src` = tree `165e8bf6b591614ee6a7edb850a83058e4f420ad` |
 | the other side | `wp8-lejepa` at `5f8e2df`: `src` = tree `5be6357b912cad058121092f274e6a322169b9f6` |
 
 - `regression_wp8_e1_2d_base.json`: a miniature of `configs/e1_2d_base.json`
@@ -466,3 +473,44 @@ after CM2D's verdict and reported only; no verdict reads it.
   the overlap record and its bounds, checks that the regression's
   miniatures are the sets it replays, and tests the scan script on sets of
   its own; `tests/test_holdout_rules.py` re-derives the resampling record.
+
+## K3D: the code that trained Phase-2's L_D states, and the decision rule (PREREG_K3D, 20 October 2026)
+
+`k3d/regression_phase2_e672110.json` and `k3d/regression_phase2_99d3674.json`:
+`scripts/regress_supervised_rows.py`, in the sandbox on 20 October 2026, ran
+the miniature of `scripts/regress_against_branch.py` for Phase-2's stamped
+configuration (`configs/phase2_v1.json`) on this code (the Stage 12 tree
+above) and on the code of the Phase-2 attempts that trained the L_D states
+at 1,024 labels: wp7-3d `e672110` (third attempt, 3-13 September 2026: seeds 1
+and 2; `src` = tree `61b7471ac4808505405700b90afcbe118318f335`) and `99d3674`
+(second attempt, 1-2 September: seed 0; tree
+`2aa920efcd0fa5676f8f409ff4ff0c07bf096ff5`; the two differ only in
+`anchor/energy.py`, D10, which the labels-only unit does not use). Each side
+in its own process importing its own source tree, CPU, one thread, a fresh
+pass and a restart pass. E8's cells of the supervised rows (labels-only,
+labels+energy, graph network: 300 numbers per pass) and of the naive rows
+(210) are identical, and the labels-only and graph-network states
+byte-identical (4 files). The label-free row differs, as it must
+(DEVIATIONS_PHASE2 D14 corrected its objective after Phase-2), and so does
+everything computed from it (P3's fine-tuning, E8's comparisons, gate G2),
+with three keys the later code adds to the report; the record counts these
+differences by path and lists none elsewhere. This is PREREG_K3D Sec. 7's
+evidence that the current code builds the L_D unit's initial weights and
+draws its order as that code did. `wp8-lejepa` merged these attempts'
+changes by cherry-pick: `e672110` is on `wp7-3d` only (fetch it to compare
+the tree), `99d3674` is an ancestor of this branch.
+
+`k3d_sims.json`: `scripts/k3d_sims.py` (fixed seed; seconds), the source of
+every simulated number PREREG_K3D quotes. The E-series noise guard on three
+per-seed values per arm, log-normal, at the references' spreads of the
+per-seed medians over the validation instances (Phase-2b's arrays: the L_D
+transformer's 10.2% in the relative energy gap and 5.9% in the von Mises
+error, the label-free transformer's 23.3% in the relative energy gap,
+simulated at 10%, 6% and 23%), against new-arm spreads of 5% to 50%
+(`medians`) and at L_K's two-dimensional spreads (CM2D's return: 37% and
+19%; `medians_at_lk_2d_spread`); and the seed-mean form with the reference
+at L_D's recorded seed means (`seed_means_at_the_recorded_reference`: one
+validation instance carries seed 1's, so that the reference's own SE_rel is
+0.989 in the relative energy gap and no reduction can be shown).
+`tests/test_k3d_prereg.py` checks the constants against the reports and
+every quoted number against the record.

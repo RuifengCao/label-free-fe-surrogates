@@ -8,9 +8,12 @@ figure instance it names is the script's rule applied to the committed
 report; Sec. E (cmame-paper Stage 11) runs PREREG_HOLDOUT's four stages on the
 tag, in the order and with the log names the adjudication reads, checks the
 21 states the configuration names, writes only under runs/holdout/ and
-returns the files the adjudication reads; the runbook states the suite's
-current test count with the tests that need TeX (the two LaTeX builds
-and the bibliography rendering) left out."""
+returns the files the adjudication reads; Sec. F (cmame-paper Stage 12) runs
+PREREG_K3D's one script on the tag, after its dry run, writes only under
+runs/k3d/, restarts by running it again, leaves the holdout set out only after
+two failures with every seed trained, and returns the files the adjudication
+reads; the runbook states the suite's current test count with the tests that
+need TeX (the two LaTeX builds and the bibliography rendering) left out."""
 
 import re
 import subprocess
@@ -32,7 +35,8 @@ SCRIPTS = {"A": {"scripts/time_inference_vs_solve.py", "scripts/export_fields.py
            "B": {"scripts/cm2d_precheck.py"},
            "C": {"scripts/adjudicate_cm2d.py"},
            "D": {"scripts/cm2d_spectra.py"},
-           "E": {"scripts/holdout_run.py", "scripts/adjudicate_holdout.py"}}
+           "E": {"scripts/holdout_run.py", "scripts/adjudicate_holdout.py"},
+           "F": {"scripts/k3d_train.py", "scripts/adjudicate_k3d.py"}}
 ENV = {"PYTHONPATH": str(ROOT / "src"), "PATH": "/usr/bin:/bin"}
 
 
@@ -213,10 +217,18 @@ def test_the_runbook_states_the_suite_count():
     n = int(m.group(1))
     for t in LATEX:                                         # the deselected tests exist
         assert t in res.stdout, t
-    for letter in "ADE":                                    # A0c, D0c, E0c: this commit
+    for letter in "ADF":                                    # A0c, D0c, F0c: this commit
         sec = _section(letter)
         assert sec.count(f"`{n - len(LATEX)} passed, {len(LATEX)} deselected`") == 1, letter
-    for letter in "ABDE":
+    # E0c runs only on the tag prereg-holdout (`git describe` exactly that): its suite there,
+    # as its return records it once committed (684 passed, 3 deselected at Stage 11, r6)
+    log = ROOT / "records/cmame/holdout/return/pytest.log"
+    e_count = "684 passed, 3 deselected"
+    if log.is_file():
+        e_count = re.match(r"(\d+ passed, \d+ deselected)",
+                           log.read_text().strip().splitlines()[-1]).group(1)
+    assert _section("E").count(f"`{e_count}`") == 1
+    for letter in "ABDEF":
         assert all(_section(letter).count(f"--deselect {t}") == 1 for t in LATEX), letter
     # B1c runs only on the tagged commit (`git describe` exactly prereg-cm2d): its suite,
     # as CM2D's return records it (a --deselect of a test the commit lacks deselects nothing)
@@ -352,3 +364,129 @@ def test_section_e_runs_the_holdout_on_the_tag():
     for f in adj.RETURN_FILES:
         assert f in e, f
     assert "find . -type f ! -name provenance.txt | sort | xargs sha256sum" in e
+
+
+def test_section_f_runs_k3d_on_the_tag():
+    import importlib.util
+    import json
+
+    f = _section("F")
+    assert _lines(f) == [
+        "python scripts/k3d_train.py configs/k3d_v1.json --dry-run",
+        "python scripts/k3d_train.py configs/k3d_v1.json",
+        "python scripts/k3d_train.py configs/k3d_v1.json --skip-holdout",
+        "python scripts/adjudicate_k3d.py --return <the unpacked k3d_return> "
+        "--out records/cmame/k3d/verdict.json"]
+    spec = importlib.util.spec_from_file_location("adjudicate_k3d",
+                                                  ROOT / "scripts" / "adjudicate_k3d.py")
+    adj = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(adj)
+    cfg = json.loads((ROOT / "configs" / "k3d_v1.json").read_text())
+    # on the tag, exactly (the script requires it of a guarded run)
+    assert "git describe --always --dirty --tags         # must print exactly: prereg-k3d" in f
+    assert "git tag --points-at HEAD                     # must print exactly: prereg-k3d" in f
+    assert ("+refs/heads/cmame-paper:refs/remotes/origin/cmame-paper "
+            "+refs/tags/prereg-k3d:refs/tags/prereg-k3d") in f
+    assert ("git fetch ~/cmame-paper.bundle +refs/heads/cmame-paper:refs/remotes/origin/"
+            "cmame-paper +refs/tags/prereg-k3d:refs/tags/prereg-k3d") in f
+    assert "git bundle create cmame-paper.bundle 69fb698..cmame-paper prereg-k3d" in f
+    assert subprocess.run(["git", "-C", str(ROOT), "cat-file", "-e", "69fb698^{commit}"],
+                          capture_output=True).returncode == 0
+    assert "refs/tags/prereg-k3d^{}" in f and "tar xzf` into an empty directory" in f
+    # writes only under runs/k3d; status kept; the helper is Sec. E's
+    text = f.replace("\\\n", " ")
+    assert set(re.findall(r"\bP=([^\s;]+)", text)) == {"runs/k3d"}
+    assert cfg["out"] == "runs/k3d/report.json" and "touch $P/status.txt" in f
+    assert "mv $P/status.txt" not in f
+    helper = re.search(r"\nrun\(\) \{.*?; \}\n", _section("E"), re.S).group(0)
+    guard = ('run() { [ -e $P/report.json ] && { echo "DONE: report.json exists, nothing '
+             'started (F2)"; return 1; }\n'
+             "        pgrep -af '^python[0-9.]* scripts/k3d_train\\.py' && { echo \"ALREADY "
+             'RUNNING: nothing started (F1\')"; return 1; }\n        ')
+    ours = helper.replace("run() { ", guard, 1)            # Sec. E's helper, refusing a second
+    assert f.count(ours) == 1 and f.count(ours.replace("\n", "\n    ")[:-4]) == 1  # copy, or a run done
+    assert f.count("ALREADY RUNNING: nothing started") == 2
+    assert f.count("DONE: report.json exists, nothing started (F2)") == 2
+    # the guard's pattern is anchored at the interpreter: no other command line matches it
+    import re as _re
+    pat = _re.compile(r"^python[0-9.]* scripts/k3d_train\.py")
+    for cmd, hit in (("python scripts/k3d_train.py configs/k3d_v1.json", True),
+                     ("python3 scripts/k3d_train.py configs/k3d_v1.json --device cpu", True),
+                     ("python3.12 scripts/k3d_train.py configs/k3d_v1.json --skip-holdout", True),
+                     ("bash -c pgrep -af scripts/k3d_train.py", False),
+                     ("vim scripts/k3d_train.py", False), ("watch tail runs/k3d/k3d.log", False)):
+        assert bool(pat.search(cmd)) is hit, cmd
+    assert 'pgrep -af "scripts/k3d_train.py"' not in f
+    assert re.findall(r"^run (\S+) python scripts/k3d_train\.py", f, re.M) == ["k3d.log"]
+    assert re.search(r"^    run k3d\.log python scripts/k3d_train\.py configs/k3d_v1\.json "
+                     r"--skip-holdout$", f, re.M)
+    assert re.findall(r"mkdir -p (\S+)", f) == ["runs/k3d", "$OUT"]
+    assert re.findall(r"\bOUT=(\S+)", f) == ["~/k3d_return"]
+    pre = (ROOT / "scripts" / "cm2d_precheck.py").read_text()
+    other = re.search(r'OTHER_RUNS = r"([^"]+)"', pre).group(1)
+    assert f.count('pgrep -af "' + other + '"') == 2         # F0c and F1
+    assert ">= 5 GB free on the data disk and on /" in f
+    assert 'ls runs/k3d/status.txt 2>/dev/null || echo "no F1 yet"' in f
+    assert "[ -e runs/k3d/pytest.log ] && mv runs/k3d/pytest.log " in f
+    # the dry run's plan line, as the configuration makes it
+    from fejepa.analysis.holdout import load_spec
+
+    n_hold = load_spec(ROOT / cfg["holdout"]["spec"])["sets"][cfg["holdout"]["set"]]["n_holdout"]
+    for s in ('"row": "labels_knorm"', '"device": "cuda"', '"seeds": [0, 1, 2]',
+              f'"budget": {cfg["train"]["budget"]}', f'"epochs": {cfg["train"]["epochs"]}',
+              f'"lr": {cfg["train"]["lr"]}', '"n_train": 1024', '"n_val": 256',
+              '"states_verified": 6', f'"holdout": {n_hold}', '"git": "prereg-k3d"',
+              '"prereg": {"file": "PREREG_K3D.md",'):
+        assert s in " ".join(f.split()), s
+    # the exit statuses the script documents
+    doc = (ROOT / "scripts" / "k3d_train.py").read_text()
+    for code, what in (("2", "no GPU"), ("3", "an input refused"), ("5", "a stored state does "
+                                                                       "not reproduce")):
+        assert f"{code} {what}" in " ".join(doc.split()), code
+        assert f"`exit={code}`" in f, code
+    # interruptions: attach, check, run again; the holdout left out only after
+    # two failures with every seed trained
+    rec = " ".join(f.split("### F1'. Interruptions", 1)[1].split("### F2.", 1)[0].split())
+    for s in ("tmux attach -t k3", "pgrep -af '^python[0-9.]* scripts/k3d_train\\.py'",
+              "cat runs/k3d/status.txt", "paste F1's second block again, unchanged",
+              "If that attempt also ends with an exit line other than `exit=0` that none of "
+              "the rules above covers, paste the block below once",
+              "only if all three seed result files exist and the last two run logs both end in "
+              "a traceback through `holdout_evaluation` or `holdout_instances`",
+              "`NOT ALLOWED`, any other case, or that run not ending with `exit=0`: report",
+              "first `pgrep -af '^python[0-9.]* scripts/k3d_train\\.py'`: if it prints a line, a "
+              "run is still going: touch nothing and report",
+              "If `tmux ls` lists no session (it answers with an error, such as `no server "
+              "running`), the box restarted",
+              "`No space left on device` on the screen or in the log's last 60 lines, or under "
+              "1 GB free in `df -h ~/autodl-tmp /`: do not run again",
+              "Interrupted again with the same seed and the same last progress line as "
+              "noted: report instead", "make the F2 return (it carries the logs)",
+              "do not run again; report", "Never delete anything under `runs/k3d/`"):
+        assert s in rec, s
+    # the skip block decides by itself: three seed files, both last logs a holdout traceback
+    skip = re.findall(r"```bash\n(.*?)```", f.split("### F1'. Interruptions", 1)[1], re.S)[1]
+    assert "n=$(ls $P/seed_*.json 2>/dev/null | wc -l)" in skip
+    assert ("h=$(for f in $(ls -t $P/k3d.log* | head -n 2); do tail -n 60 $f | grep -cE "
+            "'in holdout_(evaluation|instances)$'; done | grep -c '^[1-9]')") in skip
+    assert 'if [ "$n" = 3 ] && [ "$h" = 2 ]; then' in skip and "NOT ALLOWED" in skip
+    doc = (ROOT / "scripts" / "k3d_train.py").read_text()
+    for fn in ("holdout_evaluation", "holdout_instances"):  # the frames such a traceback shows
+        assert f"def {fn}(" in doc + (ROOT / "src/fejepa/analysis/holdout.py").read_text(), fn
+    # the dry run prints the holdout check first, then the plan with the commit
+    assert "[k3d] holdout h3d: 686 instances, their corpus and labels files verified" \
+        in " ".join(f.split())
+    assert "instances, their corpus and " in doc and "labels files verified (" in doc
+    assert '"commit": "..."' in f and "Anything but those two lines" in f
+    # a later visit goes to F1' before anything else runs
+    first = re.findall(r"```bash\n(.*?)```", f.split("F0c. ", 1)[1], re.S)[0]
+    assert first.strip() == 'ls ~/autodl-tmp/FE-JEPA/runs/k3d/status.txt 2>/dev/null || ' \
+        'echo "no F1 yet"'
+    head = " ".join(f.split("### F0.")[0].split())
+    assert "balance covers at least 100 h" in head and "no scheduled shutdown" in head
+    # the return holds what the adjudication reads, each file listed
+    for x in adj.RETURN_FILES + (adj.HOLDOUT_ARRAYS, "k3d.log*"):
+        assert x in f, x
+    assert "find . -type f ! -name provenance.txt | sort | xargs sha256sum" in f
+    assert 'echo "--- files ---"' in f and 'echo "--- states ---"' in f
+    assert "records/cmame/holdout/return/" in f

@@ -1,0 +1,118 @@
+{
+ "this_src_tree": "165e8bf6b591614ee6a7edb850a83058e4f420ad",
+ "other_src_tree": "61b7471ac4808505405700b90afcbe118318f335",
+ "config": "configs/phase2_v1.json",
+ "rows": {
+  "fresh": {
+   "labels": {
+    "floats": 120,
+    "differences": 0,
+    "first": [],
+    "present": true
+   },
+   "labels_anchor": {
+    "floats": 120,
+    "differences": 0,
+    "first": [],
+    "present": true
+   },
+   "mgn": {
+    "floats": 60,
+    "differences": 0,
+    "first": [],
+    "present": true
+   },
+   "zero": {
+    "floats": 70,
+    "differences": 0,
+    "first": [],
+    "present": true
+   },
+   "scale_aware_poly": {
+    "floats": 70,
+    "differences": 0,
+    "first": [],
+    "present": true
+   },
+   "knn_field": {
+    "floats": 70,
+    "differences": 0,
+    "first": [],
+    "present": true
+   }
+  },
+  "restart": {
+   "labels": {
+    "floats": 120,
+    "differences": 0,
+    "first": [],
+    "present": true
+   },
+   "labels_anchor": {
+    "floats": 120,
+    "differences": 0,
+    "first": [],
+    "present": true
+   },
+   "mgn": {
+    "floats": 60,
+    "differences": 0,
+    "first": [],
+    "present": true
+   },
+   "zero": {
+    "floats": 70,
+    "differences": 0,
+    "first": [],
+    "present": true
+   },
+   "scale_aware_poly": {
+    "floats": 70,
+    "differences": 0,
+    "first": [],
+    "present": true
+   },
+   "knn_field": {
+    "floats": 70,
+    "differences": 0,
+    "first": [],
+    "present": true
+   }
+  }
+ },
+ "other_differences": {
+  "fresh": {
+   "by_path": {
+    "/gate_g2": 5,
+    "/labels_present": 1,
+    "/results/e8/kills": 3,
+    "/results/e8/metrics/ar_egap_advantage": 2,
+    "/results/e8/metrics/cells/ar/": 60,
+    "/results/e8/metrics/d9_restart/": 2,
+    "/results/e8/protocol/ar_only": 1,
+    "/results/p3_transfer/": 242
+   },
+   "outside_label_free_paths": []
+  },
+  "restart": {
+   "by_path": {
+    "/gate_g2": 5,
+    "/labels_present": 1,
+    "/results/e8/kills": 3,
+    "/results/e8/metrics/ar_egap_advantage": 2,
+    "/results/e8/metrics/cells/ar/": 60,
+    "/results/e8/metrics/d9_restart/": 2,
+    "/results/e8/protocol/ar_only": 1,
+    "/results/p3_transfer/": 242
+   },
+   "outside_label_free_paths": []
+  }
+ },
+ "state_files_identical": {
+  "labels_b64_s0.pt": true,
+  "labels_b64_s1.pt": true,
+  "mgn_b64_s0.pt": true,
+  "mgn_b64_s1.pt": true
+ },
+ "identical": true
+}

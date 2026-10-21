@@ -17,12 +17,18 @@ the manuscript.
   computed a label or evaluated a network (evaluation only; ~1-1.5 h; only
   after PREREG_HOLDOUT is stamped and tagged `prereg-holdout`), and its
   adjudication in the repo.
+- Sec. F: PREREG_K3D, the three-dimensional supervised transformer of
+  Phase-2 retrained with the stiffness-norm loss beside Phase-2's L_D and
+  Phase-2b's label-free states (~70-85 h; after Sec. E, whose h3d labels it
+  reads, and only after PREREG_K3D is stamped and tagged `prereg-k3d`), and
+  its adjudication in the repo.
 
 No section writes another's files: each reads E1's or Phase-2b's states and
 corpora (Sec. D also CM2D's kept states and its committed return; Sec. E all
-three runs' states); Sec. A and B0 write only under `runs/cmame/`, Sec. B
+three runs' states; Sec. F Phase-2b's and Phase-2's states and Sec. E's h3d
+labels); Sec. A and B0 write only under `runs/cmame/`, Sec. B
 otherwise only under `runs/cm2d/`, Sec. D only under `runs/cmame/spectra/`,
-Sec. E only under `runs/holdout/`; none writes to a stamped configuration of
+Sec. E only under `runs/holdout/`, Sec. F only under `runs/k3d/`; none writes to a stamped configuration of
 another pre-registration, another run's `e8_states/`, `runs/data2d` or
 `runs/data3d_phase2`.
 
@@ -98,7 +104,7 @@ python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_com
     --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
     2>&1 | tee runs/cmame/timing/pytest.log | tail -n 3
 ```
-The suite's last line reads `684 passed, 3 deselected`, then warnings and the
+The suite's last line reads `760 passed, 3 deselected`, then warnings and the
 time (the two LaTeX builds and the bibliography test are left out: they
 need a TeX installation that the box does not have). Anything failed, an
 error, or another count: stop and report. Any other output than the
@@ -522,7 +528,7 @@ python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_com
     --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
     2>&1 | tee runs/cmame/spectra/pytest.log | tail -n 3
 ```
-The suite's last line reads `684 passed, 3 deselected`, then warnings and the
+The suite's last line reads `760 passed, 3 deselected`, then warnings and the
 time. Anything failed, an error, another count, or any other output than the
 comments describe: stop and report.
 
@@ -829,3 +835,324 @@ alike on the holdout set and on the validation instances), the secondary
 readings of Sec. 6 beside their validation values, and the deviations, with
 every input's SHA-256, the adjudicating code's and the library versions. The return is committed under
 `records/cmame/holdout/return/` with the verdict.
+
+## F. PREREG_K3D: the 3D supervised transformer retrained with the stiffness-norm loss (box; ~70-85 h)
+The three-dimensional supervised transformer of Phase-2, trained again on
+its 1,024 labelled instances with the stiffness-norm loss L_K in place of
+the displacement loss, with Phase-2's settings and seeds, beside Phase-2's
+L_D states and Phase-2b's label-free states, which are evaluated again and
+not trained (PREREG_K3D Sec. 2). One script, `scripts/k3d_train.py`: it
+checks every input (the dry run does the same and stops there); evaluates
+the six stored states on the validation split and stops before any training
+if one does not reproduce Phase-2b's values; trains the three seeds in order
+(about 22-27 h each); evaluates the nine states on PREREG_HOLDOUT's h3d set
+with the labels Sec. E computed; writes the report. Only after Sec. E has
+run (it reads `runs/holdout/h3d/`) and PREREG_K3D is stamped and tagged
+`prereg-k3d`: the script refuses to run otherwise. It reads Phase-2's corpus
+and states and Sec. E's h3d labels, and writes only under `runs/k3d/`, where
+it holds a lock while it runs (one run at a time). Before the operator
+instruction is sent, the repo side checks the remote:
+`git ls-remote origin refs/heads/cmame-paper 'refs/tags/*'` shows the branch
+at the stamped commit and, of all tags, only `refs/tags/prereg-k3d^{}` at
+that commit (PREREG_K3D Sec. 6: no other tag on it). Before F0: the
+instance's balance covers at least 100 h of it, and no scheduled shutdown is
+set (AutoDL stops an instance whose balance runs out).
+
+### F0. Preconditions (box)
+
+F0a. The tmux session -- on its own line, outside tmux. If a tmux status bar
+is already showing (a session Sec. E left open, say), skip the line and work
+in that session (`tmux ls` names it). After a dropped connection,
+`tmux attach -t k3`, or `tmux attach -t` with that session's name:
+```bash
+tmux new -A -s k3
+```
+
+F0b. The branch and the tag (the remote's address as Sec. E set it; setting
+it again changes nothing), the tag's refspec forced:
+```bash
+cd ~/autodl-tmp/FE-JEPA
+git remote set-url origin https://github.com/RuifengCao/label-free-fe-surrogates.git
+git remote get-url origin                    # https://github.com/RuifengCao/label-free-fe-surrogates.git
+( for i in 1 2 3; do git fetch origin +refs/heads/cmame-paper:refs/remotes/origin/cmame-paper +refs/tags/prereg-k3d:refs/tags/prereg-k3d && exit 0; sleep 10; done
+  exit 1 ) && echo FETCH-OK || echo FETCH-FAILED
+git rev-parse --short origin/cmame-paper     # the commit the operator instruction names
+git rev-parse --short 'prereg-k3d^{commit}'  # the same commit
+```
+Continue only if `FETCH-OK` is printed and both lines begin with the named
+commit (an error printed by a failed first attempt before `FETCH-OK` is
+harmless). If nothing at all is printed for 10 min, or the fetch has not
+ended after 20 min, press Ctrl-C (then `FETCH-OK` does not appear; ignore
+any lines printed after it) and take the bundle route. On `FETCH-FAILED`:
+upload the bundle that the operator instruction sends to
+`~/cmame-paper.bundle` and run, in place of the fetch block:
+```bash
+cd ~/autodl-tmp/FE-JEPA
+sha256sum ~/cmame-paper.bundle               # the SHA-256 the operator instruction names
+git fetch ~/cmame-paper.bundle +refs/heads/cmame-paper:refs/remotes/origin/cmame-paper +refs/tags/prereg-k3d:refs/tags/prereg-k3d && echo FETCH-OK || echo FETCH-FAILED
+git rev-parse --short origin/cmame-paper     # the commit the operator instruction names
+git rev-parse --short 'prereg-k3d^{commit}'  # the same commit
+```
+Continue only if the SHA-256 is the named one, `FETCH-OK` is printed and
+both lines begin with the named commit; otherwise stop here and report.
+(Repo side: the bundle is made from the pushed branch and tag with
+`git bundle create cmame-paper.bundle 69fb698..cmame-paper prereg-k3d`,
+Sec. E's stamped commit `69fb698` being on the box; `git bundle list-heads`
+shows `refs/heads/cmame-paper` at the named commit and `refs/tags/prereg-k3d`
+at the annotated tag's own object, which peels to that commit.)
+
+F0c. First, on its own:
+```bash
+ls ~/autodl-tmp/FE-JEPA/runs/k3d/status.txt 2>/dev/null || echo "no F1 yet"
+```
+On the first visit it prints `no F1 yet`: go on. If it prints the file's
+path, F1 has run before: go to F1' instead, and run nothing else of F0.
+Then the checkout, the checks and the suite (~10 min):
+```bash
+cd ~/autodl-tmp/FE-JEPA
+git checkout -B cmame-paper origin/cmame-paper   # "Switched to ..." or "Reset branch ...", maybe "set up to track" or "up to date"
+git describe --always --dirty --tags         # must print exactly: prereg-k3d
+git tag --points-at HEAD                     # must print exactly: prereg-k3d
+git rev-parse 'HEAD^{tree}'                  # the tree the operator instruction names
+git status --porcelain --untracked-files=no  # must print nothing
+ls runs/k3d/status.txt 2>/dev/null || echo "no F1 yet"   # on the first visit: no F1 yet
+sha256sum runs/holdout/h3d/manifest.json     # the SHA-256 the operator instruction names (Sec. E's labels manifest, as returned)
+df -h ~/autodl-tmp / | tail -n 2             # >= 5 GB free on the data disk and on /
+cat /sys/fs/cgroup/memory.max                # 98784247808 (92 GiB) or max; a number under 64000000000: stop
+pgrep -af "fejepa|spawn_main|scripts/[A-Za-z0-9_]+\.py"   # must print nothing
+nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader   # about 0 %, under 1,000 MiB
+grep oom_kill /sys/fs/cgroup/memory.events   # note the number: F1' compares with it
+python -c "import torch; print(torch.__version__, torch.cuda.is_available())"   # 2.12.1+cu130 True
+mkdir -p runs/k3d
+[ -e runs/k3d/pytest.log ] && mv runs/k3d/pytest.log runs/k3d/pytest.log.$(date +%Y%m%d-%H%M%S)
+python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_compiles \
+    --deselect tests/test_w9_session2.py::test_paper_material_compiles \
+    --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
+    2>&1 | tee runs/k3d/pytest.log | tail -n 3
+```
+The suite's last line reads `760 passed, 3 deselected`, then warnings and the
+time. Anything failed, an error, another count, or any other output than the
+comments describe: stop and report.
+
+F0d. The dry run (~2 min; nothing trains, nothing runs on the GPU):
+```bash
+cd ~/autodl-tmp/FE-JEPA
+python scripts/k3d_train.py configs/k3d_v1.json --dry-run
+```
+It prints two lines. The first: `[k3d] holdout h3d: 686 instances, their
+corpus and labels files verified (... s)`. The second, the plan: `"row": "labels_knorm"`,
+`"device": "cuda"`, `"seeds": [0, 1, 2]`, `"budget": 1024`, `"epochs": 200`,
+`"lr": 0.0015`, `"n_train": 1024`, `"n_val": 256`, `"states_verified": 6`,
+`"holdout": 686`, `"git": "prereg-k3d"`, `"commit": "..."` with the commit the
+operator instruction names, and `"prereg": {"file": "PREREG_K3D.md",
+"config_sha256": "..."}` with the hash the operator instruction names.
+Anything but those two lines (a line beginning `STOP:`, a traceback, a
+one-line message, another number or `null`): stop and report.
+
+### F1. The run (box; ~70-85 h; nothing else on the GPU)
+First the checks, on their own:
+```bash
+cd ~/autodl-tmp/FE-JEPA
+P=runs/k3d
+( date; hostname; pgrep -af "fejepa|spawn_main|scripts/[A-Za-z0-9_]+\.py"
+  nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader ) 2>&1 | tee -a $P/precheck.txt
+```
+`pgrep` must print nothing and the GPU line must read about 0 % and under
+1,000 MiB; otherwise stop here and report. Then, in the same window:
+```bash
+cd ~/autodl-tmp/FE-JEPA
+P=runs/k3d
+touch $P/status.txt
+run() { [ -e $P/report.json ] && { echo "DONE: report.json exists, nothing started (F2)"; return 1; }
+        pgrep -af '^python[0-9.]* scripts/k3d_train\.py' && { echo "ALREADY RUNNING: nothing started (F1')"; return 1; }
+        local log=$1; shift; [ -e $P/$log ] && mv $P/$log $P/$log.$(date +%Y%m%d-%H%M%S)
+        echo "$log start $(date -u +%FT%TZ) $(hostname)" >> $P/status.txt
+        "$@" 2>&1 | tee $P/$log; echo "$log exit=${PIPESTATUS[0]}" | tee -a $P/status.txt; }
+run k3d.log python scripts/k3d_train.py configs/k3d_v1.json
+( echo "HEAD $(git rev-parse HEAD)"; echo "tree $(git rev-parse 'HEAD^{tree}')"
+  git status --porcelain --untracked-files=no
+  nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv,noheader
+  lscpu | grep -E "^Model name|^CPU\(s\)|^Thread|^Socket"; echo "nproc $(nproc)"
+  echo "hostname $(hostname)"
+  cat /sys/fs/cgroup/cpu.max /sys/fs/cgroup/memory.max /sys/fs/cgroup/memory.events 2>/dev/null
+  free -g | head -n 2
+) >> $P/machine.txt 2>&1
+cat $P/status.txt
+```
+If the block does not start after it is pasted, press Enter once. If it
+prints `ALREADY RUNNING`, a run is going already: nothing was started or
+written; report. If it prints `DONE`, the run has finished (its report is
+there): nothing was started or written; go to F2. `status.txt` is never deleted or rotated: it keeps a start line per attempt,
+and an exit line whenever the script ended or was killed on its own. Do not
+press Ctrl-C in this window and do not type into it while the block runs;
+to look, open a second window (Ctrl-b c; back: Ctrl-b 0).
+
+What to expect, in order:
+- the two lines of F0d;
+- the six stored states evaluated on the validation split (possibly torch
+  `UserWarning` blocks, harmless): a line every 32 instances
+  (`[k3d] evaluating ar s0: 32/256`), then per state one line with
+  `"content_check"` that includes `"finite": true, "ok": true`; about 5 min in
+  all;
+- the three seeds in order, each about 22-27 h. At a seed's start and before
+  its first progress line, possibly torch `UserWarning` blocks (harmless, also
+  where they mention memory errors or a SEGFAULT); then a progress line every
+  10% of its
+  204,800 steps, the first after about 2.5 h
+  (`[sup:none K3D labels_knorm b1024 s0] step 20480/204800 (10%) knorm=...`;
+  the number after `knorm=` is one instance's loss at that step, so it moves
+  up and down from line to line); the trainer's evaluation on the validation
+  split (no lines); then one line per seed
+  (`{"seed": 0, "val": {...}, "seconds": {...}}`): about 22-27, 44-54 and
+  66-82 h after the start;
+- the holdout set: a line every 32 instances (`[k3d] holdout h3d: 32/686 |
+  ... s`), about half an hour;
+- `[k3d] report -> .../runs/k3d/report.json` and `k3d.log exit=0`.
+
+Exit status: 0 done (F2). 2: no GPU, or a GPU that does not work or is in
+use; nothing ran on it (the message says which). 3: an input refused, or
+another run holding the lock (a line beginning `STOP:` names it). 5: a
+stored state does not reproduce Phase-2b's values; nothing trained. 137:
+killed (SIGKILL, for example by the out-of-memory killer). Anything else: an
+error (a traceback, or a one-line message). A Ctrl-C, a closed session or a
+restart of the box leaves the start line without an exit line (F1').
+
+Health check (any time, in a second window; once or twice a day is enough):
+```bash
+cd ~/autodl-tmp/FE-JEPA; date; tail -n 2 runs/k3d/status.txt; tail -n 2 runs/k3d/k3d.log | cut -c1-160
+pgrep -af '^python[0-9.]* scripts/k3d_train\.py' | cut -c1-120
+nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader
+find runs/k3d -type f -mmin -45 -printf '%TH:%TM %p\n' | sort | tail -n 3
+grep -h oom_kill /sys/fs/cgroup/memory.events 2>/dev/null; df -h ~/autodl-tmp / | tail -n 2
+```
+Healthy: `pgrep` prints exactly one line, the script's own (it ends with
+`k3d_train.py configs/k3d_v1.json`; two such lines: two copies, report at once); the GPU in
+use (memory well above 1,000 MiB); a file under `runs/k3d/` written within
+45 min (while a seed trains, its epoch checkpoint
+`labels_knorm_b1024_s<seed>.ckpt` about every 7 min; while states are
+evaluated, the log); `oom_kill` as noted in F0c; at least 5 GB free on the
+data disk and on /. Not healthy: report, and do not stop the run.
+
+### F1'. Interruptions
+What decides is the last line of `runs/k3d/status.txt` (the check below
+prints it): an exit line is the script's own end (the third bullet); a start
+line is a run that is going (`pgrep` shows it) or one that ended without an
+exit line (a restart of the box, the session or its shell killed).
+- A dropped connection: `tmux attach -t k3` (or the session F0a left you
+  in); the run goes on. Do not paste anything again. If `tmux ls` lists no
+  session (it answers with an error, such as `no server running`), the box
+  restarted: next bullet.
+- The box restarted, or the last line of `status.txt` is a start line: at a
+  prompt in window 0 (after a restart, open tmux again, F0a), run
+  ```bash
+  cd ~/autodl-tmp/FE-JEPA
+  cat runs/k3d/status.txt
+  pgrep -af '^python[0-9.]* scripts/k3d_train\.py'   # must print nothing
+  grep oom_kill /sys/fs/cgroup/memory.events
+  tail -n 3 runs/k3d/k3d.log | cut -c1-160
+  ```
+  If `pgrep` prints a line, the run is still going: no restart. If the last
+  line of `status.txt` is an exit line: the third bullet, not this one.
+  Otherwise note the seed and the last progress line that `tail` shows, and
+  paste F1's second block again, unchanged (a restart of the box resets the
+  `oom_kill` count: note the new number). The stored states' evaluations
+  (once all six are done) and every finished seed are kept (`[k3d] stored
+  states: evaluations on disk` and `[k3d] seed 0: result on disk`), and the
+  interrupted seed resumes from its last epoch checkpoint (`[ckpt] resumed
+  K3D labels_knorm b1024 s1 at epoch .../200`; a checkpoint that cannot be
+  read is moved aside, `[ckpt] ... unusable ...`, and that seed trains from
+  the start); each attempt adds its own start line, and the adjudication
+  records them. Interrupted again with the same seed and the same last
+  progress line as noted: report instead.
+- An exit line other than `exit=0`:
+  - `exit=3` or `exit=5`: first `pgrep -af '^python[0-9.]* scripts/k3d_train\.py'`:
+    if it prints a line, a run is still going: touch nothing and report.
+    Otherwise do not run again; make the F2 return (it carries the logs),
+    shut the instance down without releasing it, and report.
+  - `exit=2`: look at `nvidia-smi`; if the GPU is idle and nothing else
+    runs, paste F1's second block again once; otherwise report.
+  - `exit=137`, `oom_kill` above the number noted, or `out of memory` in the
+    log's last 60 lines (`tail -n 60 runs/k3d/k3d.log`): do not run again;
+    report.
+  - `No space left on device` on the screen or in the log's last 60 lines,
+    or under 1 GB free in `df -h ~/autodl-tmp /`: do not run again; report.
+  - anything else: paste F1's second block again. If that attempt also ends
+    with an exit line other than `exit=0` that none of the rules above
+    covers, paste the block below once: it writes the report without the
+    holdout set (PREREG_K3D Sec. 6) only if all three seed result files
+    exist and the last two run logs both end in a traceback through
+    `holdout_evaluation` or `holdout_instances` (the holdout evaluation
+    failed in both attempts); otherwise it prints `NOT ALLOWED` and runs
+    nothing:
+    ```bash
+    cd ~/autodl-tmp/FE-JEPA
+    P=runs/k3d
+    n=$(ls $P/seed_*.json 2>/dev/null | wc -l)
+    h=$(for f in $(ls -t $P/k3d.log* | head -n 2); do tail -n 60 $f | grep -cE 'in holdout_(evaluation|instances)$'; done | grep -c '^[1-9]')
+    echo "seed result files: $n; of the last two logs, ending in a holdout traceback: $h"   # 3 and 2
+    run() { [ -e $P/report.json ] && { echo "DONE: report.json exists, nothing started (F2)"; return 1; }
+            pgrep -af '^python[0-9.]* scripts/k3d_train\.py' && { echo "ALREADY RUNNING: nothing started (F1')"; return 1; }
+            local log=$1; shift; [ -e $P/$log ] && mv $P/$log $P/$log.$(date +%Y%m%d-%H%M%S)
+            echo "$log start $(date -u +%FT%TZ) $(hostname)" >> $P/status.txt
+            "$@" 2>&1 | tee $P/$log; echo "$log exit=${PIPESTATUS[0]}" | tee -a $P/status.txt; }
+    if [ "$n" = 3 ] && [ "$h" = 2 ]; then
+    run k3d.log python scripts/k3d_train.py configs/k3d_v1.json --skip-holdout
+    else echo "NOT ALLOWED: nothing run; report (F1')"; fi
+    ```
+    `NOT ALLOWED`, any other case, or that run not ending with `exit=0`:
+    report.
+- When reporting, send `cat runs/k3d/status.txt`, `tail -n 60
+  runs/k3d/k3d.log`, the `nvidia-smi` line, `df -h ~/autodl-tmp /` and the
+  `oom_kill` line.
+- Never delete anything under `runs/k3d/`, never release the instance, and
+  do not restart it without its GPU or move it to another host without
+  asking.
+
+### F2. Return (box; minutes)
+After `k3d.log exit=0` (or as F1' says):
+```bash
+cd ~/autodl-tmp/FE-JEPA
+P=runs/k3d
+T=$(date +%Y%m%d-%H%M)
+OUT=~/k3d_return && rm -rf $OUT && mkdir -p $OUT
+cp $P/report.json $P/reused.json $P/seed_?.json $P/holdout_arrays.npz $OUT/ 2>/dev/null
+cp $P/k3d.log* $P/status.txt $P/precheck.txt $P/machine.txt $P/pytest.log $OUT/ 2>/dev/null
+( echo "HEAD $(git rev-parse HEAD)"; echo "tree $(git rev-parse 'HEAD^{tree}')"
+  echo "describe $(git describe --always --dirty --tags)"
+  echo "hostname $(hostname)"
+  echo "--- runs/k3d ---"; ls -l --full-time $P
+  echo "--- states ---"; sha256sum $P/labels_knorm_b1024_s?.pt
+  echo "--- files ---"; cd $OUT && find . -type f ! -name provenance.txt | sort | xargs sha256sum
+) > $OUT/provenance.txt 2>&1
+cd ~ && tar czf k3d_return_$T.tgz k3d_return \
+    && sha256sum k3d_return_$T.tgz && du -h k3d_return_$T.tgz
+```
+The tarball is a few MB. Send it with the SHA-256 line. The three L_K states
+stay on the box (their SHA-256 are in the provenance file and the report);
+then shut the instance down without releasing it.
+
+### F3. In the repo
+In a checkout of the branch (a clone of its own, not a copy of a worktree),
+with the tag fetched by a forced refspec, and PREREG_HOLDOUT's return
+committed under `records/cmame/holdout/return/` (the holdout readings
+compare the labels the run used with its `h3d/manifest.json`):
+```bash
+git fetch origin +refs/heads/cmame-paper:refs/remotes/origin/cmame-paper +refs/tags/prereg-k3d:refs/tags/prereg-k3d
+git tag --points-at 'prereg-k3d^{commit}'    # exactly one line: prereg-k3d
+git checkout -B cmame-paper origin/cmame-paper
+git status --porcelain --untracked-files=no  # must print nothing
+python scripts/adjudicate_k3d.py --return <the unpacked k3d_return> \
+    --out records/cmame/k3d/verdict.json
+```
+The tarball is unpacked with `tar xzf` into an empty directory and
+adjudicated as it is: a file added to it (a `.DS_Store`, say) is not in the
+provenance file and refuses the return. It reads the report, the status
+file, the run logs, the seed files, `reused.json` and the holdout arrays
+from the return, the source report and `configs/k3d_v1.json` from the
+checkout, and PREREG_K3D.md; checks every returned file against the
+provenance file, the recorded commit and tree against the tag `prereg-k3d`,
+and the report's states, seeds and commits against the return's; and writes
+H2a-3D and H2b-3D, the reading H3-3D, the secondary readings of PREREG_K3D
+Sec. 5 and the deviations, with every input's SHA-256, the adjudicating
+code's and its comparison with the tag. The return is committed under
+`records/cmame/k3d/return/` with the verdict.

@@ -1693,3 +1693,135 @@ generator, and no record, configuration, pre-registration or source file changed
   configuration's canonical hash, the self-hash).
 - Tag `prereg-holdout`, annotated, on this commit, and no other tag on it.
   The branch is frozen until the run has returned. Suite 687.
+
+## Stage 12 (20 Oct 2026) -- PREREG_K3D r1 draft: the 3D supervised transformer retrained with the stiffness-norm loss
+
+- Purpose: CM2D's stiffness-norm control in three dimensions (decided 18
+  October 2026). PREREG_CM2D showed in two dimensions that training the
+  supervised transformer with the stiffness norm of the error (L_K) in place
+  of the relative Euclidean displacement error (L_D), changing nothing else,
+  lowers its relative energy gap and its von Mises error at 1,024 labels;
+  the manuscript's explanation of the label-free network's lower stress
+  errors by the norm of its objective had not been tested in three
+  dimensions. K3D trains the L_K transformer on Phase-2's corpus, split,
+  1,024 labelled instances, settings and seeds, beside Phase-2's L_D states
+  and Phase-2b's label-free states, which are evaluated again (each must
+  reproduce Phase-2b's per-instance values in the median) and not trained.
+  Draft only: not stamped, not tagged.
+- The decisions read the E-series guard on per-seed medians over the 256
+  validation instances (H2a-3D: relative energy gap; H2b-3D: von Mises
+  error; H3-3D, L_K against the label-free transformer, a reading). One
+  validation instance (`instance_00485.npz`) carries the L_D reference's seed
+  means (seed 1: relative energy gap 23,727): with seed means the reference's
+  own SE_rel is 0.989, tau >= 1.98 and no reduction could be shown. The
+  per-seed median is PREREG_CM2D's pre-registered robustness reading, whose
+  two-dimensional values were known; other robust statistics spread alike.
+  The statistic was chosen knowing the reference's values, before any L_K
+  training in three dimensions; the seed-mean reading is reported beside
+  every verdict. Operating characteristics by simulation
+  (`scripts/k3d_sims.py`, `records/cmame/k3d_sims.json`): at the references'
+  spreads, at L_K's two-dimensional ones, at wide new-arm spreads, and the
+  two hypotheses together with correlated seed effects.
+- `scripts/k3d_train.py` (configs/k3d_v1.json): one process on the box. Before
+  the GPU is touched, the dry run included: the guard (the CONFIG_SHA256 line
+  and the last line), the tag (a guarded run must be on `prereg-k3d` exactly)
+  and the commit, the source report (Phase-2b's, by SHA-256, its embedded
+  configuration by its own hash), the stored states (SHA-256 against the
+  records they are copied from), the corpus manifest and the training
+  instances' labels, the holdout set's labels manifest and every corpus and
+  labels file it lists (SHA-256). Then a GPU that works and is free (no
+  fallback to the CPU, exit status 2); a lock (one run at a time); the six
+  stored states evaluated and content-checked (exit status 5 before any
+  training); the three seeds trained in order exactly as E8's `labels_knorm`
+  unit would train them (the model built right after seeding, the trainer's
+  order, loss "knorm", E8's epochs and learning rate, activation
+  checkpointing off as in the code that trained the L_D states); every state
+  on PREREG_HOLDOUT's h3d set with the labels its run computed (the labels
+  manifest recorded by SHA-256; `--skip-holdout` after its evaluation has
+  failed in two consecutive attempts); the report. A restart is the same
+  command: finished seeds and the stored states' evaluations are kept, an
+  interrupted seed resumes from its epoch checkpoint if this code (`git
+  describe` and commit), configuration and seed wrote it, anything else is
+  moved aside. Every JSON file is flushed to the disk before it is moved
+  into place; each seed records the machine (container, CPU model, GPU driver
+  and UUID) and the torch build.
+- `scripts/adjudicate_k3d.py`: the verdicts, the reading, the secondary
+  readings (every metric, 30 comparisons on medians and means, instance
+  pairs, zero-field counts, the share of the L_D-to-label-free gap that L_K
+  closes, the labels+energy row's arrays, the holdout readings if the labels
+  manifest the run used is PREREG_HOLDOUT's returned one, the training), the
+  refusals (the content check recomputed from the arrays; the return's
+  states, seed files and commits against the report) and the deviations of
+  PREREG_K3D Sec. 6. `scripts/stamp_prereg_k3d.py`: the stamp, refusing a
+  configuration that fails the run's own checks.
+- The code that trained the L_D states against this code:
+  `scripts/regress_supervised_rows.py` ran the regression's miniature of
+  Phase-2's configuration on this code and on wp7-3d `e672110` and `99d3674`
+  (the attempts that trained L_D at 1,024 labels): the supervised and naive
+  rows' cells identical and the supervised states byte-identical; the
+  label-free row differs, as D14 requires (`records/cmame/k3d/`). On CPU
+  miniatures the script's L_K states are E8's `labels_knorm` states byte for
+  byte, with activation checkpointing off or on.
+- `src`: three changes, two from wp9-pool Stage 2 (PREREG_FINE3D r5): the
+  supervised trainer keeps the loss of the last step of every epoch across a
+  resume; an epoch checkpoint that cannot be read is moved aside while one
+  that can be read but not restored stops the training (both were deleted);
+  and `atomic_torch_save` flushes the file and its directory entry to the
+  disk around the rename (the bytes written are the same).
+  `scripts/regress_against_branch.py` against `wp8-lejepa` again: identical
+  (`records/cmame/README.md`).
+- Four independent reviews of the draft, each on its own clone: the code
+  (one blocking finding: the end-to-end test expected a torch deviation that
+  the box's own torch does not produce, so the suite would have failed in
+  F0c; fixed, and the suite run under the box's torch version string), the
+  pre-registration and its statistics (the disclosure of what was known when
+  the median was chosen, the content check stated as it is, the joint and
+  wide-spread rates, the share of the gap closed), the box procedure (the
+  same blocking test; the rule for leaving the holdout set out, the exit
+  statuses after a Ctrl-C, the health check, a full disk, the balance), and
+  the decision rules implemented again from the text alone (227,417 cases;
+  no disagreement a real run could produce; the rule's edges and the seed
+  means' direction now defined in the text and the code). Every finding was
+  taken up or answered.
+- RUNBOOK_CMAME Sec. F: the box procedure (balance; fetch or bundle; the
+  status check first; checkout on the tag; the holdout labels manifest and
+  the memory limit; suite; dry run; the run in tmux with its status file;
+  health check; interruptions; return) and the adjudication. The suite lines
+  of A, D and F read the current count; E's stays at its tag's (684), which
+  E0c runs.
+- Sec. F rehearsed on the CPU with this package, its blocks as written but
+  for the paths, the device and the suite collected only: a local remote
+  with a rehearsal stamp and tag, a box clone at the previous commit with
+  miniature inputs (Phase-2's stored states, the h3d labels); F0b by fetch
+  and by bundle, F0c, F0d; F1 killed (no exit line) and pasted again, the
+  stored states' evaluations and the finished seed kept; F2's return; F3's
+  adjudication, verdicts written, the deviations those of the rehearsal (two
+  attempts, results from the earlier one, the CPU and its torch). One change:
+  the dry run's first line counts the holdout instances (it named them files).
+- Three more independent reviews after the rehearsal, each on its own clone: the
+  run's CUDA and box-scale paths (the 1,024 training instances meshed again
+  exactly: GPU peak about 14-15 GiB of 31.4 at the largest, host memory about
+  25 GiB, about 22-25 h per seed; L_K's path is the one the label-free and
+  CM2D runs used on the box; the L_D regression records reproduced), the
+  adjudication and the stamp (about 55 run-shaped returns, no crash, no false
+  refusal, the guard's numbers by hand to 1e-12) and the operator procedure
+  under failures (kills at every stage, a corrupted checkpoint, two copies, a
+  stale lock, the holdout failing). No finding against the training or the
+  verdicts. Changes: the values worse than the zero field listed and every
+  epoch's loss in the verdict file (PREREG Sec. 5); deviations for TF32 in
+  training, a return without reused.json, holdout readings not evaluated and a
+  holdout skip that two holdout failures in the run logs did not precede;
+  the stored states' SHA-256 hashed again as evaluated, and reused.json records
+  the TF32 setting; the dry run writes a probe through the checkpoint writer on
+  the box's disk and removes it. RUNBOOK F1' decides by the last line of
+  status.txt, the run helper refuses to start a second copy (its process
+  pattern anchored at the interpreter, so no other command line matches) or a
+  run whose report exists (a block pasted twice), exit 3 or 5 looks for a
+  running copy first, and the --skip-holdout block checks its own condition
+  (three seed files, the last two logs ending in a holdout traceback; else NOT
+  ALLOWED); F0a works in a tmux session Sec. E left open, and F1' stops on a
+  full disk seen on the screen or by df. PREREG Sec. 6 states the return's
+  required files and that the runbook names the failures run again once.
+- Tests: `tests/test_k3d_train.py` (21), `tests/test_k3d_adjudicate.py` (42),
+  `tests/test_k3d_prereg.py` (12), `tests/test_cmame_runbook.py` (+1). Suite
+  763 (687 + 76).

@@ -1,0 +1,56 @@
+{
+ "_comment": "K3D: the three-dimensional supervised transformer of Phase-2 trained with the stiffness-norm loss L_K in place of L_D on its 1,024 labelled instances (Phase-2's settings and seeds, activation checkpointing off as in Phase-2's L_D units), evaluated beside Phase-2's L_D states and Phase-2b's label-free states, which are not trained again, on the validation split and on PREREG_HOLDOUT's h3d set with the labels its run computed; see PREREG_K3D.md",
+ "source": {
+  "report": "records/wp8/e2/baseline/report_phase2b.json",
+  "report_sha256": "320b6db5060ecae9f4747327228c7705d30877bece67d09af2f68d6c466f2794",
+  "states_dir": "runs/phase2/e8_states"
+ },
+ "reused": {
+  "ar": {
+   "state": "ar_p1024_s{seed}.pt",
+   "cell": "1024",
+   "sha256": {
+    "0": "a7b5c71c6144afbc52dc56e372d106e6c13996e06cd86b8a216d8a59c44fb611",
+    "1": "e9c0c400004d07fbebf6d534f436b100aba718dc132da6587c93374ee61ba04f",
+    "2": "e0f2210bc85f0f0a4613770410db887bef06643fd6a4f60eca6cee2bef676140"
+   },
+   "sha256_source": "records/wp8/e2/baseline/report_phase2b.json"
+  },
+  "labels": {
+   "state": "labels_b1024_s{seed}.pt",
+   "cell": "1024",
+   "sha256": {
+    "0": "2566b87926fcf8df3a751634fd7efd912d60363b2cae95de29155fec54d35b60",
+    "1": "a9a8e8a0d28d8da2767bd9624f3b48825cc088b5b202e7e17f955a7c637c79d4",
+    "2": "ad12327898082bf67ea913d33b18a4d05f1c724c3a12b862dc542b25921b0bf9"
+   },
+   "sha256_source": "records/wp9/phase2_supervised_states.json"
+  }
+ },
+ "train": {
+  "row": "labels_knorm",
+  "loss": "knorm",
+  "budget": 1024,
+  "epochs": 200,
+  "lr": 0.0015,
+  "weight_decay": 0.0001,
+  "clip": 1.0,
+  "warmup_frac": 0.05,
+  "activation_checkpointing": false
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "content_tol": 0.001,
+ "holdout": {
+  "spec": "configs/holdout_v1.json",
+  "set": "h3d",
+  "dir": "runs/holdout/h3d"
+ },
+ "out": "runs/k3d/report.json",
+ "prereg_file": "PREREG_K3D.md",
+ "prereg_guard": true,
+ "device": "cuda"
+}
