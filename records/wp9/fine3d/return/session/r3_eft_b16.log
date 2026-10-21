@@ -1,0 +1,93 @@
+{"r3": "configs/r3_eft_b16.json", "arm": "energy", "device": "cuda", "seeds": [0, 1, 2], "train": ["instance_00256.npz", "instance_00257.npz", "instance_00258.npz", "instance_00259.npz", "instance_00260.npz", "instance_00261.npz", "instance_00262.npz", "instance_00263.npz", "instance_00264.npz", "instance_00265.npz", "instance_00266.npz", "instance_00267.npz", "instance_00268.npz", "instance_00269.npz", "instance_00270.npz", "instance_00271.npz"], "n_fine": 256, "n_inband": 256, "states_verified": 3, "prereg": {"file": "PREREG_FINE3D.md", "config_sha256": "a8048f7999cc04cc459cfb3fa64a0fa090b4de9847ccbce7c937d5f54b258118"}}
+{"seed": 0, "content_check": {"max_rel_dev": {"fine": 0.0, "inband": 0.0}, "tolerance": 0.001, "passed": true, "n_fine": 8, "n_inband": 8}}
+/root/autodl-tmp/FE-JEPA/src/fejepa/anchor/energy.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  K_t = torch.sparse_coo_tensor(idx, val, size=Kc.shape).coalesce()   # CPU
+/root/autodl-tmp/FE-JEPA/src/fejepa/anchor/energy.py:74: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at /pytorch/aten/src/ATen/SparseCsrTensorImpl.cpp:49.)
+  self.K_t = K_t.to_sparse_csr() if cuda_target else K_t
+/root/autodl-tmp/FE-JEPA/src/fejepa/train/pretrain.py:126: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:838.)
+  f"loss={float(loss):.4e}", flush=True)
+[pretrain R3 energy FT b16 s0] step 80/800 (10%) loss=-5.5426e-02
+[pretrain R3 energy FT b16 s0] step 160/800 (20%) loss=-5.7989e-02
+[pretrain R3 energy FT b16 s0] step 240/800 (30%) loss=-1.6789e-02
+[pretrain R3 energy FT b16 s0] step 320/800 (40%) loss=-1.3947e-02
+[pretrain R3 energy FT b16 s0] step 400/800 (50%) loss=-1.6440e-02
+[pretrain R3 energy FT b16 s0] step 480/800 (60%) loss=-9.8154e-03
+[pretrain R3 energy FT b16 s0] step 560/800 (70%) loss=-5.6063e-02
+[pretrain R3 energy FT b16 s0] step 640/800 (80%) loss=-8.6294e-02
+[pretrain R3 energy FT b16 s0] step 720/800 (90%) loss=-9.8262e-03
+[pretrain R3 energy FT b16 s0] step 800/800 (100%) loss=-4.1710e-02
+[r3] evaluating fine: 0/256
+[r3] evaluating fine: 32/256
+[r3] evaluating fine: 64/256
+[r3] evaluating fine: 96/256
+[r3] evaluating fine: 128/256
+[r3] evaluating fine: 160/256
+[r3] evaluating fine: 192/256
+[r3] evaluating fine: 224/256
+[r3] evaluating in band: 0/256
+[r3] evaluating in band: 32/256
+[r3] evaluating in band: 64/256
+[r3] evaluating in band: 96/256
+[r3] evaluating in band: 128/256
+[r3] evaluating in band: 160/256
+[r3] evaluating in band: 192/256
+[r3] evaluating in band: 224/256
+{"seed": 0, "fine": {"disp_rel_l2": 0.05305278808712044, "energy_gap_rel": 0.01898874120698585, "vm_rel_l2": 0.08402831558273985}, "inband": {"disp_rel_l2": 0.31964178757224826, "energy_gap_rel": 0.16923907130922078, "vm_rel_l2": 0.33188296610701207}, "seconds": {"load_and_check": 45.7, "train": 10583.3, "evaluate": 1571.7}}
+{"seed": 1, "content_check": {"max_rel_dev": {"fine": 0.0, "inband": 0.0}, "tolerance": 0.001, "passed": true, "n_fine": 8, "n_inband": 8}}
+[pretrain R3 energy FT b16 s1] step 80/800 (10%) loss=-4.2754e-02
+[pretrain R3 energy FT b16 s1] step 160/800 (20%) loss=-1.4449e-02
+[pretrain R3 energy FT b16 s1] step 240/800 (30%) loss=-5.7903e-02
+[pretrain R3 energy FT b16 s1] step 320/800 (40%) loss=-1.4475e-02
+[pretrain R3 energy FT b16 s1] step 400/800 (50%) loss=-1.6862e-02
+[pretrain R3 energy FT b16 s1] step 480/800 (60%) loss=-5.9308e-02
+[pretrain R3 energy FT b16 s1] step 560/800 (70%) loss=-1.4575e-02
+[pretrain R3 energy FT b16 s1] step 640/800 (80%) loss=-2.0767e-02
+[pretrain R3 energy FT b16 s1] step 720/800 (90%) loss=-1.6945e-02
+[pretrain R3 energy FT b16 s1] step 800/800 (100%) loss=-9.8031e-03
+[r3] evaluating fine: 0/256
+[r3] evaluating fine: 32/256
+[r3] evaluating fine: 64/256
+[r3] evaluating fine: 96/256
+[r3] evaluating fine: 128/256
+[r3] evaluating fine: 160/256
+[r3] evaluating fine: 192/256
+[r3] evaluating fine: 224/256
+[r3] evaluating in band: 0/256
+[r3] evaluating in band: 32/256
+[r3] evaluating in band: 64/256
+[r3] evaluating in band: 96/256
+[r3] evaluating in band: 128/256
+[r3] evaluating in band: 160/256
+[r3] evaluating in band: 192/256
+[r3] evaluating in band: 224/256
+{"seed": 1, "fine": {"disp_rel_l2": 0.058896284424272215, "energy_gap_rel": 0.023244636837444245, "vm_rel_l2": 0.09302250259067385}, "inband": {"disp_rel_l2": 0.6865809693918542, "energy_gap_rel": 0.8590666010890007, "vm_rel_l2": 0.7196624319398963}, "seconds": {"load_and_check": 42.4, "train": 10579.6, "evaluate": 1568.2}}
+{"seed": 2, "content_check": {"max_rel_dev": {"fine": 0.0, "inband": 0.0}, "tolerance": 0.001, "passed": true, "n_fine": 8, "n_inband": 8}}
+[pretrain R3 energy FT b16 s2] step 80/800 (10%) loss=-9.3221e-02
+[pretrain R3 energy FT b16 s2] step 160/800 (20%) loss=-5.3747e-03
+[pretrain R3 energy FT b16 s2] step 240/800 (30%) loss=-4.3273e-02
+[pretrain R3 energy FT b16 s2] step 320/800 (40%) loss=-8.6308e-02
+[pretrain R3 energy FT b16 s2] step 400/800 (50%) loss=-4.4128e-02
+[pretrain R3 energy FT b16 s2] step 480/800 (60%) loss=-9.8534e-03
+[pretrain R3 energy FT b16 s2] step 560/800 (70%) loss=-1.4048e-02
+[pretrain R3 energy FT b16 s2] step 640/800 (80%) loss=-9.4424e-02
+[pretrain R3 energy FT b16 s2] step 720/800 (90%) loss=-5.7141e-02
+[pretrain R3 energy FT b16 s2] step 800/800 (100%) loss=-5.9687e-02
+[r3] evaluating fine: 0/256
+[r3] evaluating fine: 32/256
+[r3] evaluating fine: 64/256
+[r3] evaluating fine: 96/256
+[r3] evaluating fine: 128/256
+[r3] evaluating fine: 160/256
+[r3] evaluating fine: 192/256
+[r3] evaluating fine: 224/256
+[r3] evaluating in band: 0/256
+[r3] evaluating in band: 32/256
+[r3] evaluating in band: 64/256
+[r3] evaluating in band: 96/256
+[r3] evaluating in band: 128/256
+[r3] evaluating in band: 160/256
+[r3] evaluating in band: 192/256
+[r3] evaluating in band: 224/256
+{"seed": 2, "fine": {"disp_rel_l2": 0.048934912643860004, "energy_gap_rel": 0.013757397124333205, "vm_rel_l2": 0.07620906429000311}, "inband": {"disp_rel_l2": 0.3597188499256788, "energy_gap_rel": 0.21447219743413953, "vm_rel_l2": 0.3989487636068431}, "seconds": {"load_and_check": 42.5, "train": 10587.8, "evaluate": 1573.1}}
+[r3] report -> /root/autodl-tmp/FE-JEPA/runs/fine3d/r3_eft_b16/report.json

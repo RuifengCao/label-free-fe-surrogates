@@ -1,0 +1,73 @@
+HEAD 8b5d4436ee4a91836b627ef852cd2f5e98d88b0f
+tree e288619b0338a6fa497dfabba6c953e8b3a4e553
+describe prereg-cm2d-2-g8b5d443
+tags 
+--- git status --porcelain ---
+?? "\345\256\213\345\215\232\345\243\253\346\223\215\344\275\234\346\211\213\345\206\214_v6_D10\351\207\215\345\220\257\350\265\267\346\255\245_2026-09-03.md"
+torch 2.12.1+cu130 True gmsh 4.15.2
+--- reports ---
+724259be53308d4803afa15aff15ee36aacb4df6ff229d8978510cc3877417b6  runs/fine3d/r2a_b_m1024/report.json
+031ebce6d52279c1edea5d20f9016459e14fbeb170944fe58b3812e1704639cb  runs/fine3d/r2a_s_m1024/report.json
+043ca6c38a6ef373f70f7b826f4fbf317661453813790311cb031f3ba704d31b  runs/fine3d/r3_eft_b16/report.json
+3b86b6f4971dcf906481d1c80ada5097029d9fa925cd93d9a8ca3484245d3f52  runs/fine3d/r3_lft_b16/report.json
+5fff049d3db909822466abc2c9ee88be730f94449ce933bd880294d5571738ef  runs/fine3d/posthoc/amp_r2a_b_m1024.json
+42b1fb27b0a0747834b3b49c28a1325f0cb0b51ae78d3987cafa61a4907ee283  runs/fine3d/posthoc/amp_r2a_s_m1024.json
+--- states ---
+runs/fine3d/r2a_b_m1024/e8_states/:
+total 78888
+-rw-r--r-- 1 root root 26926435 2026-10-20 03:57:42.771654879 +0800 ar_p1024_s3.pt
+-rw-r--r-- 1 root root 26926435 2026-10-20 06:28:05.886235183 +0800 ar_p1024_s4.pt
+-rw-r--r-- 1 root root 26926435 2026-10-20 09:03:05.124687379 +0800 ar_p1024_s5.pt
+
+runs/fine3d/r2a_s_m1024/e8_states/:
+total 78888
+-rw-r--r-- 1 root root 26926435 2026-10-20 12:54:11.612578829 +0800 ar_p1024_s3.pt
+-rw-r--r-- 1 root root 26926435 2026-10-20 15:29:32.723711718 +0800 ar_p1024_s4.pt
+-rw-r--r-- 1 root root 26926435 2026-10-20 18:05:09.679726867 +0800 ar_p1024_s5.pt
+
+runs/fine3d/r3_eft_b16/:
+total 87680
+-rw-r--r-- 1 root root 29311891 2026-10-20 23:12:22.095948170 +0800 eft_b16_s0.pt
+-rw-r--r-- 1 root root 29311891 2026-10-21 02:35:35.832801144 +0800 eft_b16_s1.pt
+-rw-r--r-- 1 root root 29311891 2026-10-21 05:58:54.340056651 +0800 eft_b16_s2.pt
+-rw-r--r-- 1 root root   955784 2026-10-21 06:25:07.550854248 +0800 report.json
+-rw-r--r-- 1 root root   290879 2026-10-20 23:38:33.865369917 +0800 seed_0.json
+-rw-r--r-- 1 root root   290239 2026-10-21 03:01:44.068581241 +0800 seed_1.json
+-rw-r--r-- 1 root root   291038 2026-10-21 06:25:07.490854504 +0800 seed_2.json
+
+runs/fine3d/r3_lft_b16/:
+total 87668
+-rw-r--r-- 1 root root 29311891 2026-10-21 09:22:27.066362360 +0800 lft_b16_s0.pt
+-rw-r--r-- 1 root root 29311891 2026-10-21 12:45:48.197155537 +0800 lft_b16_s1.pt
+-rw-r--r-- 1 root root 29311891 2026-10-21 16:09:07.025830809 +0800 lft_b16_s2.pt
+-rw-r--r-- 1 root root   951567 2026-10-21 16:35:08.384395572 +0800 report.json
+-rw-r--r-- 1 root root   289574 2026-10-21 09:48:35.093899318 +0800 seed_0.json
+-rw-r--r-- 1 root root   288625 2026-10-21 13:11:53.691520951 +0800 seed_1.json
+-rw-r--r-- 1 root root   289652 2026-10-21 16:35:08.332397419 +0800 seed_2.json
+e4ef0f94de66de0715a3216c589918a1d6abc4189fde70fdf653ecbabf17619f  runs/fine3d/r2a_b_m1024/e8_states/ar_p1024_s3.pt
+cacaf4a9dc02d06b453d5e6893e611a91edcd299712b8b256b9ac6b1bfd2fcfa  runs/fine3d/r2a_b_m1024/e8_states/ar_p1024_s4.pt
+7240f57db736c02fbde2f1cad2186b95713f5e8afff80fba94a21642b973eba4  runs/fine3d/r2a_b_m1024/e8_states/ar_p1024_s5.pt
+d3a43df52be99d5cb65c15a04e51028e149282969c967dcff1dffbf6f7edfc1f  runs/fine3d/r2a_s_m1024/e8_states/ar_p1024_s3.pt
+41b5e9b862f3c94e1f4d2eba0bda1b80f3c610c56ce9a976f3982a6809248398  runs/fine3d/r2a_s_m1024/e8_states/ar_p1024_s4.pt
+ad36541abc68a4244e4915c59996d251c4a524472acb7c05ab63db0b9d393fdc  runs/fine3d/r2a_s_m1024/e8_states/ar_p1024_s5.pt
+ade7226191a394fdd043d06085f11b2081b614c619f64f11d9f226ece83d2814  runs/fine3d/r3_eft_b16/eft_b16_s0.pt
+93164b882f7aad04cbb35088e97ec6ff1489e27c76d5ad9173c7653e842724be  runs/fine3d/r3_eft_b16/eft_b16_s1.pt
+6c6ec3ac86263f5eaf8cfb8b55edfa87522dbd64e36b1453de4c04595dea51a9  runs/fine3d/r3_eft_b16/eft_b16_s2.pt
+f77147d6b894281c64822caf020d1135e9fd0cd171cb7a5e9c4c0a5810e63051  runs/fine3d/r3_lft_b16/lft_b16_s0.pt
+ee4d57d1fe808c1c009c9ba7cd6ad01c5452bf1ca6684c79f83c51424a4261d3  runs/fine3d/r3_lft_b16/lft_b16_s1.pt
+342be307c946711309530cb2a5606c81cd32458bfc69e8995f44d99ed913e5c2  runs/fine3d/r3_lft_b16/lft_b16_s2.pt
+a7b5c71c6144afbc52dc56e372d106e6c13996e06cd86b8a216d8a59c44fb611  runs/phase2/e8_states/ar_p1024_s0.pt
+e9c0c400004d07fbebf6d534f436b100aba718dc132da6587c93374ee61ba04f  runs/phase2/e8_states/ar_p1024_s1.pt
+e0f2210bc85f0f0a4613770410db887bef06643fd6a4f60eca6cee2bef676140  runs/phase2/e8_states/ar_p1024_s2.pt
+NVIDIA GeForce RTX 5090, 595.71.05, 32607 MiB, 2 MiB
+hostname autodl-container-45e441a24a-99d5b40d
+nproc 25
+Model name:                         Intel(R) Xeon(R) Platinum 8470Q
+96636764160
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+/dev/md0        100G   72G   29G  72% /root/autodl-tmp
+overlay          30G  1.6G   29G   6% /

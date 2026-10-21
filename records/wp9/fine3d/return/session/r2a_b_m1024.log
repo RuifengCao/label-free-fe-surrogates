@@ -1,0 +1,135 @@
+[prereg] verified against PREREG_FINE3D.md: 01ab66dcb818...
+
+=== fejepa v2 run: configs/r2a_b_m1024.json | device=cuda | workers=1 | tf32=True ===
+[plan] steps by experiment: {'e8': 614400, 'total': 614400}
+
+=== dataset ===
+[dataset] runs/data3d_phase2 | n_val=256 pool=1744
+
+=== labelling (WP5 economy) ===
+[labelling] policy=economy label_need(pool prefix)=0 label_workers=1
+[labelling-val] 25/256
+[labelling-val] 50/256
+[labelling-val] 75/256
+[labelling-val] 100/256
+[labelling-val] 125/256
+[labelling-val] 150/256
+[labelling-val] 175/256
+[labelling-val] 200/256
+[labelling-val] 225/256
+[labelling-val] 250/256
+[labelling-val] 256/256
+
+=== loading archives (in-memory prefix 0 + val 256; E1'/E8 stream paths) ===
+
+=== E8 ===
+[E8 (AR pretrain)] starting: 3 units
+/root/autodl-tmp/FE-JEPA/src/fejepa/anchor/energy.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  K_t = torch.sparse_coo_tensor(idx, val, size=Kc.shape).coalesce()   # CPU
+/root/autodl-tmp/FE-JEPA/src/fejepa/anchor/energy.py:74: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at /pytorch/aten/src/ATen/SparseCsrTensorImpl.cpp:49.)
+  self.K_t = K_t.to_sparse_csr() if cuda_target else K_t
+/root/autodl-tmp/FE-JEPA/src/fejepa/train/pretrain.py:126: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:838.)
+  f"loss={float(loss):.4e}", flush=True)
+[pretrain E8 AR pool1024 s3] step 20480/204800 (10%) loss=-2.8716e-02
+[pretrain E8 AR pool1024 s3] step 40960/204800 (20%) loss=-2.7132e-02
+[pretrain E8 AR pool1024 s3] step 61440/204800 (30%) loss=-2.1529e-02
+[pretrain E8 AR pool1024 s3] step 81920/204800 (40%) loss=-5.5593e-02
+[pretrain E8 AR pool1024 s3] step 102400/204800 (50%) loss=-2.1342e-02
+[pretrain E8 AR pool1024 s3] step 122880/204800 (60%) loss=-9.8514e-03
+[pretrain E8 AR pool1024 s3] step 143360/204800 (70%) loss=-1.1362e-02
+[pretrain E8 AR pool1024 s3] step 163840/204800 (80%) loss=-1.0855e-02
+[pretrain E8 AR pool1024 s3] step 184320/204800 (90%) loss=-1.0157e-02
+[pretrain E8 AR pool1024 s3] step 204800/204800 (100%) loss=-2.6052e-02
+[E8 (AR pretrain)] 1/3 (33%) elapsed 02:30:33 eta 05:01:06 | AR pool1024 s3
+[pretrain E8 AR pool1024 s4] step 20480/204800 (10%) loss=-8.1057e-02
+[pretrain E8 AR pool1024 s4] step 40960/204800 (20%) loss=-7.3170e-02
+[pretrain E8 AR pool1024 s4] step 61440/204800 (30%) loss=-5.1991e-03
+[pretrain E8 AR pool1024 s4] step 81920/204800 (40%) loss=-7.6295e-03
+[pretrain E8 AR pool1024 s4] step 102400/204800 (50%) loss=-2.4631e-02
+[pretrain E8 AR pool1024 s4] step 122880/204800 (60%) loss=-8.9063e-03
+[pretrain E8 AR pool1024 s4] step 143360/204800 (70%) loss=-6.5455e-03
+[pretrain E8 AR pool1024 s4] step 163840/204800 (80%) loss=-2.0333e-02
+[pretrain E8 AR pool1024 s4] step 184320/204800 (90%) loss=-7.1406e-03
+[pretrain E8 AR pool1024 s4] step 204800/204800 (100%) loss=-9.4766e-02
+[E8 (AR pretrain)] 2/3 (67%) elapsed 05:00:55 eta 02:30:27 | AR pool1024 s4
+[pretrain E8 AR pool1024 s5] step 20480/204800 (10%) loss=-4.5117e-03
+[pretrain E8 AR pool1024 s5] step 40960/204800 (20%) loss=-4.7582e-02
+[pretrain E8 AR pool1024 s5] step 61440/204800 (30%) loss=-4.6280e-02
+[pretrain E8 AR pool1024 s5] step 81920/204800 (40%) loss=-2.4872e-02
+[pretrain E8 AR pool1024 s5] step 102400/204800 (50%) loss=-1.0453e-01
+[pretrain E8 AR pool1024 s5] step 122880/204800 (60%) loss=-3.6922e-02
+[pretrain E8 AR pool1024 s5] step 143360/204800 (70%) loss=-4.6358e-02
+[pretrain E8 AR pool1024 s5] step 163840/204800 (80%) loss=-4.0961e-02
+[pretrain E8 AR pool1024 s5] step 184320/204800 (90%) loss=-1.0686e-02
+[pretrain E8 AR pool1024 s5] step 204800/204800 (100%) loss=-1.1875e-02
+[E8 (AR pretrain)] 3/3 (100%) elapsed 07:35:58 eta 00:00:00 | AR pool1024 s5
+[E8 (AR pretrain)] done in 07:35:58
+
+=== P3 (resolution transfer) ===
+[labelling-fine-val] 25/256
+[labelling-fine-val] 50/256
+[labelling-fine-val] 75/256
+[labelling-fine-val] 100/256
+[labelling-fine-val] 125/256
+[labelling-fine-val] 150/256
+[labelling-fine-val] 175/256
+[labelling-fine-val] 200/256
+[labelling-fine-val] 225/256
+[labelling-fine-val] 250/256
+[labelling-fine-val] 256/256
+[p3] zero-shot bottleneck s3 fine: 0/256
+[p3] zero-shot bottleneck s3 fine: 32/256
+[p3] zero-shot bottleneck s3 fine: 64/256
+[p3] zero-shot bottleneck s3 fine: 96/256
+[p3] zero-shot bottleneck s3 fine: 128/256
+[p3] zero-shot bottleneck s3 fine: 160/256
+[p3] zero-shot bottleneck s3 fine: 192/256
+[p3] zero-shot bottleneck s3 fine: 224/256
+[p3] zero-shot bottleneck s3 in band: 0/256
+[p3] zero-shot bottleneck s3 in band: 32/256
+[p3] zero-shot bottleneck s3 in band: 64/256
+[p3] zero-shot bottleneck s3 in band: 96/256
+[p3] zero-shot bottleneck s3 in band: 128/256
+[p3] zero-shot bottleneck s3 in band: 160/256
+[p3] zero-shot bottleneck s3 in band: 192/256
+[p3] zero-shot bottleneck s3 in band: 224/256
+[p3] zero-shot bottleneck s4 fine: 0/256
+[p3] zero-shot bottleneck s4 fine: 32/256
+[p3] zero-shot bottleneck s4 fine: 64/256
+[p3] zero-shot bottleneck s4 fine: 96/256
+[p3] zero-shot bottleneck s4 fine: 128/256
+[p3] zero-shot bottleneck s4 fine: 160/256
+[p3] zero-shot bottleneck s4 fine: 192/256
+[p3] zero-shot bottleneck s4 fine: 224/256
+[p3] zero-shot bottleneck s4 in band: 0/256
+[p3] zero-shot bottleneck s4 in band: 32/256
+[p3] zero-shot bottleneck s4 in band: 64/256
+[p3] zero-shot bottleneck s4 in band: 96/256
+[p3] zero-shot bottleneck s4 in band: 128/256
+[p3] zero-shot bottleneck s4 in band: 160/256
+[p3] zero-shot bottleneck s4 in band: 192/256
+[p3] zero-shot bottleneck s4 in band: 224/256
+[p3] zero-shot bottleneck s5 fine: 0/256
+[p3] zero-shot bottleneck s5 fine: 32/256
+[p3] zero-shot bottleneck s5 fine: 64/256
+[p3] zero-shot bottleneck s5 fine: 96/256
+[p3] zero-shot bottleneck s5 fine: 128/256
+[p3] zero-shot bottleneck s5 fine: 160/256
+[p3] zero-shot bottleneck s5 fine: 192/256
+[p3] zero-shot bottleneck s5 fine: 224/256
+[p3] zero-shot bottleneck s5 in band: 0/256
+[p3] zero-shot bottleneck s5 in band: 32/256
+[p3] zero-shot bottleneck s5 in band: 64/256
+[p3] zero-shot bottleneck s5 in band: 96/256
+[p3] zero-shot bottleneck s5 in band: 128/256
+[p3] zero-shot bottleneck s5 in band: 160/256
+[p3] zero-shot bottleneck s5 in band: 192/256
+[p3] zero-shot bottleneck s5 in band: 224/256
+
+=== gate G2 ===
+[fejepa] report -> runs/fine3d/r2a_b_m1024/report.json
+[fejepa] RESULTS.md -> runs/fine3d/r2a_b_m1024/RESULTS.md
+[fejepa] figure -> runs/fine3d/r2a_b_m1024/figure1_energy_gap.png
+[fejepa] gate G2 passed=False conditions={'a': False, 'b': False, 'c': False}
+[fejepa] solve ledger: {'per_stage': {}, 'total': 0, 'wall_clock_s': 0.0}

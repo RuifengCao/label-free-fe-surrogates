@@ -207,3 +207,100 @@ one-thread run, gave 1.69 s and 32.9 s. In two dimensions every solve took
 milliseconds either way. Every solution agreed with the stored labels (the
 direct solve to within 1e-12 relative, conjugate gradients to within 1e-8),
 and the timed model reproduced its report's arrays.
+
+## fine3d: the box's return (Stage 3, 21 October 2026)
+
+The return of RUNBOOK_FINE3D Sec. 2 is committed as received, unpacked byte
+for byte:
+
+| Directory | Return (RUNBOOK_FINE3D) | Tarball SHA-256 as received |
+|---|---|---|
+| `fine3d/return/` | Sec. 2, the session of 20-21 October 2026 (box time), returned on 21 October 2026 | `8c85f9cd71c401cabaad5ba94b244534b3c888c247038a5232fe478a3ed26bef` |
+
+The trained and fine-tuned states stay on the box; their SHA-256 are in
+`fine3d/return/provenance.txt` and in the reports. The session ran its six
+steps once each, in the runbook's order, each with exit 0, from 01:29 on 20
+October to 16:35 on 21 October (box time, +0800; `session/status.txt`), with
+no restart, no resumed seed and no seed taken from disk; R2a's solve ledgers
+read 0, and the memory events show no out-of-memory kill. R3's seeds record
+one host and one GPU driver throughout (`autodl-container-45e441a24a-99d5b40d`,
+595.71.05), the host the provenance file names, with an RTX 5090 and 25
+CPUs. The session's suite read `704 passed, 1 skipped`
+(`session/pytest.log`; RUNBOOK_FINE3D Sec. 0c, before the session; the log
+itself is undated), the stamped commit's count.
+`DEVIATIONS_FINE3D.md` records what the adjudication cannot see: the session
+ran before R1, not after it (F1), and the return's provenance file was
+written after the checkout had been switched to branch cmame-paper, so that
+its git lines are not the session's (F2).
+
+## fine3d: the verdict (RUNBOOK_FINE3D Sec. 3)
+
+`fine3d/fine3d_verdict.json` was written on 21 October 2026 on the stamped
+code, in a clean checkout of `prereg-fine3d` with the return in place
+(`adjudicator.git` = `prereg-fine3d`; no adjudicating file differs from the
+tag):
+
+    python scripts/adjudicate_fine3d.py \
+        --r2a-b records/wp9/fine3d/return/r2a_b_m1024/report.json \
+        --r2a-s records/wp9/fine3d/return/r2a_s_m1024/report.json \
+        --amp-b records/wp9/fine3d/return/posthoc/amp_r2a_b_m1024.json \
+        --amp-s records/wp9/fine3d/return/posthoc/amp_r2a_s_m1024.json \
+        --r3 records/wp9/fine3d/return/r3_eft_b16/report.json \
+        --r3-labelled records/wp9/fine3d/return/r3_lft_b16/report.json \
+        --status records/wp9/fine3d/return/session/status.txt \
+        --phase2b records/wp8/e2/baseline/report_phase2b.json \
+        --e2 records/wp8/e2/e2_m1024/report.json --prereg PREREG_FINE3D.md \
+        --out records/wp9/fine3d/fine3d_verdict.json
+
+(The three optional paths are given so that the file names its inputs
+relative to the repository; a first run the same day, with the return
+outside the repository, gave the same file but for the paths.) No report was
+refused, and the adjudication recorded no deviation and no note. The
+verdicts of PREREG_FINE3D Sec. 6, with rel (the relative change of the seed
+means), tau (the guard, max(10%, 2 SE_rel); every tau here is 2 SE_rel) and
+the per-seed values, the reference first:
+
+- **R2a: SUPPORTED.** S against the fresh baseline, E2's M = 1,024 arm
+  trained again on seeds 3-5: (i) the fine displacement error, 0.454 /
+  0.511 / 0.576 and 0.037 / 0.027 / 0.029, rel -94.0%, tau 13.7%; (ii) the
+  fine / in-band displacement-error ratio, 4.88 / 3.75 / 6.25 and 1.40 /
+  1.10 / 1.09, rel -75.9%, tau 29.4% (the ratio of the seed means 4.79 and
+  1.20); (iii) K1 on E8's in-band cell, neither worse: the energy gap,
+  0.0251 / 0.0464 / 0.0236 and 0.0090 / 0.0087 / 0.0087, rel -72.3%, tau
+  46.5%, and the displacement error, 0.093 / 0.136 / 0.092 and 0.027 /
+  0.025 / 0.026, rel -75.8%, tau 27.1%.
+- **R2b: recommended**, by Sec. 6's rule: R2a is SUPPORTED and S's fine
+  displacement error is lower by 94.0%, beyond the line of 45%.
+- **R3-E: NOT SUPPORTED.** The fine relative energy gap, the labelled arm
+  0.078 / 4.477 / 0.088 and the energy arm 0.019 / 0.023 / 0.014, rel
+  -98.8%, tau 189.3%.
+- **R3-V: NOT SUPPORTED.** The fine von Mises error, 0.167 / 0.959 / 0.168
+  and 0.084 / 0.093 / 0.076, rel -80.4%, tau 122.3%.
+- With tau above 100%, neither R3 verdict could have been SUPPORTED: rel
+  cannot fall below -100% for these non-negative metrics.
+- Beside R3-E and R3-V (Sec. 6-7): the fine displacement error, the
+  labelled arm's own objective, 0.052 / 0.090 / 0.055 and 0.053 / 0.059 /
+  0.049, rel -18.5%, tau 38.2%, within the guard; and the labelled arm
+  against the Phase-2b record of the same fine-tuning, within the guard on
+  every metric, so with no flag on the training path (Sec. 7; the fine set,
+  in the table below).
+
+| Labelled arm against the record | Record, seeds 0 / 1 / 2 | Labelled arm | rel | tau |
+|---|---|---|---|---|
+| relative energy gap | 0.078 / 0.076 / 0.057 | 0.078 / 4.477 / 0.088 | +2103.5% | 4170.5% |
+| displacement error | 0.056 / 0.050 / 0.053 | 0.052 / 0.090 / 0.055 | +24.0% | 46.5% |
+| von Mises error | 0.173 / 0.177 / 0.147 | 0.167 / 0.959 / 0.168 | +160.6% | 318.8% |
+| peak von Mises error | 0.386 / 0.451 / 0.330 | 0.365 / 2.209 / 0.325 | +148.4% | 319.9% |
+| critical-region recall | 0.718 / 0.711 / 0.718 | 0.725 / 0.341 / 0.709 | -17.3% | 35.0% |
+
+`tests/test_fine3d_returns.py` checks the return whole and against its own
+hashes, re-runs this adjudication and compares it with the committed file,
+recomputes R2a, R3-E and R3-V from the reports without the adjudicator's
+code, and checks the facts quoted here, in `DEVIATIONS_FINE3D.md` and in the
+Stage 3 notes. To re-check the verdict by hand, write to a temporary file
+(`--out /tmp/fine3d_verdict.json`), as the test does: run in a checkout that
+has commits after the stamp or local changes, the adjudicator records its
+own `git` string differently (`prereg-fine3d-...`), and only that field may
+then differ; where the tag `prereg-fine3d` is absent, so do its record of
+the comparison with the tag and a deviation saying that it could not be
+made.

@@ -1527,3 +1527,94 @@ on them.
   (e120b37d): E1, Phase-2b and E2 identical. The src tree did not change
   after it (round 3 changed the scripts and tests only).
 - Suite 705 (660 + 45).
+
+## Stage 3 (21 October 2026) -- the fine3d return committed; PREREG_FINE3D adjudicated: R2a SUPPORTED, R2b recommended, R3-E and R3-V NOT SUPPORTED
+
+The box ran the fine3d session on 20-21 October 2026 (box time, +0800) at
+the stamped commit `5a31223` (`prereg-fine3d`). This stage commits the
+return and the adjudication. No change to `src`, the configurations, the
+pre-registration, the runbook or the adjudicating code.
+
+- **The return** (`records/wp9/fine3d/return/`), as received, with its
+  tarball's SHA-256 in `records/wp9/README.md`. The six steps ran once each,
+  in order, each with exit 0 (about 39 h in all); no restart, resumed seed or
+  seed taken from disk; R2a's solve ledgers read 0; no out-of-memory kill.
+- **The verdict** (`records/wp9/fine3d/fine3d_verdict.json`): RUNBOOK_FINE3D
+  Sec. 3 on the stamped code, in a clean checkout of `prereg-fine3d` with the
+  return in place (`adjudicator.git` = `prereg-fine3d`); the three optional
+  paths are given relative to the repository, so that the file holds no
+  machine path. No report was refused; the adjudication recorded no
+  deviation and no note.
+  - **R2a SUPPORTED.** S against the fresh baseline: the fine displacement
+    error -94.0% (tau 13.7%), the fine / in-band ratio -75.9% (tau 29.4%;
+    its mean over the seeds 4.96 to 1.19, the ratio of the seed means 4.79
+    to 1.20), and in band (K1) the energy gap -72.3% and the displacement
+    error -75.8%, lower rather than worse.
+  - **R2b recommended** (R2a SUPPORTED, and the fine displacement error
+    lower by 94.0%, beyond the line of 45%). The PI decided on 21 October
+    2026 to run R2b, later; its pre-registration and code are not part of
+    this stage.
+  - **R3-E and R3-V NOT SUPPORTED.** The energy arm against the labelled
+    arm on the fine set: energy gap -98.8% (tau 189.3%), von Mises error
+    -80.4% (tau 122.3%). With tau above 100%, neither could have been
+    SUPPORTED: rel cannot fall below -100% for these non-negative metrics.
+- **Readings** (Sec. 7, no verdict; from the verdict file):
+  - R2a. On per-seed medians the fine displacement error reads -95.0% (tau
+    23.8%), and its 95% instance-resampling interval is -94.4% to -93.4%.
+    The baseline's median c* on the fine set is 1.511 / 2.016 / 1.896, S's
+    0.988 / 0.988 / 0.990 (in band 0.996 / 0.990 / 0.994 and 0.998 / 0.998
+    / 0.998). The fresh baseline against E2's seeds 0-2: fine displacement
+    error -10.5% (tau 17.1%), in-band energy gap +22.6% (tau 61.4%), in-band
+    displacement error +20.1% (tau 34.8%), all within the guard and no flag.
+    P3's in-band pass reproduced E8's cell to 4.2e-05 and 2.5e-05 (the
+    baseline, S; the refusal line is 1e-3), and the amplitude records
+    reproduced the reports' predictions to 0.91% and 0.097% (the deviation
+    line is 5%).
+  - R3. Every seed's energy arm is lower than its labelled arm: the fine
+    energy gap by 75.7%, 99.5% and 84.4% and the von Mises error by 49.6%,
+    90.3% and 54.8% (paired, seeds 0-2). The guard is wide because of the
+    labelled arm's seed 1: fine energy gap 4.477 against 0.078 and 0.088,
+    von Mises error 0.959 against 0.167 and 0.168, median c* 0.575 against
+    0.955 and 0.959. On per-seed medians R3-E reads -96.9% (tau 180.1%) and
+    R3-V -75.6% (tau 109.7%); the 95% instance-resampling intervals are
+    -99.0% to -98.5% and -81.6% to -79.2%.
+  - The labelled arm against the Phase-2b record of the same fine-tuning:
+    within the guard on every metric (wide for the same reason), so no flag;
+    per seed, the fine energy gap +0.6%, +5808.6% and +53.6% and the
+    displacement error -6.7%, +80.5% and +3.2%. The energy arm against the
+    record: the fine energy gap -73.4% (tau 20.0%), the von Mises error
+    -49.0% (tau 12.8%) and the peak von Mises error -72.1% (tau 18.6%), lower
+    beyond the guard; the displacement error +1.1% (tau 12.7%), within it.
+  - In band, after fine-tuning at the fine mesh (each arm against E8's AR
+    cell before it): the energy arm's displacement error 0.030 to 0.455 and
+    its von Mises error 0.055 to 0.483, worse beyond the guard; the labelled
+    arm's displacement error 0.030 to 1.514, worse beyond it, and its energy
+    gap 0.009 to 72.773 (seed 1: 213.224), within a guard that seed widens.
+- `DEVIATIONS_FINE3D.md` (new): F1, the session ran before R1, not after it
+  (RUNBOOK_FINE3D Sec. 0); F2, the return's provenance file was written
+  after the checkout had been switched to cmame-paper (`8b5d443`), so that
+  its git lines are not the session's. Neither changes a verdict.
+- `records/wp9/README.md`: the return, the verdict and how to re-check it.
+- `tests/test_fine3d_returns.py` (8 tests): the return whole, its hashes
+  and sizes against the provenance file and the reports, R3's one host and
+  driver, one attempt per step; the session's suite against the stamped
+  count; the adjudication re-run on the committed return equals the
+  committed verdict but for the adjudicator's record of its own code, which
+  is checked against the tag's files where the tag is present; R2a, the R2b
+  rule, R3-E and R3-V recomputed from the reports without the adjudicator's
+  code, and the labelled arm's record read from the Phase-2b report; the
+  numbers and words that the ledger, the README and these notes quote,
+  phrase by phrase.
+- `tests/test_fine3d_runbook.py`: RUNBOOK_FINE3D Sec. 0c keeps the stamped
+  commit's count, which the box ran; the test now checks it against Stage 2
+  r5's count, and the notes' latest count against the suite.
+- One independent review of the package: nothing blocking. Addressed: the
+  labelled arm against the Phase-2b record with every metric's rel, tau and
+  per-seed values in the README (PREREG_FINE3D's Publication line); the
+  ratio of the seed means beside condition (ii) (Sec. 5); that R3-E and
+  R3-V could not have been SUPPORTED with tau above 100%; in the ledger,
+  the switch of the checkout and the packing of the return dated from the
+  records (the tarball's member times, R1's records) instead of R1 said not
+  to have started, and R1's first attempt described as it was (stopped at
+  once); a test that failed where the tag is absent.
+- Suite 713 (705 + 8).

@@ -1,0 +1,89 @@
+{"r3": "configs/r3_lft_b16.json", "arm": "labelled", "device": "cuda", "seeds": [0, 1, 2], "train": ["instance_00256.npz", "instance_00257.npz", "instance_00258.npz", "instance_00259.npz", "instance_00260.npz", "instance_00261.npz", "instance_00262.npz", "instance_00263.npz", "instance_00264.npz", "instance_00265.npz", "instance_00266.npz", "instance_00267.npz", "instance_00268.npz", "instance_00269.npz", "instance_00270.npz", "instance_00271.npz"], "n_fine": 256, "n_inband": 256, "states_verified": 3, "prereg": {"file": "PREREG_FINE3D.md", "config_sha256": "9792ad42170b9918bc5bcada0ae4e65030dfd7a9ef2f470be78d8650497fb6f6"}}
+{"seed": 0, "content_check": {"max_rel_dev": {"fine": 0.0, "inband": 0.0}, "tolerance": 0.001, "passed": true, "n_fine": 8, "n_inband": 8}}
+/root/autodl-tmp/FE-JEPA/src/fejepa/train/supervised.py:177: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:838.)
+  f"({100.0 * step / total_steps:.0f}%) disp={float(disp):.4f}",
+[sup:none R3 labelled FT b16 s0] step 80/800 (10%) disp=0.1927
+[sup:none R3 labelled FT b16 s0] step 160/800 (20%) disp=0.0600
+[sup:none R3 labelled FT b16 s0] step 240/800 (30%) disp=0.1857
+[sup:none R3 labelled FT b16 s0] step 320/800 (40%) disp=0.0676
+[sup:none R3 labelled FT b16 s0] step 400/800 (50%) disp=0.1130
+[sup:none R3 labelled FT b16 s0] step 480/800 (60%) disp=0.0400
+[sup:none R3 labelled FT b16 s0] step 560/800 (70%) disp=0.0492
+[sup:none R3 labelled FT b16 s0] step 640/800 (80%) disp=0.0191
+[sup:none R3 labelled FT b16 s0] step 720/800 (90%) disp=0.0155
+[sup:none R3 labelled FT b16 s0] step 800/800 (100%) disp=0.0172
+[r3] evaluating fine: 0/256
+[r3] evaluating fine: 32/256
+[r3] evaluating fine: 64/256
+[r3] evaluating fine: 96/256
+[r3] evaluating fine: 128/256
+[r3] evaluating fine: 160/256
+[r3] evaluating fine: 192/256
+[r3] evaluating fine: 224/256
+[r3] evaluating in band: 0/256
+[r3] evaluating in band: 32/256
+[r3] evaluating in band: 64/256
+[r3] evaluating in band: 96/256
+[r3] evaluating in band: 128/256
+[r3] evaluating in band: 160/256
+[r3] evaluating in band: 192/256
+[r3] evaluating in band: 224/256
+{"seed": 0, "fine": {"disp_rel_l2": 0.05215970538339477, "energy_gap_rel": 0.07803526391040623, "vm_rel_l2": 0.16681080448999142}, "inband": {"disp_rel_l2": 0.6606785167866928, "energy_gap_rel": 0.7119612103003674, "vm_rel_l2": 0.6911898144521871}, "seconds": {"load_and_check": 45.8, "train": 10589.6, "evaluate": 1568.0}}
+{"seed": 1, "content_check": {"max_rel_dev": {"fine": 0.0, "inband": 0.0}, "tolerance": 0.001, "passed": true, "n_fine": 8, "n_inband": 8}}
+[sup:none R3 labelled FT b16 s1] step 80/800 (10%) disp=0.2047
+[sup:none R3 labelled FT b16 s1] step 160/800 (20%) disp=0.4716
+[sup:none R3 labelled FT b16 s1] step 240/800 (30%) disp=0.3185
+[sup:none R3 labelled FT b16 s1] step 320/800 (40%) disp=0.1430
+[sup:none R3 labelled FT b16 s1] step 400/800 (50%) disp=0.1967
+[sup:none R3 labelled FT b16 s1] step 480/800 (60%) disp=0.1270
+[sup:none R3 labelled FT b16 s1] step 560/800 (70%) disp=0.0746
+[sup:none R3 labelled FT b16 s1] step 640/800 (80%) disp=0.0441
+[sup:none R3 labelled FT b16 s1] step 720/800 (90%) disp=0.0354
+[sup:none R3 labelled FT b16 s1] step 800/800 (100%) disp=0.0475
+[r3] evaluating fine: 0/256
+[r3] evaluating fine: 32/256
+[r3] evaluating fine: 64/256
+[r3] evaluating fine: 96/256
+[r3] evaluating fine: 128/256
+[r3] evaluating fine: 160/256
+[r3] evaluating fine: 192/256
+[r3] evaluating fine: 224/256
+[r3] evaluating in band: 0/256
+[r3] evaluating in band: 32/256
+[r3] evaluating in band: 64/256
+[r3] evaluating in band: 96/256
+[r3] evaluating in band: 128/256
+[r3] evaluating in band: 160/256
+[r3] evaluating in band: 192/256
+[r3] evaluating in band: 224/256
+{"seed": 1, "fine": {"disp_rel_l2": 0.09017205442803511, "energy_gap_rel": 4.4766087968723145, "vm_rel_l2": 0.9586991238027205}, "inband": {"disp_rel_l2": 2.491809851347888, "energy_gap_rel": 213.22388662162976, "vm_rel_l2": 6.387449039510501}, "seconds": {"load_and_check": 42.0, "train": 10591.1, "evaluate": 1565.5}}
+{"seed": 2, "content_check": {"max_rel_dev": {"fine": 0.0, "inband": 0.0}, "tolerance": 0.001, "passed": true, "n_fine": 8, "n_inband": 8}}
+[sup:none R3 labelled FT b16 s2] step 80/800 (10%) disp=0.1298
+[sup:none R3 labelled FT b16 s2] step 160/800 (20%) disp=0.1040
+[sup:none R3 labelled FT b16 s2] step 240/800 (30%) disp=0.0764
+[sup:none R3 labelled FT b16 s2] step 320/800 (40%) disp=0.0503
+[sup:none R3 labelled FT b16 s2] step 400/800 (50%) disp=0.0654
+[sup:none R3 labelled FT b16 s2] step 480/800 (60%) disp=0.0575
+[sup:none R3 labelled FT b16 s2] step 560/800 (70%) disp=0.0271
+[sup:none R3 labelled FT b16 s2] step 640/800 (80%) disp=0.0215
+[sup:none R3 labelled FT b16 s2] step 720/800 (90%) disp=0.0183
+[sup:none R3 labelled FT b16 s2] step 800/800 (100%) disp=0.0366
+[r3] evaluating fine: 0/256
+[r3] evaluating fine: 32/256
+[r3] evaluating fine: 64/256
+[r3] evaluating fine: 96/256
+[r3] evaluating fine: 128/256
+[r3] evaluating fine: 160/256
+[r3] evaluating fine: 192/256
+[r3] evaluating fine: 224/256
+[r3] evaluating in band: 0/256
+[r3] evaluating in band: 32/256
+[r3] evaluating in band: 64/256
+[r3] evaluating in band: 96/256
+[r3] evaluating in band: 128/256
+[r3] evaluating in band: 160/256
+[r3] evaluating in band: 192/256
+[r3] evaluating in band: 224/256
+{"seed": 2, "fine": {"disp_rel_l2": 0.05503187839326705, "energy_gap_rel": 0.08807824712075782, "vm_rel_l2": 0.16848653431061503}, "inband": {"disp_rel_l2": 1.390208219600779, "energy_gap_rel": 4.382268013229561, "vm_rel_l2": 1.6271161406202848}, "seconds": {"load_and_check": 42.2, "train": 10591.1, "evaluate": 1561.3}}
+[r3] report -> /root/autodl-tmp/FE-JEPA/runs/fine3d/r3_lft_b16/report.json
