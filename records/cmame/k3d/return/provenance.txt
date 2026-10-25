@@ -1,0 +1,36 @@
+HEAD 7614ae26c142b2149c40e67571d5c125aac0c18e
+tree 30398e29d00df1ebe7c8e9027f0b76c0cbb12b3c
+describe prereg-k3d
+hostname autodl-container-45e441a24a-99d5b40d
+--- runs/k3d ---
+total 87360
+-rw-r--r-- 1 root root   610501 2026-10-25 18:20:13.789507394 +0800 holdout_arrays.npz
+-rw-r--r-- 1 root root     9597 2026-10-25 18:20:13.849503513 +0800 k3d.log
+-rw-r--r-- 1 root root 29313385 2026-10-23 20:38:54.954995696 +0800 labels_knorm_b1024_s0.pt
+-rw-r--r-- 1 root root 29313385 2026-10-24 19:06:23.694598853 +0800 labels_knorm_b1024_s1.pt
+-rw-r--r-- 1 root root 29313385 2026-10-25 17:35:20.270948938 +0800 labels_knorm_b1024_s2.pt
+-rw-r--r-- 1 root root      602 2026-10-25 18:20:16.657322054 +0800 machine.txt
+-rw-r--r-- 1 root root       77 2026-10-22 22:00:15.436607175 +0800 precheck.txt
+-rw-r--r-- 1 root root     3042 2026-10-22 21:59:48.423648765 +0800 pytest.log
+-rw-r--r-- 1 root root   455912 2026-10-25 18:20:13.845503772 +0800 report.json
+-rw-r--r-- 1 root root   212951 2026-10-22 22:12:32.060215870 +0800 reused.json
+-rw-r--r-- 1 root root    64714 2026-10-23 20:38:55.302986717 +0800 seed_0.json
+-rw-r--r-- 1 root root    64664 2026-10-24 19:06:24.078562196 +0800 seed_1.json
+-rw-r--r-- 1 root root    64677 2026-10-25 17:35:20.674941704 +0800 seed_2.json
+-rw-r--r-- 1 root root       87 2026-10-25 18:20:16.469334195 +0800 status.txt
+--- states ---
+2cc329a0c0a177caeb172e08da10aaf579f1f9925cd0c88bdc70e9df975529e1  runs/k3d/labels_knorm_b1024_s0.pt
+911fe2e63596efa4ef83b460a8d22c7c805146b1c5d59d2b6df7e04fe215d755  runs/k3d/labels_knorm_b1024_s1.pt
+2baf05d96c47c798b4daede30361b0daa93f4a7ecdccabb639d0e00ab5a31878  runs/k3d/labels_knorm_b1024_s2.pt
+--- files ---
+d166006b0bcfaaeec16b0b085e9c00b84eb7e1078bf6962bca28dee265f6df9e  ./holdout_arrays.npz
+89b005b5d79ff4bfd2ecc7f680731ebed5cd2dacbaf3de4f59afc3f6fa4ec193  ./k3d.log
+419e8c4033eba038224908af236a5e4990b57ab9878cd4323834d52e747d3712  ./machine.txt
+48a61454ac386faad177c7b6ed9bb85451312d2322dab7900cfee9bb58ee48ef  ./precheck.txt
+ede86fe12d6ea1bbed2a4f303b9c5b5107ba9c219e2697b2e08861081327de6f  ./pytest.log
+f57b5cbf66659d0dd0986f7b07ee2fbed744c6a49f85329a942624cc75d90a95  ./report.json
+0a9a6d8e29d1d15562eab8b4314f56a9325ffd89637e35c6951c9cb5b4026a4b  ./reused.json
+6eb25009ca0c6b95ce3c6116b84c57304facf633ada696904799b4e44f804581  ./seed_0.json
+8c5178c2c5bfc5b6aaace7665ba997d9eca9f60b4be83559f6277ca187133d92  ./seed_1.json
+691602dbc08ea282bb1da3710db7b15d15605899356eff914de82376fb6a9e3d  ./seed_2.json
+4f3f7896850b3b49ad1d025adc37b07e964c9ce2ec13e040e8ae344bf2a994aa  ./status.txt

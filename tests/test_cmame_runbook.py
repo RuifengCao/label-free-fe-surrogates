@@ -12,8 +12,10 @@ returns the files the adjudication reads; Sec. F (cmame-paper Stage 12) runs
 PREREG_K3D's one script on the tag, after its dry run, writes only under
 runs/k3d/, restarts by running it again, leaves the holdout set out only after
 two failures with every seed trained, and returns the files the adjudication
-reads; the runbook states the suite's current test count with the tests that
-need TeX (the two LaTeX builds and the bibliography rendering) left out."""
+reads; the runbook states the suite's current test count in Sec. A and D, and
+in Sec. E and F their tags' counts, as the committed returns record them
+(cmame-paper Stage 13), with the tests that need TeX (the two LaTeX builds and
+the bibliography rendering) left out."""
 
 import re
 import subprocess
@@ -217,17 +219,17 @@ def test_the_runbook_states_the_suite_count():
     n = int(m.group(1))
     for t in LATEX:                                         # the deselected tests exist
         assert t in res.stdout, t
-    for letter in "ADF":                                    # A0c, D0c, F0c: this commit
+    for letter in "AD":                                     # A0c, D0c: this commit
         sec = _section(letter)
         assert sec.count(f"`{n - len(LATEX)} passed, {len(LATEX)} deselected`") == 1, letter
-    # E0c runs only on the tag prereg-holdout (`git describe` exactly that): its suite there,
-    # as its return records it once committed (684 passed, 3 deselected at Stage 11, r6)
-    log = ROOT / "records/cmame/holdout/return/pytest.log"
-    e_count = "684 passed, 3 deselected"
-    if log.is_file():
-        e_count = re.match(r"(\d+ passed, \d+ deselected)",
-                           log.read_text().strip().splitlines()[-1]).group(1)
-    assert _section("E").count(f"`{e_count}`") == 1
+    # E0c and F0c run only on their tags, prereg-holdout and prereg-k3d (`git describe`
+    # exactly that): their suites there, as their returns record them, committed at
+    # cmame-paper Stage 13 (684 and 760 passed, 3 deselected)
+    for letter, log, count in (("E", "records/cmame/holdout/return/pytest.log", 684),
+                               ("F", "records/cmame/k3d/return/pytest.log", 760)):
+        last = (ROOT / log).read_text().strip().splitlines()[-1]
+        assert re.match(rf"{count} passed, 3 deselected\b", last), (letter, last)
+        assert _section(letter).count(f"`{count} passed, 3 deselected`") == 1, letter
     for letter in "ABDEF":
         assert all(_section(letter).count(f"--deselect {t}") == 1 for t in LATEX), letter
     # B1c runs only on the tagged commit (`git describe` exactly prereg-cm2d): its suite,

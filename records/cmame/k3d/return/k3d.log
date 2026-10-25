@@ -1,0 +1,119 @@
+[k3d] holdout h3d: 686 instances, their corpus and labels files verified (4 s)
+{"k3d": "configs/k3d_v1.json", "row": "labels_knorm", "device": "cuda", "seeds": [0, 1, 2], "budget": 1024, "epochs": 200, "lr": 0.0015, "n_train": 1024, "n_val": 256, "states_verified": 6, "holdout": 686, "git": "prereg-k3d", "commit": "7614ae26c142b2149c40e67571d5c125aac0c18e", "prereg": {"file": "PREREG_K3D.md", "config_sha256": "070bf83772b44e76cb249bb5f2e5f42507cd374551d2272233161d796f623433"}}
+[k3d] evaluating ar s0: 0/256
+[k3d] evaluating ar s0: 32/256
+[k3d] evaluating ar s0: 64/256
+[k3d] evaluating ar s0: 96/256
+[k3d] evaluating ar s0: 128/256
+[k3d] evaluating ar s0: 160/256
+[k3d] evaluating ar s0: 192/256
+[k3d] evaluating ar s0: 224/256
+{"reused": "ar_s0", "content_check": {"n": 256, "disp_rel_l2_median_rel_dev": 0.0, "disp_rel_l2_max_rel_dev": 0.0, "energy_gap_rel_median_rel_dev": 0.0, "energy_gap_rel_max_rel_dev": 0.0, "vm_rel_l2_median_rel_dev": 0.0, "vm_rel_l2_max_rel_dev": 0.0, "peak_vm_rel_err_median_rel_dev": 0.0, "peak_vm_rel_err_max_rel_dev": 0.0, "crit_recall_median_rel_dev": 0.0, "crit_recall_max_rel_dev": 0.0, "finite": true, "ok": true}}
+[k3d] evaluating ar s1: 0/256
+[k3d] evaluating ar s1: 32/256
+[k3d] evaluating ar s1: 64/256
+[k3d] evaluating ar s1: 96/256
+[k3d] evaluating ar s1: 128/256
+[k3d] evaluating ar s1: 160/256
+[k3d] evaluating ar s1: 192/256
+[k3d] evaluating ar s1: 224/256
+{"reused": "ar_s1", "content_check": {"n": 256, "disp_rel_l2_median_rel_dev": 0.0, "disp_rel_l2_max_rel_dev": 0.0, "energy_gap_rel_median_rel_dev": 0.0, "energy_gap_rel_max_rel_dev": 0.0, "vm_rel_l2_median_rel_dev": 0.0, "vm_rel_l2_max_rel_dev": 0.0, "peak_vm_rel_err_median_rel_dev": 0.0, "peak_vm_rel_err_max_rel_dev": 0.0, "crit_recall_median_rel_dev": 0.0, "crit_recall_max_rel_dev": 0.0, "finite": true, "ok": true}}
+[k3d] evaluating ar s2: 0/256
+[k3d] evaluating ar s2: 32/256
+[k3d] evaluating ar s2: 64/256
+[k3d] evaluating ar s2: 96/256
+[k3d] evaluating ar s2: 128/256
+[k3d] evaluating ar s2: 160/256
+[k3d] evaluating ar s2: 192/256
+[k3d] evaluating ar s2: 224/256
+{"reused": "ar_s2", "content_check": {"n": 256, "disp_rel_l2_median_rel_dev": 0.0, "disp_rel_l2_max_rel_dev": 0.0, "energy_gap_rel_median_rel_dev": 0.0, "energy_gap_rel_max_rel_dev": 0.0, "vm_rel_l2_median_rel_dev": 0.0, "vm_rel_l2_max_rel_dev": 0.0, "peak_vm_rel_err_median_rel_dev": 0.0, "peak_vm_rel_err_max_rel_dev": 0.0, "crit_recall_median_rel_dev": 0.0, "crit_recall_max_rel_dev": 0.0, "finite": true, "ok": true}}
+[k3d] evaluating labels s0: 0/256
+[k3d] evaluating labels s0: 32/256
+[k3d] evaluating labels s0: 64/256
+[k3d] evaluating labels s0: 96/256
+[k3d] evaluating labels s0: 128/256
+[k3d] evaluating labels s0: 160/256
+[k3d] evaluating labels s0: 192/256
+[k3d] evaluating labels s0: 224/256
+{"reused": "labels_s0", "content_check": {"n": 256, "disp_rel_l2_median_rel_dev": 0.0, "disp_rel_l2_max_rel_dev": 0.0, "energy_gap_rel_median_rel_dev": 0.0, "energy_gap_rel_max_rel_dev": 0.0, "vm_rel_l2_median_rel_dev": 0.0, "vm_rel_l2_max_rel_dev": 0.0, "peak_vm_rel_err_median_rel_dev": 0.0, "peak_vm_rel_err_max_rel_dev": 0.0, "crit_recall_median_rel_dev": 0.0, "crit_recall_max_rel_dev": 0.0, "finite": true, "ok": true}}
+[k3d] evaluating labels s1: 0/256
+[k3d] evaluating labels s1: 32/256
+[k3d] evaluating labels s1: 64/256
+[k3d] evaluating labels s1: 96/256
+[k3d] evaluating labels s1: 128/256
+[k3d] evaluating labels s1: 160/256
+[k3d] evaluating labels s1: 192/256
+[k3d] evaluating labels s1: 224/256
+{"reused": "labels_s1", "content_check": {"n": 256, "disp_rel_l2_median_rel_dev": 0.0, "disp_rel_l2_max_rel_dev": 0.0, "energy_gap_rel_median_rel_dev": 0.0, "energy_gap_rel_max_rel_dev": 0.0, "vm_rel_l2_median_rel_dev": 0.0, "vm_rel_l2_max_rel_dev": 0.0, "peak_vm_rel_err_median_rel_dev": 0.0, "peak_vm_rel_err_max_rel_dev": 0.0, "crit_recall_median_rel_dev": 0.0, "crit_recall_max_rel_dev": 0.0, "finite": true, "ok": true}}
+[k3d] evaluating labels s2: 0/256
+[k3d] evaluating labels s2: 32/256
+[k3d] evaluating labels s2: 64/256
+[k3d] evaluating labels s2: 96/256
+[k3d] evaluating labels s2: 128/256
+[k3d] evaluating labels s2: 160/256
+[k3d] evaluating labels s2: 192/256
+[k3d] evaluating labels s2: 224/256
+{"reused": "labels_s2", "content_check": {"n": 256, "disp_rel_l2_median_rel_dev": 0.0, "disp_rel_l2_max_rel_dev": 0.0, "energy_gap_rel_median_rel_dev": 0.0, "energy_gap_rel_max_rel_dev": 0.0, "vm_rel_l2_median_rel_dev": 0.0, "vm_rel_l2_max_rel_dev": 0.0, "peak_vm_rel_err_median_rel_dev": 0.0, "peak_vm_rel_err_max_rel_dev": 0.0, "crit_recall_median_rel_dev": 0.0, "crit_recall_max_rel_dev": 0.0, "finite": true, "ok": true}}
+/root/autodl-tmp/FE-JEPA/src/fejepa/anchor/energy.py:70: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+  K_t = torch.sparse_coo_tensor(idx, val, size=Kc.shape).coalesce()   # CPU
+/root/autodl-tmp/FE-JEPA/src/fejepa/anchor/energy.py:74: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at /pytorch/aten/src/ATen/SparseCsrTensorImpl.cpp:49.)
+  self.K_t = K_t.to_sparse_csr() if cuda_target else K_t
+/root/autodl-tmp/FE-JEPA/src/fejepa/train/supervised.py:204: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:838.)
+  f"({100.0 * step / total_steps:.0f}%) {cfg.loss}={float(disp):.4f}",
+[sup:none K3D labels_knorm b1024 s0] step 20480/204800 (10%) knorm=0.1929
+[sup:none K3D labels_knorm b1024 s0] step 40960/204800 (20%) knorm=0.1453
+[sup:none K3D labels_knorm b1024 s0] step 61440/204800 (30%) knorm=0.1177
+[sup:none K3D labels_knorm b1024 s0] step 81920/204800 (40%) knorm=0.1178
+[sup:none K3D labels_knorm b1024 s0] step 102400/204800 (50%) knorm=0.0823
+[sup:none K3D labels_knorm b1024 s0] step 122880/204800 (60%) knorm=0.0791
+[sup:none K3D labels_knorm b1024 s0] step 143360/204800 (70%) knorm=0.0610
+[sup:none K3D labels_knorm b1024 s0] step 163840/204800 (80%) knorm=0.0520
+[sup:none K3D labels_knorm b1024 s0] step 184320/204800 (90%) knorm=0.0962
+[sup:none K3D labels_knorm b1024 s0] step 204800/204800 (100%) knorm=0.0874
+{"seed": 0, "val": {"disp_rel_l2": 0.020858959961184434, "energy_gap_rel": 0.004820058383247623, "vm_rel_l2": 0.042719942014820184}, "seconds": {"build_and_load": 54.7, "train_and_evaluate": 80728.2}}
+[sup:none K3D labels_knorm b1024 s1] step 20480/204800 (10%) knorm=0.1594
+[sup:none K3D labels_knorm b1024 s1] step 40960/204800 (20%) knorm=0.2475
+[sup:none K3D labels_knorm b1024 s1] step 61440/204800 (30%) knorm=0.1384
+[sup:none K3D labels_knorm b1024 s1] step 81920/204800 (40%) knorm=0.0729
+[sup:none K3D labels_knorm b1024 s1] step 102400/204800 (50%) knorm=0.1037
+[sup:none K3D labels_knorm b1024 s1] step 122880/204800 (60%) knorm=0.0867
+[sup:none K3D labels_knorm b1024 s1] step 143360/204800 (70%) knorm=0.0691
+[sup:none K3D labels_knorm b1024 s1] step 163840/204800 (80%) knorm=0.0677
+[sup:none K3D labels_knorm b1024 s1] step 184320/204800 (90%) knorm=0.0786
+[sup:none K3D labels_knorm b1024 s1] step 204800/204800 (100%) knorm=0.0405
+{"seed": 1, "val": {"disp_rel_l2": 0.022104768836460238, "energy_gap_rel": 0.005046851557399813, "vm_rel_l2": 0.04389865171627032}, "seconds": {"build_and_load": 59.2, "train_and_evaluate": 80789.2}}
+[sup:none K3D labels_knorm b1024 s2] step 20480/204800 (10%) knorm=0.1994
+[sup:none K3D labels_knorm b1024 s2] step 40960/204800 (20%) knorm=0.0960
+[sup:none K3D labels_knorm b1024 s2] step 61440/204800 (30%) knorm=0.0939
+[sup:none K3D labels_knorm b1024 s2] step 81920/204800 (40%) knorm=0.0563
+[sup:none K3D labels_knorm b1024 s2] step 102400/204800 (50%) knorm=0.0768
+[sup:none K3D labels_knorm b1024 s2] step 122880/204800 (60%) knorm=0.0579
+[sup:none K3D labels_knorm b1024 s2] step 143360/204800 (70%) knorm=0.0767
+[sup:none K3D labels_knorm b1024 s2] step 163840/204800 (80%) knorm=0.0467
+[sup:none K3D labels_knorm b1024 s2] step 184320/204800 (90%) knorm=0.0656
+[sup:none K3D labels_knorm b1024 s2] step 204800/204800 (100%) knorm=0.0528
+{"seed": 2, "val": {"disp_rel_l2": 0.025053881873365123, "energy_gap_rel": 0.005259697633456165, "vm_rel_l2": 0.04545681653388402}, "seconds": {"build_and_load": 55.6, "train_and_evaluate": 80880.6}}
+[k3d] holdout h3d: 32/686 | 126 s
+[k3d] holdout h3d: 64/686 | 274 s
+[k3d] holdout h3d: 96/686 | 390 s
+[k3d] holdout h3d: 128/686 | 510 s
+[k3d] holdout h3d: 160/686 | 621 s
+[k3d] holdout h3d: 192/686 | 751 s
+[k3d] holdout h3d: 224/686 | 876 s
+[k3d] holdout h3d: 256/686 | 996 s
+[k3d] holdout h3d: 288/686 | 1139 s
+[k3d] holdout h3d: 320/686 | 1274 s
+[k3d] holdout h3d: 352/686 | 1396 s
+[k3d] holdout h3d: 384/686 | 1513 s
+[k3d] holdout h3d: 416/686 | 1644 s
+[k3d] holdout h3d: 448/686 | 1774 s
+[k3d] holdout h3d: 480/686 | 1899 s
+[k3d] holdout h3d: 512/686 | 2027 s
+[k3d] holdout h3d: 544/686 | 2138 s
+[k3d] holdout h3d: 576/686 | 2250 s
+[k3d] holdout h3d: 608/686 | 2375 s
+[k3d] holdout h3d: 640/686 | 2497 s
+[k3d] holdout h3d: 672/686 | 2632 s
+[k3d] holdout h3d: 686/686 | 2692 s
+[k3d] report -> /root/autodl-tmp/FE-JEPA/runs/k3d/report.json

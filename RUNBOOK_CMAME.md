@@ -104,7 +104,7 @@ python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_com
     --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
     2>&1 | tee runs/cmame/timing/pytest.log | tail -n 3
 ```
-The suite's last line reads `760 passed, 3 deselected`, then warnings and the
+The suite's last line reads `776 passed, 3 deselected`, then warnings and the
 time (the two LaTeX builds and the bibliography test are left out: they
 need a TeX installation that the box does not have). Anything failed, an
 error, or another count: stop and report. Any other output than the
@@ -528,7 +528,7 @@ python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_com
     --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
     2>&1 | tee runs/cmame/spectra/pytest.log | tail -n 3
 ```
-The suite's last line reads `760 passed, 3 deselected`, then warnings and the
+The suite's last line reads `776 passed, 3 deselected`, then warnings and the
 time. Anything failed, an error, another count, or any other output than the
 comments describe: stop and report.
 
@@ -614,7 +614,11 @@ corpora, and writes only under `runs/holdout/`. Before the operator
 instruction is sent, the repo side checks the remote:
 `git ls-remote origin refs/heads/cmame-paper 'refs/tags/*'` shows the branch
 at the stamped commit and, of all tags, only `refs/tags/prereg-holdout^{}`
-at that commit (PREREG_HOLDOUT Sec. 7: no other tag on it).
+at that commit (PREREG_HOLDOUT Sec. 7: no other tag on it). It ran on 21
+October 2026 on the stamped commit `69fb698`, each stage in its second attempt
+(the first attempts, on commit `8b5d443`, exited 2), and returned complete;
+the return and the verdict are in `records/cmame/holdout/`
+(`records/cmame/README.md`).
 
 ### E0. Preconditions (box)
 
@@ -834,7 +838,9 @@ failed, the reading H3, V (whether the per-instance values are distributed
 alike on the holdout set and on the validation instances), the secondary
 readings of Sec. 6 beside their validation values, and the deviations, with
 every input's SHA-256, the adjudicating code's and the library versions. The return is committed under
-`records/cmame/holdout/return/` with the verdict.
+`records/cmame/holdout/return/` with the verdict. It ran on 25 October 2026
+with the tag checked out, the branch having moved past it on 21 October
+(`records/cmame/README.md`).
 
 ## F. PREREG_K3D: the 3D supervised transformer retrained with the stiffness-norm loss (box; ~70-85 h)
 The three-dimensional supervised transformer of Phase-2, trained again on
@@ -856,7 +862,10 @@ instruction is sent, the repo side checks the remote:
 at the stamped commit and, of all tags, only `refs/tags/prereg-k3d^{}` at
 that commit (PREREG_K3D Sec. 6: no other tag on it). Before F0: the
 instance's balance covers at least 100 h of it, and no scheduled shutdown is
-set (AutoDL stops an instance whose balance runs out).
+set (AutoDL stops an instance whose balance runs out). It ran on 22-25 October
+2026 on the stamped commit `7614ae2`, one attempt, exit 0, and returned
+complete; the return and the verdict are in `records/cmame/k3d/`
+(`records/cmame/README.md`).
 
 ### F0. Preconditions (box)
 
@@ -1155,4 +1164,5 @@ and the report's states, seeds and commits against the return's; and writes
 H2a-3D and H2b-3D, the reading H3-3D, the secondary readings of PREREG_K3D
 Sec. 5 and the deviations, with every input's SHA-256, the adjudicating
 code's and its comparison with the tag. The return is committed under
-`records/cmame/k3d/return/` with the verdict.
+`records/cmame/k3d/return/` with the verdict. It ran on 25 October 2026
+(`records/cmame/README.md`).

@@ -1825,3 +1825,77 @@ generator, and no record, configuration, pre-registration or source file changed
 - Tests: `tests/test_k3d_train.py` (21), `tests/test_k3d_adjudicate.py` (42),
   `tests/test_k3d_prereg.py` (12), `tests/test_cmame_runbook.py` (+1). Suite
   763 (687 + 76).
+
+## Stage 13 (25 Oct 2026) -- the returns of PREREG_HOLDOUT and PREREG_K3D committed as received, with their verdicts
+
+- PREREG_K3D was stamped on 21 October 2026 before the run, on the commit
+  that carries the tag `prereg-k3d` (`7614ae2`): CONFIG_SHA256[k3d_v1] =
+  070bf83772b44e76cb249bb5f2e5f42507cd374551d2272233161d796f623433, and the
+  file's SHA-256 in its last line,
+  9e33f048e2093a65ef281bd061d84ea04dc0b8d567b411278ad410572fa913f2; that
+  commit changed nothing else and added no entry here.
+- The branch was frozen from PREREG_HOLDOUT's stamp until that run's return
+  on 21 October 2026 (PREREG_HOLDOUT Sec. 7), took Stage 12's two commits
+  after it (12:55 and 12:57 UTC), and was frozen again from PREREG_K3D's
+  stamp until this return (PREREG_K3D Sec. 6). Both runs have now returned:
+  the branch takes changes again.
+- PREREG_HOLDOUT's run (RUNBOOK_CMAME Sec. E, 21 October 2026):
+  `records/cmame/holdout/return/`, the return as received, and
+  `records/cmame/holdout/verdict.json` (`scripts/adjudicate_holdout.py` with
+  the tag checked out). Seven claims REPLICATED (T1, T2, T3, H1, H2b, H2c,
+  D2); H2a NOT REPLICATED: L_K's relative energy gap against L_D's in two
+  dimensions, on the 4,111 holdout instances, rel -42.9% with tau 47.4%
+  (L_K's seeds 0.1298, 0.0213 and 0.0834). On per-seed medians L_K reads
+  rel -81.4% against L_D (tau 13.4%): a few holdout instances carry its
+  seed means (`records/cmame/README.md`). H3: no difference shown. V:
+  REPRESENTATIVE. The adjudication records each of the four stages started
+  twice, exits 2 and 0. `records/cmame/README.md` records two departures
+  under PREREG_HOLDOUT Sec. 7: the first attempts ran on commit `8b5d443`,
+  the box's checkout of RUNBOOK_CMAME Sec. D, which does not hold the
+  script; and on 20 October 2026 a review of Stage 12 meshed the 1,024
+  training instances of the three-dimensional corpus again in the sandbox
+  (Stage 12 above reports it), a set beyond the bounds of Sec. 2, none of
+  whose instances is in the tail from which h3d is drawn.
+- The sandbox scanned again (`python scripts/holdout_scan_sets.py
+  /home/claude /tmp /mnt/user-data`), 25 October 2026 at 12:22 UTC, exit 0,
+  within the bounds of PREREG_HOLDOUT Sec. 2. Three dimensions with a band
+  of mesh sizes: 73 sets, the longest 80; at one size: 72 sets, the longest
+  20; two dimensions: 39 sets, the longest 80. Two copies of the
+  two-dimensional corpus's manifest, with no instance file beside them;
+  instance files without a manifest in 4 directories: corpus files 0 to 10
+  of `runs/data2d` in two (Sec. 2's copies) and the miniature holdout
+  labels of the Sec. F rehearsals (12 each) in two.
+- PREREG_K3D's run (RUNBOOK_CMAME Sec. F, 22-25 October 2026):
+  `records/cmame/k3d/return/` and `records/cmame/k3d/verdict.json`
+  (`scripts/adjudicate_k3d.py` at the stamped commit, with PREREG_HOLDOUT's
+  return and verdict committed on it locally: RUNBOOK_CMAME Sec. F3).
+  H2a-3D SUPPORTED (relative energy gap, per-seed medians: rel -98.2%, tau
+  11.7%); H2b-3D SUPPORTED (von Mises error: -83.6%, tau 10.0%); H3-3D: the
+  stiffness-norm transformer lower beyond the guard than the label-free
+  transformer (-41.0%, tau 27.0%). H3-3D's Welch 95% interval on the
+  per-seed medians runs from -98.7% to +16.7%. No deviation. The
+  container's memory limit, 90 GiB, is not the 92 GiB that PREREG_K3D Sec. 7
+  and F0c give, and is above the 64 GB both require. Three of the verdict's
+  input paths name the adjudicating clone: the script writes them from its
+  own location. Both in `records/cmame/README.md`.
+- The manuscript (`paper/cmame/`) is not changed here. Any revision reports
+  both runs' verdicts and readings, and qualifies its statement of H2a
+  (PREREG_HOLDOUT, Publication and Sec. 5; PREREG_K3D, Publication).
+- RUNBOOK_CMAME: the suite lines of A0c and D0c read the current count;
+  E0c's and F0c's keep their tags' (684 and 760), which
+  `tests/test_cmame_runbook.py` now reads from the committed returns.
+  Sec. E and F, and their adjudications E3 and F3, now say that they ran,
+  as Sec. A to D do.
+- One independent review of the package (the returns against their
+  tarballs, both adjudications run again, every quoted number, the
+  departures, the tests): nothing blocking. Its points were taken up: the
+  window of PREREG_HOLDOUT Sec. 7 and what is known in it, the order of
+  the stages, the times marked by their clock, the memory limit, the Welch
+  intervals that PREREG_K3D Sec. 4 puts beside the verdicts, the reading
+  beside H2a, and the wording of these notes and of the tests' summaries.
+- Tests: `tests/test_holdout_records.py` (8) and `tests/test_k3d_records.py`
+  (8): the returns whole and hashed, the attempts, the verdicts recomputed
+  from the per-instance arrays without the adjudicators' code, the
+  adjudications run again in process, and the numbers that
+  `records/cmame/README.md` and this entry quote from the returns and the
+  verdicts; `tests/test_cmame_runbook.py` changed. Suite 779 (763 + 16).

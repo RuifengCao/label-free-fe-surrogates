@@ -514,3 +514,357 @@ validation instance carries seed 1's, so that the reference's own SE_rel is
 0.989 in the relative energy gap and no reduction can be shown).
 `tests/test_k3d_prereg.py` checks the constants against the reports and
 every quoted number against the record.
+
+## The holdout sets: the run of 21 October 2026 and its verdict (PREREG_HOLDOUT)
+
+`holdout/return/` holds RUNBOOK_CMAME Sec. E as it ran on the box, copied
+byte for byte from `holdout_return_20261021-2011.tgz` (SHA-256
+`d185ee5990f3865584579979c10ec3f823db8fd32ce2ac0c8ca180c0c556069e`, as the
+operator sent it and as recomputed on receipt). The four stages ran on the
+stamped commit `69fb698` (tag `prereg-holdout`, tree
+`c480c756ada4d933056e7b6918d48462df054da9`) from 2026-10-21T10:16:04Z, one
+after another in E1's order (each set's labelling, then its evaluation),
+each in its second attempt and each exiting 0 (the first attempts are
+below): the labellings of h3d (686 instances, 2,744 load-case solves,
+2,321.9 s) and h2d (4,111 instances, 16,444 solves, 39.3 s), with largest
+relative residuals 5.3e-11 and 3.7e-11 (the bound 1e-8), no label reused
+and no holdout instance recorded as labelled by its corpus, and the
+evaluations of h3d (3,829.1 s) and h2d (357.8 s). Host
+`autodl-container-45e441a24a-99d5b40d`, RTX 5090 (driver 595.71.05), torch
+2.12.1+cu130. The suite there, on the tag: 684 passed, 3 deselected. The
+box's clock reads China Standard Time (UTC+8): below, its times are marked
+"box time" and UTC times end in Z.
+
+| file | SHA-256 |
+|---|---|
+| `return/eval_h2d.log` | `eda6ded38b8683f11ea72abcb7c977bc8faeca44900538d5ac414e2e46afea33` |
+| `return/eval_h2d.log.20261021-195917` | `636a610f1a9c2e000b3d45f44cb109e5de696ec8b4f392b1803267695b5530d5` |
+| `return/eval_h3d.log` | `896aa07532c6242fc635cfe8ca6d01d14afa33fc685cb6206da079898ad640b3` |
+| `return/eval_h3d.log.20261021-185447` | `636a610f1a9c2e000b3d45f44cb109e5de696ec8b4f392b1803267695b5530d5` |
+| `return/h2d/eval.json` | `b81f80b740a0e593890952b7791c4b6aab7570587ba62b6d1513a2cc7e08d9ea` |
+| `return/h2d/eval_arrays.npz` | `9ce675c746a8657d2596b803735fa40f79bb0d30c697152ec30a3c9c6bdff614` |
+| `return/h2d/manifest.json` | `4b79ed0673726585e2f6c292b99866f035d4b4968bd859f5df860fe9be62c9a8` |
+| `return/h3d/eval.json` | `855572411c44edebb6a2e2b8821138192552335603f05f6fe70d5c386f88cba9` |
+| `return/h3d/eval_arrays.npz` | `ed205f29315b0df2fb6e2244b6cdb2045d4f15af96d66004132ca2ae61d64b96` |
+| `return/h3d/manifest.json` | `d88b4a745842c679a07dfc6afba07ed4c72e314d13776612f0e0876b909b749d` |
+| `return/label_h2d.log` | `ffda19605209874d4b6093db56281d32e8885453641643c6c4e047ff7829e6bc` |
+| `return/label_h2d.log.20261021-195838` | `636a610f1a9c2e000b3d45f44cb109e5de696ec8b4f392b1803267695b5530d5` |
+| `return/label_h3d.log` | `ab48145cfe4257c457257351ca5a4c7a11c407f3e6880848ad77b985d4244646` |
+| `return/label_h3d.log.20261021-181604` | `636a610f1a9c2e000b3d45f44cb109e5de696ec8b4f392b1803267695b5530d5` |
+| `return/machine.txt` | `858cb7ea32af984e26e7838c76fc09f8535f917eb4fb9c9611d388f4975091a8` |
+| `return/precheck.txt` | `6a086e45767a433b32f0760a52493e2162f3fe5cf3657504abb45ba62293387d` |
+| `return/provenance.txt` | `7070fbf6d1927f51a4133734d48fb309f08e320e0e3b39e507c09db48e2cc999` |
+| `return/pytest.log` | `c7183434a75589ed17068904bd4e0c16ed1c43c33fd61b3bf00aaf05afcf43ee` |
+| `return/pytest.log.20261021-180704` | `4850f7525b1c1cdd26ec971e7d6b7958779adfad06f3ef29d4017f19eea7fec3` |
+| `return/status.txt` | `dca9b66d1bdcdcbee21e61faabcb9caa08a6a7db7f3837f1507174a5c2d1ad8b` |
+
+- `h3d/` and `h2d/`: per set, the labels manifest (`manifest.json`: per
+  instance the SHA-256 of the corpus file it was solved from and of its
+  labels file, and the solve's residual; the labels stay on the box), the
+  evaluation (`eval.json`: the states and their SHA-256, their content
+  checks on the 256 validation instances, the per-seed means and the load
+  cases worse than the zero field) and its per-instance arrays
+  (`eval_arrays.npz`). `status.txt`: the start and exit lines of every
+  attempt. `label_h3d.log`, `eval_h3d.log`, `label_h2d.log` and
+  `eval_h2d.log`: the consoles of the second attempts; each
+  `*.log.20261021-HHMMSS` is the first attempt's, set aside when the second
+  started (the suffix is the box's time). `precheck.txt` and `machine.txt`:
+  E1's checks before each attempt (the time, the host, the GPU idle) and
+  its record after each (the commit and tree, the GPU, the CPUs, the memory
+  limit and the memory). `pytest.log`: E0c's suite on the tag;
+  `pytest.log.20261021-180704`: an earlier run of it, set aside when E0c ran
+  again (below). `provenance.txt`: E2's record of the checkout when the
+  return was packed (`git describe`, both forms, `prereg-holdout`), the
+  host, and every other file's SHA-256.
+- `holdout/verdict.json` (SHA-256
+  `b76f869f72f2b55de9216815a6707ca5860ae9628da2150fe461da1f2138ba68`):
+  `scripts/adjudicate_holdout.py`, run on 25 October 2026 at the stamped
+  commit (RUNBOOK_CMAME Sec. E3, with the tag checked out, since the branch
+  had moved past it on 21 October: tracked files clean, in a clone of its
+  own with the tag fetched by a forced refspec), with the return in place,
+  as `python scripts/adjudicate_holdout.py --return
+  records/cmame/holdout/return --config configs/holdout_v1.json --prereg
+  PREREG_HOLDOUT.md --out records/cmame/holdout/verdict.json` (the two
+  options name the files the script reads by default, given so that the
+  paths it records are the repository's). Run again on the same inputs, it
+  writes the same file byte for byte; the adjudication of 21 October 2026,
+  of the return as received and unpacked elsewhere, wrote the same file but
+  for the paths. The adjudicator found its code identical to the tag's.
+  Every state passed its content check: the transformers' values were
+  reproduced exactly, and the graph networks' largest median relative
+  deviations of the displacement error and of the relative energy gap were
+  1.7e-5 and 7.9e-5 in h3d and 1.8e-5 and 1.5e-4 in h2d (PREREG_HOLDOUT
+  Sec. 3's bound: 1e-3).
+
+The claims (PREREG_HOLDOUT Sec. 5), read on the holdout sets; per-seed
+values are seeds 0, 1 and 2:
+
+| claim | on the holdout set | verdict |
+|---|---|---|
+| T1 (h3d) | the label-free transformer better than the supervised transformer on all five metrics, in each seed and in the seed mean (20 comparisons); in all nine pairs of seeds as well, the least favourable 23.3% apart (critical-region recall) | REPLICATED |
+| T2 (h3d) | the graph network's displacement error lower than the label-free transformer's on 95.8%, 92.0% and 86.3% of the instances (the rule: above 50% in each seed), its von Mises error higher on 2,058 of the 2,058 instance-seed pairs (at least 95%) | REPLICATED |
+| T3 (h3d) | load cases worse than the zero field: 340 of the supervised transformer's 8,232 (96, 107 and 137 per seed) and 237 of the graph network's (67, 79 and 91), each with a positive energy and no other | REPLICATED |
+| H1 (h2d) | relative energy gap, the label-free transformer 0.0393, 0.0400 and 0.0385 against L_D's 0.1423, 0.1467 and 0.1212: rel -71.3%, SE_rel 5.8%, tau 11.5% | REPLICATED |
+| H2a (h2d) | relative energy gap, L_K 0.1298, 0.0213 and 0.0834 against L_D's: rel -42.9%, SE_rel 23.7%, tau 47.4% | NOT REPLICATED |
+| H2b (h2d) | von Mises error, L_K 0.1280, 0.0855 and 0.1205 against L_D's 0.2343, 0.2501 and 0.2237: rel -52.8%, SE_rel 6.4%, tau 12.9% | REPLICATED |
+| H2c (h2d) | the same comparison against halving: rel -52.8%, below -50% | REPLICATED |
+| D2 (h2d) | the label-free transformer's displacement error higher than L_D's (0.0640, 0.0674 and 0.0625 against 0.0513, 0.0503 and 0.0541) and its other four metrics better, in each seed and in the seed mean (20 comparisons); in all nine pairs of seeds as well, the least favourable 7.5% apart (peak von Mises error) | REPLICATED |
+
+- Tally: 7 REPLICATED, 1 NOT REPLICATED (H2a, the claim itself:
+  `failing`), none NOT EVALUATED. Applied to the validation instances as
+  this run recomputed them, every claim's rule reads REPLICATED
+  (`validation_reference`), and none of PREREG_HOLDOUT Sec. 5's 2,000
+  resamples of the validation instances (`holdout/resample.json`, 1,000 per
+  scheme) read H2a NOT REPLICATED. Sec. 5: any revision of the manuscript
+  qualifies its statement of H2a with these numbers beside the original
+  ones.
+- Beside H2a (PREREG_HOLDOUT Sec. 6, no verdict): L_K's mean relative
+  energy gap is 2.69 times as large on the holdout set as on the validation
+  instances (95% interval, the holdout set resampled: 1.12 to 4.64; L_D's
+  ratio 1.02, 0.99 to 1.07), while its median is alike on the two (0.0223
+  and 0.0210; V does not reject the quantity, p 0.52). On per-seed medians
+  L_K reads rel -81.4% against L_D, tau 13.4%: lower beyond the guard. Its
+  seed means rest on a few instances: the largest relative energy gaps of
+  its seeds 0, 1 and 2 on the holdout set are 254.3, 21.6 and 190.4.
+- H3 (a reading): relative energy gap, L_K against the label-free
+  transformer, rel +99.1%, SE_rel 80.1%, tau 160.2%: no difference shown
+  (within the guard); with the roles exchanged rel -49.8%, tau 80.4%, the
+  same.
+- V: REPRESENTATIVE. Of the 35 quantities (every row and metric of both
+  sets, none left out), none is rejected at the family-wise level of 5%.
+- `deviations`: each of the four stages started twice, with exits 2 and 0
+  (the first attempts, below). `secondary`: PREREG_HOLDOUT Sec. 6's
+  readings, on the holdout sets beside the validation instances.
+
+Two departures, recorded under PREREG_HOLDOUT Sec. 7: the first from the
+runbook, the second one that the last sentence of Sec. 7 has the authors
+record. Neither changes a criterion, a label or an evaluation; the first
+attempts' start and exit lines are in `status.txt`, which the adjudication
+reads (`deviations`, above):
+- The first attempts ran on another commit. E0c's suite ran on commit
+  `8b5d443` (RUNBOOK_CMAME Sec. D's, two commits after `prereg-cm2d`; tree
+  `e288619b0338a6fa497dfabba6c953e8b3a4e553`):
+  `pytest.log.20261021-180704` reads 535 passed, 2 deselected, that
+  commit's count (the log is undated; it was set aside at 18:07:04 box
+  time, 10:07:04Z, when E0c ran again). E1's checks ran at 18:02:11 box
+  time (10:02:11Z; `precheck.txt`, first block), and its four stages
+  started at 10:02:23Z and each exited 2 at once: the script is not on that
+  commit (each first attempt's log is the one line `python: can't open
+  file '/root/autodl-tmp/FE-JEPA/scripts/holdout_run.py': [Errno 2] No such
+  file or directory`). E1's record after its stages names that commit
+  (`machine.txt`, first block). E0b fetches the branch and the tag, and E0c
+  checks the branch out, requires `git describe --tags --match
+  prereg-holdout` to print exactly `prereg-holdout` before the suite, and
+  stops at any other output or count. E0c then ran again, on the tag, and
+  E1 again (its checks at 18:15:45 box time, 10:15:45Z; its first stage at
+  10:16:04Z). The adjudication reads the status file, which records every
+  attempt but not its commit. On the same visit the box had run
+  PREREG_FINE3D's session (branch `wp9-pool`) before this run;
+  `DEVIATIONS_FINE3D.md` F1 and F2 on that branch record the order and the
+  checkout's switch to this branch.
+- A set beyond the bounds of Sec. 2, in the sandbox, between the scan of
+  Sec. 2 (14 October 2026, 05:37 UTC; repeated at the stamp, 18 October
+  2026, 07:45 UTC) and the return (packed at 20:11 box time on 21 October
+  2026, 12:11Z). On 20 October 2026, from 12:13 to 12:41 UTC, an
+  independent review of PREREG_K3D's box-scale paths (Stage 12) worked on
+  `runs/data3d_phase2` with its generator: it replayed the generator's
+  draws for the corpus's 2,000 instances (seed 0, the corpus's band of mesh
+  sizes) without meshing, as `scripts/holdout_overlap.py` replays the
+  corpus, and the split (n_val 256, seed 1), and kept the drawn mesh sizes,
+  geometries and Poisson ratios of all 2,000, the tail's among them;
+  meshed three validation instances (`instance_01661`, `instance_01130` and
+  `instance_00608`) to compare their node counts with
+  `records/cmame/timing/timing_3d.json`; meshed the 1,024 instances of
+  pool[:1024], each at its own mesh size, keeping only their node, element
+  and edge counts; and rebuilt two of those in full (`instance_01656` and
+  `instance_00479`, pool positions 75 and 34), labelled them by the direct
+  solve and ran one training step of the full-size transformer on each, on
+  the CPU, with either loss. The two instances' files were deleted at 12:41
+  UTC. The 1,024 are a set of the corpus's generator and seed beyond the
+  bound of 80 with a band of mesh sizes. None of these instances is in the
+  tail pool[1024:] from which h3d is drawn: they are validation instances
+  and pool[:1024], the prefix on which the arms at 1,024 labels and the
+  label-free arm trained; of a tail instance nothing but its drawn
+  parameters was made. No other set of the corpora's generators and seed
+  beyond the bounds, and no file of a holdout instance copied off the box,
+  is known in that window: the two returns that left the box in it,
+  PREREG_FINE3D's (packed at 18:03 box time on 21 October) and this one,
+  hold no instance or label file. The review's scripts and records are kept
+  in the sandbox; Stage 12's notes report the meshing. The sandbox, scanned
+  again on 25 October 2026 at 12:22 UTC (`scripts/holdout_scan_sets.py`,
+  the same directories, exit 0), holds no set of the generators and seed
+  beyond the bounds.
+
+`tests/test_holdout_records.py` checks that:
+- the files are these, with these SHA-256, and the verdict's recorded
+  inputs are these files, the stamped PREREG_HOLDOUT.md and
+  `configs/holdout_v1.json`;
+- the attempts are those described above: the four stages started at
+  10:02:23Z exited 2, each logging only the missing script, on the commit
+  the first block of `machine.txt` names; the four that count ran in E1's
+  order on one host, on the stamped commit and tree, and exited 0; and the
+  two suites' logs read the counts quoted;
+- the labels manifests are the configuration's sets (686 and 4,111
+  instances in pool order, the excluded instances left out), every
+  residual within the bound and no label reused, and the evaluations read
+  them;
+- the claims, H3 and the tally follow from the evaluations' per-instance
+  arrays by PREREG_HOLDOUT Sec. 5's rules, recomputed in the test, and
+  everything in `verdict.json` but the paths of its inputs, the
+  configuration's record (checked against the stamp, above) and the
+  adjudicator's own record (its code's SHA-256, its comparison with the
+  tag, the library versions) is what `scripts/adjudicate_holdout.py`
+  computes in process from the committed files;
+- the numbers this section quotes from the verdict and the return are
+  theirs, those beside H2a recomputed from the arrays; the sandbox's times
+  and its scan, which no file in the repository records, are checked only
+  as quoted.
+
+## K3D: the run of 22-25 October 2026 and its verdict (PREREG_K3D)
+
+`k3d/return/` holds RUNBOOK_CMAME Sec. F as it ran on the box on the
+stamped commit `7614ae2` (tag `prereg-k3d`, tree
+`30398e29d00df1ebe7c8e9027f0b76c0cbb12b3c`), copied byte for byte from
+`k3d_return_20261025-1929.tgz` (SHA-256
+`d6dc142e05c3bc21ba3d718118faeb287bdaf081bcde3f59e94e90f602b33f52`, as the
+operator sent it and as recomputed on receipt). One attempt: it started at
+2026-10-22T14:00:41Z and exited 0. By the times of `runs/k3d/` in
+`provenance.txt` (China Standard Time): the six stored states evaluated by
+22:12:32 on 22 October (`reused.json`); the three L_K seeds, 200 epochs
+each, finished at 20:38:55 on 23 October, 19:06:24 on 24 October and
+17:35:20 on 25 October, each 22 h 26 min to 22 h 29 min after the one
+before (seed 0 after the stored states' evaluations); the holdout set's
+686 instances evaluated in 2,692 s; the report written at 18:20:13 on 25
+October, 68 h 20 min after the start. The host of PREREG_HOLDOUT's run, RTX
+5090 (driver 595.71.05), torch 2.12.1+cu130, a memory limit of
+96,636,764,160 bytes (90 GiB) and no memory event (`oom_kill 0`). The suite
+there: 760 passed, 3 deselected.
+
+| file | SHA-256 |
+|---|---|
+| `return/holdout_arrays.npz` | `d166006b0bcfaaeec16b0b085e9c00b84eb7e1078bf6962bca28dee265f6df9e` |
+| `return/k3d.log` | `89b005b5d79ff4bfd2ecc7f680731ebed5cd2dacbaf3de4f59afc3f6fa4ec193` |
+| `return/machine.txt` | `419e8c4033eba038224908af236a5e4990b57ab9878cd4323834d52e747d3712` |
+| `return/precheck.txt` | `48a61454ac386faad177c7b6ed9bb85451312d2322dab7900cfee9bb58ee48ef` |
+| `return/provenance.txt` | `ebadd9340477e0d664da253dfc42b18a84ef84e10b9380237c34159be9fa08ee` |
+| `return/pytest.log` | `ede86fe12d6ea1bbed2a4f303b9c5b5107ba9c219e2697b2e08861081327de6f` |
+| `return/report.json` | `f57b5cbf66659d0dd0986f7b07ee2fbed744c6a49f85329a942624cc75d90a95` |
+| `return/reused.json` | `0a9a6d8e29d1d15562eab8b4314f56a9325ffd89637e35c6951c9cb5b4026a4b` |
+| `return/seed_0.json` | `6eb25009ca0c6b95ce3c6116b84c57304facf633ada696904799b4e44f804581` |
+| `return/seed_1.json` | `8c5178c2c5bfc5b6aaace7665ba997d9eca9f60b4be83559f6277ca187133d92` |
+| `return/seed_2.json` | `691602dbc08ea282bb1da3710db7b15d15605899356eff914de82376fb6a9e3d` |
+| `return/status.txt` | `4f3f7896850b3b49ad1d025adc37b07e964c9ce2ec13e040e8ae344bf2a994aa` |
+
+- `report.json`: the run's report: the configuration and its canonical
+  SHA-256 (PREREG_K3D's CONFIG_SHA256[k3d_v1]), `git describe` and the
+  commit; the six stored states' evaluations with their content checks;
+  each L_K seed's training and its evaluation on the 256 validation
+  instances; the holdout set's evaluation. `reused.json`: the stored
+  states' evaluations, written before any training. `seed_0.json` to
+  `seed_2.json`: each seed's result, written as it finished.
+  `holdout_arrays.npz`: the per-instance values on the 686 holdout
+  instances. `k3d.log`: the console. `status.txt`: one start, exit 0.
+  `precheck.txt` and `machine.txt`: F1's check before the run (the time,
+  the host, the GPU idle) and its record after it (the commit and tree, the
+  GPU, the CPUs, the memory limit, the memory events and the memory).
+  `pytest.log`: F0c's suite on the tag. `provenance.txt`: F2's record: the
+  commit, the tree, `git describe` (`prereg-k3d`), the host, the listing of
+  `runs/k3d/` with its times, the SHA-256 of the three L_K states (they
+  stay on the box) and of every other file.
+- `k3d/verdict.json` (SHA-256
+  `87f944d7f4320e0c32fd48c4c268c1cf90c8f302277405756058d45ea85f335b`):
+  `scripts/adjudicate_k3d.py`, run on 25 October 2026 in a clone of its
+  own at `/work/label-free-fe-surrogates`, the branch at the stamped commit
+  with the tag fetched by a forced refspec, PREREG_HOLDOUT's return and
+  verdict committed there under `records/cmame/holdout/` as above
+  (RUNBOOK_CMAME Sec. F3) and tracked files clean, as `python
+  scripts/adjudicate_k3d.py --return records/cmame/k3d/return --prereg
+  PREREG_K3D.md --config configs/k3d_v1.json --source-report
+  records/wp8/e2/baseline/report_phase2b.json --out
+  records/cmame/k3d/verdict.json` (the three options name the files the
+  script reads by default). The script writes the paths of three further
+  inputs from its own location, so that they name that clone:
+  `inputs.holdout_manifest`, `inputs.holdout_spec` and
+  `inputs.cm2d_verdict` are its
+  `records/cmame/holdout/return/h3d/manifest.json`,
+  `configs/holdout_v1.json` and `records/cmame/cm2d/verdict.json`, with
+  their SHA-256. Run again, it writes the same file byte for byte; the
+  adjudication of the same day, of the return as received and unpacked
+  elsewhere, wrote the same file but for those three paths. The adjudicator
+  found its code identical to the tag's and recorded no deviation. The six
+  stored states reproduced Phase-2b's per-instance values exactly (largest
+  relative deviation 0 in every metric, as the run recorded it and as
+  recomputed from the report's arrays).
+
+The verdicts read per-seed medians over the 256 validation instances
+(PREREG_K3D Sec. 4); per-seed values are seeds 0, 1 and 2:
+- H2a-3D, SUPPORTED: relative energy gap, L_K 0.00432, 0.00448 and 0.00452
+  against L_D's 0.2241, 0.2555 and 0.2748: rel -98.2%, SE_rel 5.9%, tau
+  11.7%.
+- H2b-3D, SUPPORTED: von Mises error, L_K 0.0412, 0.0425 and 0.0437 against
+  L_D's 0.2469, 0.2539 and 0.2760: rel -83.6%, SE_rel 3.4%, tau 10.0%.
+- H3-3D (a reading): relative energy gap, L_K against the label-free
+  transformer's 0.00932, 0.00744 and 0.00581: rel -41.0%, SE_rel 13.5%, tau
+  27.0%: the stiffness-norm transformer lower beyond the guard. With the
+  roles exchanged, rel +69.5%, tau 45.8%: the label-free transformer worse
+  beyond the guard.
+- Beside them, with no criterion: the seed means (H2a-3D rel -99.98%, tau
+  197.9%, within the guard, L_D's seed 1 at 92.99 carried by one validation
+  instance, `instance_00485`; H2b-3D -88.1%, tau 43.7%, and H3-3D -44.7%,
+  tau 29.0%, lower beyond it); and the 686 holdout instances, per-seed
+  medians: H2a-3D -98.0% (tau 12.6%), H2b-3D -83.0% (tau 10.0%), H3-3D
+  -38.0% (tau 25.6%), each in its validation reading's direction.
+- Beside them as well (PREREG_K3D Sec. 4), rel's Welch 95% intervals on the
+  per-seed medians, with about 2 degrees of freedom: H2a-3D -123.5% to
+  -73.0%, H2b-3D -98.0% to -69.2%, H3-3D -98.7% to +16.7% (H3-3D's includes
+  no difference); from resampling the instances, the seeds kept: -98.4% to
+  -98.1%, -84.5% to -82.7% and -43.9% to -38.4%. On the seed means, Welch:
+  -525.7% to +325.7%, -182.0% to +5.8% and -105.9% to +16.5%; their rel
+  has each verdict's and the reading's sign (`seed_means_show_the_direction`),
+  which for H2a-3D, whose seed-mean guard cannot show a reduction (tau
+  197.9%), is the seed-mean reading.
+
+Secondary readings (PREREG_K3D Sec. 5; per-seed medians unless stated):
+- L_K against the label-free transformer, the five metrics: relative
+  energy gap -41.0%, displacement error -25.0%, von Mises error -19.4% and
+  peak von Mises error -51.7%, each lower beyond the guard; critical-region
+  recall +8.7%, within it (tau 10.0%). L_K is the lower of the two on 738,
+  528 and 676 of the 768 instance-seed pairs in the relative energy gap,
+  the displacement error and the von Mises error.
+- Instance-seed pairs worse than the zero field (a mean relative energy
+  gap above 1), of 768: the label-free transformer 0, L_D 18, L_K 0.
+- L_K against the labels+energy row (Phase-2b's record): relative energy
+  gap -95.7% (tau 52.8%), von Mises error -65.5% (tau 10.0%), both lower
+  beyond the guard.
+- The share of the gap between L_D and the label-free transformer that L_K
+  closes: 105% in the von Mises error and 101% in the relative energy gap.
+
+The container's memory limit, 96,636,764,160 bytes (90 GiB) as in
+PREREG_HOLDOUT's run, is not the one the text gives: PREREG_K3D Sec. 7
+says 92 GiB and F0c's comment expects 98,784,247,808 or `max`, the limit
+that `records/cmame/timing/`, `spectra/` and `threads/` record (8-11
+October 2026). It is above the 64 GB of PREREG_K3D Sec. 6 and F0c's stop
+threshold, 64,000,000,000, and the operator instruction of 21 October 2026
+had the run go on at any limit of at least that. No other departure from
+PREREG_K3D or RUNBOOK_CMAME Sec. F is known beyond what the adjudication
+reads, and it records none (PREREG_K3D Sec. 8).
+
+`tests/test_k3d_records.py` checks that:
+- the files are these, with these SHA-256, and the verdict's recorded
+  inputs are these files, the stamped PREREG_K3D.md, `configs/k3d_v1.json`,
+  Phase-2b's report, PREREG_HOLDOUT's labels manifest of h3d, the holdout
+  configuration and CM2D's verdict;
+- the run was one attempt on the stamped commit and tree, exited 0, with
+  the GPU idle at its check, the suite green and no memory event, and the
+  times quoted above are the return's;
+- the verdicts, the reading H3-3D and the secondary readings quoted above
+  follow by PREREG_K3D Sec. 4's rule from the per-instance values of the
+  report, of the holdout arrays and of Phase-2b's report, recomputed in the
+  test;
+- everything in `verdict.json` but its inputs (above) and the
+  adjudicator's own record (its code's SHA-256 and its comparison with the
+  tag) is what `scripts/adjudicate_k3d.py` computes in process from the
+  committed files;
+- the numbers this section quotes from the verdict, the return and the
+  records named are theirs; the operator instruction is quoted from outside
+  the repository.

@@ -1,0 +1,12 @@
+[holdout] h3d labels 64/686 | 240 s
+[holdout] h3d labels 128/686 | 423 s
+[holdout] h3d labels 192/686 | 627 s
+[holdout] h3d labels 256/686 | 834 s
+[holdout] h3d labels 320/686 | 1102 s
+[holdout] h3d labels 384/686 | 1312 s
+[holdout] h3d labels 448/686 | 1541 s
+[holdout] h3d labels 512/686 | 1760 s
+[holdout] h3d labels 576/686 | 1930 s
+[holdout] h3d labels 640/686 | 2143 s
+[holdout] h3d labels 686/686 | 2322 s
+{"set": "h3d", "n": 686, "reused": 0, "solves": 2744, "kept": false, "residual_max": 5.2535426448219004e-11, "source_labelled": 0}

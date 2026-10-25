@@ -1,0 +1,2 @@
+k3d.log start 2026-10-22T14:00:41Z autodl-container-45e441a24a-99d5b40d
+k3d.log exit=0
