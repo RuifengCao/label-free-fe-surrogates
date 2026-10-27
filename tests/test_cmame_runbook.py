@@ -12,8 +12,13 @@ returns the files the adjudication reads; Sec. F (cmame-paper Stage 12) runs
 PREREG_K3D's one script on the tag, after its dry run, writes only under
 runs/k3d/, restarts by running it again, leaves the holdout set out only after
 two failures with every seed trained, and returns the files the adjudication
-reads; the runbook states the suite's current test count in Sec. A and D, and
-in Sec. E and F their tags' counts, as the committed returns record them
+reads; Sec. G (cmame-paper Stage 14) checks every input of the Ritz baseline
+and the enriched c* before it runs them, runs every set and arm of
+configs/ritz_v1.json once, in order, with the cost table's measurements of
+Sec. A again on the same host, writes only under runs/ritz/, resumes by
+running only the steps that were cut off, and returns the whole directory;
+the runbook states the suite's current test count in Sec. A, D and G, and in
+Sec. E and F their tags' counts, as the committed returns record them
 (cmame-paper Stage 13), with the tests that need TeX (the two LaTeX builds and
 the bibliography rendering) left out."""
 
@@ -38,7 +43,9 @@ SCRIPTS = {"A": {"scripts/time_inference_vs_solve.py", "scripts/export_fields.py
            "C": {"scripts/adjudicate_cm2d.py"},
            "D": {"scripts/cm2d_spectra.py"},
            "E": {"scripts/holdout_run.py", "scripts/adjudicate_holdout.py"},
-           "F": {"scripts/k3d_train.py", "scripts/adjudicate_k3d.py"}}
+           "F": {"scripts/k3d_train.py", "scripts/adjudicate_k3d.py"},
+           "G": {"scripts/ritz_baseline.py", "scripts/enriched_cstar.py", "scripts/ritz_timing.py",
+                 "scripts/time_inference_vs_solve.py"}}
 ENV = {"PYTHONPATH": str(ROOT / "src"), "PATH": "/usr/bin:/bin"}
 
 
@@ -219,7 +226,7 @@ def test_the_runbook_states_the_suite_count():
     n = int(m.group(1))
     for t in LATEX:                                         # the deselected tests exist
         assert t in res.stdout, t
-    for letter in "AD":                                     # A0c, D0c: this commit
+    for letter in "ADG":                                    # A0c, D0c, G0c: this commit
         sec = _section(letter)
         assert sec.count(f"`{n - len(LATEX)} passed, {len(LATEX)} deselected`") == 1, letter
     # E0c and F0c run only on their tags, prereg-holdout and prereg-k3d (`git describe`
@@ -230,7 +237,7 @@ def test_the_runbook_states_the_suite_count():
         last = (ROOT / log).read_text().strip().splitlines()[-1]
         assert re.match(rf"{count} passed, 3 deselected\b", last), (letter, last)
         assert _section(letter).count(f"`{count} passed, 3 deselected`") == 1, letter
-    for letter in "ABDEF":
+    for letter in "ABDEFG":
         assert all(_section(letter).count(f"--deselect {t}") == 1 for t in LATEX), letter
     # B1c runs only on the tagged commit (`git describe` exactly prereg-cm2d): its suite,
     # as CM2D's return records it (a --deselect of a test the commit lacks deselects nothing)
@@ -492,3 +499,99 @@ def test_section_f_runs_k3d_on_the_tag():
     assert "find . -type f ! -name provenance.txt | sort | xargs sha256sum" in f
     assert 'echo "--- files ---"' in f and 'echo "--- states ---"' in f
     assert "records/cmame/holdout/return/" in f
+
+
+def test_section_g_runs_every_set_and_arm_once_after_its_checks():
+    import json
+
+    g = _section("G")
+    cfg = json.loads((ROOT / "configs" / "ritz_v1.json").read_text())
+    sets = list(cfg["baseline"]["sets"])
+    arms = list(cfg["enriched"]["arms"])
+    text = g.replace("\\\n", " ")
+    runs = [" ".join(m.group(0).split()) for m in re.finditer(r"^run \S+ python [^\n]*", text,
+                                                               re.M)]
+    want = [f"run ritz_{s}.log python scripts/ritz_baseline.py --config configs/ritz_v1.json "
+            f"--set {s}" for s in sets]
+    appendix = [a for a in arms if cfg["enriched"]["arms"][a]["appendix"]]
+    beyond = [a for a in arms if not cfg["enriched"]["arms"][a]["appendix"]]
+    enr = lambda a: (f"run enriched_{a}.log python scripts/enriched_cstar.py --config "  # noqa: E731
+                     f"configs/ritz_v1.json --arm {a} --device cuda")
+    want += [enr(a) for a in appendix]
+    want += [f"run ritz_timing_{d}d.log python scripts/ritz_timing.py --config "
+             f"configs/ritz_v1.json --dim {d} --out $P/timing/ritz_timing_{d}d.json"
+             for d in (3, 2)]
+    a_lines = {int(re.search(r"timing_(\d)d\.json", x).group(1)): x
+               for x in _lines(_section("A"))[:2]}       # Sec. A's two timing commands
+    for d in (3, 2):
+        want.append(f"run timing_{d}d.log " + a_lines[d].replace(
+            f"--out $P/timing_{d}d.json", f"--out $P/timing/timing_{d}d.json"))
+    want += [enr(a) for a in beyond]
+    assert runs == want and len(runs) == 15 and "fifteen steps" in " ".join(g.split())
+    assert appendix == ["b_n1024", "s_n1024", "phase2b"]
+    # every input checked first, with the lines the scripts print
+    checks = _lines(g)[:2]
+    assert checks == [
+        "python scripts/ritz_baseline.py --config configs/ritz_v1.json --set all --check 2>&1 "
+        "| tee runs/ritz/check.log",
+        "python scripts/enriched_cstar.py --config configs/ritz_v1.json --arm all --check 2>&1 "
+        "| tee -a runs/ritz/check.log"]
+    flat = " ".join(g.split())
+    assert g.index("G0d.") < g.index("### G1. The run")
+    for s, v in cfg["baseline"]["sets"].items():
+        assert f"`{s}` ({v['n']})" in flat or \
+            f'{{"set": "{s}", "n": {v["n"]}, "files": "present", "inputs": "verified"}}' in flat
+    w9 = cfg["enriched"]["arms"]["b_n1024"]
+    sets_n = {k: cfg["enriched"]["sets"][k]["n"] for k in w9["sets"]}
+    assert ('{"arm": "b_n1024", "seeds": [3, 4, 5], "states_verified": 3, "sets": '
+            + json.dumps(sets_n) + "}") in flat
+    for a in arms[2:]:
+        assert f"`{a}`" in flat
+    # the states and reports G0c counts: the configuration's
+    n = 0
+    for a in arms:
+        st = cfg["enriched"]["arms"][a]["states"]
+        n += 3 if st["from"] == "list" else 0
+    n += 3 + 2 * 3 + 2                                    # Phase-2b's ar, wp9's states, reports
+    n += 3                                                # E1's, which the 2D timing reads
+    assert n == 23 and "| wc -l   # 23" in g
+    assert "runs/e1_2d_base/e8_states/ar_p1024_s*.pt | wc -l   # 23" in g
+    for a in arms:
+        st = cfg["enriched"]["arms"][a]["states"]
+        where = st["pattern"].rsplit("/", 1)[0] if st["from"] == "list" else st["dir"]
+        assert where in g or re.sub(r"/[bs]_n1024/", "/{b,s}_n1024/", where) in g, a
+    # only under runs/ritz; status kept; Sec. E's helper; the bundle base on the box
+    assert set(re.findall(r"\bP=([^\s;]+)", text)) == {"runs/ritz"} == {cfg["out"]}
+    assert "touch $P/status.txt" in g and "mv $P/status.txt" not in g
+    helper = re.search(r"\nrun\(\) \{.*?; \}\n", _section("E"), re.S).group(0)
+    assert g.count(helper) == 1
+    assert re.findall(r"mkdir -p (\S+)", g) == ["runs/ritz", "$OUT"]
+    assert re.findall(r"\bOUT=(\S+)", g) == ["~/ritz_return"]
+    assert "cp -r $P/. $OUT/" in g
+    assert "git bundle create cmame-paper.bundle 7614ae2..cmame-paper" in g
+    assert subprocess.run(["git", "-C", str(ROOT), "cat-file", "-e", "7614ae2^{commit}"],
+                          capture_output=True).returncode == 0
+    assert "prereg-" not in g.split("### G0.")[1].split("### G3.")[0]   # no tag on the box side
+    pre = (ROOT / "scripts" / "cm2d_precheck.py").read_text()
+    other = re.search(r'OTHER_RUNS = r"([^"]+)"', pre).group(1)
+    assert g.count('pgrep -af "' + other + '"') == 2         # G0c and G1
+    assert 'ls ~/autodl-tmp/FE-JEPA/runs/ritz/status.txt 2>/dev/null || echo "no G1 yet"' in g
+    assert "[ -e runs/ritz/pytest.log ] && mv runs/ritz/pytest.log " in g
+    assert "96636764160 (90 GiB)" in g
+    # interruptions: only the steps cut off or never started, in order
+    rec = " ".join(g.split("### G1'. Interruptions", 1)[1].split("### G2.", 1)[0].split())
+    for s in ("tmux attach -t rz", "cat runs/ritz/status.txt",
+              "only the `run` lines of the steps that were cut off or never started, in G1's "
+              "order", "No other step is run again", "resuming after ... instances on disk",
+              "A step cut off twice is not run again"):
+        assert s in rec, s
+    # the exit statuses the scripts document
+    for script, codes in (("ritz_baseline.py", ("3", "4")),
+                          ("enriched_cstar.py", ("2", "3", "4", "5"))):
+        doc = " ".join((ROOT / "scripts" / script).read_text().split("\"\"\"")[1].split())
+        for c in codes:
+            assert f"{c} " in doc and f"`exit={c}`" in g, (script, c)
+    for msg in ("REFUSED:", "NOT REPRODUCED", "NOT THE RECORDED INSTANCE"):
+        assert msg in g
+        assert any(msg.rstrip(":") in (ROOT / "scripts" / f).read_text()
+                   for f in ("ritz_baseline.py", "enriched_cstar.py"))

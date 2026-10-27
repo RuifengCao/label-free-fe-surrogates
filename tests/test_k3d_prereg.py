@@ -326,8 +326,18 @@ def test_the_two_dimensional_results_quoted_are_cm2ds():
 
 
 def test_the_regression_records_are_identical_and_name_their_trees():
-    readme = (ROOT / "records/cmame/README.md").read_text()
-    this = re.search(r"\| this side \| [^|]*`src` = tree `([0-9a-f]{40})` \|", readme).group(1)
+    # this side: the code PREREG_K3D ran (its return's commit, the tag), as the
+    # README's K3D section names it; the records stay as committed when src changes
+    # after the run (cmame-paper Stage 14), and the README's table names the current code
+    k3d = " ".join((ROOT / "records/cmame/README.md").read_text().split("## K3D:", 1)[1].split())
+    this = re.search(r"on this code \(the Stage 12 tree `([0-9a-f]{40})`, which PREREG_K3D ran "
+                     r"at `prereg-k3d`\)", k3d).group(1)
+    head = re.search(r"^HEAD ([0-9a-f]{40})$",
+                     (ROOT / "records/cmame/k3d/return/provenance.txt").read_text(), re.M).group(1)
+    if subprocess.run(["git", "-C", str(ROOT), "cat-file", "-e", f"{head}^{{commit}}"],
+                      capture_output=True).returncode == 0:
+        assert subprocess.run(["git", "-C", str(ROOT), "rev-parse", f"{head}:src"],
+                              capture_output=True, text=True).stdout.strip() == this
     for commit in ("e672110", "99d3674"):
         rec = json.loads((ROOT / f"records/cmame/k3d/regression_phase2_{commit}.json")
                          .read_text())

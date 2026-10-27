@@ -1899,3 +1899,151 @@ generator, and no record, configuration, pre-registration or source file changed
   adjudications run again in process, and the numbers that
   `records/cmame/README.md` and this entry quote from the returns and the
   verdicts; `tests/test_cmame_runbook.py` changed. Suite 779 (763 + 16).
+
+## Stage 14 (27 Oct 2026) -- the polynomial Ritz baseline and the enriched c*: box scripts, post hoc
+
+- Why. CMAME declined the manuscript on 18 October 2026; it goes to the
+  Journal of Computational Physics, whose guide asks that a problem other
+  approaches have treated be compared with them. The manuscript compares
+  its networks with exact solvers (the cost table) and with fitted
+  baselines, but not with a classical approximation of the same order of
+  size: a per-instance polynomial Ritz-Galerkin projection, which needs the
+  instance's K and F and no label or training. This stage adds that
+  baseline, post hoc, and the exploratory enriched c* reading that asks
+  whether the networks carry information beyond such a polynomial space.
+  Nothing here is pre-registered and no verdict reads either reading.
+- The specification, fixed on 20 October 2026 (the project's note of that
+  day, its Appendices 1 and 2), before any paired computation on the
+  manuscript's instances, and after exploratory readings of the same
+  construction on freshly drawn instances and on wp9's sets, which do not
+  enter the manuscript. Appendix 1 (the baseline):
+  - per instance, the Ritz-Galerkin projection on a vector polynomial
+    subspace with the instance's own K and F: per displacement component
+    the functions (x/W) L_a(2x/W - 1) L_b(2y/H - 1) [L_c(2z/D - 1)], L the
+    Legendre polynomials, W, H, D the bounding box's edge lengths,
+    a + b (+ c) <= p - 1; they vanish on the clamped face x = 0;
+  - A = P^T K P pseudo-inverted by its eigendecomposition, the directions
+    with eigenvalue at most 1e-13 times the largest dropped, no scaling; no
+    label, no training, nothing tuned on the manuscript's instances;
+  - the whole ladder reported: 3D p = 6, 7, 8, 9 (168, 252, 360, 495
+    unknowns), 2D p = 6, 8 (42, 72);
+  - the sets: the manuscript's 3D validation instances (256) and fine set
+    (its first 256), its 2D validation instances (256), and PREREG_HOLDOUT's
+    h3d (686) and h2d (4,111);
+  - the manuscript's five metrics and the load cases worse than the zero
+    field, with the repository's functions, against the same labels;
+  - each instance checked against the records (its size and ||U*||_K per
+    load case, relative difference at most 1e-6); one that differs is
+    listed apart and left out of the pairing;
+  - paired with every recorded model's per-instance values on the set: the
+    share of instances on which the Ritz solution is better;
+  - the timing of the Ritz work (P^T K P, the small solve, the
+    reconstruction) apart from the assembly of K, the manuscript's cost-table
+    row measured on the same kind of machine as the rest of the table;
+  - the manuscript states that this is a classical baseline added after
+    the CMAME decision, that its specification was fixed before any paired
+    computation on the manuscript's instances, and that it was written after
+    the exploratory readings; no pre-registered verdict changes.
+  Appendix 2 (the enriched c*; exploratory, not in the manuscript):
+  - models: wp9 session 2's 2D baseline (`b_n1024`) and S (`s_n1024`), and
+    Phase-2b's 3D label-free transformer, three seeds each; sets: wp9's IB,
+    F2 and F5 in 2D, the 3D validation instances and fine set;
+  - the coarse space of Appendix 1 at 2D p = 6 (42 unknowns), 3D p = 8
+    (360); per instance and load case the relative energy gap and the peak
+    stress error of the network scaled by c*, of the Ritz solution and of
+    the enriched c* (the Ritz projection on span{u} + range(P));
+  - complementary when either holds: in band, for each of the three seeds
+    the median enriched gap is at most 0.8 times the smaller of the medians
+    of c* u and of Ritz; out of distribution, the enriched peak-stress
+    error's median is at most half Ritz's.
+- What the appendices leave open, decided in the code before any run on the
+  box (and stated in the outputs: each summary's `solves`, each reading's
+  `solves` and `choices`): the enriched system is solved with Jacobi
+  scaling and the eigenvalues at most 1e-12 times the largest dropped (the
+  reference script's solve), while its Ritz solution is Appendix 1's;
+  per-instance values are the means over the load battery (as the records
+  hold them), the per-load-case medians beside them; the out-of-distribution
+  condition must hold for every seed and set; arms are read separately; the
+  reading is "complementary" when a computed condition holds, "not" when
+  both are computed and neither holds, null otherwise; it is given over
+  every instance and, when an instance fails the identity check, over those
+  that pass; a set whose network does not reproduce its records is left out
+  of it; the enriched gap's excess over the smaller of c* u's and Ritz's,
+  round-off by construction, is flagged above 1e-8 (`bound_ok`). Beyond
+  Appendix 2, as the hand-over of 20 October 2026 allowed: Phase-2's
+  labels-only transformer (L_D) and graph network and PREREG_K3D's L_K, on
+  the 3D sets, read the same way and marked `"appendix": false`.
+- Code. `src/fejepa/analysis/ritz.py`, the construction and the projections
+  (checked against the sandbox reference that two reviews checked on 20
+  October 2026: bitwise equal on a 2D and a 3D instance; that reference is
+  not in the repository);
+  `scripts/ritz_baseline.py`, `scripts/enriched_cstar.py` and
+  `scripts/ritz_timing.py`; `configs/ritz_v1.json`, every input with its
+  SHA-256. They read the box's own files and labels (nothing is solved
+  again): the corpora by their manifests as the reports record them, the
+  holdout sets as PREREG_HOLDOUT's run checks them (with the labels
+  manifests its return carries), wp9's sets by the per-file SHA-256 of their
+  manifests and wp9's two reports by the SHA-256 of wp9-pool's records
+  (Stage 1, `2f35f2d`; the model and feature code that session 2 ran,
+  `92dfc93`, is this branch's apart from the stiffness-norm loss and the
+  structured-mesh fix, neither of which these models use). Every input is
+  checked before any computation (`--check` does only that); the identity
+  check runs on every instance; the instance order of the pairing sources
+  is checked where two sources share values (Phase-2b's arrays against the
+  identity record's own per-seed values; the label-free states' rows where
+  two reports evaluated the same states, R4's against Phase-2b's and E1's
+  against CM2D's; the deterministic rows across reports, which align every
+  row of the July runs; the holdout arrays' file lists), and rests on the
+  recorded split and fine set otherwise (E2's two reports on both 3D sets,
+  E1's other two runs); the enriched reading first checks every model on 8
+  instances against its report's per-instance arrays (tolerance 1e-3, as
+  PREREG_HOLDOUT's content check) and again on the whole set; worker
+  processes compute the instances and the rows are written in order, so
+  that a run cut off resumes. Exit statuses are documented in each script.
+- `src` gained that one module, which nothing else in `src` imports.
+  `scripts/regress_against_branch.py` against `wp8-lejepa` ran again on 27
+  October 2026 (both miniatures, as at Stages 9, 11 and 12): identical,
+  apart from this side's tree; `records/cmame/README.md` and the two
+  summaries name the new tree, which `tests/test_w9_records.py` checks
+  against the committed `src`. PREREG_K3D's two regression records
+  (`records/cmame/k3d/`, its Sec. 7 evidence) name the code that run used
+  and stay as committed: `tests/test_k3d_prereg.py` now reads their tree
+  from the README's K3D section, and checks it against the return's commit,
+  where it read the table, which names the current code.
+- The cost table. It was measured on 8 October 2026 on an Intel Xeon Gold
+  6459C (16 CPUs); the box has since been an Intel Xeon Platinum 8470Q (25
+  CPUs). RUNBOOK_CMAME Sec. G therefore runs the table's own measurements
+  (`scripts/time_inference_vs_solve.py`, Sec. A's two commands) again on
+  the box, beside the baseline's timing on the same instances (the first 32
+  validation instances and 8 of the fine set, 4 instances of warm-up, one
+  process, the machine's thread settings).
+- RUNBOOK_CMAME Sec. G: the checks, the fifteen steps (the baseline's five
+  sets, Appendix 2's three arms, the four timing steps, then the three
+  models beyond Appendix 2), interruptions, the return and the repository
+  side (each summary rebuilt from its rows, each reading from its
+  summaries). The suite lines of A0c, D0c and G0c read the current count.
+- Disclosed: on 21 October 2026, 12:59 to 14:59 UTC, a sandbox run of
+  Appendix 1 on the fine set, regenerated from its generator's stream and
+  labelled by AMG-preconditioned CG, reached 78 of its 256 instances before
+  it was stopped, when it was decided that every computation runs on the
+  box; 14 of the 78 failed the identity check against the records (the
+  sandbox's meshes are not the box's to round-off, up to 8.5e-6). Its
+  per-instance gaps were printed in its log; no model was paired with them,
+  and none of its rows is used.
+- One independent review of the package (the specification, the box's
+  safety, the pairing against the records, the runbook pasted as written,
+  the tests, the costs on instances of the fine set's size): nothing
+  blocking. Taken up: the timing's repetitions decided by the first run, as
+  the cost table's; one physical line per step in G1, so that G1' can paste
+  steps again; the instance order checked where sources share values; the
+  thread pools recorded with the timing; the bound flagged; the solves and
+  the reading's choices written into the outputs; E1's states in G0c; the
+  time estimates.
+- Tests: `tests/test_ritz.py` (11; the construction and the projections on
+  a 2D and a 3D instance), `tests/test_ritz_config.py` (6; the configuration
+  against the records, the pairing sources and their instance order),
+  `tests/test_ritz_scripts.py` (12; the three scripts end to end on a
+  miniature box, with refusals, resumption, worker processes and the
+  repository side; the timing's repetition rule),
+  `tests/test_cmame_runbook.py` (Sec. G) and `tests/test_k3d_prereg.py` (the
+  K3D records' tree, above). Suite 809 (779 + 30).

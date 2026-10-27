@@ -1,6 +1,6 @@
 # records/cmame -- cmame-paper records
 
-## Default path against wp8-lejepa (Stage 2, run again at Stages 9, 11 and 12)
+## Default path against wp8-lejepa (Stage 2, run again at Stages 9, 11, 12 and 14)
 
 Stage 2 changed `src` (opt-in additions only: the stiffness-norm loss of the
 supervised trainer, its E8 row, an E8 run that trains a supervised grid beside
@@ -30,11 +30,16 @@ across a resume, returned with its result), and `load_epoch_checkpoint` moves
 aside an epoch checkpoint it cannot read and stops on one it can read but not
 restore (it had deleted both); the regression ran again on 20 October 2026 in
 the same way, with the same result (Stage 11's tree was
-`b719ea99d4063cf01fd183395745e0e87eba9591`):
+`b719ea99d4063cf01fd183395745e0e87eba9591`). Stage 14 added a module that
+nothing else in `src` imports (`fejepa.analysis.ritz`, the construction of
+the Ritz baseline and of the enriched c* reading, which Stage 14's three
+scripts import); the regression ran again on 27 October 2026 in the same
+way, with the same result (Stage 12's tree was
+`165e8bf6b591614ee6a7edb850a83058e4f420ad`; the runs took 50 s and 119 s):
 
 | | source tree (`git rev-parse <commit>:src`) |
 |---|---|
-| this side | the Stage 12 code: `src` = tree `165e8bf6b591614ee6a7edb850a83058e4f420ad` |
+| this side | the Stage 14 code: `src` = tree `8c3fefb087423e65bef8e064d2cd2873aef2f5ab` |
 | the other side | `wp8-lejepa` at `5f8e2df`: `src` = tree `5be6357b912cad058121092f274e6a322169b9f6` |
 
 - `regression_wp8_e1_2d_base.json`: a miniature of `configs/e1_2d_base.json`
@@ -480,10 +485,11 @@ after CM2D's verdict and reported only; no verdict reads it.
 `scripts/regress_supervised_rows.py`, in the sandbox on 20 October 2026, ran
 the miniature of `scripts/regress_against_branch.py` for Phase-2's stamped
 configuration (`configs/phase2_v1.json`) on this code (the Stage 12 tree
-above) and on the code of the Phase-2 attempts that trained the L_D states
-at 1,024 labels: wp7-3d `e672110` (third attempt, 3-13 September 2026: seeds 1
-and 2; `src` = tree `61b7471ac4808505405700b90afcbe118318f335`) and `99d3674`
-(second attempt, 1-2 September: seed 0; tree
+`165e8bf6b591614ee6a7edb850a83058e4f420ad`, which PREREG_K3D ran at
+`prereg-k3d`) and on the code of the Phase-2 attempts that trained the L_D
+states at 1,024 labels: wp7-3d `e672110` (third attempt, 3-13 September
+2026: seeds 1 and 2; `src` = tree `61b7471ac4808505405700b90afcbe118318f335`)
+and `99d3674` (second attempt, 1-2 September: seed 0; tree
 `2aa920efcd0fa5676f8f409ff4ff0c07bf096ff5`; the two differ only in
 `anchor/energy.py`, D10, which the labels-only unit does not use). Each side
 in its own process importing its own source tree, CPU, one thread, a fresh
@@ -495,10 +501,12 @@ byte-identical (4 files). The label-free row differs, as it must
 everything computed from it (P3's fine-tuning, E8's comparisons, gate G2),
 with three keys the later code adds to the report; the record counts these
 differences by path and lists none elsewhere. This is PREREG_K3D Sec. 7's
-evidence that the current code builds the L_D unit's initial weights and
-draws its order as that code did. `wp8-lejepa` merged these attempts'
-changes by cherry-pick: `e672110` is on `wp7-3d` only (fetch it to compare
-the tree), `99d3674` is an ancestor of this branch.
+evidence that the code it ran builds the L_D unit's initial weights and
+draws its order as the attempts' code did. `wp8-lejepa` merged these
+attempts' changes by cherry-pick: `e672110` is on `wp7-3d` only (fetch it
+to compare the tree), `99d3674` is an ancestor of this branch. The records
+stay as committed when `src` changes after that run (Stage 14 added a
+module); the table at the top of this file names the current code.
 
 `k3d_sims.json`: `scripts/k3d_sims.py` (fixed seed; seconds), the source of
 every simulated number PREREG_K3D quotes. The E-series noise guard on three

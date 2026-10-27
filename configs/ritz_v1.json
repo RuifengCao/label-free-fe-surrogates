@@ -1,0 +1,205 @@
+{
+ "_comment": "cmame-paper Stage 14: the per-instance polynomial Ritz-Galerkin baseline (Appendix 1) and the enriched c* reading (Appendix 2), post hoc; their specification was fixed on 20 October 2026 (BRANCH_NOTES_cmame-paper.md, Stage 14). Read by scripts/ritz_baseline.py, scripts/enriched_cstar.py and scripts/ritz_timing.py (RUNBOOK_CMAME Sec. G). Paths are relative to the repository root on the box. Every record and report is read only after its SHA-256 is checked against the one named here, every state against its sha256_source, every corpus against its manifest's SHA-256 as its report records it. tests/test_ritz_config.py checks the values against the records.",
+ "spec": {
+  "fixed": "20 October 2026",
+  "cut": 1e-13,
+  "ladder": {"3": [6, 7, 8, 9], "2": [6, 8]},
+  "id_tol": 1e-06,
+  "enriched_degree": {"2": 6, "3": 8},
+  "enriched_cut": 1e-12,
+  "inband_factor": 0.8,
+  "ood_peak_factor": 0.5
+ },
+ "out": "runs/ritz",
+ "baseline": {
+  "workers": 8,
+  "worker_threads": 2,
+  "sets": {
+   "val3d": {
+    "dim": 3, "kind": "run", "which": "val", "n": 256,
+    "report": "records/wp8/e2/baseline/report_phase2b.json",
+    "report_sha256": "320b6db5060ecae9f4747327228c7705d30877bece67d09af2f68d6c466f2794",
+    "identity": {"kind": "amp", "part": "inband", "order": "cells:ar:1024",
+                 "path": "records/wp8/posthoc/amp_phase2b.json",
+                 "sha256": "4d4e0d4a9956c166b6decd4ace6fca029e6fec74926277e5e11ff3223f301566"},
+    "paired": [
+     {"tag": "phase2b", "kind": "cells", "path": "records/wp8/e2/baseline/report_phase2b.json",
+      "sha256": "320b6db5060ecae9f4747327228c7705d30877bece67d09af2f68d6c466f2794"},
+     {"tag": "e2_m512", "kind": "cells", "path": "records/wp8/e2/e2_m512/report.json",
+      "sha256": "02db3bb6715d78861a0447c69a255d01747965ee9e7bd1f2ccbfc48f5a328ad1"},
+     {"tag": "e2_m1024", "kind": "cells", "path": "records/wp8/e2/e2_m1024/report.json",
+      "sha256": "3bcd56f14c74ac2a27dfa37e34992b552249da7f6b5e4d4d9d6c6a945f6d3e4e"},
+     {"tag": "k3d", "kind": "cells", "path": "records/cmame/k3d/return/report.json",
+      "sha256": "f57b5cbf66659d0dd0986f7b07ee2fbed744c6a49f85329a942624cc75d90a95",
+      "rows": ["labels_knorm"], "order_row": "ar"}
+    ]
+   },
+   "fine3d": {
+    "dim": 3, "kind": "run", "which": "fine", "n": 256,
+    "report": "records/wp8/e2/baseline/report_phase2b.json",
+    "report_sha256": "320b6db5060ecae9f4747327228c7705d30877bece67d09af2f68d6c466f2794",
+    "identity": {"kind": "amp", "part": "fine", "order": "p3:ar",
+                 "path": "records/wp8/posthoc/amp_phase2b.json",
+                 "sha256": "4d4e0d4a9956c166b6decd4ace6fca029e6fec74926277e5e11ff3223f301566"},
+    "paired": [
+     {"tag": "phase2b", "kind": "p3", "path": "records/wp8/e2/baseline/report_phase2b.json",
+      "sha256": "320b6db5060ecae9f4747327228c7705d30877bece67d09af2f68d6c466f2794"},
+     {"tag": "e2_m512", "kind": "p3", "path": "records/wp8/e2/e2_m512/report.json",
+      "sha256": "02db3bb6715d78861a0447c69a255d01747965ee9e7bd1f2ccbfc48f5a328ad1"},
+     {"tag": "e2_m1024", "kind": "p3", "path": "records/wp8/e2/e2_m1024/report.json",
+      "sha256": "3bcd56f14c74ac2a27dfa37e34992b552249da7f6b5e4d4d9d6c6a945f6d3e4e"}
+    ]
+   },
+   "h3d": {
+    "dim": 3, "kind": "holdout", "set": "h3d", "n": 686,
+    "spec": "configs/holdout_v1.json",
+    "spec_sha256": "f81e97bebbe8f6397234ee713bbff4e077c812ad508a49d66fcc7e30bdcdcccf",
+    "labels_dir": "runs/holdout/h3d",
+    "labels_manifest_sha256": "d88b4a745842c679a07dfc6afba07ed4c72e314d13776612f0e0876b909b749d",
+    "identity": {"kind": "pi_star",
+                 "path": "records/cmame/holdout/return/h3d/eval_arrays.npz",
+                 "sha256": "ed205f29315b0df2fb6e2244b6cdb2045d4f15af96d66004132ca2ae61d64b96",
+                 "manifest": "records/cmame/holdout/return/h3d/manifest.json"},
+    "paired": [
+     {"tag": "r1", "kind": "arrays", "path": "records/cmame/holdout/return/h3d/eval_arrays.npz",
+      "sha256": "ed205f29315b0df2fb6e2244b6cdb2045d4f15af96d66004132ca2ae61d64b96"},
+     {"tag": "k3d", "kind": "arrays", "path": "records/cmame/k3d/return/holdout_arrays.npz",
+      "sha256": "d166006b0bcfaaeec16b0b085e9c00b84eb7e1078bf6962bca28dee265f6df9e",
+      "rows": ["labels_knorm"]}
+    ]
+   },
+   "val2d": {
+    "dim": 2, "kind": "run", "which": "val", "n": 256,
+    "report": "records/cmame/cm2d/return/report.json",
+    "report_sha256": "a72c007e1a612986af463084572f1794b574e9861cce233006534c51e1a6e5ec",
+    "identity": {"kind": "spectra",
+                 "path": "records/cmame/spectra/export/spectra_val.npz",
+                 "sha256": "fed09ab55afbf2866427e54920ee7655df565a9704e6c5f098615e4f935116ac"},
+    "paired": [
+     {"tag": "cm2d", "kind": "cells", "path": "records/cmame/cm2d/return/report.json",
+      "sha256": "a72c007e1a612986af463084572f1794b574e9861cce233006534c51e1a6e5ec"},
+     {"tag": "july", "kind": "cells", "path": "records/phase1/report_rec8_v2.json",
+      "sha256": "c6ea5934ff7fee4db63007ca1924b2973be63390d730f311e9bc29840633df51"},
+     {"tag": "diag", "kind": "cells", "path": "records/phase1/report_diag.json",
+      "sha256": "dbd7e13dc28dea4b727716e7acd8531200bb1a5e84b4e614681dba248343aa9d"},
+     {"tag": "e1_base", "kind": "cells", "path": "records/wp8/e1/e1_2d_base/report.json",
+      "sha256": "0ebd53c3be1dcaf823bb76753692f41aced19734a1e4af972f0a064111cf36fe",
+      "order_row": "ar"},
+     {"tag": "e1_raw_s0", "kind": "cells", "path": "records/wp8/e1/e1_2d_raw_s0/report.json",
+      "sha256": "e46664a472c5fbf494d1bb0c6c27006afeb56707373272370d8afb50cc553d78"},
+     {"tag": "e1_shaped", "kind": "cells", "path": "records/wp8/e1/e1_2d_shaped/report.json",
+      "sha256": "a644f899502a0180b957752ec0e7e0262be0a811f511cd101bde3059f743a411"}
+    ],
+    "not_paired": "the wp9-pool session-2 reports on the same corpus manifest and split (b_n1024, s_n1024, c1_n1024, c1_n4096, c1_n25600) are not paired: the manuscript uses the evidence up to wp8 (rule of 2 October 2026); c1_n1024's arrays are e1_2d_base's, which is paired"
+   },
+   "h2d": {
+    "dim": 2, "kind": "holdout", "set": "h2d", "n": 4111,
+    "spec": "configs/holdout_v1.json",
+    "spec_sha256": "f81e97bebbe8f6397234ee713bbff4e077c812ad508a49d66fcc7e30bdcdcccf",
+    "labels_dir": "runs/holdout/h2d",
+    "labels_manifest_sha256": "4b79ed0673726585e2f6c292b99866f035d4b4968bd859f5df860fe9be62c9a8",
+    "identity": {"kind": "pi_star",
+                 "path": "records/cmame/holdout/return/h2d/eval_arrays.npz",
+                 "sha256": "9ce675c746a8657d2596b803735fa40f79bb0d30c697152ec30a3c9c6bdff614",
+                 "manifest": "records/cmame/holdout/return/h2d/manifest.json"},
+    "paired": [
+     {"tag": "r1", "kind": "arrays", "path": "records/cmame/holdout/return/h2d/eval_arrays.npz",
+      "sha256": "9ce675c746a8657d2596b803735fa40f79bb0d30c697152ec30a3c9c6bdff614"}
+    ]
+   }
+  }
+ },
+ "enriched": {
+  "workers": 8,
+  "worker_threads": 2,
+  "content_tol": 0.001,
+  "precheck_n": 8,
+  "sets": {
+   "IB": {"dim": 2, "kind": "w9", "inband": true, "n": 2048},
+   "F2": {"dim": 2, "kind": "w9", "inband": false, "n": 256},
+   "F5": {"dim": 2, "kind": "w9", "inband": false, "n": 256},
+   "val3d": {"dim": 3, "kind": "run", "which": "val", "inband": true, "n": 256,
+             "identity": {"kind": "amp", "part": "inband",
+                          "path": "records/wp8/posthoc/amp_phase2b.json",
+                          "sha256": "4d4e0d4a9956c166b6decd4ace6fca029e6fec74926277e5e11ff3223f301566"}},
+   "fine3d": {"dim": 3, "kind": "run", "which": "fine", "inband": false, "n": 256,
+              "identity": {"kind": "amp", "part": "fine",
+                           "path": "records/wp8/posthoc/amp_phase2b.json",
+                           "sha256": "4d4e0d4a9956c166b6decd4ace6fca029e6fec74926277e5e11ff3223f301566"}}
+  },
+  "arms": {
+   "b_n1024": {
+    "dim": 2, "appendix": true, "row": "ar", "kind": "fejepa",
+    "report": "runs/w9/b_n1024/report.json",
+    "report_sha256": "02c029b4b02bca05b01f97f183000ca05d0861908b6e7684a62134caa4051594",
+    "report_source": "the box's report of wp9's session 2, as wp9-pool records it (records/wp9/session2/b_n1024/report.json and records/wp9/session2/provenance.txt, committed at wp9-pool Stage 1, 2f35f2d)",
+    "states": {"from": "d9", "dir": "runs/w9/b_n1024/e8_states"},
+    "sets": ["IB", "F2", "F5"],
+    "records": {"IB": "holdouts:IB:1024", "F2": "holdouts:F2:1024", "F5": "holdouts:F5:1024"}
+   },
+   "s_n1024": {
+    "dim": 2, "appendix": true, "row": "ar", "kind": "fejepa",
+    "report": "runs/w9/s_n1024/report.json",
+    "report_sha256": "297859493d5cdcd5816b0a28d9e19b2e4805f70350e55cc56416301f5418d68c",
+    "report_source": "the box's report of wp9's session 2, as wp9-pool records it (records/wp9/session2/s_n1024/report.json and records/wp9/session2/provenance.txt, committed at wp9-pool Stage 1, 2f35f2d)",
+    "states": {"from": "d9", "dir": "runs/w9/s_n1024/e8_states"},
+    "sets": ["IB", "F2", "F5"],
+    "records": {"IB": "holdouts:IB:1024", "F2": "holdouts:F2:1024", "F5": "holdouts:F5:1024"}
+   },
+   "phase2b": {
+    "dim": 3, "appendix": true, "row": "ar", "kind": "fejepa",
+    "report": "records/wp8/e2/baseline/report_phase2b.json",
+    "report_sha256": "320b6db5060ecae9f4747327228c7705d30877bece67d09af2f68d6c466f2794",
+    "states": {"from": "d9", "dir": "runs/phase2/e8_states"},
+    "sets": ["val3d", "fine3d"],
+    "records": {"val3d": "cells:ar:1024", "fine3d": "p3:ar"}
+   },
+   "phase2b_labels": {
+    "dim": 3, "appendix": false, "row": "labels", "kind": "fejepa",
+    "report": "records/wp8/e2/baseline/report_phase2b.json",
+    "report_sha256": "320b6db5060ecae9f4747327228c7705d30877bece67d09af2f68d6c466f2794",
+    "states": {"from": "list", "pattern": "runs/phase2/e8_states/labels_b1024_s{seed}.pt",
+               "sha256": {"0": "2566b87926fcf8df3a751634fd7efd912d60363b2cae95de29155fec54d35b60",
+                          "1": "a9a8e8a0d28d8da2767bd9624f3b48825cc088b5b202e7e17f955a7c637c79d4",
+                          "2": "ad12327898082bf67ea913d33b18a4d05f1c724c3a12b862dc542b25921b0bf9"},
+               "sha256_source": "records/wp9/phase2_supervised_states.json"},
+    "sets": ["val3d", "fine3d"],
+    "records": {"val3d": "cells:labels:1024", "fine3d": "p3:labels@max"}
+   },
+   "phase2b_mgn": {
+    "dim": 3, "appendix": false, "row": "mgn", "kind": "mgn",
+    "report": "records/wp8/e2/baseline/report_phase2b.json",
+    "report_sha256": "320b6db5060ecae9f4747327228c7705d30877bece67d09af2f68d6c466f2794",
+    "states": {"from": "list", "pattern": "runs/phase2/e8_states/mgn_b1024_s{seed}.pt",
+               "sha256": {"0": "845e4b9bc62392e9d856e43191ded3e208f580f756066b11f4b5be878e86c783",
+                          "1": "9de5a9940464efd5296cceb5afc8a53530435754c51588f7174978067bb786c2",
+                          "2": "84e31aa00d91f3dd29b57dc23db6e3f48d7dd810661621d6be5ab3faa9cc8bb8"},
+               "sha256_source": "records/wp9/phase2_supervised_states.json"},
+    "sets": ["val3d", "fine3d"],
+    "records": {"val3d": "cells:mgn:1024", "fine3d": "p3:mgn@max"}
+   },
+   "k3d_labels_knorm": {
+    "dim": 3, "appendix": false, "row": "labels_knorm", "kind": "fejepa",
+    "report": "records/wp8/e2/baseline/report_phase2b.json",
+    "report_sha256": "320b6db5060ecae9f4747327228c7705d30877bece67d09af2f68d6c466f2794",
+    "states": {"from": "list", "pattern": "runs/k3d/labels_knorm_b1024_s{seed}.pt",
+               "sha256": {"0": "2cc329a0c0a177caeb172e08da10aaf579f1f9925cd0c88bdc70e9df975529e1",
+                          "1": "911fe2e63596efa4ef83b460a8d22c7c805146b1c5d59d2b6df7e04fe215d755",
+                          "2": "2baf05d96c47c798b4daede30361b0daa93f4a7ecdccabb639d0e00ab5a31878"},
+               "sha256_source": "records/cmame/k3d/return/report.json (per_seed.s<seed>.state.sha256)"},
+    "sets": ["val3d", "fine3d"],
+    "records": {"val3d": "k3d:cells:labels_knorm:1024"},
+    "records_report": "records/cmame/k3d/return/report.json",
+    "records_report_sha256": "f57b5cbf66659d0dd0986f7b07ee2fbed744c6a49f85329a942624cc75d90a95"
+   }
+  }
+ },
+ "timing": {
+  "3d": {"report": "records/wp8/e2/baseline/report_phase2b.json",
+         "report_sha256": "320b6db5060ecae9f4747327228c7705d30877bece67d09af2f68d6c466f2794",
+         "n_val": 32, "n_fine": 8, "warmup": 4},
+  "2d": {"report": "records/wp8/e1/e1_2d_base/report.json",
+         "report_sha256": "0ebd53c3be1dcaf823bb76753692f41aced19734a1e4af972f0a064111cf36fe",
+         "n_val": 32, "n_fine": 0, "warmup": 4}
+ }
+}

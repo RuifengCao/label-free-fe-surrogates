@@ -22,15 +22,22 @@ the manuscript.
   Phase-2b's label-free states (~70-85 h; after Sec. E, whose h3d labels it
   reads, and only after PREREG_K3D is stamped and tagged `prereg-k3d`), and
   its adjudication in the repo.
+- Sec. G: the polynomial Ritz-Galerkin baseline of the JCP revision and the
+  enriched c* reading, post hoc (read only; ~4 h; after Sec. F's return),
+  with the cost table's measurements run again on the same host beside the
+  baseline's timing; no pre-registration (the specification of 20 October
+  2026 is in BRANCH_NOTES_cmame-paper.md, Stage 14).
 
 No section writes another's files: each reads E1's or Phase-2b's states and
 corpora (Sec. D also CM2D's kept states and its committed return; Sec. E all
 three runs' states; Sec. F Phase-2b's and Phase-2's states and Sec. E's h3d
-labels); Sec. A and B0 write only under `runs/cmame/`, Sec. B
-otherwise only under `runs/cm2d/`, Sec. D only under `runs/cmame/spectra/`,
-Sec. E only under `runs/holdout/`, Sec. F only under `runs/k3d/`; none writes to a stamped configuration of
-another pre-registration, another run's `e8_states/`, `runs/data2d` or
-`runs/data3d_phase2`.
+labels; Sec. G the states of Phase-2b, Phase-2, Sec. F, wp9's session 2 and
+E1, Sec. E's labels and wp9's sets); Sec. A and B0 write only under
+`runs/cmame/`, Sec. B otherwise only under `runs/cm2d/`, Sec. D only under
+`runs/cmame/spectra/`, Sec. E only under `runs/holdout/`, Sec. F only under
+`runs/k3d/`, Sec. G only under `runs/ritz/`; none writes to a stamped
+configuration of another pre-registration, another run's `e8_states/`,
+`runs/data2d` or `runs/data3d_phase2`.
 
 ## A. Timing and field export, standalone (box; ~1.5 h)
 
@@ -104,7 +111,7 @@ python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_com
     --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
     2>&1 | tee runs/cmame/timing/pytest.log | tail -n 3
 ```
-The suite's last line reads `776 passed, 3 deselected`, then warnings and the
+The suite's last line reads `806 passed, 3 deselected`, then warnings and the
 time (the two LaTeX builds and the bibliography test are left out: they
 need a TeX installation that the box does not have). Anything failed, an
 error, or another count: stop and report. Any other output than the
@@ -528,7 +535,7 @@ python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_com
     --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
     2>&1 | tee runs/cmame/spectra/pytest.log | tail -n 3
 ```
-The suite's last line reads `776 passed, 3 deselected`, then warnings and the
+The suite's last line reads `806 passed, 3 deselected`, then warnings and the
 time. Anything failed, an error, another count, or any other output than the
 comments describe: stop and report.
 
@@ -1166,3 +1173,285 @@ Sec. 5 and the deviations, with every input's SHA-256, the adjudicating
 code's and its comparison with the tag. The return is committed under
 `records/cmame/k3d/return/` with the verdict. It ran on 25 October 2026
 (`records/cmame/README.md`).
+
+## G. The polynomial Ritz baseline and the enriched c*, post hoc (box; ~4 h)
+Post hoc, no pre-registration; no verdict reads either reading. Their
+specification was fixed on 20 October 2026, before any paired computation
+on the manuscript's instances (BRANCH_NOTES_cmame-paper.md, Stage 14; the
+values in `configs/ritz_v1.json`):
+- the baseline (Appendix 1): per instance, the Ritz-Galerkin projection on a
+  vector polynomial subspace with the instance's own K and F, the whole
+  ladder (3D p = 6, 7, 8, 9: 168 to 495 unknowns; 2D p = 6, 8: 42 and 72),
+  on the manuscript's own instances: 3D val3d (256), fine3d (the first 256 of
+  the fine set) and PREREG_HOLDOUT's h3d (686), 2D val2d (256) and h2d
+  (4,111), each instance checked against the records (its size and
+  ||U*||_K) and paired with every recorded model's per-instance values,
+  R1's and R4's included; then its row of the cost table, timed on this
+  machine with the cost table's own measurements (Sec. A's
+  `scripts/time_inference_vs_solve.py`) run again beside it;
+- the enriched c* (Appendix 2; exploratory, not in the manuscript): the
+  label-free networks' predictions combined with the same polynomial space
+  (wp9 session 2's 2D baseline and S on wp9's sets IB, F2 and F5; Phase-2b's
+  3D network on val3d and fine3d), then, beyond Appendix 2, Phase-2's
+  labels-only transformer and graph network and PREREG_K3D's L_K on val3d
+  and fine3d.
+It reads the corpora (`runs/data3d_phase2`, `runs/data3d_phase2_fine`,
+`runs/data2d`), Sec. E's holdout labels (`runs/holdout/`), wp9's sets and
+reports (`runs/w9/`) and the states of Phase-2b, Phase-2, PREREG_K3D,
+wp9's session 2 and E1 (E1's for the 2D timing only), every one checked by
+SHA-256 before use (G0d checks all but E1's, which the 2D timing checks when
+it starts, as in Sec. A), and writes only under `runs/ritz/`. Nothing
+trains. Not on a tag: the branch at the commit the operator instruction
+names. A failure here costs nothing else; report it.
+
+### G0. Preconditions (box)
+
+G0a. The tmux session -- on its own line, outside tmux. If a tmux status bar
+is already showing, skip the line and work in that session (`tmux ls` names
+it). After a dropped connection, `tmux attach -t rz`, or `tmux attach -t`
+with that session's name:
+```bash
+tmux new -A -s rz
+```
+
+G0b. The branch (the remote's address as Sec. E set it; setting it again
+changes nothing):
+```bash
+cd ~/autodl-tmp/FE-JEPA
+git remote set-url origin https://github.com/RuifengCao/label-free-fe-surrogates.git
+git remote get-url origin                    # https://github.com/RuifengCao/label-free-fe-surrogates.git
+( for i in 1 2 3; do git fetch origin +refs/heads/cmame-paper:refs/remotes/origin/cmame-paper && exit 0; sleep 10; done
+  exit 1 ) && echo FETCH-OK || echo FETCH-FAILED
+git rev-parse --short origin/cmame-paper     # the commit the operator instruction names
+```
+Continue only if `FETCH-OK` is printed and the last line begins with the
+named commit (an error printed by a failed first attempt before `FETCH-OK`
+is harmless). If nothing at all is printed for 10 min, or the fetch has not
+ended after 20 min, press Ctrl-C (then `FETCH-OK` does not appear; ignore
+any lines printed after it) and take the bundle route. On `FETCH-FAILED`:
+upload the bundle that the operator instruction sends to
+`~/cmame-paper.bundle` and run, in place of the fetch block:
+```bash
+cd ~/autodl-tmp/FE-JEPA
+sha256sum ~/cmame-paper.bundle               # the SHA-256 the operator instruction names
+git fetch ~/cmame-paper.bundle +refs/heads/cmame-paper:refs/remotes/origin/cmame-paper && echo FETCH-OK || echo FETCH-FAILED
+git rev-parse --short origin/cmame-paper     # the commit the operator instruction names
+```
+Continue only if the SHA-256 is the named one, `FETCH-OK` is printed and the
+last line begins with the named commit; otherwise stop here and report.
+(Repo side: the bundle is made from the pushed branch with
+`git bundle create cmame-paper.bundle 7614ae2..cmame-paper`, Sec. F's commit
+`7614ae2` being on the box; `git bundle list-heads` shows
+`refs/heads/cmame-paper` at the named commit.)
+
+G0c. First, on its own:
+```bash
+ls ~/autodl-tmp/FE-JEPA/runs/ritz/status.txt 2>/dev/null || echo "no G1 yet"
+```
+On the first visit it prints `no G1 yet`: go on. If it prints the file's
+path, G1 has run before: go to G1' instead, and run nothing else of G0.
+Then the checkout, the checks and the suite (~10 min):
+```bash
+cd ~/autodl-tmp/FE-JEPA
+git checkout -B cmame-paper origin/cmame-paper   # "Switched to ..." or "Reset branch ...", maybe "set up to track" or "up to date"
+git rev-parse 'HEAD^{tree}'                  # the tree the operator instruction names
+git status --porcelain --untracked-files=no  # must print nothing
+ls runs/ritz/status.txt 2>/dev/null || echo "no G1 yet"   # on the first visit: no G1 yet
+ls runs/phase2/e8_states/{ar_p1024,labels_b1024,mgn_b1024}_s*.pt runs/k3d/labels_knorm_b1024_s*.pt \
+    runs/w9/{b,s}_n1024/e8_states/ar_p1024_s*.pt runs/w9/{b,s}_n1024/report.json \
+    runs/e1_2d_base/e8_states/ar_p1024_s*.pt | wc -l   # 23
+df -h ~/autodl-tmp / | tail -n 2             # >= 5 GB free on the data disk and on /
+cat /sys/fs/cgroup/memory.max                # 96636764160 (90 GiB) or max; a number under 64000000000: stop
+pgrep -af "fejepa|spawn_main|scripts/[A-Za-z0-9_]+\.py"   # must print nothing
+nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader   # about 0 %, under 1,000 MiB
+python -c "import torch; print(torch.__version__, torch.cuda.is_available())"   # 2.12.1+cu130 True
+mkdir -p runs/ritz
+[ -e runs/ritz/pytest.log ] && mv runs/ritz/pytest.log runs/ritz/pytest.log.$(date +%Y%m%d-%H%M%S)
+python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_compiles \
+    --deselect tests/test_w9_session2.py::test_paper_material_compiles \
+    --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
+    2>&1 | tee runs/ritz/pytest.log | tail -n 3
+```
+The suite's last line reads `806 passed, 3 deselected`, then warnings and the
+time. Anything failed, an error, another count, or any other output than the
+comments describe: stop and report.
+
+G0d. Every input checked (~2 min; nothing is computed or written but the log):
+```bash
+cd ~/autodl-tmp/FE-JEPA
+python scripts/ritz_baseline.py --config configs/ritz_v1.json --set all --check 2>&1 | tee runs/ritz/check.log
+python scripts/enriched_cstar.py --config configs/ritz_v1.json --arm all --check 2>&1 | tee -a runs/ritz/check.log
+```
+It prints eleven lines and nothing else. Five from the baseline, one per set:
+`{"set": "val3d", "n": 256, "files": "present", "inputs": "verified"}`, then
+the same for `fine3d` (256), `h3d` (686), `val2d` (256) and `h2d` (4111).
+Six from the enriched reading, one per arm: `{"arm": "b_n1024", "seeds": [3,
+4, 5], "states_verified": 3, "sets": {"IB": 2048, "F2": 256, "F5": 256}}`,
+the same for `s_n1024`, then `phase2b`, `phase2b_labels`, `phase2b_mgn` and
+`k3d_labels_knorm`, each with `"seeds": [0, 1, 2]`, `"states_verified": 3`
+and `"sets": {"val3d": 256, "fine3d": 256}`. A line beginning `REFUSED:`
+names a file whose bytes are not the ones the records give (a report, a
+manifest, a labels file, a state) or a file that is missing: stop and
+report, before G1. Any other output (a traceback, another number): stop and
+report.
+
+### G1. The run (box; ~3.5-4.5 h; nothing else on the GPU)
+First the checks, on their own:
+```bash
+cd ~/autodl-tmp/FE-JEPA
+P=runs/ritz
+( date; hostname; pgrep -af "fejepa|spawn_main|scripts/[A-Za-z0-9_]+\.py"
+  nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader ) 2>&1 | tee -a $P/precheck.txt
+```
+`pgrep` must print nothing and the GPU line must read about 0 % and under
+1,000 MiB; otherwise stop here and report. Then, in the same window:
+```bash
+cd ~/autodl-tmp/FE-JEPA
+P=runs/ritz
+touch $P/status.txt
+run() { local log=$1; shift; [ -e $P/$log ] && mv $P/$log $P/$log.$(date +%Y%m%d-%H%M%S)
+        echo "$log start $(date -u +%FT%TZ) $(hostname)" >> $P/status.txt
+        "$@" 2>&1 | tee $P/$log; echo "$log exit=${PIPESTATUS[0]}" | tee -a $P/status.txt; }
+run ritz_val3d.log python scripts/ritz_baseline.py --config configs/ritz_v1.json --set val3d
+run ritz_fine3d.log python scripts/ritz_baseline.py --config configs/ritz_v1.json --set fine3d
+run ritz_h3d.log python scripts/ritz_baseline.py --config configs/ritz_v1.json --set h3d
+run ritz_val2d.log python scripts/ritz_baseline.py --config configs/ritz_v1.json --set val2d
+run ritz_h2d.log python scripts/ritz_baseline.py --config configs/ritz_v1.json --set h2d
+run enriched_b_n1024.log python scripts/enriched_cstar.py --config configs/ritz_v1.json --arm b_n1024 --device cuda
+run enriched_s_n1024.log python scripts/enriched_cstar.py --config configs/ritz_v1.json --arm s_n1024 --device cuda
+run enriched_phase2b.log python scripts/enriched_cstar.py --config configs/ritz_v1.json --arm phase2b --device cuda
+run ritz_timing_3d.log python scripts/ritz_timing.py --config configs/ritz_v1.json --dim 3 --out $P/timing/ritz_timing_3d.json
+run ritz_timing_2d.log python scripts/ritz_timing.py --config configs/ritz_v1.json --dim 2 --out $P/timing/ritz_timing_2d.json
+run timing_3d.log python scripts/time_inference_vs_solve.py --report records/wp8/e2/baseline/report_phase2b.json --states-dir runs/phase2/e8_states --out $P/timing/timing_3d.json
+run timing_2d.log python scripts/time_inference_vs_solve.py --report records/wp8/e1/e1_2d_base/report.json --states-dir runs/e1_2d_base/e8_states --out $P/timing/timing_2d.json
+run enriched_phase2b_labels.log python scripts/enriched_cstar.py --config configs/ritz_v1.json --arm phase2b_labels --device cuda
+run enriched_phase2b_mgn.log python scripts/enriched_cstar.py --config configs/ritz_v1.json --arm phase2b_mgn --device cuda
+run enriched_k3d_labels_knorm.log python scripts/enriched_cstar.py --config configs/ritz_v1.json --arm k3d_labels_knorm --device cuda
+( echo "HEAD $(git rev-parse HEAD)"; echo "tree $(git rev-parse 'HEAD^{tree}')"
+  git status --porcelain --untracked-files=no
+  nvidia-smi --query-gpu=name,driver_version,memory.total --format=csv,noheader
+  lscpu | grep -E "^Model name|^CPU\(s\)|^Thread|^Socket"; echo "nproc $(nproc)"
+  echo "hostname $(hostname)"
+  cat /sys/fs/cgroup/cpu.max /sys/fs/cgroup/memory.max /sys/fs/cgroup/memory.events 2>/dev/null
+  free -g | head -n 2
+) >> $P/machine.txt 2>&1
+cat $P/status.txt
+```
+If the block does not start after it is pasted, press Enter once.
+`status.txt` is never deleted or rotated: it keeps a start line and an exit
+line per attempt of each step. Do not press Ctrl-C in this window and do
+not type into it while the block runs; to look, open a second window
+(Ctrl-b c; back: Ctrl-b 0). Each step runs whatever the steps before it
+ended with. The four timing steps run on a machine with nothing else on it,
+like the other steps; long silences there are normal.
+
+What to expect, in order:
+- the baseline, five steps (~25 min in all; about 10 min for fine3d): a line
+  every 16 instances (`[ritz val3d] 16/256 instance_... dofs ... gap p6:...
+  p7:... p8:... p9:... id ... | ... s`), then one summary line:
+  `"set"`, `"n"` and `"n_used"` both the set's size (256, 256, 686, 256,
+  4111), `"identity_failed": 0`, `"identity_max_rel_diff"` below 1e-9,
+  `"median_gap"` per p, `"dropped_max"` per p (0 expected), `"worse_than_zero"`
+  per p (0 expected: the zero field lies in every subspace),
+  `"sign_mismatch": 0`. A line `... NOT THE RECORDED INSTANCE ...` names an
+  instance whose size or ||U*||_K differs from the records;
+- the enriched reading, three steps (~1 h in all; Phase-2b's fine3d about 35
+  min, its 2.2 s inference per seed and instance setting the pace): per set,
+  first a precheck line (`{"arm": ..., "set": ..., "precheck": {"set": ...,
+  "n": 8, "median_rel_dev": {"s3": [..., ...], ...}}}`: each seed's
+  displacement error and energy gap recomputed on 8 instances against the
+  report, about 0 for the transformers), a line every 16 instances
+  (`[enriched b_n1024 IB] 16/2048 | ... s`), and a summary line with
+  `"identity_failed": 0`, `"content_passed": true`, `"bound_ok": true` (the
+  enriched projection is never worse than c* or Ritz: its largest excess,
+  `"bound_excess_max"`, is round-off, at most 1e-8) and the two ratios per
+  seed; last, one line per arm
+  (`{"arm": ..., "sets_complete": [...], "complementary": ...}`, the
+  reading itself: `true`, `false` or `null`, no value expected);
+- the timing, four steps (~50 min): `[ritz-timing] val 1/32 dof ... |
+  assembly ... s, ritz p9 ... s, gap ... | ... s` per instance (32
+  validation, then 8 fine instances in 3D; 32 in 2D), then a summary line;
+  then the cost table's measurements as in Sec. A1 (one line per instance;
+  the 3D fine set's direct solves take minutes each and an estimated 7-10
+  GB of host memory; each solver stops starting new solves after 15 min
+  per set), each ending with its summary line;
+- the enriched reading beyond Appendix 2, three steps (~1.5-2 h): as above,
+  the graph network's precheck deviations small but not necessarily 0
+  (about 1e-4, as in Sec. A), and for `k3d_labels_knorm` the fine set's
+  precheck reading the validation split (`"precheck": {"set": "val3d", ...}`:
+  its run recorded no fine-set values), so that its fine3d summary line
+  reads `"content_passed": null`.
+
+`status.txt` must show, for each of the fifteen steps in this order, one
+start line and one `exit=0` line. Exit statuses of the three scripts of this
+section: `exit=3`: an input refused before anything was computed for that
+step (the line beginning `REFUSED:` names it); `exit=4`: an instance that is
+not the recorded one (everything written; the summary lists it); `exit=5`
+(enriched): a model that does not reproduce its report (at the precheck,
+`NOT REPRODUCED`, nothing written for that set; after a set, everything
+written); `exit=2` (enriched): no usable GPU (from any script, `exit=2`
+after a line beginning `usage:` is a command that does not parse: a line
+pasted in part). Any other exit below 128, or a traceback: send the log.
+Report any of these. A step without an exit line, or with an exit of 128 or
+more (the step was killed): G1'. Otherwise, in every case, go on to G2: the
+return carries the logs and whatever was written. Never delete anything
+under `runs/ritz/`.
+
+### G1'. Interruptions
+- A dropped connection: `tmux attach -t rz` (or the session G0a left you
+  in); the run goes on. Do not paste anything again. If `tmux ls` lists no
+  session (it answers with an error, such as `no server running`), the box
+  restarted: next bullet.
+- The box restarted, or a step was cut off: at a prompt in window 0 (after a
+  restart, open tmux again, G0a), run
+  ```bash
+  cd ~/autodl-tmp/FE-JEPA
+  cat runs/ritz/status.txt
+  pgrep -af "scripts/(ritz_baseline|enriched_cstar|ritz_timing|time_inference_vs_solve)\.py"   # must print nothing
+  ```
+  If `pgrep` prints a line, the run is still going: no restart. Otherwise
+  look, for each step, at the last line of `status.txt` that names it: the
+  step was cut off when that line is a start line, or an exit line with a
+  code of 128 or more (the step was killed); it never started when no line
+  names it. Paste G1's second block again with only the `run` lines of the
+  steps that were cut off or never started, in G1's order (each step is one
+  whole line beginning `run`; everything else in the block stays as it is).
+  No other step is run again. The baseline and the enriched reading resume
+  after the last instance they wrote (`resuming after ... instances on
+  disk`); a timing step starts again. Each attempt adds its own start and
+  exit lines.
+- A step cut off twice is not run again; the other steps still run as
+  above; then G2.
+- When reporting, send `cat runs/ritz/status.txt`, the last 60 lines of the
+  step's log, the `nvidia-smi` line, `df -h ~/autodl-tmp /` and
+  `grep oom_kill /sys/fs/cgroup/memory.events`.
+
+### G2. Return (box; minutes)
+```bash
+cd ~/autodl-tmp/FE-JEPA
+P=runs/ritz
+T=$(date +%Y%m%d-%H%M)
+OUT=~/ritz_return && rm -rf $OUT && mkdir -p $OUT && cp -r $P/. $OUT/
+( echo "HEAD $(git rev-parse HEAD)"; echo "tree $(git rev-parse 'HEAD^{tree}')"
+  echo "describe-all $(git describe --always --dirty --tags)"
+  echo "hostname $(hostname)"
+  echo "--- files ---"; cd $OUT && find . -type f ! -name provenance.txt | sort | xargs sha256sum
+) > $OUT/provenance.txt 2>&1
+cd ~ && tar czf ritz_return_$T.tgz ritz_return \
+    && sha256sum ritz_return_$T.tgz && du -h ritz_return_$T.tgz
+```
+The tarball is a few tens of MB. Send it with the SHA-256 line; then shut
+the instance down without releasing it.
+
+### G3. In the repo
+The return is checked: HEAD and tree against the pushed commit, every file
+against the provenance file, the exit codes; each set's summary is rebuilt
+from its rows and the records (`python scripts/ritz_baseline.py --config
+configs/ritz_v1.json --set <set> --resummarise <dir>`; for the enriched
+reading `python scripts/enriched_cstar.py --config configs/ritz_v1.json --arm
+<arm> --resummarise <dir>`, with `--report` naming wp9-pool's records copy of
+a wp9 arm's report, and `--reread <arm dir>` for its reading) and compared
+with the returned one; the enriched reading's Ritz rows against the
+baseline's p = 8 on val3d and fine3d. It is committed under
+`records/cmame/ritz/`; the manuscript's baseline rows, its cost-table row and
+its discussion are then generated from it.
