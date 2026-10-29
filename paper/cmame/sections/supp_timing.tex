@@ -1,0 +1,19 @@
+\section{Timing: threads and an earlier measurement}\label{supp:timing}
+
+The solvers of \cref{tab:cost} ran with the machine's \numCostThreads{} threads. The effect
+of the number of threads was measured on another host of the same type, with
+\numThreadsHost{} threads, on the first \numThreadsValN{} validation and \numThreadsFineN{}
+fine-mesh instances of the three-dimensional comparison: with one thread, the direct solve
+took the same time, to within \numThreadsDirectDev{}, and conjugate gradients
+\numThreadsCgGainMin{} to \numThreadsCgGainMax{} less; a repeat with all threads agreed with
+the first measurement to within \numThreadsDrift{}. In two dimensions (\numThreadsTwoN{}
+instances, without a repeat), one thread was \numThreadsTwoDirect{} faster for the direct
+solve and \numThreadsTwoCg{} for conjugate gradients.
+
+The timings of \cref{tab:cost} were measured on 28 October 2026, on the machine
+that computed the Ritz projection, so that every row of the table comes from one machine.
+The same instances and networks had been timed on 8 October 2026 on another machine
+(\numRerunCpu{}, \numRerunThreads{} threads). The surrogate's accuracies agreed between the
+two measurements to within a relative \numRerunAccDev{}, and the iteration counts of
+conjugate gradients differed by at most \numRerunIters{} per load case. The times of the
+earlier measurement are committed with the records.

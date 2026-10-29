@@ -28,11 +28,11 @@ TEXT = ("table_2d.tex", "table_2djuly.tex", "table_3d.tex", "table_label_efficie
         "table_cm2d.tex", "table_amplitude.tex", "table_remesh.tex", "table_e2.tex",
         "table_e1.tex", "table_cost.tex", "table_k3d.tex", "table_holdout.tex",
         "table_holdout_values.tex", "table_ritz_pairs.tex", "table_k3d_medians.tex",
-        "table_k3d_comparisons.tex", "numbers.tex", "hashes.tex", "material.md",
-        "sources.json")
+        "table_k3d_comparisons.tex", "table_claims.tex", "numbers.tex", "hashes.tex",
+        "material.md", "sources.json")
 FIGS = ("fig_disp_vs_stress.pdf", "fig_energy_gap.pdf", "fig_label_efficiency.pdf",
         "fig_e2_cost_accuracy.pdf", "fig_spectra.pdf", "fig_field2d.pdf", "fig_field_worst.pdf",
-        "fig_field_median.pdf", "fig_field_fine.pdf")
+        "fig_field_median.pdf", "fig_field_fine.pdf", "fig_norm_labels.pdf")
 R2D = ROOT / "records" / "phase1" / "report_rec8_v2.json"
 RDIAG = ROOT / "records" / "phase1" / "report_diag.json"
 RWP2 = ROOT / "records" / "phase1" / "report_wp2_e2.json"
@@ -148,19 +148,19 @@ def test_numbers_agree_with_the_records(built):
                     statistics.fmean(_seeds(r, arm, m)), rel=5e-3), (dim, arm, m)
             g = _inst(r, arm, "energy_gap_rel")
             assert _f(N[f"num{dim}{tag}Worse"]) == int((g > 1).sum())
-    # the headline ratios and per-instance comparisons of Section 6
+    # the headline ratios and per-instance comparisons of Sections 6.1 and 7.1
     vm = statistics.fmean(_seeds(r3, "mgn", "vm_rel_l2")) / statistics.fmean(
         _seeds(r3, "ar", "vm_rel_l2"))
     assert _f(N["numThreeMgnOverFreeVm"]) == pytest.approx(vm, abs=0.05)
-    # the ratio of relative energy gaps for the stiffness-norm error: the square root of
+    # the ratio of relative energy gaps for the energy-norm error: the square root of
     # the ratio of the means of g over every seed and instance, which is the ratio of the
-    # root-mean-square relative stiffness-norm errors (equal load cases per instance)
+    # root-mean-square relative energy-norm errors (equal load cases per instance)
     rms = np.sqrt(_inst(r3, "labels_anchor", "energy_gap_rel").mean()
                   / _inst(r3, "ar", "energy_gap_rel").mean())
     assert _f(N["numThreeAncOverFreeGapRoot"]) == pytest.approx(rms, abs=0.05)
     assert _f(N["numThreeAncOverFreeGapRoot"]) ** 2 == pytest.approx(
         _f(N["numThreeAncOverFreeGap"]), rel=0.03)
-    # Section 5.1, read after the run: the noise guard of the two-dimensional comparison
+    # Section 6.1, read after the run: the noise guard of the two-dimensional comparison
     # applied to the label-free transformer against the two supervised transformers
     within = []
     for arm in ("labels", "labels_anchor"):
@@ -190,7 +190,7 @@ def _pct(s: str) -> float:
 
 
 def test_cm2d_numbers_agree_with_the_report_and_the_verdict(built):
-    """Section 5's numbers: the pre-registered verdicts as the stamped adjudicator wrote
+    """The numbers of Sections 5.2 and 6.2: the pre-registered verdicts as the stamped adjudicator wrote
     them, and the pairs, counts and ratios recomputed from the report's arrays."""
     N, rc = built["numbers"], json.loads(RCM.read_bytes())
     v = json.loads(VCM.read_bytes())
@@ -214,7 +214,7 @@ def test_cm2d_numbers_agree_with_the_report_and_the_verdict(built):
     lab_d, ar_d = _inst(rc, "labels", "disp_rel_l2"), _inst(rc, "ar", "disp_rel_l2")
     opp = ((ar_vm < lab_vm) & (lab_d < ar_d)) | ((lab_vm < ar_vm) & (ar_d < lab_d))
     assert _pct(N["numPairCmOpposite"]) == pytest.approx(float(opp.mean()), abs=5e-4)
-    # the stiffness-norm transformer against the label-free one, and the graph network
+    # the energy-norm-supervised transformer against the label-free one, and the graph network
     # against the supervised transformer, pair by pair ("none" when no pair)
     for a, b, key in (("labels_knorm", "ar", "KnormFree"), ("mgn", "labels", "MgnLab")):
         for m, mt in (("energy_gap_rel", "Gap"), ("vm_rel_l2", "Vm"), ("disp_rel_l2", "Disp")):
@@ -252,7 +252,7 @@ def test_cm2d_numbers_agree_with_the_report_and_the_verdict(built):
     # H2a's ratio of the seed means, and the number of secondary readings (16 per metric)
     assert _f(N["numCmLabOverKnormGap"]) == pytest.approx(
         mean("labels", "energy_gap_rel") / mean("labels_knorm", "energy_gap_rel"), abs=5e-3)
-    # the same comparisons for the root-mean-square relative stiffness-norm error
+    # the same comparisons for the root-mean-square relative energy-norm error
     assert _pct(N["numHTwoARootRel"]) == pytest.approx(
         1 - np.sqrt(mean("labels_knorm", "energy_gap_rel") / mean("labels", "energy_gap_rel")),
         abs=5e-4)
@@ -320,7 +320,7 @@ def test_spectral_readings_follow_from_the_per_load_arrays(built):
 
 
 def test_field_readings_follow_from_the_per_load_arrays(built):
-    """Section 6's post hoc readings recomputed from the three-dimensional export."""
+    """The post hoc readings of Sections 5.3 and 7 recomputed from the three-dimensional export."""
     N = built["numbers"]
     z = np.load(FLD / "energies_val.npz")
     arms = [str(a) for a in z["arms"]]
@@ -442,7 +442,7 @@ def test_every_quoted_spectral_reading_is_recomputed(built):
                                                                   abs=5e-4)
     # "... for the label-free transformer, ... for the supervised transformer"
     assert N["numSpecLoadWorseFree"] == N["numSpecLoadWorseLab"]
-    # the area- and element-weighted von Mises errors (Section 3.3), and H2b's ratio
+    # the area- and element-weighted von Mises errors (Section 5.2), and H2b's ratio
     for r in rows:
         for key, M in (("vm_area", "VmArea"), ("vm_elem", "VmElem")):
             assert _f(N[f"numSpec{M}{TAGS[r]}"]) == pytest.approx(
@@ -458,7 +458,7 @@ def test_every_quoted_spectral_reading_is_recomputed(built):
 
 
 def test_every_quoted_cm2d_reading_is_recomputed(built):
-    """Section 5's ratios, per-seed lists and label-efficiency readings, from the
+    """The ratios, per-seed lists and label-efficiency readings of Sections 5 and 6, from the
     report alone (the verdict is not read, except for H3's exchanged reading)."""
     N = built["numbers"]
     rc, r2 = json.loads(RCM.read_bytes()), json.loads(R2D.read_bytes())
@@ -630,7 +630,7 @@ def test_field_plot_readings_follow_from_the_figure_files(built):
                                                pytest.approx(d5c, abs=5e-4))
     assert c < 1 and d5c < 0.25 * d5
     # the median instance: its per-load arrays are the energies' (seed 0), its load case
-    # is better than the zero field for both supervised networks (Section 6)
+    # is better than the zero field for both supervised networks (Section 7.1)
     f6, ev = np.load(FLD / "fig6.npz"), np.load(FLD / "energies_val.npz")
     r3 = json.loads(R3D.read_bytes())
     ar = _inst(r3, "ar", "energy_gap_rel")[0]
@@ -761,7 +761,7 @@ def test_field_plots_annotate_and_scale_as_stated(tmp_path, monkeypatch):
 
 
 def test_the_functional_check_is_described_as_recorded():
-    """Appendix A's description of the functional check run before CM2D's stamp."""
+    """Supplementary Section S1's description of the functional check run before CM2D's stamp."""
     fc = json.loads((ROOT / "records" / "cmame" / "cm2d_funccheck.json").read_bytes())
     st, co = fc["settings"], fc["corpus"]
     text = " ".join((PAPER / "sections" / "appendix_prereg.tex").read_text("utf-8").split())
@@ -804,7 +804,7 @@ def _span(cell: str) -> tuple:
 
 
 def test_the_cost_table_follows_from_the_timing_records(built):
-    """Section 8.4: every cell and number of the cost table recomputed from the
+    """Section 9.2: every cell and number of the cost table recomputed from the
     per-instance timing records of 28 October 2026 with numpy (the generator uses
     statistics), the script's own summary medians agreeing; the rows of the assembly and
     of the Ritz projection from their own records, timed on the same instances and the
@@ -1000,7 +1000,7 @@ def test_the_cost_table_follows_from_the_timing_records(built):
         v, half = _shown(N[macro])
         assert abs(v - 100 * g2[q]) <= half * 1.0001, macro
     assert N["numThreadsTwoN"] == str(len(t2["env"]["results"]["val"]["per_instance"]))
-    supp = " ".join((PAPER / "supplementary.tex").read_text(encoding="utf-8").split())
+    supp = " ".join((PAPER / "sections" / "supp_timing.tex").read_text(encoding="utf-8").split())
     assert ("measured on another host of the same type, with \\numThreadsHost{} threads"
             in supp)
     # the earlier timing of the same instances and networks, on another machine
@@ -1027,7 +1027,7 @@ def test_the_cost_table_follows_from_the_timing_records(built):
     assert abs(worst - float(f"{m_}e{e_}")) <= 0.5 * 10 ** int(e_) * 1.0001
     assert N["numRerunIters"] == words[iters]
     assert "on 8 October 2026 on another machine" in supp
-    # no pending box is left in the section, and Appendix C no longer excepts the table
+    # no pending box is left in the section, and supplementary Section S8 no longer excepts the table
     sec = (PAPER / "sections" / "cost.tex").read_text(encoding="utf-8")
     assert r"\pending" not in sec and r"\input{generated/table_cost}" in sec
     assert "pending cost table" not in (PAPER / "sections" / "appendix_repro.tex").read_text()
@@ -1038,7 +1038,7 @@ METRICS5 = ("disp_rel_l2", "energy_gap_rel", "vm_rel_l2", "peak_vm_rel_err", "cr
 
 
 def _k3d(k: dict, arm: str, metric: str) -> np.ndarray:
-    """(seeds, instances) values of the stiffness-norm run's report, whose cells sit at
+    """(seeds, instances) values of the energy-norm run's report, whose cells sit at
     its top level."""
     return np.array([e["per_instance"][metric] for e in k["cells"][arm]["1024"]["per_seed_eval"]])
 
@@ -1056,7 +1056,7 @@ def _row_cells(tab: str, label: str) -> list:
 
 
 def test_k3d_numbers_and_table_follow_from_the_report(built):
-    """Section 6.4 and its table (the three-dimensional stiffness-norm run), recomputed from
+    """Section 5.1 and its supplementary tables (the three-dimensional energy-norm run), recomputed from
     the report's per-instance values without the verdict: the pre-registered statistic, each
     seed's median over the 256 validation instances, with the noise guard; beside it the
     seed means, Welch's interval, the pairs and the predictions worse than the zero field;
@@ -1109,6 +1109,16 @@ def test_k3d_numbers_and_table_follow_from_the_report(built):
         _close(N, f"numKdMeans{tag}Rel", -rel, 100)
         _close(N, f"numKdMeans{tag}Tau", guard, 100)
         assert (rel < -guard) if tag == "Vm" else (guard > 1 and rel < 0)
+        if tag == "Vm":
+            # beyond the guard, but with three seeds Welch's interval spans zero (Section 5.1)
+            sa = _k3d(k, "labels_knorm", "vm_rel_l2").mean(axis=1)
+            sb = _k3d(k, "labels", "vm_rel_l2").mean(axis=1)
+            va, vb = np.var(sa, ddof=1) / 3, np.var(sb, ddof=1) / 3
+            df = (va + vb) ** 2 / (va ** 2 / 2 + vb ** 2 / 2)
+            half = student_t.ppf(0.975, df) * np.sqrt(va + vb) / sb.mean()
+            assert rel - half < 0 < rel + half
+            _close(N, "numKdMeansVmWelchLow", rel - half, 100)
+            _close(N, "numKdMeansVmWelchHigh", rel + half, 100)
     # the share of the supervised transformer's excess over the label-free transformer that
     # the change of norm removes, on the seed-averaged medians (descriptive): all of it
     for m, tag in (("vm_rel_l2", "Vm"), ("energy_gap_rel", "Gap")):
@@ -1130,7 +1140,7 @@ def test_k3d_numbers_and_table_follow_from_the_report(built):
     for m, tag in zip(METRICS5, ("Disp", "Gap", "Vm", "Peak", "Recall"), strict=True):
         assert _f(N[f"numThreeKnorm{tag}"]) == pytest.approx(
             _k3d(k, "labels_knorm", m).mean(), rel=5e-3), m
-    # the stiffness-norm transformer against the label-free one on the seeds' medians, as
+    # the energy-norm-supervised transformer against the label-free one on the seeds' medians, as
     # the text reads the secondary comparisons: more accurate on four metrics
     for m, tag in (("disp_rel_l2", "Disp"), ("vm_rel_l2", "Vm"), ("peak_vm_rel_err", "Peak")):
         rel, _, guard = _guard(np.median(_k3d(k, "labels_knorm", m), axis=1),
@@ -1142,7 +1152,7 @@ def test_k3d_numbers_and_table_follow_from_the_report(built):
 
 
 def test_holdout_numbers_follow_from_the_arrays(built):
-    """The held-out instances (Section 7 and its tables), recomputed from the evaluation's
+    """The held-out instances (Section 8 and its tables), recomputed from the evaluation's
     arrays and labels manifests without the verdict: the sets; T2 and T3 in three
     dimensions; H1, H2a, H2b and H3 in two, with the readings beside H2a; and the values of
     both sets."""
@@ -1228,8 +1238,8 @@ def test_holdout_numbers_follow_from_the_arrays(built):
     assert len(body) == n_q and all(ln.count(" / ") == 2 for ln in body)
     # every cell: the mean and the median over the instances of each instance's value
     # averaged over the seeds, on both sets, and the ratio of the means inside its interval
-    names = {"Label-free": "ar", "Supervised": "labels", "Stiffness norm": "labels_knorm",
-             "Graph network": "mgn"}
+    names = {"Label-free": "ar", "Supervised, displacement": "labels",
+             "Supervised, energy norm": "labels_knorm", "Graph network": "mgn"}
     order = [(s, r, m) for s in ("h3d", "h2d") for r in z[s]["rows"] for m in z[s]["metrics"]]
     net = None
     for ln, (s, r, m) in zip(body, order, strict=True):
@@ -1315,6 +1325,11 @@ def test_ritz_numbers_follow_from_the_summaries(built):
               / e["peak_vm_rel_err"]["model_median"]
               for p in (6, 7, 8, 9) for e in R["val3d"]["ladder"][str(p)]["paired"][free3]]
     _close(N, "numRitzValPeakRatioMin", min(ratios))
+    # the abstract: at the top of the ladder, more than twice the label-free transformer's
+    # median peak stress error, in each seed
+    top9 = [R["val3d"]["ladder"]["9"]["median"]["peak_vm_rel_err"]
+            / e["peak_vm_rel_err"]["model_median"] for e in R["val3d"]["ladder"]["9"]["paired"][free3]]
+    assert min(top9) > 2
     _close(N, "numRitzValPeakRatioMax", max(ratios))
     bound("numRitzValFreePeakMin",
           min(s for p in (6, 7, 8, 9) for s in net("val3d", free3, p, "peak_vm_rel_err")))
@@ -1331,7 +1346,7 @@ def test_ritz_numbers_follow_from_the_summaries(built):
     bound("numRitzValKnormGapMin",
           min(s for p in (6, 7, 8, 9) for s in net("val3d", kn, p, "energy_gap_rel")))
     assert all(s == 1.0 for p in (6, 7, 8, 9) for s in net("val3d", kn, p, "peak_vm_rel_err"))
-    # held out: the stiffness-norm transformer's lower gap and, but for a few, lower peak
+    # held out: the energy-norm-supervised transformer's lower gap and, but for a few, lower peak
     bound("numRitzHoldKnormGapMin",
           min(s for p in (6, 7, 8, 9) for s in net("h3d", "k3d:labels_knorm", p,
                                                     "energy_gap_rel")))
@@ -1340,7 +1355,7 @@ def test_ritz_numbers_follow_from_the_summaries(built):
     words_ = ("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
     assert 0 < max(miss) and N["numRitzHoldKnormPeakMiss"] == words_[max(miss)]
     # on the finer mesh the projection's displacement, energy and von Mises errors stay close
-    # to their in-band values, and its peak stress error does not (Section 8.1)
+    # to their in-band values, and its peak stress error does not (supplementary Section S4)
     for p in (6, 7, 8, 9):
         ratio = {m: R["fine3d"]["ladder"][str(p)]["mean"][m] / R["val3d"]["ladder"][str(p)]["mean"][m]
                  for m in ("disp_rel_l2", "energy_gap_rel", "vm_rel_l2", "peak_vm_rel_err")}
@@ -1348,6 +1363,22 @@ def test_ritz_numbers_follow_from_the_summaries(built):
         assert ratio["peak_vm_rel_err"] > 1.3
     fm = [e["energy_gap_rel"]["model_median"] for e in R["val3d"]["ladder"]["9"]["paired"][free3]]
     assert min(fm) <= R["val3d"]["ladder"]["9"]["median"]["energy_gap_rel"] <= max(fm)
+    # the abstract and Section 9.1: at the top of its ladder the projection's means are the
+    # better than the label-free transformer's on every metric but the peak stress error, in
+    # both dimensions, and the energy-norm-supervised transformer's are the better than the
+    # projection's in relative energy gap, von Mises error and peak stress error (3D)
+    r3, rc, k = (json.loads(q.read_bytes()) for q in (R3D, RCM, RK3))
+    for s, rep, top in (("val3d", r3, "9"), ("val2d", rc, "8")):
+        rz = R[s]["ladder"][top]["mean"]
+        for m in METRICS5:
+            free = statistics.fmean(_seeds(rep, "ar", m))
+            better = rz[m] > free if m == "crit_recall" else rz[m] < free
+            assert better == (m != "peak_vm_rel_err"), (s, m)
+    rz = R["val3d"]["ladder"]["9"]["mean"]
+    for m in METRICS5:
+        kn = _k3d(k, "labels_knorm", m).mean()
+        better = kn > rz[m] if m == "crit_recall" else kn < rz[m]
+        assert better == (m in ("energy_gap_rel", "vm_rel_l2", "peak_vm_rel_err")), m
     # two dimensions
     d2 = [s for p in (6, 8) for s in ritz("val2d", free2, p, "disp_rel_l2")]
     unit("numRitzTwoFreeDispMin", min(d2))
@@ -1437,30 +1468,69 @@ def test_highlights_match_the_numbers(built):
     spaces included; each claim as the records state it."""
     lines = (PAPER / "highlights.txt").read_text(encoding="utf-8").splitlines()
     assert 3 <= len(lines) <= 5 and all(0 < len(x) <= 85 and x.isascii() for x in lines)
-    num = built["numbers"]
     # Corollary 1, which the tests of Section 3 check on assembled instances
-    assert lines[0] == "Minimising discrete energy is stiffness-norm regression with no labels"
-    # T1: the label-free transformer better than the supervised one on all five metrics, in
-    # each seed, from the report of the three-dimensional comparison
+    assert lines[0] == ("Minimising the discrete energy is regression in the energy norm, "
+                        "with no labels")
+    # the energy-norm run: the median von Mises error of the displacement-supervised
+    # transformer over that of the energy-norm-supervised one, seed-averaged medians over the
+    # instances, sixfold to the nearest integer
+    k = json.loads(RK3.read_bytes())
+    med = {a: np.median(_k3d(k, a, "vm_rel_l2"), axis=1).mean() for a in ("labels", "labels_knorm")}
+    assert round(med["labels"] / med["labels_knorm"]) == 6
+    assert lines[1] == "With the same labels, an energy-norm loss cut 3D von Mises errors sixfold"
+    # T1: the label-free transformer better than the displacement-supervised one on all five
+    # metrics, in each seed, from the report of the three-dimensional comparison
     r3 = json.loads(R3D.read_bytes())
     for m in ("disp_rel_l2", "energy_gap_rel", "vm_rel_l2", "peak_vm_rel_err", "crit_recall"):
         a, b = np.array(_seeds(r3, "ar", m)), np.array(_seeds(r3, "labels", m))
         assert ((a > b) if m == "crit_recall" else (a < b)).all(), m
-    assert lines[1] == ("Pre-registered 3D test: energy-only training beat displacement loss "
+    assert lines[2] == ("Same 3D network: energy-only training beat displacement supervision "
                         "on all metrics")
-    # H2a-3D on the seeds' medians, its macro to the unit
-    assert lines[2] == ("With the same labels, a stiffness-norm loss cut the 3D median energy "
-                        f"gap by {round(_f(num['numKdGapRel']))}%")
-    # the holdout evaluation: seven of its eight claims, all but H2a, the 2D energy gap
-    v = json.loads((HOLD / "verdict.json").read_text(encoding="utf-8"))
-    assert v["tally"] == {"REPLICATED": 7, "NOT REPLICATED": 1, "NOT EVALUATED": 0}
-    assert [h for h, c in v["claims"].items() if c["verdict"] != "REPLICATED"] == ["H2a"]
-    assert v["claims"]["H2a"]["metric"] == "energy_gap_rel"
-    assert lines[3] == ("Seven of eight claims replicated on held-out instances; a 2D "
-                        "energy-gap claim did not")
+    # the graph network: the lower displacement error and the higher von Mises error than the
+    # label-free transformer, on the seed means and on most instance-seed pairs
+    d = (_inst(r3, "mgn", "disp_rel_l2") < _inst(r3, "ar", "disp_rel_l2")).mean()
+    v = (_inst(r3, "mgn", "vm_rel_l2") > _inst(r3, "ar", "vm_rel_l2")).mean()
+    assert d > 0.5 and v > 0.95
+    assert statistics.fmean(_seeds(r3, "mgn", "disp_rel_l2")) < statistics.fmean(
+        _seeds(r3, "ar", "disp_rel_l2"))
+    assert lines[3] == "Displacement errors can rank surrogates opposite to their stress errors"
     # Corollary 4, which the field records bear out on every load case (test above)
-    assert lines[4] == ("Energy flags predictions worse than the zero field without reference "
-                        "solutions")
+    assert lines[4] == ("The sign of the energy flags predictions worse than the zero field, "
+                        "without solutions")
+
+
+def test_norm_label_numbers_follow_from_the_reports(built):
+    """Fig. 1 and the numbers the abstract, the introduction and Sections 6 and 10 quote from
+    it, recomputed from the reports' per-instance values: per network and seed, the median
+    (and the mean) over the validation instances of the relative energy-norm error, the square
+    root of each instance's relative energy gap, and of the von Mises error, averaged over the
+    seeds; in three dimensions from the energy-norm run's report, in two from the
+    two-dimensional comparison's."""
+    N = built["numbers"]
+    k, rc = json.loads(RK3.read_bytes()), json.loads(RCM.read_bytes())
+    tags = {"labels": "Lab", "labels_knorm": "Knorm", "ar": "Free"}
+    for dim, get in (("Three", lambda a, m: _k3d(k, a, m)), ("Cm", lambda a, m: _inst(rc, a, m))):
+        stat = {}
+        for a in tags:
+            e, v = np.sqrt(get(a, "energy_gap_rel")), get(a, "vm_rel_l2")
+            assert e.shape == (3, 256)
+            stat[a] = {"E": np.median(e, axis=1).mean(), "Vm": np.median(v, axis=1).mean(),
+                       "Em": e.mean(axis=1).mean(), "Vmm": v.mean(axis=1).mean()}
+            _close(N, f"numNl{dim}E{tags[a]}", stat[a]["E"])
+            _close(N, f"numNl{dim}Vm{tags[a]}", stat[a]["Vm"])
+        for q in ("E", "Vm"):
+            rn = stat["labels"][q] / stat["labels_knorm"][q]
+            rl = stat["ar"][q] / stat["labels_knorm"][q]
+            _close(N, f"numNl{dim}Norm{q}", rn)
+            _close(N, f"numNl{dim}Label{q}", rl)
+            _close(N, f"numNl{dim}Norm{q}Mean", stat["labels"][q + "m"] / stat["labels_knorm"][q + "m"]
+                   if q == "Vm" else stat["labels"]["Em"] / stat["labels_knorm"]["Em"])
+            # changing the norm moves the error far more than removing the labels
+            assert rn > 2 and 1 < rl < 1.35, (dim, q)
+    # "within a factor of 1.3" (abstract, Section 10): both median ratios, 3D, at most 1.3
+    assert N["numNlThreeLabelWithin"] == "1.3"
+    assert all(_f(N[f"numNlThreeLabel{q}"]) <= 1.3 for q in ("E", "Vm"))
+    assert N["numNlThreeNormVmWord"] == "six"
 
 
 def test_abstract_has_no_numbers_and_at_most_250_words():
@@ -1487,7 +1557,7 @@ ALLOWED_DECIMALS = {"0.05", "0.5", "1.5", "0.25", "0.38", "0.8", "0.06", "0.16",
                     "1.2", "0.08", "0.0579", "0.0906", "0.0374", "1.8", "2.5"}
 ALLOWED_PERCENT = {"5", "10", "20", "30", "40", "95"}
 # names that contain version numbers, not results: the AI models named in the
-# generative-AI declaration and in Appendix C, the tag of the version described, and the
+# generative-AI declaration and in supplementary Section S8, the tag of the version described, and the
 # licences and the archive's DOI
 # named in the Data availability statement
 NAMES_WITH_VERSIONS = ("Claude Fable 5.1", "Claude Opus 5.5", "statics-paper-1.0",
@@ -1543,7 +1613,7 @@ def test_design_constants_match_the_configurations_and_code():
     e7, e4 = c2["experiments"]["e7"], c2["experiments"]["e4"]
     assert (e7["pre_epochs"], e7["n_eval"], e7["tol"]) == (100, 64, 1e-6)
     assert (e4["coarsens"], e4["n_train"], e4["n_val"]) == ([1.8, 2.5], 512, 128)
-    # the settings of the warm-start and cross-resolution tests (Section 5), as run
+    # the settings of the warm-start and cross-resolution tests (supplementary Sections S5 and S7), as run
     r2 = json.loads(R2D.read_bytes())["results"]
     pre = r2["e4"]["protocol"]["pretrain"]
     assert (pre["epochs"], pre["lr"], pre["seed"]) == (100, 1e-3, 0)
@@ -1693,8 +1763,9 @@ def test_proposition_2_and_corollaries_3_and_4_amplitude_ranking_and_zero_field(
 
 def test_corollary_5_warm_start_iteration_bound():
     """Conjugate gradients from a warm start with relative energy gap g0 reach the
-    target g_bar within the iterations Corollary 5 states, the Chebyshev bound holds
-    along the way, and the bound's saving is the fraction of eq:warm."""
+    target g_bar within the iterations that the corollary of the supplementary material
+    (cor:warm) states, the Chebyshev bound holds along the way, and the bound's saving is
+    the fraction of eq:warm."""
     rng = np.random.default_rng(4)
     g_bar, tested = 1e-4, 0
     for a in _instances():

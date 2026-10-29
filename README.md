@@ -113,11 +113,15 @@ instances bought vs. the unlabeled pool AR consumed), derived from the solve led
 
 The manuscript's sources are in `paper/cmame/`: `main.tex`, its supplementary material
 `supplementary.tex`, the graphical abstract and the highlights. Every table but the list of
-runs, every figure but the schematic, and every number in the text that reports a result
-are generated from the committed records by
+runs, every figure, and every number in the text that reports a result are generated from
+the committed records by
 
     python scripts/make_cmame_material.py      # writes paper/cmame/generated/
     cd paper/cmame && latexmk -pdf main.tex && latexmk -pdf supplementary.tex
+
+The supplementary material reads the paper's section, table and equation numbers from
+`main.aux`, so it is built after the paper; the paper cites its sections by the numbers in
+`suppsections.tex`, which the supplementary material checks as it is built.
 
 The script writes the tables (`table_*.tex`), the figures (`fig_*.pdf`), the numbers that
 the text quotes, one macro each (`numbers.tex`), the list of the runs with the hashes of

@@ -1,98 +1,98 @@
 \section{Related work}\label{sec:related}
 
 \paragraph{Energy and variational training of neural solvers}
-The deep Ritz method \cite{EYu2018} minimises the continuous energy of a variational
-problem over neural trial functions, and the deep energy method \cite{Samaniego2020}
-brought the idea to computational mechanics. Later work treated essential boundary
-conditions \cite{LiaoMing2021} and showed that the numerical quadrature which evaluates the
-continuous functional contributes an error of its own, which enters the objective itself
-\cite{LiuCaiRamani2023}. Variational and weak-form losses followed: hp-VPINNs
-\cite{Kharazmi2021}, conservative energy methods on subdomains \cite{Wang2022CENN},
-Kolmogorov--Arnold-informed networks \cite{Wang2025KINN} and energy-based phase-field
-fracture \cite{Manav2024}. Robust variational physics-informed networks \cite{Rojas2024}
-and the deep Fourier residual method \cite{Taylor2023DFR,Taylor2024} construct losses
-equivalent to the energy norm of the error, whose discrete form is the stiffness norm used
-below, by measuring the residual in a dual norm. \Cref{lem:exact} and \cref{rem:dual} below
-are the exact algebraic counterpart of that equivalence on the assembled system: no
-quadrature error and no equivalence constants, because the inverse in the dual norm cancels.
+The deep Ritz method \cite{EYu2018} minimises the continuous energy of a variational problem
+over neural trial functions, and the deep energy method \cite{Samaniego2020} brought the idea
+to computational mechanics; later work treated essential boundary conditions
+\cite{LiaoMing2021} and the error of the quadrature that evaluates the continuous functional
+\cite{LiuCaiRamani2023}, and variational and weak-form losses followed
+\cite{Kharazmi2021,Wang2022CENN,Wang2025KINN,Manav2024}. Physics-informed neural networks
+\cite{Raissi2019} minimise instead a Euclidean residual of the differential equation. Robust
+variational physics-informed networks \cite{Rojas2024} and the deep Fourier residual method
+\cite{Taylor2023DFR,Taylor2024} construct losses equivalent to the energy norm of the error,
+whose discrete form is the energy norm used below, by measuring the residual in a dual norm;
+\cref{lem:exact} and \cref{rem:norms} below are the exact algebraic counterpart of that
+equivalence on the assembled system, without quadrature error or equivalence constants,
+because the inverse in the dual norm cancels. Energy natural gradient descent trains
+physics-informed networks in the geometry that the energy induces on the parameters
+\cite{MullerZeinhofer2023}.
 
-\paragraph{Label-free surrogates and operators}
-Variational operator learning \cite{Xu2024VOL} trains operators on the finite-element
-system, evaluated matrix-free, and uses the gradient identity of \cref{lem:exact} as a
-computational device; its loss is the Euclidean norm of the residual, or a regression on
-provisional labels produced by a few conjugate-gradient iterations. The variational
-physics-informed neural operator \cite{Eshaghi2025VINO} evaluates the continuous functional
-analytically on its own bilinear discretisation over uniform grids. Larson
-et~al.~\cite{Larson2026MLPEnergy} train multilayer perceptrons that map the data of
-parametrised, possibly nonlinear, problems to the nodal values of their finite-element
-solutions by minimising the energy assembled element by element, without precomputed
-solutions, and use the prediction as the initial guess of Newton's method in
-hyperelasticity. Other label-free approaches build on the finite-element residual or weak
-form
-\cite{Lee2025FEONet,Uriarte2022,Gao2022,Goswami2022}. Closest to the present work are graph
-networks on finite-element meshes trained by minimising the potential energy
+\paragraph{Training without solutions, and its comparison with supervision}
+Surrogates trained on a physical objective instead of solutions have a history in this
+journal: on a variational objective for elliptic problems with random inputs \cite{Zhu2019},
+on the residual of autoregressive dynamics \cite{GenevaZabaras2020} and on irregular domains
+mapped to a reference grid \cite{Gao2021PhyGeoNet}; operators have been trained the same way
+\cite{Li2024PINO,WangWangPerdikaris2021}. Variational operator learning \cite{Xu2024VOL}
+trains operators on the finite-element system, evaluated matrix-free, and uses the gradient
+identity of \cref{lem:exact} as a computational device; its loss is the Euclidean norm of
+the residual, or a regression on provisional labels produced by a few conjugate-gradient
+iterations. The variational physics-informed neural operator \cite{Eshaghi2025VINO}
+evaluates the continuous functional analytically on its own bilinear discretisation over
+uniform grids. Larson et~al.~\cite{Larson2026MLPEnergy} train multilayer perceptrons that
+map the data of parametrised, possibly nonlinear, problems to the nodal values of their
+finite-element solutions by minimising the energy assembled element by element, without
+precomputed solutions. Other label-free approaches build on the finite-element residual or
+weak form \cite{Lee2025FEONet,Uriarte2022,Gao2022,Goswami2022}. Closest to the present work
+are graph networks on finite-element meshes trained by minimising the potential energy
 \cite{Dalton2023}, physics-informed MeshGraphNets trained without data for non-stationary
 and nonlinear problems \cite{Wurth2024}, a three-dimensional convolutional network for
 elastic fields in periodic polycrystals, trained without reference solutions on the
 divergence of its predicted stress \cite{MonteiroFernandes2025}, and the pretrain finite
 element method \cite{Wang2026PretrainFEM}, which trains a point-cloud transformer operator
 on the potential energy, with derivatives from finite-element shape functions, and uses its
-prediction to warm-start the finite-element solver; its authors report up to about nine
-times fewer iterations than from a zero initial guess, with conjugate gradients to a
-tolerance of $10^{-3}$. A follow-up applies that approach to three-dimensional pressure
-vessels \cite{Sun2026FEVessel}. Some of these works compare label-free with data-driven
-training \cite{Dalton2023,Wurth2024,MonteiroFernandes2025,Sun2026FEVessel}. Three train the
-same network on the same data with and without reference solutions, in single runs. In
-soft-tissue beams the two had comparable displacement errors and the label-free one smaller
-errors in energy and deformation gradient, a gap that adding the deformation gradient to the
-supervised loss narrowed but did not close \cite{Dalton2023}; in polycrystals the label-free
-network was more accurate in stress than the supervised one,
-which was trained on the reference stresses \cite{MonteiroFernandes2025};
-and in pressure vessels the supervised one was more accurate in displacement and in the
-$H^1$ seminorm \cite{Sun2026FEVessel} (\cref{sec:discussion}). We are not aware of such a
-comparison
-repeated over several seeds under criteria fixed in advance, nor of the use of the discrete
-energy to rank the predictions of one load case by their stiffness-norm errors and to flag
-those worse than the zero field, both without a reference solution. The nearest uses we
-found are a residual-norm test that
-decides whether a warm-started solve is needed \cite{Wang2026PretrainFEM} and an energetic
-upper bound on the effective stiffness computed from predicted fields
+prediction to warm-start the finite-element solver; a follow-up applies that approach to
+three-dimensional pressure vessels \cite{Sun2026FEVessel}. Several of these works compare
+label-free with data-driven training. Physics-constrained surrogates trained on a
+variational objective gave predictions comparable to data-driven ones \cite{Zhu2019}. Three
+train the same network on the same data with and without reference solutions, in single
+runs. In soft-tissue beams the two had comparable displacement errors and the label-free one
+smaller errors in energy and deformation gradient, a gap that adding the deformation
+gradient to the supervised loss narrowed but did not close \cite{Dalton2023}; in
+polycrystals the label-free network was more accurate in stress than the supervised one,
+which was trained on the reference stresses \cite{MonteiroFernandes2025}; and in pressure
+vessels the supervised one was more accurate in displacement and in the $H^1$ seminorm
+\cite{Sun2026FEVessel} (\cref{sec:discussion}). For finite-element surrogates we are not
+aware of a comparison that changes the norm of a supervised loss while keeping its labels,
+nor of a comparison with and without labels repeated over several seeds under criteria fixed
+in advance.
+
+\paragraph{The norm of the loss}
+Supervised mesh surrogates, from message-passing networks \cite{Pfaff2021,Dalton2022} to
+operator networks \cite{Lu2021DeepONet,Li2021FNO} and geometry-aware operators
+\cite{He2024GeomDeepONet,Zeng2025PCNO,Liu2026GINOT}, are typically trained and evaluated
+with relative $L^2$ errors of the predicted fields. That the norm of a loss shapes what a
+network learns is known in machine learning: training on derivatives as well as values,
+Sobolev training, improves the accuracy of the derivatives \cite{Czarnecki2017}, and for
+physics-informed networks the $L^2$ residual loss can fail to control the solution where
+another norm does \cite{WangL2NeurIPS2022}. For finite-element surrogates of linear
+elasticity the right norm is fixed by the problem itself, it is the energy norm, and the
+energy supplies it without solutions. \Cref{rem:rank} and \cref{sec:checks:ranking} show
+that the displacement error can rank surrogates in the opposite order to their stress
+errors.
+
+\paragraph{Error estimation without the solution}
+A posteriori error estimation bounds the energy-norm error of a finite-element approximation
+without the exact solution \cite{AinsworthOden2000}: from a statically admissible stress
+field through the hypercircle of Prager and Synge \cite{PragerSynge1947}, or through the
+error in the constitutive relation \cite{LadevezeLeguillon1983}, which has been applied to
+the solutions of physics-informed networks in elasticity, with the admissible pair of
+displacement and stress given by a network of mixed form \cite{GuoHaghighat2022}. Krylov
+methods estimate the energy-norm error of an iterate by Gauss quadrature
+\cite{GolubMeurant1997,StrakosTichy2002}. The checks of \cref{sec:theory:detector} are
+weaker: they rank predictions and detect gross failures, but need nothing beyond the
+assembled $K$ and $F$. The nearest uses we found are a residual-norm test that decides
+whether a warm-started solve is needed \cite{Wang2026PretrainFEM} and an energetic upper
+bound on the effective stiffness computed from predicted fields
 \cite{MonteiroFernandes2025}.
 
-\paragraph{Supervised mesh surrogates}
-MeshGraphNets \cite{Pfaff2021} learn mesh-based simulation by message passing; operator
-networks such as DeepONet \cite{Lu2021DeepONet} and the Fourier neural operator
-\cite{Li2021FNO} learn maps between function spaces; and point-cloud and
-geometry-aware operators handle variable three-dimensional geometries
-\cite{He2024GeomDeepONet,Zeng2025PCNO,Liu2026GINOT}. Graph networks have also emulated
-cardiac mechanics \cite{Dalton2022}. These surrogates are typically trained and evaluated
-with relative $L^2$ errors of the predicted fields. \Cref{rem:rank} and
-\cref{sec:results3d:reverse} show that the displacement error can rank surrogates in the
-opposite order to their stress errors.
-
-\paragraph{Solvers, warm starts and conditioning}
+\paragraph{Solvers and reduced bases}
 Neural predictions have been used as initial iterates of iterative solvers
-\cite{Wang2026PretrainFEM,Eshaghi2026NOWS,Sun2026FEVessel}, inside hybrid iterative schemes
-\cite{Lee2025MetaSolver}, and to enrich continuous finite-element approximation spaces, with
-error estimates that improve on the standard ones by a factor set by the quality of the
-prediction \cite{Barucq2026Enrich}. Two of these studies explain why the saving shrinks as
-the tolerance tightens: Wang et~al.~\cite{Wang2026PretrainFEM} with an asymptotic iteration
-bound for fixed-point iterations, and Sun et~al.~\cite{Sun2026FEVessel} with its extension
-to conjugate gradients, in the relative residual, and a model of the solver's set-up cost.
-\Cref{cor:warm} states the bound for conjugate gradients in the energy norm, in terms of the
-prediction's relative energy gap, and \cref{sec:cost:warm} reports a pre-registered test in
-which a warm start saved nothing at a tight tolerance. The training difficulty of
-residual-based physics losses has been traced to operator conditioning: descent on a squared
-residual is governed by an operator whose condition number is the square of the original one
-\cite{DeRyck2024}; the energy objective avoids the squaring (\cref{rem:dual}).
-
-\paragraph{Fair comparison and pre-registration}
-Weak baselines and selective reporting have led to over-optimism in machine learning for
-fluid-related partial differential equations \cite{McGreivy2024}, and a comprehensive and
-fair comparison of two neural operators needed common data and protocols
-\cite{Lu2022Fair}. Pre-registration, the recording of hypotheses, analyses and decision
-criteria in a dated document before the data are seen, is established in other sciences as
-a guard against these biases \cite{Nosek2018}. Each run whose results decide a claim of
-this paper was pre-registered, with executable checks that refuse a run whose configuration
-differs from the registered one, and every criterion fixed in advance for these runs is
-reported with its outcome (\cref{sec:methods:prereg}, \ref{app:prereg}).
+\cite{Wang2026PretrainFEM,Eshaghi2026NOWS,Sun2026FEVessel} (supplementary
+Section~\SuppWarm{}), inside hybrid iterative schemes \cite{Lee2025MetaSolver}, and to enrich
+finite-element approximation spaces \cite{Barucq2026Enrich}. Reduced basis methods, the
+classical surrogates of parametrised linear problems \cite{Hesthaven2016RB}, work in one
+truth space, usually on a reference domain to which each geometry is mapped, and rely for
+efficiency on an affine, or affinely approximated, dependence on the parameters; the
+instances here differ in the number of holes or cavities, which no such mapping covers, and
+in their meshes. The Ritz projection of \cref{sec:methods:ritz} is a classical approximation
+that does apply to them, at the price of the stiffness matrix of each instance.

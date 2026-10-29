@@ -1,0 +1,17 @@
+\section{The Ritz projection paired with the networks}\label{supp:ritz}
+
+The paper pairs the polynomial Ritz-Galerkin projection of each instance
+(\cref{sec:methods:ritz}), computed from the instance's own stiffness matrix and loads
+without labels or training, with every network's prediction of the same instance; this
+baseline was added after the pre-registered runs and was not pre-registered.
+\Cref{tab:ritzpairs} gives, for each set, model and degree $p$ of the ladder, the share of
+the instances on which the projection was strictly the more accurate, as the lowest and the
+highest over the three seeds of a trained network. The sets are the validation instances of
+the three- and two-dimensional comparisons, their held-out instances, and the finer
+three-dimensional mesh, on which the networks trained in-band were applied zero-shot. The
+projection has \numRitzThreeK{} unknowns at $p=6$, 7, 8 and 9 in three dimensions and
+\numRitzTwoK{} at $p=6$ and 8 in two.
+
+\begin{landscape}
+\input{generated/table_ritz_pairs}
+\end{landscape}

@@ -5,18 +5,19 @@
 \input{generated/table_transfer}
 
 \Cref{tab:transfer} evaluates the networks trained in-band on the 256 fine-mesh evaluation
-instances, meshed at $l_c=0.0374$, about half the in-band element size, which no network
-had seen. None transferred. The label-free transformer's displacement error rose from
+instances, meshed at $l_c=0.0374$, about half the in-band element size, which no network had
+seen. None transferred. The label-free transformer's displacement error rose from
 \numAmpInDisp{} in-band to \numFineFreeDisp{}, a factor of \numFineRatio{}; the
 pre-registered criterion for transfer allowed \numFineWin{} and the kill condition KP4 was
-triggered above \numFineKill{}, so the transfer claim was withdrawn. The supervised
-transformer had almost the same displacement error, \numFineLabDisp{}, and the graph network
-\numFineMgnDisp{}, worse than the nearest-neighbour field's \numFineKnnDisp{}. The
-label-free transformer kept the lowest relative energy gap (\numFineFreeGap{} against
-\numFineLabGap{} and \numFineMgnGap{}) and the lowest von Mises error (\numFineFreeVm{}
-against \numFineLabVm{} and \numFineMgnVm{}). The discretisation invariance reported for
-operators trained on the energy \cite{Wang2026PretrainFEM,Sun2026FEVessel} was tested by
-varying the density of the input point cloud, not by refining the mesh as here.
+triggered above \numFineKill{}, so the transfer claim was withdrawn. The
+displacement-supervised transformer had almost the same displacement error,
+\numFineLabDisp{}, and the graph network \numFineMgnDisp{}, worse than the nearest-neighbour
+field's \numFineKnnDisp{}. The label-free transformer kept the lowest relative energy gap
+(\numFineFreeGap{} against \numFineLabGap{} and \numFineMgnGap{}) and the lowest von Mises
+error (\numFineFreeVm{} against \numFineLabVm{} and \numFineMgnVm{}). The discretisation
+invariance reported for operators trained on the energy
+\cite{Wang2026PretrainFEM,Sun2026FEVessel} was tested by varying the density of the input
+point cloud, not by refining the mesh as here.
 
 Training on a few labelled fine-mesh instances, starting from the trained label-free
 network, was pre-registered as a reported comparison without a criterion; it minimised the
@@ -24,15 +25,14 @@ relative displacement error \eqref{eq:ld}, without the energy term. With 64 such
 the displacement error returned to the in-band level, \numFewSixtyFourDisp{}, and with 16 it
 was \numFewSixteenDisp{}, against \numFewSixtyFourScratchDisp{} and
 \numFewSixteenScratchDisp{} when the same network was trained from scratch on the same
-instances. The relative energy gap, von Mises error and peak stress error did not recover
-as far: with 64 instances they remained \numFewFactorMin{} to \numFewFactorMax{} times their
+instances. The relative energy gap, von Mises error and peak stress error did not recover as
+far: with 64 instances they remained \numFewFactorMin{} to \numFewFactorMax{} times their
 in-band values. Fine-tuning on displacement labels thus restored the displacement error but
-not the energy and stress errors, consistent with
-\cref{sec:theory:metrics,sec:results2d:norm}.
+not the energy and stress errors, consistent with \cref{sec:theory:metrics,sec:norm}.
 Label-free fine-tuning on the finer meshes, which needs no solves, was not tested.
 
 On the finer mesh, where no network transferred without retraining, the Ritz projection of
-\cref{sec:methods:ritz}, added after the original analyses, kept most of its accuracy, its
+\cref{sec:methods:ritz}, added after the pre-registered runs, kept most of its accuracy, its
 displacement, energy and von Mises errors close to their in-band values and its peak stress
 error larger (\cref{tab:transfer,tab:3d}): its median relative energy gap was
 \numRitzFineGapSix{} at $p=6$ and \numRitzFineGapNine{} at $p=9$, lower than each network's
@@ -40,24 +40,24 @@ on at least \numRitzFineGapAll{} of the instances, the networks trained with fin
 labels included. In the peak stress error the label-free transformer, applied without
 retraining, remained the more accurate on \numRitzFineFreePeakMin{} to
 \numRitzFineFreePeakMax{} of the instances, the two token bottlenecks on
-\numRitzFineBnPeakMin{} to \numRitzFineBnPeakMax{}, the supervised transformer on at most
-\numRitzFineLabPeakMax{} and the graph network on none; fine-tuned with the 64 fine-mesh
-labels, the label-free transformer was the more accurate on \numRitzFineFtPeakMin{} to
-\numRitzFineFtPeakMax{}.
+\numRitzFineBnPeakMin{} to \numRitzFineBnPeakMax{}, the displacement-supervised transformer
+on at most \numRitzFineLabPeakMax{} and the graph network on none; fine-tuned with the 64
+fine-mesh labels, the label-free transformer was the more accurate on
+\numRitzFineFtPeakMin{} to \numRitzFineFtPeakMax{}.
 
 \subsection{Amplitude error on the finer mesh}\label{sec:transfer:amplitude}
 
 \input{generated/table_amplitude}
 
-The rescaling of the failure detector also diagnoses the error. Rescaling each prediction
-by its energy-optimal amplitude $\cstar$ (\cref{prop:amp}), which needs no label and no
-solve, separates errors of amplitude from errors of shape. We measured it after the runs,
-on the stored label-free networks, the transformer and the two token bottlenecks
-(\cref{tab:amplitude}); no verdict was revisited. On the finer mesh the median $\cstar$ of
-the label-free transformer was \numAmpFineCstar{}, against \numAmpInCstar{} in-band: its
-predictions were too small. Rescaling lowered its fine-mesh displacement error from
-\numAmpFineDisp{} to \numAmpFineDispC{}, by \numAmpFineRedMin{} to \numAmpFineRedMax{} in
-each seed, and the median relative energy gap from \numAmpFineGapMedian{} to
+The rescaling that repairs predictions worse than the zero field also diagnoses the error.
+Rescaling each prediction by its energy-optimal amplitude $\cstar$ (\cref{prop:amp}), which
+needs no label and no solve, separates errors of amplitude from errors of shape. We measured
+it after the runs, on the stored label-free networks, the transformer and the two token
+bottlenecks (\cref{tab:amplitude}); no verdict was revisited. On the finer mesh the median
+$\cstar$ of the label-free transformer was \numAmpFineCstar{}, against \numAmpInCstar{}
+in-band: its predictions were too small. Rescaling lowered its fine-mesh displacement error
+from \numAmpFineDisp{} to \numAmpFineDispC{}, by \numAmpFineRedMin{} to \numAmpFineRedMax{}
+in each seed, and the median relative energy gap from \numAmpFineGapMedian{} to
 \numAmpFineGapMedianC{}. In-band it also helped, from \numAmpInDisp{} to \numAmpInDispC{} in
 displacement and from \numAmpInGap{} to \numAmpInGapC{} in mean relative energy gap.
 Measured as KP4 measures transfer, with $\cstar$ applied on both meshes, the ratio of
@@ -69,21 +69,21 @@ removed most of the error but not the failure to transfer.
 
 Why the amplitude is wrong on the finer mesh is suggested by \cref{tab:remesh}, also
 measured after the runs: \numRemeshGeometries{} new geometries, each meshed at four
-characteristic lengths with the same loads, so that only the mesh changes. For each mesh
-we computed the single energy-optimal amplitude of all four load cases,
-$c_b=\sum_jF_j^{\top}u_j/\sum_ju_j^{\top}Ku_j$, the counterpart of \eqref{eq:cstar} for
-the sum of their energies. Over the training range the median $c_b$ of the label-free
+characteristic lengths with the same loads, so that only the mesh changes. For each mesh we
+computed the single energy-optimal amplitude of all four load cases,
+$c_b=\sum_jF_j^{\top}u_j/\sum_ju_j^{\top}Ku_j$, the counterpart of \eqref{eq:cstar} for the
+sum of their energies. Over the training range the median $c_b$ of the label-free
 transformer stayed within \numRemeshInDev{} of one, and at $l_c=0.0374$ it was
 \numRemeshFine{}. The largest nodal load $F_{\max}$, by which the output is multiplied
 (\cref{sec:methods:networks}), shrinks with the element size, roughly as $l_c^2$ for the
 face tractions, whereas the solution does not depend on the mesh; a finer mesh therefore
 asks the network for a larger output than any it produced in training. We have not tested
-this explanation causally. It agrees with an observation of the July run, whose code did
-not multiply the output by $F_{\max}$: networks trained on meshes \numCoarsenLow{} and
+this explanation causally. It agrees with an observation of the July run, whose code did not
+multiply the output by $F_{\max}$: networks trained on meshes \numCoarsenLow{} and
 \numCoarsenHigh{} times coarser lost little accuracy on the original meshes
-(\ref{app:july}). But the errors of those networks were probably dominated by the missing
-load amplitude, so the contrast is suggestive only. Whether an output scale that does not
-depend on the mesh removes the failure is the subject of separate work.
+(Section~\ref{app:july}). But the errors of those networks were probably dominated by the
+missing load amplitude, so the contrast is suggestive only. Whether an output scale that
+does not depend on the mesh removes the failure is the subject of separate work.
 \Cref{fig:field-fine} shows a typical fine-mesh prediction before and after the rescaling:
 the prediction has the shape of the solution and too small an amplitude.
 
@@ -92,9 +92,9 @@ the prediction has the shape of the solution and too small an amplitude.
 \includegraphics[width=\linewidth]{generated/fig_field_fine.pdf}
 \caption{A typical fine-mesh instance, the one with the median displacement error of the
 label-free transformer, seed 0, under the \numFigFineLoad{} (selection rules in
-\ref{app:repro:plots}). Magnitude of the displacement of the reference solution, of the
-label-free prediction and of that prediction rescaled by $\cstar$ \eqref{eq:cstar}, on one
-colour scale set by the reference and displayed as in \cref{fig:field-worst}; above each
+Section~\ref{app:repro:plots}). Magnitude of the displacement of the reference solution, of
+the label-free prediction and of that prediction rescaled by $\cstar$ \eqref{eq:cstar}, on
+one colour scale set by the reference and displayed as in \cref{fig:field-worst}; above each
 prediction, its relative displacement error $\delta$ on this load case and, for the rescaled
 one, $\cstar$.}
 \label{fig:field-fine}

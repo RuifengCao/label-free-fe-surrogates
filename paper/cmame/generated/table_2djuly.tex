@@ -11,10 +11,10 @@
 Model & \shortstack{Displacement \\ error} & \shortstack{Relative \\ energy gap} & \shortstack{von Mises \\ error} & \shortstack{Peak stress \\ error} & \shortstack{Critical-region \\ recall} & \shortstack{Worse than \\ zero field} \\
 \midrule
 Label-free & 0.166 $\pm$ 0.002 & 0.0817 $\pm$ 0.0040 & 0.210 $\pm$ 0.003 & 0.228 $\pm$ 0.001 & 0.739 $\pm$ 0.003 & 3/768 \\
-Supervised & 0.160 $\pm$ 0.003 & 0.418 $\pm$ 0.037 & 0.433 $\pm$ 0.031 & 0.334 $\pm$ 0.036 & 0.584 $\pm$ 0.027 & 52/768 \\
-Supervised + energy term & 0.161 $\pm$ 0.005 & 0.166 $\pm$ 0.040 & 0.257 $\pm$ 0.007 & 0.246 $\pm$ 0.022 & 0.708 $\pm$ 0.012 & 14/768 \\
+Supervised, displacement & 0.160 $\pm$ 0.003 & 0.418 $\pm$ 0.037 & 0.433 $\pm$ 0.031 & 0.334 $\pm$ 0.036 & 0.584 $\pm$ 0.027 & 52/768 \\
+Supervised, displacement + energy term & 0.161 $\pm$ 0.005 & 0.166 $\pm$ 0.040 & 0.257 $\pm$ 0.007 & 0.246 $\pm$ 0.022 & 0.708 $\pm$ 0.012 & 14/768 \\
 Label-free, then supervised & 0.166 $\pm$ 0.006 & 0.236 $\pm$ 0.032 & 0.336 $\pm$ 0.020 & 0.301 $\pm$ 0.019 & 0.645 $\pm$ 0.008 & 21/768 \\
-Graph network, supervised & 0.167 $\pm$ 0.000 & 2.57 $\pm$ 0.25 & 1.10 $\pm$ 0.07 & 1.32 $\pm$ 0.13 & 0.322 $\pm$ 0.027 & 481/768 \\
+Graph network, displacement & 0.167 $\pm$ 0.000 & 2.57 $\pm$ 0.25 & 1.10 $\pm$ 0.07 & 1.32 $\pm$ 0.13 & 0.322 $\pm$ 0.027 & 481/768 \\
 \midrule
 Nearest-neighbour field & 0.404 & 0.959 & 0.735 & 0.643 & 0.515 & 94/256 \\
 Scaled polynomial & 1.42 & 873 & 11.4 & 30.8 & 0.159 & 256/256 \\
@@ -26,7 +26,7 @@ Zero field & 1.00 & 1.00 & 1.00 & 1.00 & -- & -- \\
 \smallskip
 \begin{minipage}{\linewidth}\footnotesize\raggedright
 256 validation instances, never trained on; four load cases each. Errors are relative to the reference finite-element solution, per load case, then averaged over the load cases; the relative energy gap of the zero field is 1. Trained networks: mean $\pm$ sample standard deviation over 3 seeds; the nearest-neighbour field and the scaled polynomial are deterministic.\par
-Worse than zero field: instance-seed pairs whose relative energy gap, the mean over the four load cases as the evaluation records it, exceeds 1, that is, predictions further from the solution in the stiffness norm than the zero field on average; the count uses the reference solutions. The test of \cref{cor:zero} needs none and applies to single load cases (\cref{sec:methods:metrics}).\par
+Worse than zero field: instance-seed pairs whose relative energy gap, the mean over the four load cases as the evaluation records it, exceeds 1, that is, predictions further from the solution in the energy norm than the zero field on average; the count uses the reference solutions. The test of \cref{cor:zero} needs none and applies to single load cases (\cref{sec:methods:metrics}).\par
 Critical-region recall: the share of the 10\% most stressed elements of the reference solution that are also among the 10\% most stressed of the prediction (higher is better; in every other column lower is better).\par
 The July run (16 July 2026). Its code did not multiply the load scale back onto the output (\cref{sec:methods:networks}); we attribute the narrow spread of the displacement errors to this; no experiment isolated it.
 \end{minipage}

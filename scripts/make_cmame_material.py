@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The CMAME manuscript's tables, figures and in-text numbers, generated from
+"""The manuscript's tables, figures and in-text numbers, generated from
 the committed records only (no number in the manuscript is typed by hand).
 
 Inputs (their SHA-256 values are written to sources.json):
@@ -103,10 +103,11 @@ WORDS = ("zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
          "ten")
 BUDGETS = ("16", "64", "256", "1024")
 METRICS = ("disp_rel_l2", "energy_gap_rel", "vm_rel_l2", "peak_vm_rel_err", "crit_recall")
-NAMES = {"ar": "Label-free", "labels": "Supervised",
-         "labels_anchor": "Supervised + energy term", "ar_ft": "Label-free, then supervised",
-         "labels_knorm": "Supervised, stiffness norm",
-         "mgn": "Graph network, supervised", "knn_field": "Nearest-neighbour field",
+NAMES = {"ar": "Label-free", "labels": "Supervised, displacement",
+         "labels_anchor": "Supervised, displacement + energy term",
+         "ar_ft": "Label-free, then supervised",
+         "labels_knorm": "Supervised, energy norm",
+         "mgn": "Graph network, displacement", "knn_field": "Nearest-neighbour field",
          "scale_aware_poly": "Scaled polynomial", "zero": "Zero field"}
 ARMS_2D = ("ar", "labels", "labels_anchor", "ar_ft", "mgn", "knn_field", "scale_aware_poly",
            "zero")
@@ -289,7 +290,8 @@ def tex(s: str) -> str:
          .replace("&", "\\&").replace("⁻³", "$^{-3}$").replace("′", "$'$"))
     s = re.sub(r"\blc (?=[0-9])", "lc = ", s)           # "lc 0.0374" -> "lc = 0.0374"
     s = re.sub(r"\blc\b", "LCMARK", s)                 # the characteristic length l_c
-    return W._latex_escape(s).replace("LCMARK", "$l_c$")
+    s = s.replace("~\\", "TIEMARK\\")                  # a tie before a command, not a tilde
+    return W._latex_escape(s).replace("LCMARK", "$l_c$").replace("TIEMARK", "~")
 
 
 # ---------------------------------------------------------------- tables
@@ -387,7 +389,7 @@ def metric_notes(n_val: int, extra: list) -> list:
         "scaled polynomial are deterministic.",
         "Worse than zero field: instance-seed pairs whose relative energy gap, the mean over "
         "the four load cases as the evaluation records it, exceeds 1, that is, predictions "
-        "further from the solution in the stiffness norm than the zero field on average; the "
+        "further from the solution in the energy norm than the zero field on average; the "
         r"count uses the reference solutions. The test of \cref{cor:zero} needs none and "
         r"applies to single load cases (\cref{sec:methods:metrics}).",
         "Critical-region recall: the share of the 10% most stressed elements of the reference "
@@ -522,13 +524,13 @@ def hashes_tex(used: dict) -> str:
                  rf"records {_record(HOLD / 'return' / 'h3d' / 'eval.json', used, LATER)} and "
                  rf"{_record(HOLD / 'return' / 'h2d' / 'eval.json', used, LATER)}, verdict "
                  rf"{_record(HOLD / 'verdict.json', used, LATER)}.")
-    # the three-dimensional stiffness-norm run (PREREG_K3D)
+    # the three-dimensional energy-norm run (PREREG_K3D)
     _, cfg, _ = _config("k3d_v1", used)
     h = config_sha256(cfg)
     rk = load(RK3, used)
     if h != rk["provenance"]["config_sha256"]:
         raise SystemExit("k3d_v1: the committed configuration is not the one the run used")
-    later.append(rf"\item Three-dimensional stiffness-norm run, "
+    later.append(rf"\item Three-dimensional energy-norm run, "
                  rf"{day_text(rk['provenance']['timestamp_utc'])}: configuration "
                  rf"\path{{configs/k3d_v1.json}} (SHA-256 \texttt{{{h[:16]}}}\ldots), record "
                  rf"{_record(RK3, used, LATER)}, verdict {_record(VK3, used, LATER)}.")
@@ -570,14 +572,14 @@ RELABEL = {
             ("the transformer run's not at all", "the three-dimensional comparison's not at "
              "all"),
             ("never increases the energy error", "never increases the error in the "
-             "stiffness norm"),
+             "energy norm"),
             ("In-band: the 256 Phase-2b validation instances", "In-band: the 256 validation "
              "instances"),
             (" (E8, P3; in-band)", " (in-band)"),
             ("Post-hoc reading 4e (E-series runbook, Sec. 4): reported only; no verdict is "
              "revisited.", "Measured after the runs; no verdict is revisited.")],
     "remesh": [("Point-token transformer", "Label-free transformer"),
-               ("Predicted energy norm relative to", "Stiffness norm of the prediction "
+               ("Predicted energy norm relative to", "Energy norm of the prediction "
                 "relative to"),
                ("fscale, the battery's largest nodal load (both architectures multiply their "
                 "output by it), relative", "The largest nodal load over the four load cases, "
@@ -789,15 +791,16 @@ def criteria_rows(r2: dict, r3: dict, e1v: dict, e2v: dict, pilot: tuple,
          f"20 epochs < {pilot[1]}", f"{pilot[0]}", met(float(pilot[0]) < float(pilot[1]))],
         ["Three-dimensional comparison, 28 September 2026", f"G2 (a), budgets ≥ {floor_} "
          "(amendment), "
-         r"\cref{tab:labeleff}: supervised "
-         f"+ energy term at least {t['gate']['sanity_x']:.0f} times better than the zero field "
+         r"\cref{tab:labeleff}: displacement-supervised transformer with the energy term at "
+         f"least {t['gate']['sanity_x']:.0f} times better than the zero field "
          "in displacement, and better than both naive baselines",
          " / ".join(f"{zero[bb] / anc[bb]:.1f}" for bb in assessed) + " times; naive beaten",
          met(g2["conditions"]["a"])],
         ["", "G2 (a), every budget (the registered form, reported for reference)",
          f"{zero['16'] / anc['16']:.2f} times at 16 labels", met(ref["conditions"]["a"])],
         ["", r"G2 (b), \cref{tab:labeleff,tab:3d}: label-free displacement error within +"
-         f"{t['gate']['parity_band'] * 100:.0f}% of supervised at 1,024 labels, and relative "
+         f"{t['gate']['parity_band'] * 100:.0f}% of the displacement-supervised transformer's "
+         "at 1,024 labels, and relative "
          f"energy-gap advantage ≥ {t['gate']['egap_adv_min'] * 100:.0f}% at every budget",
          f"{spct(parity)}; " + " / ".join(f"{x * 100:.2f}%" for x in adv3),
          met(g2["conditions"]["b"])],
@@ -871,6 +874,41 @@ def _guard(h: dict) -> str:
 ADJ_CM2D = ROOT / "scripts" / "adjudicate_cm2d.py"
 
 
+CLAIMS = (("July run", ("K5",)),
+          ("Three-dimensional comparison", ("G2 (a)", "G2 (b)", "G2 (c)", "Gate G2", "KP4")),
+          ("Two-dimensional comparison", ("H1", "H2a", "H2b", "H3")),
+          ("Three-dimensional energy-norm run", None))
+"""The runs and criteria of the claims table (Appendix A): a run's rows whose criterion
+begins with one of the given labels, every row when None. The claims of the holdout
+evaluation are in the holdout table, beside their values on the validation instances."""
+
+
+def claims_rows(rows: list) -> tuple:
+    """(rows, rule positions) of the claims table: the rows of the criteria table that
+    decide a claim of the paper, in its order, with the run named on the first row of each
+    group and the references to tables of the supplementary material removed."""
+    out, rules, run = [], [], ""
+    for r in rows:
+        if len(r) < 4:
+            continue
+        if r[0]:
+            run = r[0]
+        keep = next((labels for name, labels in CLAIMS if run.startswith(name)), False)
+        if keep is False or (keep is not None and not r[1].startswith(keep)):
+            continue
+        crit = re.sub(r",?\s*\\cref\{[^}]*\}", "", r[1])
+        first = not out or out[-1][4] != run
+        if first and out:
+            rules.append(len(out))
+        out.append([run if first else "", crit, r[2], r[3], run])
+    named = [x[0] for x in out if x[0]]
+    if len(named) != len(CLAIMS) or not all(g.startswith(n) for g, (n, _) in
+                                             zip(named, CLAIMS, strict=True)):
+        raise SystemExit("claims table: the runs of CLAIMS are not in the criteria table, in "
+                         "this order")
+    return [x[:4] for x in out], tuple(rules)
+
+
 def adjudicator_constant(v: dict, used: dict, name: str) -> float:
     """A constant of the stamped CM2D adjudicator, read from the script whose SHA-256
     the verdict file records (so the bound the text states is the one that was applied)."""
@@ -912,14 +950,14 @@ def cm2d_criteria_rows(v: dict, repro_max: float) -> list:
     return [
         ["Two-dimensional comparison, 9 October 2026", rf"H1, \cref{{tab:2d,tab:cm2d}}: "
          "label-free transformer lower "
-         f"than the supervised transformer ({LD}) in relative energy gap beyond the noise "
+         f"than the displacement-supervised transformer ({LD}) in relative energy gap beyond the noise "
          "guard, 1,024 labels", _guard(v["H1"]), word[v["H1"]["verdict"]]],
-        ["", f"H2a: stiffness-norm transformer ({LK}) lower than the supervised transformer "
+        ["", f"H2a: energy-norm-supervised transformer ({LK}) lower than the displacement-supervised transformer "
          f"({LD}) in relative energy gap beyond the guard", _guard(v["H2a"]),
          word[v["H2a"]["verdict"]]],
-        ["", "H2b: stiffness-norm transformer lower than the supervised transformer in von "
+        ["", "H2b: energy-norm-supervised transformer lower than the displacement-supervised transformer in von "
          "Mises error beyond the guard", _guard(v["H2b"]), word[v["H2b"]["verdict"]]],
-        ["", "H3 (a reading, no criterion): stiffness-norm transformer against the label-free "
+        ["", "H3 (a reading, no criterion): energy-norm-supervised transformer against the label-free "
          "transformer in relative energy gap", _guard(v["H3"]), "no difference shown"],
         ["", "Reuse: the label-free networks of the latent-regularisation run reproduce that "
          "run's per-instance relative energy gaps and displacement errors (largest relative "
@@ -957,7 +995,7 @@ def _comparisons(per_metric: dict, key_seed: str, key_mean: str) -> tuple:
 
 def followup_criteria_rows(vho: dict, vk: dict, dates: dict) -> tuple:
     """(rows, rule positions) of the holdout evaluation (PREREG_HOLDOUT) and of the
-    three-dimensional stiffness-norm run (PREREG_K3D), as their adjudicators recorded
+    three-dimensional energy-norm run (PREREG_K3D), as their adjudicators recorded
     them; the text's readings are checked in holdout_material and k3d_material."""
     c = vho["claims"]
     word = {"REPLICATED": "replicated", "NOT REPLICATED": "not replicated"}
@@ -973,7 +1011,7 @@ def followup_criteria_rows(vho: dict, vk: dict, dates: dict) -> tuple:
     V = vho["V"]
     rows = [
         [f"Holdout evaluation, {dates['holdout']}", "T1 (3D): label-free transformer better "
-         "than the supervised transformer on all five metrics, in each seed and in the seed "
+         "than the displacement-supervised transformer on all five metrics, in each seed and in the seed "
          "mean", f"{t1[0]} of {t1[1]} comparisons", word[c["T1"]["verdict"]]],
         ["", "T2 (3D): graph network's displacement error lower than the label-free "
          "transformer's on more than 50% of the instances in each seed, and its von Mises "
@@ -981,25 +1019,27 @@ def followup_criteria_rows(vho: dict, vk: dict, dates: dict) -> tuple:
          f"{pct(min(t2['disp_lower_share_per_seed']))}–"
          f"{pct(max(t2['disp_lower_share_per_seed']))}; {upct(t2['vm_higher_share_pooled'])}",
          word[t2["verdict"]]],
-        ["", "T3 (3D): each supervised network has load cases worse than the zero field, "
+        ["", "T3 (3D): each displacement-supervised network has load cases worse than the "
+         "zero field, "
          "each with a positive energy and no other",
          f"{t3['labels']['worse']:,} and {t3['mgn']['worse']:,} of "
          f"{t3['labels']['load_cases']:,} load cases", word[c["T3"]["verdict"]]],
-        ["", f"H1 (2D): label-free transformer lower than the supervised transformer ({LD}) "
+        ["", f"H1 (2D): label-free transformer lower than the displacement-supervised transformer ({LD}) "
          "in relative energy gap beyond the noise guard", _rel_guard(c["H1"]),
          word[c["H1"]["verdict"]]],
-        ["", f"H2a (2D): stiffness-norm transformer ({LK}) lower than the supervised "
-         "transformer in relative energy gap beyond the guard", _rel_guard(c["H2a"]),
+        ["", f"H2a (2D): energy-norm-supervised transformer ({LK}) lower than the "
+         "displacement-supervised transformer in relative energy gap beyond the guard",
+         _rel_guard(c["H2a"]),
          word[c["H2a"]["verdict"]]],
-        ["", "H2b (2D): stiffness-norm transformer lower than the supervised transformer in "
+        ["", "H2b (2D): energy-norm-supervised transformer lower than the displacement-supervised transformer in "
          "von Mises error beyond the guard", _rel_guard(c["H2b"]), word[c["H2b"]["verdict"]]],
-        ["", "H2c (2D): stiffness-norm transformer's von Mises error less than half the "
-         "supervised transformer's, rel below −50%", spct(c["H2c"]["rel_change"]),
+        ["", "H2c (2D): energy-norm-supervised transformer's von Mises error less than half the "
+         "displacement-supervised transformer's, rel below −50%", spct(c["H2c"]["rel_change"]),
          word[c["H2c"]["verdict"]]],
-        ["", "D2 (2D): label-free transformer's displacement error higher than the supervised "
-         "transformer's and its other four metrics better, in each seed and in the seed "
+        ["", "D2 (2D): label-free transformer's displacement error higher than the "
+         "displacement-supervised transformer's and its other four metrics better, in each seed and in the seed "
          "mean", f"{d2[0]} of {d2[1]} comparisons", word[c["D2"]["verdict"]]],
-        ["", "H3 (2D, a reading without a criterion): stiffness-norm transformer against the "
+        ["", "H3 (2D, a reading without a criterion): energy-norm-supervised transformer against the "
          "label-free transformer in relative energy gap", _rel_guard(h3),
          "no difference shown"],
         ["", "V: the per-instance values of every network and metric distributed alike on "
@@ -1011,18 +1051,18 @@ def followup_criteria_rows(vho: dict, vk: dict, dates: dict) -> tuple:
     rules = [len(rows)]
     supported = {"SUPPORTED": "supported", "NOT SUPPORTED": "not supported"}
     rows += [
-        [f"Three-dimensional stiffness-norm run, {dates['k3d']}", f"H2a-3D: stiffness-norm "
-         f"transformer ({LK}) lower than the supervised transformer ({LD}) in relative energy "
+        [f"Three-dimensional energy-norm run, {dates['k3d']}", f"H2a-3D: energy-norm-supervised "
+         f"transformer ({LK}) lower than the displacement-supervised transformer ({LD}) in relative energy "
          "gap beyond the noise guard, on the seeds' medians", _rel_guard(vk["H2a-3D"]),
          supported[vk["H2a-3D"]["verdict"]]],
         ["", "H2b-3D: the same in von Mises error", _rel_guard(vk["H2b-3D"]),
          supported[vk["H2b-3D"]["verdict"]]],
-        ["", "H3-3D (a reading without a criterion): stiffness-norm transformer against the "
+        ["", "H3-3D (a reading without a criterion): energy-norm-supervised transformer against the "
          "label-free transformer in relative energy gap, on the seeds' medians",
-         _rel_guard(vk["H3-3D"]), "stiffness-norm transformer lower"],
+         _rel_guard(vk["H3-3D"]), "energy-norm-supervised transformer lower"],
     ]
     if vk["H3-3D"]["reading"] != "the stiffness-norm transformer lower beyond the guard":
-        raise SystemExit("K3D H3-3D: the table reports the stiffness-norm transformer lower")
+        raise SystemExit("K3D H3-3D: the table reports the energy-norm-supervised transformer lower")
     return rows, rules
 
 
@@ -1561,7 +1601,7 @@ def cm2d_numbers(N: Numbers, rc: dict, v: dict, r2: dict) -> None:
     # the secondary readings of PREREG_CM2D Sec. 5 (exploratory, no verdicts)
     N.put("numCmSecondary", str(sum(len(c) for m in v["secondary"]["comparisons"].values()
                                     for c in m.values())))
-    # per seed: the stiffness-norm transformer at or below the label-free one on
+    # per seed: the energy-norm-supervised transformer at or below the label-free one on
     # every metric, by little in two seeds and much in one
     for m in METRICS:
         if not _better(m, seed_values(rc, "labels_knorm", "1024", m),
@@ -1583,7 +1623,7 @@ def cm2d_numbers(N: Numbers, rc: dict, v: dict, r2: dict) -> None:
                                                       "energy_gap_rel")))
     N.put("numCmFreeGapSeeds", and_list(num(x) for x in
                                          seed_values(rc, "ar", "1024", "energy_gap_rel")))
-    # Section 5.1: label-free against the supervised transformer, every seed
+    # Section 5.1: label-free against the displacement-supervised transformer, every seed
     for m in METRICS:
         better = _better(m, seed_values(rc, "ar", "1024", m),
                          seed_values(rc, "labels", "1024", m))
@@ -1625,7 +1665,7 @@ def cm2d_numbers(N: Numbers, rc: dict, v: dict, r2: dict) -> None:
                      per_instance(rc, "labels", "vm_rel_l2"))
         if not share(gap) == share(vm) == share(gap & vm):
             raise SystemExit(f"CM2D: {key}: the energy-gap and von Mises shares differ")
-    # the two errors rank the label-free and the supervised transformer in opposite
+    # the two errors rank the label-free and the displacement-supervised transformer in opposite
     # orders, in either direction
     vm_f, vm_l = per_instance(rc, "ar", "vm_rel_l2"), per_instance(rc, "labels", "vm_rel_l2")
     d_f, d_l = per_instance(rc, "ar", "disp_rel_l2"), per_instance(rc, "labels", "disp_rel_l2")
@@ -1638,7 +1678,7 @@ def cm2d_numbers(N: Numbers, rc: dict, v: dict, r2: dict) -> None:
     trained = ("ar", "labels", "labels_knorm", "mgn")
     if min(trained, key=lambda a: seed_mean(rc, a, "disp_rel_l2")) != "mgn":
         raise SystemExit("CM2D: the graph network does not have the lowest displacement error")
-    # ... by little: below the supervised transformer's within the noise guard
+    # ... by little: below the displacement-supervised transformer's within the noise guard
     c = v["secondary"]["comparisons"]["disp_rel_l2"]["1024"]["mgn_vs_labels"]
     if _guard_reading(c, "disp_rel_l2") != "within" or not c["rel_change"] < 0:
         raise SystemExit("CM2D: the graph network's displacement error is not below the "
@@ -1656,7 +1696,7 @@ def cm2d_numbers(N: Numbers, rc: dict, v: dict, r2: dict) -> None:
     if any(worse_than_zero(rc, a)[0] for a in ("ar", "labels", "labels_knorm")):
         raise SystemExit("CM2D: a transformer has an instance worse than the zero field at 1,024")
     N.put("numCmMgnWorseSixtyFour", f"{worse_than_zero(rc, 'mgn', '64')[0]:,}")
-    # budgets: worse than the zero field, and the stiffness-norm transformer
+    # budgets: worse than the zero field, and the energy-norm-supervised transformer
     # against the label-free one under the guard (PREREG_CM2D Sec. 5)
     for arm, A in (("labels", "Lab"), ("labels_knorm", "Knorm")):
         for bb, B in (("16", "Sixteen"), ("64", "SixtyFour"), ("256", "TwoFiveSix")):
@@ -1926,10 +1966,10 @@ def spectra_numbers(N: Numbers, sj: dict, z: dict, rc: dict) -> None:
         if not (abs(np.log(_gm(rho_i[ix[a]] / rho_i[ix[b]])))
                 <= abs(np.log(_gm(rho[ix[a]] / rho[ix[b]]))) + np.log(1.01)):
             raise SystemExit(f"spectra: TF32 off moves {a} and {b} apart")
-    # the stiffness-norm transformer's errors the smaller in every seed, by far in seed 1
+    # the energy-norm-supervised transformer's errors the smaller in every seed, by far in seed 1
     kd = [_gm(d2[ix["labels_knorm"]][s] / d2[ix["ar"]][s]) for s in seeds]
     if not (max(kd) < 1 and int(np.argmin(kd)) == 1):
-        raise SystemExit("spectra: the stiffness-norm transformer's errors are not the smaller "
+        raise SystemExit("spectra: the energy-norm-supervised transformer's errors are not the smaller "
                          "in every seed, by far in seed 1")
     N.put("numSpecKnormFreeDispSeeds", and_list(f"{t:.2f}" for t in kd))
     # per load case: worse than the zero field exactly when Pi_h(u) > 0 (Corollary
@@ -2510,7 +2550,7 @@ def _ival(w: dict, dec: int = 1) -> str:
 
 
 def k3d_material(N: Numbers, k: dict, vk: dict, r3: dict) -> tuple:
-    """The three-dimensional stiffness-norm run (PREREG_K3D): its verdicts with the readings
+    """The three-dimensional energy-norm run (PREREG_K3D): its verdicts with the readings
     that its Sec. 4 requires beside each, recomputed where the report allows, the numbers
     the text quotes, and the tables (the verdicts; in the supplementary material, the
     secondary comparisons and the medians)."""
@@ -2572,7 +2612,7 @@ def k3d_material(N: Numbers, k: dict, vk: dict, r3: dict) -> tuple:
         if wz[a]["count"] != int((gap[a] > 1).sum()):
             raise SystemExit(f"K3D: the predictions of {a} worse than the zero field differ")
     if wz["labels_knorm"]["count"] or wz["ar"]["count"]:
-        raise SystemExit("K3D: the text says no transformer trained in the stiffness norm, "
+        raise SystemExit("K3D: the text says no transformer trained in the energy norm, "
                          "with or without labels, was worse than the zero field")
     # the secondary comparisons (exploratory): L_K against the label-free transformer
     comp = vk["secondary"]["comparisons"]
@@ -2605,6 +2645,12 @@ def k3d_material(N: Numbers, k: dict, vk: dict, r3: dict) -> tuple:
         N.put(f"numKdHold{H}Tau", pct(y["threshold"]))
     N.put("numKdMeansVmRel", pct(abs(gv["rel_change"])))
     N.put("numKdMeansVmTau", pct(gv["threshold"]))
+    wv = vk["H2b-3D"]["beside"]["seed_means_welch_95"]
+    if not wv["low"] < 0 < wv["high"]:
+        raise SystemExit("K3D H2b-3D: the text says the Welch interval of the seed-mean "
+                         "reduction includes zero")
+    N.put("numKdMeansVmWelchLow", spct(wv["low"]))
+    N.put("numKdMeansVmWelchHigh", spct(wv["high"]))
     N.put("numKdMeansGapRel", pct(abs(g["rel_change"]), 2))
     N.put("numKdMeansGapTau", pct(g["threshold"]))
     N.put("numKdFreePairs", f"{win:,}")
@@ -2686,8 +2732,8 @@ def k3d_material(N: Numbers, k: dict, vk: dict, r3: dict) -> tuple:
     comp_head = ["Comparison (A against B)", "Metric", "Medians: rel (guard)", "Reading",
                  "Seed means: rel (guard)", "Reading"]
     comp_rows = []
-    label = {"labels_knorm_vs_labels": f"Stiffness norm against supervised ({LD})",
-             "labels_knorm_vs_ar": "Stiffness norm against label-free",
+    label = {"labels_knorm_vs_labels": f"Energy norm against displacement ({LD})",
+             "labels_knorm_vs_ar": "Energy norm against label-free",
              "ar_vs_labels": f"Label-free against supervised ({LD})"}
     mname = dict(zip(METRICS, ("Displacement error", "Relative energy gap", "von Mises error",
                                "Peak stress error", "Critical-region recall"), strict=True))
@@ -2709,6 +2755,77 @@ def k3d_material(N: Numbers, k: dict, vk: dict, r3: dict) -> tuple:
                               _rel_guard(c_["medians"]), rd(c_["medians"], m),
                               _rel_guard(c_["means"]), rd(c_["means"], m)])
     return (head, list(rows.values()), notes), (sup_head, sup_rows), (comp_head, comp_rows)
+
+
+# ---------------------------------------------------------------- the norm and the labels
+NL_ARMS = ("labels", "labels_knorm", "ar")      # displacement, energy norm with and without labels
+NL_TAG = {"labels": "Lab", "labels_knorm": "Knorm", "ar": "Free"}
+
+
+def _nl_values(report: dict) -> dict:
+    """Per arm, per seed: the median over the instances of the relative energy-norm error
+    g^(1/2) (each instance's g the mean over its load cases, as the evaluation records it)
+    and of the von Mises error; and the same as means over the instances."""
+    out = {}
+    for arm in NL_ARMS:
+        e = np.sqrt(per_instance(report, arm, "energy_gap_rel"))
+        v = per_instance(report, arm, "vm_rel_l2")
+        out[arm] = {"E_med": [float(x) for x in np.median(e, axis=1)],
+                    "Vm_med": [float(x) for x in np.median(v, axis=1)],
+                    "E_mean": [float(x) for x in e.mean(axis=1)],
+                    "Vm_mean": [float(x) for x in v.mean(axis=1)]}
+    return out
+
+
+def norm_label_material(N: Numbers, k: dict, rcm: dict) -> dict:
+    """The norm of the loss against the labels (Fig. 1): the same transformer trained on the
+    solutions with the displacement loss, on the solutions in the energy norm, and on the
+    energy without solutions; in three dimensions the energy-norm run's report (which
+    evaluated the two stored transformers again, reproducing their values exactly), in two
+    the two-dimensional comparison's. Descriptive: the medians over the instances of the
+    relative energy-norm error g^(1/2) and of the von Mises error, averaged over the three
+    seeds, and their ratios; the pre-registered verdicts are those of Table A.1. Every
+    statement the text makes about these numbers is checked here."""
+    fig = {}
+    for dim, rep in (("Three", k), ("Cm", rcm)):
+        val = _nl_values(rep)
+        m = {a: {q: statistics.fmean(val[a][q]) for q in val[a]} for a in NL_ARMS}
+        for a in NL_ARMS:
+            N.put(f"numNl{dim}E{NL_TAG[a]}", num(m[a]["E_med"]))
+            N.put(f"numNl{dim}Vm{NL_TAG[a]}", num(m[a]["Vm_med"]))
+        r = {(q, s_): m["labels" if s_ == "Norm" else "ar"][f"{q}_{st}"]
+             / m["labels_knorm"][f"{q}_{st}"]
+             for q in ("E", "Vm") for s_ in ("Norm", "Label") for st in ("med",)}
+        for q in ("E", "Vm"):
+            N.put(f"numNl{dim}Norm{q}", f"{r[(q, 'Norm')]:.1f}")
+            N.put(f"numNl{dim}Label{q}", f"{r[(q, 'Label')]:.2f}")
+            N.put(f"numNl{dim}Norm{q}Mean",
+                  f"{m['labels'][f'{q}_mean'] / m['labels_knorm'][f'{q}_mean']:.1f}")
+        # the text: changing the norm moves both errors far more than removing the labels;
+        # the energy norm is the better with labels and without, in each seed
+        for q in ("E", "Vm"):
+            rn, rl = r[(q, "Norm")], r[(q, "Label")]
+            if not (rn >= 2 and 1 < rl <= 1.35 and np.log(rn) > 3 * np.log(rl)):
+                raise SystemExit(f"norm and labels ({dim}, {q}): the text says the norm moved "
+                                 "the error by a factor of at least two, the labels by at most "
+                                 "1.35, a third of the norm's effect on a logarithmic scale")
+            for st in ("med", "mean"):
+                lab, kn, fr = (val[a][f"{q}_{st}"] for a in NL_ARMS)
+                if not all(x > y and x > z for x, y, z in zip(lab, kn, fr, strict=True)):
+                    raise SystemExit(f"norm and labels ({dim}, {q}, {st}): the displacement "
+                                     "loss is not the worst in every seed")
+        fig[dim] = {"med": m, "seeds": val}
+    # three dimensions: the label-free transformer within the factor that the text quotes of
+    # the energy-norm-supervised one, in both errors
+    within = float(N["numNlThreeLabelE"])
+    q1 = round(within, 1)
+    if not (q1 >= within and q1 >= float(N["numNlThreeLabelVm"])):
+        raise SystemExit("norm and labels: the text says the label-free transformer came within "
+                         "a factor of " + f"{q1}")
+    N.put("numNlThreeLabelWithin", f"{q1:.1f}")
+    # the highlight: the von Mises error cut "sixfold" (to the nearest integer)
+    N.put("numNlThreeNormVmWord", words(round(float(N["numNlThreeNormVm"]))))
+    return fig
 
 
 # ---------------------------------------------------------------- holdout (PREREG_HOLDOUT)
@@ -2782,7 +2899,7 @@ def holdout_material(N: Numbers, vho: dict, used: dict, r3: dict, rcm: dict,
     cm = {h: vcm[h] for h in ("H1", "H2a", "H2b", "H3")}
     word = {"REPLICATED": "replicated", "NOT REPLICATED": "not replicated"}
     rows = [
-        ["T1 (3D)", "Label-free transformer better than the supervised transformer on all five "
+        ["T1 (3D)", "Label-free transformer better than the displacement-supervised transformer on all five "
          "metrics, each seed and the seed mean", f"{t1v} of 20", f"{t1h[0]} of 20",
          word[c["T1"]["verdict"]]],
         ["T2 (3D)", "Graph network: lower displacement error than the label-free transformer "
@@ -2791,25 +2908,27 @@ def holdout_material(N: Numbers, vho: dict, used: dict, r3: dict, rcm: dict,
          f"{pct(min(t2['disp_lower_share_per_seed']))}–"
          f"{pct(max(t2['disp_lower_share_per_seed']))}; {upct(t2['vm_higher_share_pooled'])}",
          word[t2["verdict"]]],
-        ["T3 (3D)", "Load cases worse than the zero field, supervised transformer and graph "
+        ["T3 (3D)", "Load cases worse than the zero field, displacement-supervised "
+         "transformer and graph "
          "network, each with a positive energy",
          f"{N['numFieldLoadWorseLab']} and {N['numFieldLoadWorseMgn']} of {N['numFieldLoads']}",
          f"{t3['labels']['worse']:,} and {t3['mgn']['worse']:,} of "
          f"{t3['labels']['load_cases']:,}", word[c["T3"]["verdict"]]],
-        ["H1 (2D)", "Label-free below the supervised transformer in relative energy gap, "
+        ["H1 (2D)", "Label-free below the displacement-supervised transformer in relative energy gap, "
          "beyond the guard", _rel_guard(cm["H1"]), _rel_guard(c["H1"]),
          word[c["H1"]["verdict"]]],
-        ["H2a (2D)", "Stiffness-norm below the supervised transformer in relative energy gap, "
+        ["H2a (2D)", "Energy-norm-supervised below the displacement-supervised transformer in relative "
+         "energy gap, "
          "beyond the guard", _rel_guard(cm["H2a"]), _rel_guard(c["H2a"]),
          r"\hspace{0pt}" + word[c["H2a"]["verdict"]]],
         ["H2b (2D)", "The same in von Mises error", _rel_guard(cm["H2b"]), _rel_guard(c["H2b"]),
          word[c["H2b"]["verdict"]]],
         ["H2c (2D)", "The same, by more than half", spct(cm["H2b"]["rel_change"]),
          spct(c["H2c"]["rel_change"]), word[c["H2c"]["verdict"]]],
-        ["D2 (2D)", "Label-free transformer: higher displacement error than the supervised "
-         "one, lower errors on the other four metrics, each seed and the seed mean",
+        ["D2 (2D)", "Label-free transformer: higher displacement error than the "
+         "displacement-supervised one, lower errors on the other four metrics, each seed and the seed mean",
          f"{d2v} of 20", f"{d2h[0]} of 20", word[c["D2"]["verdict"]]],
-        ["H3 (2D)", "A reading: stiffness-norm against label-free transformer, relative "
+        ["H3 (2D)", "A reading: energy-norm-supervised against label-free transformer, relative "
          "energy gap", _rel_guard(cm["H3"]), _rel_guard(vho["readings"]["H3"]),
          "no difference shown"],
         ["V", "Per-instance values alike on the holdout and validation instances, "
@@ -2821,17 +2940,16 @@ def holdout_material(N: Numbers, vho: dict, used: dict, r3: dict, rcm: dict,
     if not all(cm[h]["verdict"] == "SUPPORTED" for h in ("H1", "H2a", "H2b")):
         raise SystemExit("holdout: the validation verdicts are not those of the text")
     notes = [
-        r"Validation: the values of \cref{sec:results3d} (T1 to T3, T3 per load case) and of "
-        r"\cref{sec:results2d} (H1 to D2). Holdout: "
+        r"Validation: the values of \cref{sec:norm,sec:labelfree,sec:checks} on the validation "
+        r"instances (T3 per load case). Holdout: "
         f"the same stored networks on {N['numHoldThreeN']} (3D) and {N['numHoldTwoN']} (2D) "
-        "held-out instances; the supervised transformer with the energy term has no stored "
-        "networks. T1 and D2: the comparisons that hold, five metrics in three seeds and the "
+        "held-out instances. T1 and D2: the comparisons that hold, five metrics in three seeds and the "
         "seed mean; T2: the lowest and highest share over the seeds, and the share of the "
         "instance-seed pairs; H1 to H3: rel and the noise guard of the note to "
-        r"\cref{tab:criteria}; H2c: the rel of H2b, against −50%. V: per network and metric, a "
+        r"\cref{tab:claims}; H2c: the rel of H2b, against −50%. V: per network and metric, a "
         "two-sided Mann–Whitney test of the holdout against the validation instances, the "
         f"{len(V['quantities'])} p-values taken together by Holm's procedure at a family-wise "
-        f"level of {pct(V['alpha'], 0)} " + r"(\cref{tab:holdoutvalues})."]
+        f"level of {pct(V['alpha'], 0)} " + r"(supplementary Section~\SuppPrereg)."]
     # the readings beside H2a (PREREG_HOLDOUT Sec. 6; no verdict)
     h2a = c["H2a"]
     kn = _arrays_values(z["h2d"], "labels_knorm", "energy_gap_rel")
@@ -2858,7 +2976,7 @@ def holdout_material(N: Numbers, vho: dict, used: dict, r3: dict, rcm: dict,
     N.put("numHoldHTwoATau", pct(h2a["threshold"]))
     N.put("numHoldHTwoASeedZero", pct(1 - h2a["new_per_seed"][0] / h2a["base_per_seed"][0], 0))
     if not 0 < h2a["new_per_seed"][0] < h2a["base_per_seed"][0]:
-        raise SystemExit("holdout H2a: seed 0 is not below the supervised transformer's")
+        raise SystemExit("holdout H2a: seed 0 is not below the displacement-supervised transformer's")
     N.put("numHoldHTwoANewSeeds", and_list(num(x) for x in h2a["new_per_seed"]))
     N.put("numHoldHTwoABaseSeeds", and_list(num(x) for x in h2a["base_per_seed"]))
     N.put("numHoldHTwoATop", f"{top.max():.0f}")
@@ -2929,7 +3047,8 @@ def holdout_material(N: Numbers, vho: dict, used: dict, r3: dict, rcm: dict,
     vrows, vrules = [], []
     short = dict(zip(METRICS, ("Displacement", "Energy gap", "von Mises", "Peak stress",
                                "Recall"), strict=True))
-    nets = {"ar": "Label-free", "labels": "Supervised", "labels_knorm": "Stiffness norm",
+    nets = {"ar": "Label-free", "labels": "Supervised, displacement",
+            "labels_knorm": "Supervised, energy norm",
             "mgn": "Graph network"}
     for s_, S in (("h3d", "Three dimensions"), ("h2d", "Two dimensions")):
         if vrows:
@@ -2958,9 +3077,9 @@ def holdout_material(N: Numbers, vho: dict, used: dict, r3: dict, rcm: dict,
         "interval from 2,000 resamplings of the holdout instances. V's two-sided "
         "Mann–Whitney tests compare the per-instance values; Holm's procedure rejected none "
         f"of their p-values, which the evaluation's verdict records, at a family-wise level of "
-        f"{pct(V['alpha'], 0)}. The stiffness-norm transformer was "
+        f"{pct(V['alpha'], 0)}. The energy-norm-supervised transformer was "
         "evaluated in 2D only: its 3D counterpart was trained after this evaluation "
-        r"(\cref{sec:results3d:norm})."]
+        r"(\cref{sec:norm:three})."]
     return (head, rows, notes), (vhead, vrows, vnotes, tuple(vrules))
 
 
@@ -3033,9 +3152,11 @@ RITZ_TABLE_MODELS = {
                            "cm2d:mgn@1024", "cm2d:knn_field@1024",
                            "cm2d:scale_aware_poly@1024", "cm2d:zero@1024"),
     "h2d": None, "fine3d": None}
-RITZ_MODEL_NAMES = {"ar": "Label-free", "labels": "Supervised", "labels_anchor": "Supervised + "
-                    "energy term", "labels_knorm": "Supervised, stiffness norm",
-                    "mgn": "Graph network", "knn_field": "Nearest-neighbour field",
+RITZ_MODEL_NAMES = {"ar": "Label-free", "labels": "Supervised, displacement",
+                    "labels_anchor": "Supervised, displacement + "
+                    "energy term", "labels_knorm": "Supervised, energy norm",
+                    "mgn": "Graph network, displacement",
+                    "knn_field": "Nearest-neighbour field",
                     "scale_aware_poly": "Scaled polynomial", "zero": "Zero field"}
 RITZ_SET_NAMES = {"val3d": "3D, validation", "h3d": "3D, holdout", "fine3d": "3D, finer mesh",
                   "val2d": "2D, validation", "h2d": "2D, holdout"}
@@ -3085,6 +3206,12 @@ def ritz_material(N: Numbers, R: dict) -> tuple:
     ratios = [v3["ladder"][str(p)]["median"]["peak_vm_rel_err"] / e["peak_vm_rel_err"]
               ["model_median"] for p in v3["ladder_p"]
               for e in v3["ladder"][str(p)]["paired"][free3]]
+    top = str(max(v3["ladder_p"]))
+    if not min(v3["ladder"][top]["median"]["peak_vm_rel_err"] / e["peak_vm_rel_err"]
+               ["model_median"] for e in v3["ladder"][top]["paired"][free3]) > 2:
+        raise SystemExit("Ritz: the abstract says that at the top of its ladder its median peak "
+                         "stress error is more than twice the label-free transformer's, in "
+                         "each seed")
     N.put("numRitzValPeakRatioMin", f"{min(ratios):.1f}")
     N.put("numRitzValPeakRatioMax", f"{max(ratios):.1f}")
     peak_net = [s for p in v3["ladder_p"] for s in _net_better(v3, free3, p, "peak_vm_rel_err")]
@@ -3104,12 +3231,12 @@ def ritz_material(N: Numbers, R: dict) -> tuple:
     miss = max(round((1 - s) * h3["n"]) for p in h3["ladder_p"]
                for s in _net_better(h3, kn.split("@")[0], p, "peak_vm_rel_err"))
     if not 0 < miss <= 10:
-        raise SystemExit("Ritz: the text says the stiffness-norm transformer's peak error was the "
+        raise SystemExit("Ritz: the text says the energy-norm-supervised transformer's peak error was the "
                          "lower on all but a few held-out instances")
     N.put("numRitzHoldKnormPeakMiss", words(miss))
     kn_peak = [s for p in v3["ladder_p"] for s in _net_better(v3, kn, p, "peak_vm_rel_err")]
     if min(kn_peak) != 1.0:
-        raise SystemExit("Ritz: the text says the stiffness-norm transformer had the lower peak "
+        raise SystemExit("Ritz: the text says the energy-norm-supervised transformer had the lower peak "
                          "von Mises error on every validation instance at every degree")
     # the medians of the label-free transformer's gap: comparable at the top of the ladder
     fm = [e["energy_gap_rel"]["model_median"] for e in v3["ladder"]["9"]["paired"][free3]]
@@ -3195,6 +3322,27 @@ def ritz_material(N: Numbers, R: dict) -> tuple:
             "pairs": (head, rows, notes, tuple(rules))}
 
 
+def ritz_versus_networks(R: dict, r3: dict, rcm: dict, k: dict) -> None:
+    """The text's reading of the accuracy tables: at the top of its ladder the Ritz
+    projection beat the label-free transformer's seed means on every metric but the peak
+    stress error, in both dimensions, and the energy-norm-supervised transformer beat it in
+    relative energy gap, von Mises error and peak stress error and lost in displacement error
+    and critical-region recall."""
+    better = {m: (lambda a, b: a > b) if m == "crit_recall" else (lambda a, b: a < b)
+              for m in METRICS}
+    for s_, rep_free, rep_kn in (("val3d", r3, k), ("val2d", rcm, rcm)):
+        top = R[s_]["ladder"][str(R[s_]["ladder_p"][-1])]["mean"]
+        ritz_wins = {m for m in METRICS if better[m](top[m], seed_mean(rep_free, "ar", m))}
+        if ritz_wins != set(METRICS) - {"peak_vm_rel_err"}:
+            raise SystemExit(f"Ritz {s_}: the text says the top of the ladder beat the label-free "
+                             "transformer on every metric but the peak stress error")
+        kn_wins = {m for m in METRICS if better[m](seed_mean(rep_kn, "labels_knorm", m), top[m])}
+        if kn_wins != {"energy_gap_rel", "vm_rel_l2", "peak_vm_rel_err"}:
+            raise SystemExit(f"Ritz {s_}: the text says the energy-norm-supervised transformer "
+                             "beat the top of the ladder in energy gap, von Mises and peak "
+                             "stress error only")
+
+
 def _h3_free(h3: dict) -> str:
     """The holdout set's label for the label-free transformer."""
     ms_ = [m for m in h3["ladder"][str(h3["ladder_p"][0])]["paired"]
@@ -3246,7 +3394,7 @@ def extra_numbers(N: Numbers, r2: dict, r3: dict, amps: dict) -> None:
                 N.put(f"numPair{dim}{A_}{M}", share(win))
     # Section 5.1, read after the run: the noise guard of the two-dimensional comparison
     # (Table A.1; the three-dimensional pre-registration fixed none) applied to the
-    # label-free transformer against the two supervised transformers on the five
+    # label-free transformer against the two displacement-supervised transformers on the five
     # metrics; the text names the differences that lie within it
     within, total = [], 0
     for arm in ("labels", "labels_anchor"):
@@ -3318,8 +3466,9 @@ def _shared_legend(fig, axes, extra=()):
     return [seen[lab] for lab in labs], labs
 
 
-def figures(r2: dict, r3: dict, out: Path) -> list:
-    """r2: the two-dimensional comparison (CM2D's report); r3: the three-dimensional run."""
+def figures(r2: dict, r3: dict, k: dict, out: Path) -> list:
+    """r2: the two-dimensional comparison (CM2D's report); r3: the three-dimensional run;
+    k: the three-dimensional energy-norm run (its energy-norm-supervised transformer)."""
     import matplotlib
 
     matplotlib.use("Agg")
@@ -3331,10 +3480,11 @@ def figures(r2: dict, r3: dict, out: Path) -> list:
     with plt.rc_context(_style()):
         # displacement error against von Mises error, per instance and seed (3D)
         fig, ax = plt.subplots(figsize=(4.6, 3.6), constrained_layout=True)
-        for arm in ("labels", "mgn", "ar"):
+        for arm in ("labels", "mgn", "ar", "labels_knorm"):
             col, mk = STYLE[arm]
-            x = per_instance(r3, arm, "disp_rel_l2").ravel()
-            y = per_instance(r3, arm, "vm_rel_l2").ravel()
+            rep = k if arm == "labels_knorm" else r3
+            x = per_instance(rep, arm, "disp_rel_l2").ravel()
+            y = per_instance(rep, arm, "vm_rel_l2").ravel()
             ax.scatter(x, y, s=10, marker=mk, color=col, alpha=0.5, linewidths=0,
                        label=FIG_NAMES[arm])
         ax.set_xscale("log")
@@ -3345,7 +3495,10 @@ def figures(r2: dict, r3: dict, out: Path) -> list:
         ax.set_xlabel("Relative displacement error (log scale)")
         ax.set_ylabel("Relative von Mises error (log scale)")
         _axes(ax)
-        leg = ax.legend(loc="upper left", fontsize=7, markerscale=1.8, handletextpad=0.3)
+        hh, ll = ax.get_legend_handles_labels()
+        order = [ll.index(FIG_NAMES[a]) for a in LEGEND_ORDER if FIG_NAMES[a] in ll]
+        leg = ax.legend([hh[i] for i in order], [ll[i] for i in order], loc="upper left",
+                        fontsize=7, markerscale=1.8, handletextpad=0.3)
         for h in leg.legend_handles:
             h.set_alpha(1)
         written.append(_save(fig, out, "fig_disp_vs_stress"))
@@ -3356,10 +3509,11 @@ def figures(r2: dict, r3: dict, out: Path) -> list:
         for ax, (title, rep) in zip(axes, (("Three dimensions", r3), ("Two dimensions", r2)),
                                     strict=True):
             for arm in ("ar", "labels_knorm", "labels_anchor", "labels", "mgn"):
-                if arm not in cells(rep):
+                src = k if (rep is r3 and arm == "labels_knorm") else rep
+                if arm not in cells(src):
                     continue
                 col, mk = STYLE[arm]
-                v = np.sort(per_instance(rep, arm, "energy_gap_rel").ravel())
+                v = np.sort(per_instance(src, arm, "energy_gap_rel").ravel())
                 y = np.arange(1, v.size + 1) / v.size
                 ax.step(v, y, where="post", color=col, linewidth=1.5, label=FIG_NAMES[arm])
                 i = (v.size - 1) // 2
@@ -3418,6 +3572,82 @@ def figures(r2: dict, r3: dict, out: Path) -> list:
         written.append(_save(fig, out, "fig_label_efficiency"))
         plt.close(fig)
     return written
+
+
+def fig_norm_labels(nl: dict, out: Path) -> Path:
+    """Fig. 1: the same transformer trained on the solutions with the displacement loss, on
+    the solutions in the energy norm, and on the energy without solutions, in three and two
+    dimensions; each cell gives the median over the validation instances of the relative
+    energy-norm error E = g^(1/2) and of the von Mises error, averaged over the three seeds
+    (norm_label_material). The fourth cell, a displacement loss without solutions, does not
+    exist."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from matplotlib.patches import FancyArrowPatch, Rectangle
+
+    W, H, GX, GY = 1.25, 0.72, 0.42, 0.36
+    X0, X1, Y0, Y1 = 0.0, W + GX, 0.0, H + GY
+    name = {"labels": "supervised", "labels_knorm": "supervised", "ar": "label-free"}
+    with plt.rc_context(_style()):
+        fig, axes = plt.subplots(1, 2, figsize=(7.0, 3.0))
+        for ax, (dim, title) in zip(axes, (("Three", "Three dimensions"),
+                                           ("Cm", "Two dimensions")), strict=True):
+            m = nl[dim]["med"]
+            ax.set_xlim(-0.75, X1 + W + 0.05)
+            ax.set_ylim(-0.42, Y1 + H + 0.30)
+            ax.axis("off")
+
+            def cell(x, y, arm):
+                col, mk = STYLE[arm]
+                ax.add_patch(Rectangle((x, y), W, H, facecolor="white", edgecolor=INK2,
+                                       linewidth=0.8))
+                ax.plot([x + 0.09], [y + H - 0.12], marker=mk, color=col, markersize=6,
+                        markeredgecolor="white", markeredgewidth=0.6, linestyle="none")
+                ax.text(x + 0.17, y + H - 0.12, name[arm], ha="left", va="center",
+                        fontsize=7.5, color=col, fontweight="bold")
+                ax.text(x + W / 2, y + 0.34, f"E  {num(m[arm]['E_med'])}", ha="center",
+                        va="center", fontsize=7.5, color=INK)
+                ax.text(x + W / 2, y + 0.15, f"vM  {num(m[arm]['Vm_med'])}", ha="center",
+                        va="center", fontsize=7.5, color=INK)
+
+            cell(X0, Y1, "labels")
+            cell(X0, Y0, "labels_knorm")
+            cell(X1, Y0, "ar")
+            ax.add_patch(Rectangle((X1, Y1), W, H, facecolor="#f3f2ef", edgecolor=INK2,
+                                   linewidth=0.8, hatch="////"))
+            ax.text(X1 + W / 2, Y1 + H / 2, "not possible: a\ndisplacement loss\nneeds the "
+                    "solutions", ha="center", va="center", fontsize=6.8, color=INK2,
+                    bbox={"facecolor": "#f3f2ef", "edgecolor": "none", "pad": 1.2})
+            ax.text(X0 + W / 2, Y1 + H + 0.06, "with solutions", ha="center", fontsize=7.5,
+                    color=INK)
+            ax.text(X1 + W / 2, Y1 + H + 0.06, "without solutions", ha="center", fontsize=7.5,
+                    color=INK)
+            ax.text(-0.08, Y1 + H / 2, "displacement\nloss", ha="right", va="center",
+                    fontsize=7.5, color=INK)
+            ax.text(-0.08, Y0 + H / 2, "energy-norm\nloss", ha="right", va="center",
+                    fontsize=7.5, color=INK)
+            ax.text(-0.73, Y1 + H + 0.24, title, ha="left", fontsize=8.5, color=INK,
+                    fontweight="bold")
+            rn = {q: m["labels"][f"{q}_med"] / m["labels_knorm"][f"{q}_med"] for q in ("E", "Vm")}
+            rl = {q: m["ar"][f"{q}_med"] / m["labels_knorm"][f"{q}_med"] for q in ("E", "Vm")}
+            ax.add_patch(FancyArrowPatch((X0 + W / 2, Y1 - 0.02), (X0 + W / 2, Y0 + H + 0.02),
+                                         arrowstyle="-|>", mutation_scale=9, color=INK,
+                                         linewidth=1.0))
+            ax.text(X0 + W / 2 + 0.06, (Y1 + Y0 + H) / 2,
+                    f"change the norm: E \u00f7{rn['E']:.1f}, vM \u00f7{rn['Vm']:.1f}", ha="left",
+                    va="center", fontsize=7, color=INK)
+            ax.add_patch(FancyArrowPatch((X0 + W + 0.02, Y0 + H / 2), (X1 - 0.02, Y0 + H / 2),
+                                         arrowstyle="-|>", mutation_scale=9, color=INK2,
+                                         linewidth=0.9))
+            ax.text(X0 + W + GX / 2, Y0 - 0.17,
+                    f"remove the solutions: E \u00d7{rl['E']:.2f}, vM \u00d7{rl['Vm']:.2f}",
+                    ha="center", va="center", fontsize=7, color=INK2)
+        fig.subplots_adjust(left=0.01, right=0.99, top=0.98, bottom=0.02, wspace=0.05)
+        p_ = _save(fig, out, "fig_norm_labels")
+        plt.close(fig)
+    return p_
 
 
 def fig_e2(e2: dict, out: Path) -> Path:
@@ -3562,7 +3792,8 @@ def _rel_disp(z: dict, key: str, j: int, c: float = 1.0) -> float:
     return float(np.linalg.norm(c * z[key][j] - us) / np.linalg.norm(us))
 
 
-SHORT = {"ar": "Label-free", "labels": "Supervised", "labels_knorm": "Supervised,\nstiffness norm",
+SHORT = {"ar": "Label-free", "labels": "Supervised,\ndisplacement",
+         "labels_knorm": "Supervised,\nenergy norm",
          "mgn": "Graph network"}
 
 
@@ -3579,7 +3810,7 @@ def _gap_line(d: float, g: float, pi: float) -> str:
 def fig_field2d(z: dict, out: Path) -> Path:
     """The 2D figure instance (seed 0): the von Mises stress of the reference solution
     and of the four networks on the load case FIELD_LOADS selects; the networks trained
-    in the stiffness norm on the first row, those trained on the displacement error on
+    in the energy norm on the first row, those trained on the displacement error on
     the second."""
     import matplotlib
 
@@ -3678,8 +3909,8 @@ def fig_fields3d(figs: dict, out: Path) -> list:
     from matplotlib.cm import ScalarMappable
     from matplotlib.colors import Normalize
 
-    names = (("Reference", None), ("Label-free", "ar"), ("Supervised", "labels"),
-             ("Graph network", "mgn"))
+    names = (("Reference", None), ("Label-free", "ar"), ("Supervised, displacement", "labels"),
+             ("Graph network, displacement", "mgn"))
     cd, cv = _sequential(RAMP_DISP), _sequential(RAMP_VM)
     written = []
     with plt.rc_context(_style()):
@@ -3740,13 +3971,13 @@ def fig_fields3d(figs: dict, out: Path) -> list:
 
 # ---------------------------------------------------------------- main
 CAP_2D = ("Two-dimensional plates, every metric at the largest label budget. The supervised "
-          "networks were trained on 1,024 labelled instances; the label-free network on the "
-          "same 1,024 instances without their solutions.")
+          "networks were trained on 1,024 labelled instances; the label-free transformer on "
+          "the same 1,024 instances without their solutions.")
 CAP_2DJULY = (r"Two-dimensional plates, the July run with the earlier code: every metric at "
               r"the largest label budget, on the instances of \cref{tab:2d}.")
 CAP_3D = ("Three-dimensional solids, every metric at the largest label budget. The supervised "
-          "networks were trained on 1,024 labelled instances; the label-free network on the "
-          "same 1,024 instances without their solutions.")
+          "networks were trained on 1,024 labelled instances; the label-free transformer on "
+          "the same 1,024 instances without their solutions.")
 CAP_LE = ("Label efficiency: relative displacement error / relative energy gap against the "
           "number of labelled training instances (seed means).")
 CAP_LEJULY = ("The July run (two dimensions, earlier code): relative displacement error / "
@@ -3757,6 +3988,8 @@ CAP_TR = ("Three-dimensional solids on the finer mesh (lc = 0.0374), never train
           "on the first 16 or on all of the 64 fine-mesh instances reserved for few-shot "
           "training.")
 CAP_CR = "Every pre-registered criterion of the runs reported here, with its outcome."
+CAP_CL = ("The pre-registered claims of the comparisons reported in this paper, with the "
+          "outcomes that the code recorded at the time.")
 CAP_CM2D = ("The pre-registered hypotheses of the two-dimensional comparison, with 1,024 "
             "labelled instances, as its adjudicator recorded them, and the readings its "
             "pre-registration required beside each.")
@@ -3773,7 +4006,7 @@ CAP_COST = ("Time of the label-free transformer's inference against solves of th
             "systems, on the same instances, with the surrogate's accuracy there.")
 CAP_E1 = ("Isotropic Gaussian regularisation of the latent vectors added to the label-free "
           r"objective (two dimensions, with the later code of \cref{sec:methods:networks}).")
-CAP_K3D = ("The pre-registered hypotheses of the three-dimensional stiffness-norm run, with "
+CAP_K3D = ("The pre-registered hypotheses of the three-dimensional energy-norm run, with "
            "1,024 labelled instances, as its adjudicator recorded them, and the readings its "
            "pre-registration required beside each.")
 CAP_HOLD = ("The claims of the three- and two-dimensional comparisons read again on held-out "
@@ -3783,10 +4016,10 @@ CAP_HOLDV = ("Holdout evaluation: the mean and the median of every network and m
              "validation and on the held-out instances.")
 CAP_RITZP = ("The Ritz projection paired with the networks and baselines: the share of the "
              "instances on which the projection was the more accurate, per set and degree $p$.")
-CAP_KMED = ("Three-dimensional stiffness-norm run: every metric of the three transformers on "
+CAP_KMED = ("Three-dimensional energy-norm run: every metric of the three transformers on "
             "the 256 validation instances, the seeds' medians and the seeds' means over the "
             "instances (mean ± sample standard deviation over the three seeds).")
-CAP_KCMP = ("Three-dimensional stiffness-norm run: the 30 secondary comparisons, exploratory, "
+CAP_KCMP = ("Three-dimensional energy-norm run: the 30 secondary comparisons, exploratory, "
             "each with the noise guard, on the seeds' medians and on the seeds' means.")
 
 
@@ -3823,10 +4056,13 @@ def build() -> dict:
     rk, vk = load(RK3, used), load(VK3, used)
     k = as_e8(rk)
     (h_k3d, r_k3d, n_k3d), (h_kmed, r_kmed), (h_kcmp, r_kcmp) = k3d_material(N, k, vk, r3)
+    nl = norm_label_material(N, k, rcm)
     vho = load(HOLD / "verdict.json", used)
     (h_ho, r_ho, n_ho), (h_hv, r_hv, n_hv, rules_hv) = holdout_material(N, vho, used, r3, rcm,
                                                                         vcm)
-    rz = ritz_material(N, ritz_summaries(used))
+    R = ritz_summaries(used)
+    rz = ritz_material(N, R)
+    ritz_versus_networks(R, r3, rcm, k)
     dates = {"holdout": day_text(_starts(HOLD / "return" / "status.txt", used)[-1]),
              "k3d": day_text(rk["provenance"]["timestamp_utc"])}
     t = ampw["archs"]["transformer"]
@@ -3851,28 +4087,29 @@ def build() -> dict:
                                 "scale_aware_poly")) + rz["val2d"] + metric_rows(rcm, ("zero",)))
     def ritz_note(k_: str, ps: tuple) -> str:
         deg = and_list([f"$p = {ps[0]}$", *(str(p_) for p_ in ps[1:])])
-        return (r"Ritz projection (\cref{sec:methods:ritz}), added after the original analyses: "
+        return (r"Ritz projection (\cref{sec:methods:ritz}), added after the pre-registered runs: "
                 "computed per instance from its own stiffness matrix and loads, without labels "
                 f"or training, with {k_} "
                 f"unknowns at {deg}; deterministic, so its count of predictions worse than "
                 "the zero field is over the instances.")
     notescm = metric_notes(ncm, [
-        r"The two-dimensional comparison (\cref{tab:runs}), with the later code. The "
-        "label-free row evaluates, without retraining them, the label-free networks of the "
-        r"latent-regularisation run (\ref{app:e1}), trained on the same 1,024 instances. "
-        r"Supervised, stiffness norm: the supervised transformer trained on $\mathcal{L}_K$ "
-        r"\eqref{eq:lk} instead of $\mathcal{L}_D$ \eqref{eq:ld}, with everything else "
-        "unchanged.", ritz_note(N["numRitzTwoK"], RITZ_LADDER[2])])
+        r"The two-dimensional comparison (\cref{sec:methods:prereg}). "
+        "The label-free row evaluates, without retraining them, the label-free networks of "
+        r"the latent-regularisation run (supplementary Section~\SuppSide), trained on the "
+        r"same 1,024 instances. Supervised, energy norm: the same transformer trained on "
+        r"$\mathcal{L}_K$ \eqref{eq:lk} instead of $\mathcal{L}_D$ \eqref{eq:ld}, with "
+        "everything else unchanged.", ritz_note(N["numRitzTwoK"], RITZ_LADDER[2])])
     notes2 = metric_notes(n2, [
         "The July run (16 July 2026). Its code did not multiply the load scale back onto the "
         r"output (\cref{sec:methods:networks}); we attribute the narrow spread of the "
         "displacement errors to this; no experiment isolated it."])
     notes3 = metric_notes(n3, [
-        r"The three-dimensional comparison (\cref{tab:runs}). Supervised, stiffness norm: the "
-        r"three-dimensional stiffness-norm run (\cref{tab:runs,sec:results3d:norm}), the "
-        r"supervised transformer trained on $\mathcal{L}_K$ \eqref{eq:lk} with the same "
-        "labelled instances, settings and seeds, beside the stored label-free and supervised "
-        "transformers, which it evaluated again, reproducing their values exactly.",
+        r"The three-dimensional comparison (\cref{sec:methods:prereg}). Supervised, energy "
+        r"norm: the three-dimensional energy-norm run (\cref{sec:norm:three}), the same "
+        r"transformer trained on $\mathcal{L}_K$ \eqref{eq:lk} with the same labelled "
+        "instances, settings and seeds, beside the stored label-free and "
+        "displacement-supervised transformers, which it evaluated again, reproducing their "
+        "values exactly.",
         ritz_note(N["numRitzThreeK"], RITZ_LADDER[3])])
     hle = ["Run", "Model", "16", "64", "256", "1,024"]
     rle, rules_le = label_efficiency_rows((
@@ -3908,21 +4145,41 @@ def build() -> dict:
            r"\eqref{eq:ld}, without the energy term, for 50 epochs at learning rate "
            "1.5 × 10⁻³, from the trained label-free network of the same seed or from random "
            "initialisation (scratch); the few-shot comparison was pre-registered as reported "
-           r"only. Ritz projection: \cref{sec:methods:ritz}, added after the original analyses, "
+           r"only. Ritz projection: \cref{sec:methods:ritz}, added after the pre-registered runs, "
            "deterministic, on the fine meshes themselves, with nothing trained."]
     hcr = ["Run", "Criterion", "Measured", "Outcome"]
     pilot = (N["numPilotDisp"], N["numPilotLimit"])
     repro_max = adjudicator_constant(vcm, used, "REPRO_MAX")
     rcr, rules_cr = criteria_rows(r2, r3, e1v, e2v, pilot, rw, vcm, repro_max, vho, vk, dates)
+    rcl, rules_cl = claims_rows(rcr)
+    ncl = ["The criteria are those of the pre-registration documents, which number their own; "
+           r"the runs are those of \cref{sec:methods:prereg}. Gates decide whether a study "
+           "proceeds to its next stage, kill conditions withdraw a claim when triggered. G2 (a) "
+           "is a sanity check of the supervised side, (b) the accuracy of the label-free "
+           "network and (c) its transfer to the finer mesh; the amendment of the "
+           "three-dimensional gate, written after the initial run, assessed (a) from 64 "
+           r"labels only; its naive baselines are the nearest-neighbour field and the scaled "
+           r"polynomial of \cref{sec:methods:networks}. The holdout evaluation's claims are in "
+           r"\cref{tab:holdout}. "
+           "Supplementary Section~\\SuppPrereg{} lists every criterion of every "
+           "run with its notes, and the departures from the plans.",
+           "Noise guard: a comparison of a network A with a reference B over three seeds "
+           "each, with rel = mean(A)/mean(B) − 1 and SE_rel = $(s_A^2/3 + s_B^2/3)^{1/2}$ "
+           "divided by mean(B), where $s_A$ and $s_B$ are the sample standard deviations over "
+           "the seeds, finds A lower beyond the guard when rel is below minus the guard, "
+           "max(10%, 2 SE_rel), and higher beyond it when rel exceeds the guard; within it no "
+           "difference is shown, which is not equivalence. The three-dimensional energy-norm "
+           "run applies it to each seed's median over the instances. $\\mathcal{L}_D$ and "
+           r"$\mathcal{L}_K$ are the losses \eqref{eq:ld} and \eqref{eq:lk}."]
     hcm, rhy, ncm2 = cm2d_hypothesis_table(vcm, rcm)
     ncr = ["Runs are named as in \\cref{tab:runs} and dated by their records; the pilot of "
            "the amendment is the short run that the amendment required before the "
-           r"three-dimensional comparison (\ref{app:prereg}). Labels are those of the "
+           r"three-dimensional comparison (Section~\ref{app:prereg}). Labels are those of the "
            "pre-registration documents, each of which numbers its own criteria. Gates (G1′, G2) decide whether "
            "the study proceeds to its next stage. Kill conditions withdraw a claim, or abandon "
            "a component, when triggered: in two dimensions K1–K6, C1-advantage (the claimed "
            "advantage in relative energy gap), C5 (the pre-registered checks of "
-           r"\ref{app:repro:checks}) and E6 (latent alignment); in three dimensions KP1–KP6, "
+           r"Section~\ref{app:repro:checks}) and E6 (latent alignment); in three dimensions KP1–KP6, "
            "with KP5 the counterpart of C5. The latent-regularisation and bottleneck runs "
            "number their criteria afresh, with the meanings given here. A criterion reads the "
            "trained networks of the tables it names; the energy-term sub-experiment of the "
@@ -3932,7 +4189,7 @@ def build() -> dict:
            "the eigenvalues of the covariance of the latent vectors, each dimension "
            "standardised. The 3D amendment, the deviations and the joint-embedding term are "
            r"described below, the latent regularisation and the token bottleneck in "
-           r"\ref{app:e1}, the July run in \ref{app:july}.",
+           r"Section~\ref{app:e1}, the July run in Section~\ref{app:july}.",
            "Noise guard: a comparison of a network A with a reference B over three seeds "
            "each, with rel = mean(A)/mean(B) − 1 and SE_rel = $(s_A^2/3 + s_B^2/3)^{1/2}$ "
            "divided by mean(B), where $s_A$ and $s_B$ are the sample standard deviations over "
@@ -3942,7 +4199,7 @@ def build() -> dict:
            r"comparison use it (\cref{tab:cm2d}), and so do the latent-regularisation and "
            "bottleneck runs, with the label-free network as B (their pre-registrations call "
            "it the resolution), the holdout evaluation, and the three-dimensional "
-           r"stiffness-norm run, which applies it to each seed's median over the instances "
+           r"energy-norm run, which applies it to each seed's median over the instances "
            r"(\cref{tab:k3d}). $\mathcal{L}_D$ and $\mathcal{L}_K$ are the losses "
            r"\eqref{eq:ld} and \eqref{eq:lk}."]
     h_amp, r_amp = W.amp_rows(ampw)
@@ -3966,7 +4223,7 @@ def build() -> dict:
         "table_holdout.tex": table(h_ho, r_ho, CAP_HOLD, "tab:holdout", n_ho,
                                    align="@{}" + "".join(
                                        RAGGED + f"p{{{w}\\linewidth}}"
-                                       for w in ("0.07", "0.42", "0.155", "0.155", "0.16"))
+                                       for w in ("0.07", "0.455", "0.14", "0.14", "0.155"))
                                    + "@{}", rules=(3, 9), note_size="scriptsize"),
         "table_holdout_values.tex": longtable(h_hv, r_hv, CAP_HOLDV, "tab:holdoutvalues", n_hv,
                                               align="@{}llccc@{}", rules=rules_hv,
@@ -3980,6 +4237,12 @@ def build() -> dict:
                                            align="llcccc", rules=(5, 10)),
         "table_cm2d.tex": table(hcm, rhy, CAP_CM2D, "tab:cm2d", ncm2, align="lcccc",
                                 rules=(3, 5, 9)),
+        "table_claims.tex": longtable(hcr, rcl, CAP_CL, "tab:claims", ncl,
+                                      align="@{}" + "".join(
+                                          RAGGED + f"p{{{w}\\linewidth}}"
+                                          for w in ("0.145", "0.405", "0.21", "0.12"))
+                                      + "@{}",
+                                      rules=rules_cl, size="footnotesize"),
         "table_criteria.tex": longtable(hcr, rcr, CAP_CR, "tab:criteria", ncr,
                                         align="@{}" + "".join(
                                             RAGGED + f"p{{{w}\\linewidth}}"
@@ -4008,6 +4271,7 @@ def build() -> dict:
         + md(HEAD_METRICS, rows3, CAP_3D, notes3)
         + "\n" + md(hle, rle, CAP_LE, nle) + "\n" + md(hlj, rlj, CAP_LEJULY, nlj) + "\n"
         + md(htr, rtr, CAP_TR, ntr) + "\n"
+        + md(hcr, rcl, CAP_CL, ncl) + "\n"
         + md(hcr, rcr, CAP_CR, ncr) + "\n" + md(hcm, rhy, CAP_CM2D, ncm2)
         + "\n" + md(h_cost, r_cost, CAP_COST, n_cost)
         + "\n" + md(h_k3d, r_k3d, CAP_K3D, n_k3d) + "\n" + md(h_ho, r_ho, CAP_HOLD, n_ho)
@@ -4020,7 +4284,7 @@ def build() -> dict:
                                         "inputs_sha256": dict(sorted(used.items()))},
                                        indent=1) + "\n"
     return {"files": files, "r2": r2, "rcm": rcm, "r3": r3, "e2": e2, "numbers": N,
-            "spectra": sz, "figs": figs}
+            "spectra": sz, "figs": figs, "k": k, "nl": nl}
 
 
 def main() -> None:
@@ -4035,7 +4299,8 @@ def main() -> None:
         (out / name).write_text(text, encoding="utf-8")
     written = [out / n for n in b["files"]]
     if not a.no_figures:
-        written += figures(b["rcm"], b["r3"], out)
+        written += figures(b["rcm"], b["r3"], b["k"], out)
+        written.append(fig_norm_labels(b["nl"], out))
         written.append(fig_e2(b["e2"], out))
         written.append(fig_spectra(b["spectra"], out))
         written.append(fig_field2d(b["figs"]["fig2d"], out))

@@ -1,62 +1,15 @@
-\section{Problems, networks and protocol}\label{sec:methods}
-
-\begin{table}[tbp]
-\centering
-\footnotesize
-\setlength{\tabcolsep}{3pt}
-\caption{The runs reported in this paper, by the names used in the text. The runs of July
-2026 used the earlier code, the others the later code, which multiplies the decoded field by
-$F_{\max}$ (\cref{sec:methods:networks}). \ref{app:prereg} describes the pre-registrations
-and their provenance, and \ref{app:repro} lists the configurations and records with their
-hashes.}
-\label{tab:runs}
-\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.21\linewidth}
->{\raggedright\arraybackslash}p{0.14\linewidth}
->{\raggedright\arraybackslash}p{0.17\linewidth}
->{\raggedright\arraybackslash}p{0.275\linewidth}
->{\raggedright\arraybackslash}p{0.135\linewidth}@{}}
-\toprule
-Run & Date & Pre-registered & Role in this paper & Reported in \\
-\midrule
-Three-dimensional comparison & 28 September 2026 & yes, as an amendment & the three roles
-in three dimensions; transfer to a finer mesh & \cref{sec:results3d,sec:transfer} \\
-Initial three-dimensional run & 21 September 2026 & yes & superseded: its label-free
-objective was defective (deviation D14) & \ref{app:prereg} \\
-Two-dimensional comparison & 8--9 October 2026 & yes & the norm of the loss against the
-labels (H1--H3) & \cref{sec:results2d} \\
-Holdout evaluation & 21 October 2026 & yes & the claims of
-\cref{sec:results3d,sec:results2d} on instances that no network had seen; no training &
-\cref{sec:holdout} \\
-Three-dimensional stiffness-norm run & 22--25 October 2026 & yes & the norm of the loss
-against the labels in three dimensions & \cref{sec:results3d:norm} \\
-Ritz baseline & 28 October 2026 & no; specified before any paired computation & a classical
-approximation, paired with every network &
-\cref{sec:results3d:ritz,sec:results2d:accuracy,sec:holdout,sec:transfer:zeroshot,sec:cost:inference} \\
-Latent-regularisation run (2D) & 29--30 September 2026 & yes & the two-dimensional
-label-free networks; latent regularisation & \cref{sec:results2d}, \ref{app:e1} \\
-Bottleneck run (3D) & 30 September 2026 & yes & a token bottleneck to reduce the cost of
-attention & \cref{sec:transfer:amplitude,sec:cost:training}, \ref{app:e1} \\
-July run (2D) & 16 July 2026 & yes; document uploaded with its hash line blank & the earlier
-two-dimensional comparison; warm start (K5); cross-resolution term (K6) &
-\cref{sec:results2d:july,sec:cost:warm}, \ref{app:july} \\
-Diagnostic run (2D) & 30 July 2026 & no & replication of the label-free network; the energy
-term with 16 labels & \ref{app:prereg}, \ref{app:july} \\
-Joint-embedding run (2D) & 31 July 2026 & yes; document committed after the run & the
-joint-embedding term (K3); the scope of this paper & \ref{app:prereg} \\
-\bottomrule
-\end{tabular}
-\end{table}
+\section{Problems, networks and comparisons}\label{sec:methods}
 
 \subsection{Problems and data}\label{sec:methods:data}
 
 Two families of linear elastostatic problems were used, one in two dimensions and one in
-three. Both are clamped on the face $x=0$ and carry four load cases that share one
-stiffness matrix: a downward and an axial traction on the face opposite the clamp, a shear
-traction on the top face, and a downward body force. The magnitude of each load case is
-drawn independently as $0.05$ times a number uniform on $[0.5,1.5]$. Young's modulus is
-$E=1$ and Poisson's ratio is uniform on $[0.25,0.38]$ per instance; all quantities are
-dimensionless. Meshes were generated with Gmsh \cite{Geuzaine2009}, and reference solutions
-were computed by sparse direct factorisation.
+three. Both are clamped on the face $x=0$ and carry four load cases that share one stiffness
+matrix: a downward and an axial traction on the face opposite the clamp, a shear traction on
+the top face, and a downward body force. The magnitude of each load case is drawn
+independently as $0.05$ times a number uniform on $[0.5,1.5]$. Young's modulus is 1 and
+Poisson's ratio is uniform on $[0.25,0.38]$ per instance; all quantities are dimensionless.
+Meshes were generated with Gmsh \cite{Geuzaine2009}, and reference solutions were computed
+by sparse direct factorisation.
 
 \paragraph{Two dimensions}
 Rectangular plates $[0,l_x]\times[0,l_y]$ in plane stress, with $l_x$ uniform on $[1.5,3]$,
@@ -64,26 +17,24 @@ $l_y$ uniform on $[0.8,1.5]$ and zero to three non-overlapping circular holes of
 between $0.06$ and $0.16$ times $\min(l_x,l_y)$, are meshed with linear triangles of target
 size uniform on $[0.05,0.12]$ and assembled with scikit-fem \cite{Gustafsson2020}. The
 corpus has 30,000 instances: 256 form the validation set and the first 1,024 of the
-remainder the training pool. The last \numHoldTwoTail{} instances of the remainder lie beyond
-the deepest prefix of it that any recorded run read, and \numHoldTwoN{} of them form the
-holdout set of \cref{sec:holdout}. Two further sets of 2,000 instances, each instance meshed
-twice, at the original size and 1.8 or 2.5 times more coarsely, test cross-resolution
-transfer (\ref{app:july}).
+remainder the training pool. The last \numHoldTwoTail{} instances of the remainder lie
+beyond the deepest prefix of it that any recorded run read, and \numHoldTwoN{} of them form
+the holdout set of \cref{sec:holdout}.
 
 \paragraph{Three dimensions}
 Boxes $[0,l_x]\times[0,l_y]\times[0,l_z]$, with $l_x$ uniform on $[1.5,3]$, $l_y$ on
 $[0.8,1.5]$, $l_z$ on $[0.6,1.2]$ and zero to three non-overlapping spherical cavities of
 radius between $0.08$ and $0.16$ times $\min(l_x,l_y,l_z)$, are meshed with linear
 tetrahedra at a characteristic length $l_c$ drawn uniformly from $[0.0579,0.0906]$ per
-instance; we call this range in-band. The corpus has 2,000 instances: 256 form the
-validation set, the first 1,024 of the remainder the training pool, and the other
-\numHoldThreeTail{} were not used for training or validation; \numHoldThreeN{} of them form
-the holdout set of \cref{sec:holdout}. The validation meshes have between \numNodesInMin{}
-and \numNodesInMax{} nodes (median \numNodesInMedian{}), with three degrees of freedom per
-node. A finer set of 320 instances from the same distribution is meshed at $l_c=0.0374$; its
-first 256 instances, with between \numNodesFineMin{} and \numNodesFineMax{} nodes (median
-\numNodesFineMedian{}), form the evaluation set of \cref{sec:transfer}, and the last 64 are
-reserved for few-shot training. No network saw a fine mesh in its in-band training.
+instance. The corpus has 2,000 instances: 256 form the validation set, the first 1,024 of
+the remainder the training pool, and the other \numHoldThreeTail{} were not used for
+training or validation; \numHoldThreeN{} of them form the holdout set of \cref{sec:holdout}.
+The validation meshes have between \numNodesInMin{} and \numNodesInMax{} nodes (median
+\numNodesInMedian{}), with three degrees of freedom per node. A finer set of 320 instances
+from the same distribution is meshed at $l_c=0.0374$, about half the element size; its first
+256 instances, with between \numNodesFineMin{} and \numNodesFineMax{} nodes (median
+\numNodesFineMedian{}), test transfer to a finer mesh, and the last 64 are reserved for
+few-shot training.
 
 \paragraph{Conditioning}
 On sixteen assembled validation instances of each corpus, the spectral condition number
@@ -99,108 +50,55 @@ scaled to unit root-mean-square radius; its Dirichlet flags; and its consistent 
 for the load case, divided by $F_{\max}$, the largest absolute nodal load component over the
 instance's four load cases. Two global descriptors are appended to every token: a load
 summary (the total load magnitude and the net load per component, each divided by the number
-of nodes and by $F_{\max}$, and the fraction of loaded nodes) and a geometry descriptor
-(the extents, each divided by the upper end of its sampling range, so that the absolute
-size is kept; Poisson's ratio; the number of holes or cavities and their area or
-volume fraction, and in two dimensions their mean radius). An encoder of 8 pre-normalised
-transformer blocks \cite{Vaswani2017} of width 256 with 8 attention heads applies full
-self-attention over the nodes; a decoder maps each node's latent vector, concatenated with
-the mean latent vector over the nodes, to the node's displacement through a three-layer
-perceptron, and the constrained components are set to zero. Each load case is a separate
-sequence; the four sequences of an instance are processed as one batch. The encoder and
-decoder have \numParamsTransformer{} million parameters. The implementation also holds two
-auxiliary heads, \numParamsAux{} million parameters, which only the secondary objectives of
-three pre-registered criteria use (\ref{app:prereg}): a joint-embedding term (K3), latent
-regularisers (K4) and a cross-resolution term (K6); the networks of the two comparisons do
-not use them.
-
-The decoded field is multiplied by $F_{\max}$, so that the prediction is proportional to the
-load amplitude. This has two consequences that the results take up. The runs of July 2026
-(\cref{tab:runs}) used an earlier version of the code that did not multiply $F_{\max}$
-back; since the load features are normalised by $F_{\max}$, no network in those runs could
-know the absolute amplitude of an instance's loads (\ref{app:july}). And since $F_{\max}$,
-a nodal load, shrinks with the element size, the scaling makes the output depend on the
-mesh (\cref{sec:transfer:amplitude}). The runs of September and October 2026 used the later
-code, which multiplies the output by $F_{\max}$.
+of nodes and by $F_{\max}$, and the fraction of loaded nodes) and a geometry descriptor (the
+extents, each divided by the upper end of its sampling range, so that the absolute size is
+kept; Poisson's ratio; the number of holes or cavities and their area or volume fraction,
+and in two dimensions their mean radius). An encoder of 8 pre-normalised transformer blocks
+\cite{Vaswani2017} of width 256 with 8 attention heads applies full self-attention over the
+nodes; a decoder maps each node's latent vector, concatenated with the mean latent vector
+over the nodes, to the node's displacement through a three-layer perceptron, and the
+constrained components are set to zero. Each load case is a separate sequence; the four
+sequences of an instance are processed as one batch. The encoder and decoder have
+\numParamsTransformer{} million parameters. The decoded field is multiplied by $F_{\max}$,
+so that the prediction is proportional to the load amplitude; since $F_{\max}$, a nodal
+load, shrinks with the element size, this scaling makes the output depend on the mesh
+(\cref{sec:discussion}).
 
 \paragraph{Graph network}
-As a supervised baseline of the most widely used kind we used a MeshGraphNets-style
+As a supervised baseline of a widely used kind we used a MeshGraphNets-style
 encode-process-decode network \cite{Pfaff2021} with node and edge encoders, 8
 message-passing layers of width 256 over the mesh edges (edge features: relative position
-and length), the same node features and the same output scaling as the transformer;
-it has \numParamsGraph{} million parameters.
-
-\paragraph{Token bottleneck}
-To reduce the cost of attention, a separately pre-registered variant of the transformer
-pools the nodes into $M=512$ or $M=1{,}024$ tokens before attention and decodes each node
-from its nearest tokens (\ref{app:e1}). It was trained on the energy alone and dropped; it
-appears beside the transformer in the readings of \cref{sec:transfer:amplitude}.
+and length), the same node features and the same output scaling as the transformer; it has
+\numParamsGraph{} million parameters.
 
 \paragraph{Baselines}
 The accuracy tables also report three deterministic baselines: the zero field; a
 nearest-neighbour field, the solution of the labelled training instance nearest in the
 geometry descriptor, interpolated to the new mesh in normalised coordinates; and a scaled
 polynomial, a quadratic ridge regression of the field's direction on the node features with
-its norm regressed on the instance's descriptors. We call the last two the naive baselines;
-they use the same labelled instances as the supervised networks. The sanity condition of
-the gate of the July run (\ref{app:july}) also used a plain polynomial, a quadratic ridge
-regression of the displacement itself on the node features.
+its norm regressed on the instance's descriptors. The last two use the same labelled
+instances as the supervised networks.
 
-\subsection{Training}\label{sec:methods:training}
+\subsection{Losses and training}\label{sec:methods:training}
 
-\begin{figure}[tbp]
-\centering
-\begin{tikzpicture}[
-  node distance=5mm and 7mm,
-  box/.style={draw, rounded corners=2pt, align=center, font=\footnotesize,
-              minimum height=10mm, text width=26mm, inner sep=3pt},
-  cost/.style={box, fill=black!8, thick},
-  arr/.style={-{Stealth[length=2.2mm]}, semithick}]
-\node[box] (i1) {Instance:\\ mesh, material,\\ loads};
-\node[box, right=of i1] (a1) {Assemble\\ $K$, $F$};
-\node[cost, right=of a1] (s1) {Solve $K\Ustar=F$\\ per load case};
-\node[box, right=of s1] (l1) {Loss\\ $\norm{u-\Ustar}_2/\norm{\Ustar}_2$};
-\node[box, below=9mm of i1] (i2) {Instance:\\ mesh, material,\\ loads};
-\node[box, right=of i2] (a2) {Assemble\\ $K$, $F$};
-\node[box, right=27mm of a2] (l2) {Loss\\ $\Pi_h(u)=\tfrac12u^{\top}Ku-F^{\top}u$};
-\draw[arr] (i1) -- (a1);
-\draw[arr] (a1) -- (s1);
-\draw[arr] (s1) -- (l1);
-\draw[arr] (i2) -- (a2);
-\draw[arr] (a2) -- (l2);
-\node[font=\footnotesize, anchor=south west] at ([yshift=1mm]i1.north west) {Supervised};
-\node[font=\footnotesize, anchor=south west] at ([yshift=1mm]i2.north west) {Label-free};
-\end{tikzpicture}
-\caption{The two training routes for the same network. Supervised training needs a
-reference solution for every training instance and load case (shaded); label-free
-training evaluates the assembled discrete potential energy of the prediction $u$, which by
-\cref{lem:exact} differs from the stiffness-norm regression loss by a constant. Drawn with
-TikZ code written with the assistance of Claude (Anthropic), as declared at the end of the
-paper.}
-\label{fig:schematic}
-\end{figure}
-
-\Cref{fig:schematic} contrasts the two routes. The label-free transformer minimises
-\eqref{eq:training} with $L=4$: at each step one training instance is drawn, without
-replacement within an epoch, its four load cases are predicted, and the mean of their
-energies is the loss; no reference solution is read. The supervised transformer, the same
-network, minimises on labelled instances the mean over the load cases of the relative
-displacement error,
+The label-free transformer minimises \eqref{eq:training} with $L=4$: at each step one
+training instance is drawn, without replacement within an epoch, its four load cases are
+predicted, and the mean of their energies is the loss; no reference solution is read. The
+displacement-supervised transformer, the same network, minimises on labelled instances the
+mean over the load cases of the relative displacement error,
 \begin{equation}
 \mathcal{L}_D=\frac{1}{L}\sum_{j=1}^{L}\frac{\norm{u_j-\Ustar_j}_2}{\norm{\Ustar_j}_2},
 \label{eq:ld}
 \end{equation}
 where $u_j$ is the prediction and $\Ustar_j$ the reference solution for load case $j$ of an
-instance, and $F_j$ its load vector. In both dimensions the same network was also trained on
-the relative stiffness-norm error, in three dimensions by a later pre-registered run
-(\cref{tab:runs}),
+instance, and $F_j$ its load vector. The energy-norm-supervised transformer, again the same
+network, minimises the relative energy-norm error,
 \begin{equation}
 \mathcal{L}_K=\frac{1}{L}\sum_{j=1}^{L}\frac{\norm{u_j-\Ustar_j}_K}{\norm{\Ustar_j}_K}
 =\frac{1}{L}\sum_{j=1}^{L}g(u_j)^{1/2},
 \label{eq:lk}
 \end{equation}
-which replaces the norm of \eqref{eq:ld} and nothing else; we call this network the
-stiffness-norm transformer. Since
+which replaces the norm of \eqref{eq:ld} and nothing else. Since
 $\norm{u_j-\Ustar_j}_K^2=u_j^{\top}Ku_j-2F_j^{\top}u_j+F_j^{\top}\Ustar_j$, the loss
 $\mathcal{L}_K$ uses each reference solution only through the number
 $\norm{\Ustar_j}_K^2=F_j^{\top}\Ustar_j$, and its gradient with respect to $u_j$,
@@ -209,85 +107,71 @@ $\norm{\Ustar_j}_K^2=F_j^{\top}\Ustar_j$, and its gradient with respect to $u_j$
 \label{eq:lkgrad}
 \end{equation}
 is that of the label-free objective of one instance, $(Ku_j-F_j)/L$, weighted per load case.
-The supervised transformer with an energy term adds the mean energy of the four load cases
-to $\mathcal{L}_D$, with the gradient of the energy scaled to at most the norm of the
-gradient of $\mathcal{L}_D$: the update direction is
-$\nabla_\theta\mathcal{L}_D+\min\{1,\norm{\nabla_\theta\mathcal{L}_D}/\norm{\nabla_\theta\bar\Pi}\}\nabla_\theta\bar\Pi$,
-with $\bar\Pi$ the mean energy. In three dimensions with 16 labelled instances the energy
-term was instead $\bar\Pi$ divided by the mean of $\lvert\Pi_h(\Ustar)\rvert$ over the load
-cases, with weight one, a policy fixed in the three-dimensional pre-registration after the
-diagnostic run had shown the scaled form to scatter widely across seeds with 16 labels
-(\ref{app:prereg}). The graph network is trained on $\mathcal{L}_D$.
+The two energy-norm losses thus differ in the weighting of the load cases and in the labels,
+not in the norm. In three dimensions a fourth variant, the displacement-supervised
+transformer with an energy term, adds the mean energy of the four load cases to
+$\mathcal{L}_D$, with its gradient scaled to at most the norm of the gradient of
+$\mathcal{L}_D$, or with a fixed weight with 16 labelled instances (supplementary
+Section~\SuppPrereg); the graph network is trained on $\mathcal{L}_D$.
 
 All networks were trained with AdamW \cite{Loshchilov2019}, with weight decay $10^{-4}$ and
 the gradient norm clipped at 1, for 200 epochs. The learning rate followed a cosine schedule
 after a linear warm-up over the first 5\% of the steps, to a peak of $10^{-3}$ for the
 label-free and $1.5\times10^{-3}$ for the supervised networks; these rates were fixed before
-the runs and not tuned on them, and the stiffness-norm transformer used the supervised
-settings unchanged. Training was in single precision with TF32 matrix products
-(TensorFloat-32: the inputs of each product rounded to a 10-bit mantissa, the products
-accumulated in single precision), with three seeds (0, 1, 2) per network. The supervised
-networks were trained with 16, 64, 256 and 1,024 labelled instances, the first 16, 64, 256
-and 1,024 instances of the training pool, the graph network with 64 and 1,024 only, a saving
-of machine time fixed in the pre-registrations of September and October 2026. Every network
-ran 200 epochs, so that a supervised network with $n$ labelled instances took $200n$ steps,
-3,200 with 16, and the comparisons at the smaller budgets differ in the number of steps as
-well as in the labels. The label-free network was trained on the same 1,024 instances
-without their solutions, for 204,800 steps; its training set is thus the supervised
-networks' largest one with the labels removed. The two-dimensional label-free networks are
-the unregularised networks of the latent-regularisation run (\ref{app:e1}), trained with
-these settings and the later code; the two-dimensional comparison reuses them without
-retraining. In the two-dimensional comparison, at a given seed the transformers start from
-the same initial weights and, with 1,024 instances, see them in the same sequence of
-per-epoch permutations, so that the supervised and the stiffness-norm transformers differ
-only in the loss. The three-dimensional stiffness-norm transformer was trained in October
-2026 with the supervised settings, seeds and labelled instances, about seven weeks after the
-supervised transformer with which it is compared; at each seed it started from that
-network's initial weights and saw the instances in its order, as a regression of the two
-versions of the code on small problems showed (\cref{sec:results3d:norm}). The networks of
-the warm-start test (\cref{sec:cost:warm}), of the cross-resolution test (\ref{app:july})
-and of the few-shot training (\cref{sec:transfer:zeroshot}) were trained with the settings
-given where they are reported.
+the runs and not tuned on them, and the energy-norm-supervised transformer used the
+displacement-supervised settings unchanged. Training was in single precision with
+TensorFloat-32 (TF32) matrix products, with three seeds (0, 1, 2) per network. The
+supervised networks were trained with 16, 64, 256 and 1,024 labelled instances, the first
+16, 64, 256 and 1,024 instances of the training pool, the graph network with 64 and 1,024
+only, a saving of machine time fixed in the pre-registrations of September and October 2026.
+Every network ran 200 epochs, so that a supervised network with $n$ labelled instances took
+$200n$ steps, 3,200 with 16, and the comparisons at the smaller budgets differ in the number
+of steps as well as in the labels. The label-free transformer was trained on the same 1,024
+instances without their solutions, for 204,800 steps; its training set is thus the
+supervised networks' largest one with the labels removed. Each network is evaluated as it
+stands at the end of its last epoch; no checkpoint was selected on the validation instances.
+
+The two norms were compared with everything else held fixed. In the two-dimensional
+comparison, at a given seed the transformers start from the same initial weights and, with
+1,024 instances, see them in the same sequence of per-epoch permutations, so that the
+displacement-supervised and the energy-norm-supervised transformers differ only in the loss.
+The three-dimensional energy-norm-supervised transformer was trained in October 2026, about
+seven weeks after the displacement-supervised transformer with which it is compared; at each
+seed it started from that network's initial weights and saw the instances in its order, as a
+regression of the two versions of the code on small problems showed. The two-dimensional
+label-free transformers were trained, with these settings, in a separate pre-registered run
+and reused without retraining (supplementary Section~\SuppSide).
 
 \subsection{Metrics}\label{sec:methods:metrics}
 
 For each validation instance and load case we compute five metrics. The relative
-displacement error is $\norm{u-\Ustar}_2/\norm{\Ustar}_2$. The relative energy gap is
-$g(u)$ of \eqref{eq:relgap}, computed as $\gap(u)/\lvert\Pi_h(\Ustar)\rvert$. With the
-element-wise von Mises stresses $\vm(u)$ and $\vm(\Ustar)$, which are constant on linear
-elements, the von Mises error is
+displacement error is $\norm{u-\Ustar}_2/\norm{\Ustar}_2$. The relative energy gap is $g(u)$
+of \eqref{eq:relgap}, computed as $\gap(u)/\lvert\Pi_h(\Ustar)\rvert$; its square root
+$g^{1/2}$ is the relative energy-norm error. With the element-wise von Mises stresses
+$\vm(u)$ and $\vm(\Ustar)$, which are constant on linear elements, the von Mises error is
 $\norm{\vm(u)-\vm(\Ustar)}_2/\norm{\vm(\Ustar)}_2$, the norms taken over the vector of
 element values; the peak stress error is
 $\lvert\max\vm(u)-\max\vm(\Ustar)\rvert/\max\vm(\Ustar)$; and the critical-region recall is
-the share of the $n_c$ elements with the largest $\vm(\Ustar)$ that are also among the
-$n_c$ elements with the largest $\vm(u)$, with $n_c$ the nearest integer to a tenth of the
-number of elements. Each metric is averaged over the four load cases of an instance and
-then over the 256 validation instances; tables give the mean and the sample standard
-deviation over the three seeds.
-
-The relative energy gap is the primary metric, as pre-registered: by \cref{prop:stress} it
-is the strain energy of the stress error relative to that of the solution. It is a squared
-error. Since every instance has four load cases, the seed mean of $g$ is its mean over all
-predictions, and the square root of a ratio of two such means is the ratio of the
-root-mean-square relative stiffness-norm errors $g^{1/2}$. We give it beside the ratios of
-seed means in \cref{sec:results3d:same,sec:results2d:accuracy,sec:results2d:norm}; every
-other ratio of $g$ in the text is a ratio of squared errors. The normalisation of $g$ needs
-the solution, so $g$ is computed on validation
+the share of the $n_c$ elements with the largest $\vm(\Ustar)$ that are also among the $n_c$
+elements with the largest $\vm(u)$, with $n_c$ the nearest integer to a tenth of the number
+of elements. Each metric is averaged over the four load cases of an instance and then over
+the 256 validation instances; tables give the mean and the sample standard deviation over
+the three seeds. The relative energy gap is the primary metric, as pre-registered: by
+\cref{prop:stress} it is the strain energy of the stress error relative to that of the
+solution. Being a squared error, it changes by the square of the factor by which the
+energy-norm error changes; we quote factors of the energy-norm error where the two could be
+confused. The normalisation of $g$ needs the solution, so $g$ is computed on evaluation
 instances only; without the solution, the energy gives the ranking of \cref{cor:rank} and
 the test of \cref{cor:zero}. The tables count as worse than the zero field the instance-seed
-predictions whose relative energy gap, averaged over the four load cases, exceeds one, a
-count that uses the solutions; the test of \cref{cor:zero}, which needs none, was read per
-load case after the runs for the networks with 1,024 labelled instances whose energies were
-exported (\cref{sec:results3d:detection,sec:results2d:accuracy}). The field plots show instances
-chosen by rules fixed before any field was drawn (\ref{app:repro:plots}).
+predictions whose relative energy gap, averaged over the four load cases, exceeds one.
 
 \subsection{A classical approximation of the same size}\label{sec:methods:ritz}
 
 For each instance we also computed the Ritz-Galerkin projection of the finite-element
 problem onto a space of vector polynomials, from the instance's own stiffness matrix and
 load vectors, without labels or training. With the instance's box
-$[0,l_x]\times[0,l_y]\times[0,l_z]$ (\cref{sec:methods:data}) and $P_k$ the Legendre
-polynomial of degree $k$, each displacement component is spanned by the functions
+$[0,l_x]\times[0,l_y]\times[0,l_z]$ and $P_k$ the Legendre polynomial of degree $k$, each
+displacement component is spanned by the functions
 \begin{equation}
 \phi_{abc}(x,y,z)=\frac{x}{l_x}\,P_a\Bigl(\frac{2x}{l_x}-1\Bigr)\,P_b\Bigl(\frac{2y}{l_y}-1\Bigr)\,
 P_c\Bigl(\frac{2z}{l_z}-1\Bigr),\qquad a+b+c\le p-1,
@@ -300,64 +184,42 @@ load case is $u_p=\Phi\,(\Phi^{\top}K\Phi)^{+}\Phi^{\top}F$, the pseudo-inverse 
 through the eigendecomposition of $\Phi^{\top}K\Phi$ with the directions whose eigenvalue is
 at most $10^{-13}$ times the largest dropped; on no instance was a direction dropped. Like
 the rescaled prediction $\cstar u$, which is the projection onto the span of $u$
-(\cref{prop:amp}), $u_p$ minimises $\Pi_h$ over its space, so that its relative energy gap
-is the smallest that the space allows. We report every degree of the ladder that the
-specification fixed, $p=6$, 7, 8 and 9 in three dimensions, with \numRitzThreeK{} unknowns,
-and $p=6$ and 8 in two, with \numRitzTwoK{}. Each instance's projection is compared with
-every network's prediction of it on the five metrics of \cref{sec:methods:metrics}, and we
-report the share of the instances on which the projection was strictly the more accurate,
-for each seed of a network. This comparison was added after the original analyses and was
-not pre-registered. Its specification was written on 20 October 2026, after exploratory
-readings on instances drawn afresh from the same generators and on the evaluation sets of a
-separate study; it was committed with the configuration of the run on 27 October 2026 and
-was in the public repository before any paired computation on the instances of this paper,
-which ran on 28 October 2026. It changes no pre-registered verdict. The projection needs the
-assembled stiffness matrix, which the surrogates do not; \cref{sec:cost:inference} times
-both.
+(\cref{prop:amp}), $u_p$ minimises $\Pi_h$ over its space. We report every degree of the
+ladder that the specification fixed, $p=6$, 7, 8 and 9 in three dimensions, with
+\numRitzThreeK{} unknowns, and $p=6$ and 8 in two, with \numRitzTwoK{}, and pair each
+instance's projection with every network's prediction of it. This comparison was added after
+the pre-registered runs and was not pre-registered. Its specification was written on 20
+October 2026, after exploratory readings on instances drawn afresh from the same generators
+and on the evaluation sets of a separate study, and was in the public repository before any
+paired computation on the instances of this paper, which ran on 28 October 2026. The
+projection needs the assembled stiffness matrix, which the surrogates do not.
 
-\subsection{Pre-registration}\label{sec:methods:prereg}
+\subsection{Comparisons fixed in advance}\label{sec:methods:prereg}
 
-Each run whose results decide a claim of this paper was specified, before it was executed,
-in a pre-registration document that fixes the configuration, the metrics, the decision
-gates, which decide whether the study proceeds to its next stage, and the kill conditions,
-which withdraw a claim, or abandon a component, when triggered; both outcomes of every such
-run were declared publishable in advance. The configuration is identified by its SHA-256
-hash, and the code refused to start a run whose configuration did not match the registered
-hash. Each run was completed once, and restarts after faults reused the networks already
-trained (\ref{app:prereg}); the one repetition, the amendment of deviation D14 described
-below, repeated only what a defect of the code had invalidated. The holdout evaluation
-started each of its four steps twice: the first attempts ran on a checkout that lacked the
-steps' script and stopped at once, without computing anything (\ref{app:prereg}).
-\Cref{tab:runs} names the runs. The documents of the runs of September and October 2026 were
-committed and pushed to the project's public repository before their runs, and tags mark the
-commits. For the two pre-registered runs of July 2026 the public record is weaker: one
-document was uploaded with its hash line blank, the other committed after its run
-(\ref{app:prereg}). The two-dimensional comparison, the two side experiments of
-\ref{app:e1}, the holdout evaluation and the three-dimensional stiffness-norm run compare
-two networks over three seeds with a noise guard fixed in their pre-registrations: a
-difference of seed means counts only beyond the larger of 10\% and twice its standard error,
-and within the guard no difference is shown, which is not equivalence (note to
-\cref{tab:criteria}); the three-dimensional stiffness-norm run applies the guard to each
-seed's median over the instances instead of its mean (\cref{sec:results3d:norm}). The
-pre-registration of the three-dimensional comparison fixed no such guard; its gate compares
-seed means with fixed thresholds. Results that were not pre-registered, the diagnostic run,
-the readings taken after the runs on the stored networks and the Ritz baseline, are labelled
-as such. \Cref{tab:criteria} lists every pre-registered criterion of these runs with its
-outcome, met or not, under the labels of the pre-registration documents.
-
-Four departures from the plans bear on the reading of the results (\ref{app:prereg}). The
-initial three-dimensional run used a label-free objective that omitted the output scaling
-by $F_{\max}$, which inference applied, so that its label-free network returned about
-\numDfourteenAlpha{} times the solution (deviation D14); a pre-registered amendment
-repeated only what depended on that objective, reusing the supervised networks after
-checking their hashes, and \cref{sec:results3d,sec:transfer} report the amended run, the
-three-dimensional comparison. The amendment, decided after the results of the initial run
-were known, also changed how one sanity condition of the gate is assessed
-(\cref{sec:results3d:decisions}). The three-dimensional pre-registration text stated that the
-label-free network would train on 1,744 instances, whereas the registered configuration,
-which is what ran, trained it on the same 1,024 instances as the supervised networks
-(deviation D16). And the joint-embedding run kept, under its decision rule, a
-self-supervised term in the pretraining objective; this paper reports the energy objective
-without it, a scope chosen after that result was known. The holdout evaluation recorded two
-departures, neither of which changed a label, an evaluation or a criterion
-(\ref{app:prereg}).
+Weak baselines and selective reporting have led to over-optimism in machine learning for
+fluid-related partial differential equations \cite{McGreivy2024}, and a fair comparison of
+two neural operators needed common data and protocols \cite{Lu2022Fair}; pre-registration,
+the recording of hypotheses, analyses and decision criteria in a dated document before the
+data are seen, guards against these biases in other sciences \cite{Nosek2018}. Four runs
+decide the claims of this paper, and each was pre-registered: the three-dimensional
+comparison (22 to 28 September 2026), which trained the label-free transformer and reused
+the supervised networks, the graph network among them, that its initial run had trained in
+the first half of September 2026; the two-dimensional comparison (8 to 9 October 2026),
+which trained the displacement-supervised and the energy-norm-supervised transformers and
+the graph network; the holdout evaluation (21 October 2026), which read the claims of both
+comparisons again on held-out instances without training; and the three-dimensional
+energy-norm run (22 to 25 October 2026). Each was specified, before it was executed, in a
+document that fixes the configuration, the metrics and the criteria, and that declares both
+outcomes publishable; the documents were committed to the project's public repository before
+their runs, and the code refused to start a run whose configuration did not match the
+registered hash. Where a comparison of two networks over three seeds carries a verdict, it
+uses a noise guard fixed in advance: a difference counts only beyond the larger of 10\% and
+twice its standard error over the seeds, and within the guard no difference is shown, which
+is not equivalence. \Cref{tab:claims,tab:holdout} list the pre-registered claims with their
+outcomes; departures from the plans that bear on a result are stated with it, and the
+readings taken after the runs, and the Ritz baseline, are marked as such where they are
+reported. Supplementary Section~\SuppPrereg{} gives the full record. Two earlier
+pre-registered runs in two dimensions, in July 2026, used an earlier version of the code,
+which did not multiply the decoded field by $F_{\max}$; the main one, the July run, is
+reported in supplementary Section~\SuppJuly{}, and only its test of a warm start
+(\cref{sec:cost:labels}) and its transfer readings (\cref{sec:discussion}) are quoted here.

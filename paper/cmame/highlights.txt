@@ -1,5 +1,5 @@
-Minimising discrete energy is stiffness-norm regression with no labels
-Pre-registered 3D test: energy-only training beat displacement loss on all metrics
-With the same labels, a stiffness-norm loss cut the 3D median energy gap by 98%
-Seven of eight claims replicated on held-out instances; a 2D energy-gap claim did not
-Energy flags predictions worse than the zero field without reference solutions
+Minimising the discrete energy is regression in the energy norm, with no labels
+With the same labels, an energy-norm loss cut 3D von Mises errors sixfold
+Same 3D network: energy-only training beat displacement supervision on all metrics
+Displacement errors can rank surrogates opposite to their stress errors
+The sign of the energy flags predictions worse than the zero field, without solutions

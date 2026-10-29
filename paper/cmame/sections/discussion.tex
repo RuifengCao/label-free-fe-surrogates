@@ -1,93 +1,52 @@
 \section{Discussion}\label{sec:discussion}
 
-\paragraph{One energy, three roles}
-In machine learning, an energy-based model scores the compatibility of an input $X$ and an
-output $Y$ with a scalar energy, lowest for compatible pairs, and is used, among other
-things, to find the $Y$ most compatible with $X$, to rank two candidates $Y_1$ and $Y_2$,
-and to detect whether a given $Y$ is compatible with $X$ at all \cite{LeCun2007EBM}. Its
-energy is learned and measured in arbitrary units, and detection compares it with a
-threshold that is generally unknown when the model is built. For linear elastostatics the
-discrete potential energy is such an energy for the problem $(K,F)$, but assembled rather
-than learned, and, with compatibility measured in the stiffness norm, it answers the three
-questions exactly. Its minimiser is the finite-element solution, which the label-free
-surrogate learns to approximate for a whole family of problems by minimising the energy
-itself (\cref{cor:training}): the training objective. Differences of energy rank the
-predictions of one load case by their stiffness-norm errors, which by \cref{prop:stress}
-are compliance-weighted stress errors (\cref{cor:rank}): the evaluation metric. The sign of
-the energy answers the third question if a compatible prediction is one no further from the
-solution than the zero field; the threshold is then the energy of that field, zero, and
-needs no tuning (\cref{cor:zero}): the failure detector, which the rescaling by $\cstar$
-completes with a repair that never increases the stiffness-norm error (\cref{prop:amp}).
-The check and the repair need only the assembled $K$ and $F$ and apply to every surrogate,
-however it was trained. In three dimensions they flagged, and repaired, every load case on
-which the supervised transformer or the graph network was worse than the zero field, as
-\cref{cor:zero,prop:amp} guarantee (\cref{sec:results3d:detection}).
+\paragraph{The norm, not the labels}
+Both comparisons changed the norm of the supervised loss and nothing else, and both lowered
+the stress error, on the validation and on the held-out instances: in three dimensions the
+median von Mises error by a factor of \numNlThreeNormVm{}, in two the mean by more than half
+(\cref{sec:norm}). In two dimensions, measured after the run, the errors of the two
+transformers were of about the same size and lay at different places in the spectrum.
+Removing the solutions with the energy norm kept raised the median energy-norm and von Mises
+errors by factors of at most \numNlThreeLabelWithin{} (\cref{sec:labelfree}), in a comparison
+that also changes the weighting of the load cases and the learning rate. The label-free
+transformer's advantage over displacement supervision thus lay in the norm of its loss rather
+than in the absence of labels. By \cref{cor:training,prop:stress} the energy objective is, up
+to a constant, the compliance-weighted mean-square error of the stress field, which is what
+the displacement error under-weights. With labels at hand, training in the energy norm with
+them was the more accurate in three dimensions and showed no difference beyond the guard in
+two: the label-free objective is not necessarily the most accurate way to train in the
+energy norm, but it is the way to train in it without solutions. The energy term of the
+displacement-supervised transformer, which adds the energy to the displacement loss, is a
+step towards the energy norm; it removed most of the large failures, and the label-free
+transformer, which has only that term, was more accurate still (\cref{tab:3d}).
 
-\paragraph{The norm of the loss}
-By \cref{cor:training,prop:stress}, the label-free objective is, up to a constant, the
-compliance-weighted mean-square error of the stress field. The supervised transformer and
-the graph network were trained on the relative Euclidean error of the displacement, which
-weights all eigenmodes of the stiffness matrix equally and so under-weights, relative to the
-stiffness norm, the stiff modes that carry the strains (\cref{sec:theory:metrics}). A
-supervised network can therefore reach a small displacement error with an error rich in
-stiff modes, and a large stress error. Both comparisons tested this explanation by changing
-the norm of the supervised loss and nothing else. In two dimensions the von Mises error fell
-by more than half, on the validation and on the held-out instances, and the errors, of about
-the same size, lay lower in the spectrum
-(\cref{sec:results2d:norm,sec:results2d:spectrum,sec:holdout}). The three-dimensional run
-repeated the test at the scale of \cref{sec:results3d}: the stiffness-norm loss lowered the
-supervised transformer's median von Mises error by \numKdVmRel{} and its median relative
-energy gap by \numKdGapRel{}, on the seeds' medians, a statistic chosen after the
-per-instance values of the networks compared were known, and on these medians it removed
-\numKdClosureVm{} and \numKdClosureGap{} of the supervised transformer's excess over the
-label-free transformer in the two errors, a descriptive reading (\cref{sec:results3d:norm}).
-The label-free transformer's advantage over the supervised one thus lies in the norm of its
-loss rather than in the absence of labels. With labels, training in the stiffness norm may
-do better still: in three dimensions its median relative energy gap was \numKdFreeRel{}
-below the label-free transformer's, beyond the guard, though with three seeds the Welch 95\%
-interval runs from \numKdFreeWelchLow{} to \numKdFreeWelchHigh{}; in two dimensions no
-difference beyond the guard was shown, on the validation instances or on held-out ones; on
-the validation instances the stiffness-norm transformer was the more accurate in every seed,
-but on the held-out ones its seed-mean relative energy gap was the higher
-(\cref{sec:results2d:norm,sec:holdout}). That comparison changes the weighting of the load
-cases \eqref{eq:lkgrad} and the learning rate together with the labels, and which of them
-accounts for the difference was not tested. The label-free objective is thus not necessarily
-the most accurate way to train in the stiffness norm when labels are at hand; it is the way
-to train in it without them. In three dimensions the supervised transformer's errors lay
-higher in the spectrum than the label-free transformer's on most load cases
-(\cref{sec:results3d:reverse}). The energy term of the supervised transformer is a partial
-remedy: it added the stress-weighted signal and removed most of the large failures, but on
-the same instances the label-free transformer, which receives only that signal, was more
-accurate still (\cref{sec:results3d:same}). Few-shot training on displacement labels behaved
-in the same way on the finer mesh, restoring the displacement error but not the energy and
-stress errors (\cref{sec:transfer:zeroshot}). The test of the mechanism rests on one model
-size in each dimension and on readings taken after the runs; it supports the claim of
-\cref{sec:intro} rather than establishing it in general.
+\paragraph{In practice}
+Given the assembled system, the energy norm of an error costs one sparse matrix-vector
+product per load case. A supervised loss can therefore be measured in it with the labels
+already computed, which it uses only through the compliance $F^{\top}\Ustar$ of each load
+case (\cref{sec:methods:training}), and an evaluation can report it beside the displacement
+error. Surrogates compared by displacement error alone can be ranked opposite to their
+stresses (\cref{sec:checks:ranking}), and the sign of the energy screens predictions for
+gross failures without a solution (\cref{sec:checks:zero}). As in an energy-based model
+\cite{LeCun2007EBM}, which uses one scalar energy to find the most compatible output, to rank
+candidates and to detect incompatible ones, the potential energy here serves to train, to
+rank and to check; it is assembled rather than learned, and exact. The identity does not
+depend on the approximation: the energy evaluates a Ritz solution as it does a network's
+prediction, and the rescaling by $\cstar$, the projection onto the span of a prediction
+(\cref{prop:amp}), is the smallest enrichment of a finite-element space by it; richer
+enrichments have been analysed \cite{Barucq2026Enrich}. Where the stiffness matrix is not at
+hand, as for solutions exported from another code, a loss on the strains or the stresses is
+the natural substitute; we did not test one.
 
-\paragraph{A classical baseline}
-Linear elastostatics is a test bed in which the identity can be proved, not a regime in
-which networks are needed. With the stiffness matrix assembled, a polynomial Ritz projection
-of a few hundred unknowns, a baseline added after the original analyses, took a fraction of
-a second per validation instance; at its highest degree its displacement error was smaller
-than each three-dimensional network's, in each seed, on at least \numRitzValNineDispAll{} of
-the instances, and its relative energy gap was comparable to the label-free transformer's
-(\cref{sec:results3d:ritz}). The networks' advantages lie elsewhere: the projection's median
-peak stress error was \numRitzValPeakRatioMin{} to \numRitzValPeakRatioMax{} times the
-label-free transformer's and larger than the stiffness-norm transformer's on every instance,
-and no network needs a stiffness matrix at inference. The identity does not depend on the
-approximation: the energy gap evaluates a Ritz solution, and the sign of the energy screens
-it, as they do a network's prediction. Neural predictions have also been used to enrich
-finite-element approximation spaces \cite{Barucq2026Enrich}. The rescaling by $\cstar$ is
-the smallest such enrichment, the projection onto the span of one prediction
-(\cref{prop:amp}); combining a prediction with a polynomial space we leave to separate work.
-
-\paragraph{A counterexample}
-One comparison, reported in a preprint, points the other way. In the pressure vessels of
-Sun et~al.~\cite{Sun2026FEVessel}, the same point-cloud transformer trained on the relative
+\paragraph{Earlier comparisons}
+The account is consistent with part of the earlier reports: in soft-tissue beams, adding the
+deformation gradient to the supervised loss, a step towards a norm of the strains, narrowed
+the gap between supervised and label-free training \cite{Dalton2023}. One comparison,
+reported in a preprint, points the other way. In the pressure vessels of Sun
+et~al.~\cite{Sun2026FEVessel}, the same point-cloud transformer trained on the relative
 error of the displacement labels instead of the energy, with every other setting unchanged,
 was more accurate in displacement and in the $H^1$ seminorm (their Table 2), against the
-three-dimensional result of \cref{sec:results3d} and against the account above. The two
-studies differ in ways that
+three-dimensional result of \cref{sec:labelfree:three}. The two studies differ in ways that
 may matter. That comparison is a single run, and its reported errors are the lowest test
 errors over the last third of training. Its reference solutions use reduced-integration
 hexahedra with hourglass control, and its energy loss takes derivatives from the shape
@@ -96,98 +55,48 @@ energy training exact regression on the reference solution only when the energy 
 the assembled energy of the discretisation that defines the reference; if the two differ,
 the minimiser of the energy loss is not the reference solution, and energy training
 regresses towards a different target. Whether this explains the reversal is not known. The
-comparison shows that the advantage of label-free training reported here is not universal.
-
-\paragraph{The graph network}
-In both dimensions the graph network had the lowest displacement error, in two dimensions
-within the noise guard of the supervised transformer's, and von Mises errors several times
-the label-free transformer's (\cref{sec:results3d:reverse,sec:results2d:accuracy}). Its
-errors lay highest in the spectrum of $K$ (\cref{sec:results3d:reverse,sec:results2d:spectrum}):
-relatively more weight in stiff modes, as for an error that varies rapidly from node to
-node, which \cref{fig:field2d,fig:field-worst,fig:field-median} show as rough stress fields.
-We did not investigate why message passing over the mesh edges produces such errors. The
-observation matters for evaluation more than for the graph network itself: a ranking of
-surrogates by displacement error alone can invert their ranking by stress, the quantity on
-which design decisions usually depend.
-
-\paragraph{Warm starts}
-The label-free prediction did not shorten conjugate gradients to a relative residual of
-\numKfiveTol{} in two dimensions (\cref{sec:cost:warm}), nor to \numCostCgTol{} in two or
-three dimensions (\cref{tab:cost}), whereas the pretrain finite element
-method needed up to about nine times fewer conjugate-gradient iterations than a zero start
-at a tolerance of $10^{-3}$ \cite{Wang2026PretrainFEM}. In its pressure-vessel follow-up the
-saving of conjugate gradients fell from about three times at a relative residual of
-$10^{-3}$ to almost none at $10^{-4}$ \cite{Sun2026FEVessel}, and neural-operator warm
-starts have also been reported to accelerate iterative solvers \cite{Eshaghi2026NOWS}.
-Wang et~al.~\cite{Wang2026PretrainFEM} and Sun et~al.~\cite{Sun2026FEVessel} explain why
-the benefit shrinks as the tolerance tightens: a warm start lowers an iteration bound by a
-fixed number of iterations, as Wang et~al.\ show for fixed-point iterations and Sun et~al.,
-in the relative residual, also for conjugate gradients. The bound is not the count: with
-conjugate gradients, the warm start of Sun et~al.\ saved 580 iterations at $10^{-3}$ but 69
-at $10^{-4}$ (their Table 3). \Cref{cor:warm} states the bound for conjugate gradients in the
-energy norm: a warm start lowers the iteration bound by a number of iterations set by its
-own accuracy, so the share of the run it can save shrinks as the tolerance tightens, and
-a residual-based stop can hide part of it (\cref{rem:residual}). Reported warm-start
-speed-ups are therefore comparable only when the tolerance, the stopping test and the
-preconditioner are stated with them: Wang et~al.~\cite{Wang2026PretrainFEM} report, for
-their linear problems, iteration counts to a relative residual of $10^{-3}$, with
-unpreconditioned conjugate gradients in two dimensions and with unpreconditioned and
-preconditioned conjugate gradients in three, and Sun et~al.~\cite{Sun2026FEVessel} report
-iteration counts and wall-clock speed-ups at three relative-residual tolerances, the
-speed-ups computed from times that include the network's forward pass and, for algebraic
-multigrid, its set-up.
+comparison shows that the advantage of label-free training over displacement supervision
+reported here is not universal.
 
 \paragraph{Transfer}
-No network transferred to the finer mesh, and the readings of \cref{sec:transfer} point at
-the output scaling: the network's output is multiplied by the largest nodal load, which
-depends on the mesh, while the solution does not. The networks of the July run, whose output
-was not scaled in this way, lost little accuracy on meshes \numCoarsenLow{} and
-\numCoarsenHigh{} times finer than those they were trained on, although that evidence is
-weak (\cref{sec:transfer:amplitude}). Whether an output scale independent of the mesh
-removes the failure is the subject of separate work; until it is shown to, the label-free
-transformer of this paper should be regarded as valid within the range of mesh sizes it was
-trained on. The Ritz projection, which has no such scale, kept most of its accuracy on the
-finer mesh, though not in peak stress (\cref{sec:transfer:zeroshot}).
+No network transferred to the finer mesh. The readings of supplementary
+Section~\SuppTransfer{} point at the output scaling: the output is multiplied by the largest
+nodal load, which depends on the mesh while the solution does not, and the networks of the
+July run, whose output was not scaled in this way, lost little accuracy on meshes
+\numCoarsenLow{} and \numCoarsenHigh{} times finer than those they were trained on, though
+that evidence is weak. Until an output scale independent of the mesh is shown to remove the
+failure, the label-free transformer of this paper should be regarded as valid within the
+range of mesh sizes it was trained on; the discretisation invariance reported for point-cloud
+operators trained on the energy \cite{Wang2026PretrainFEM,Sun2026FEVessel} was tested by
+varying the density of the input point cloud rather than by refining the mesh, and
+label-free fine-tuning on the finer mesh, which needs no solves, was not tested here.
 
 \paragraph{Limitations}
 The study is restricted to linear elastostatics, where \cref{lem:exact} is exact; one family
-of geometries and one set of four load cases per dimension; and three seeds per network.
-\Cref{prop:stress}, which ties the stiffness norm to the stresses, assumes a homogeneous
+of geometries and one set of four load cases per dimension; one model size; and three seeds
+per network, for which the noise guard is coarse. \Cref{prop:stress} assumes a homogeneous
 isotropic material and an exactly integrated stiffness, as with the linear elements used
-here; and the reported von Mises error weights elements equally, so \cref{prop:stress}
+here, and the reported von Mises error weights elements equally, so that the proposition
 explains it rather than bounds it, although the area- and volume-weighted errors, measured
-after the runs, differed little (\ref{app:repro:checks}). The displacement comparison
-reversed between the dimensions, with the same code
-(\cref{sec:results3d:same,sec:results2d:accuracy}), and we have not identified the cause.
-The two-dimensional comparison was evaluated on the 256 validation instances on which the
-results that motivated it had been seen, and the values of its label-free networks, and the
-directions of its hypotheses at a far smaller scale, were known when it was registered
-(\ref{app:prereg}); its comparisons across numbers of labelled instances are exploratory.
-Its claims, and those of the three-dimensional comparison, were read again on held-out
-instances, where seven of eight replicated and the reduction of the relative energy gap by
-the stiffness-norm loss in two dimensions did not (\cref{sec:holdout}). The stiffness-norm
-control was run once in each dimension, at one model size and with the supervised settings,
-not tuned for it; in three dimensions it was trained about seven weeks after the network it
-is compared with, and its verdicts read the seeds' medians, a statistic chosen after the
-per-instance values of the networks it compares were known (\cref{sec:results3d:norm}). The
-spectral readings that bear on its mechanism were taken after the two-dimensional run, and
-the Ritz baseline was added after the original analyses, with its specification written and
-made public before its paired computations (\cref{sec:methods:ritz}). The scope of this
-paper, the energy objective without the joint-embedding term that a pre-registered
-comparison kept, was chosen after that comparison, and the three-dimensional gate was
-amended after the initial run; \ref{app:prereg} reports both. The pre-registration documents
-of the two runs of July 2026 are weaker records than the later ones
-(\cref{sec:methods:prereg}). No network transferred to a substantially finer mesh; the
-discretisation invariance reported for point-cloud operators trained on the energy
-\cite{Wang2026PretrainFEM,Sun2026FEVessel} was tested by varying the density of the input
-point cloud rather than by refining the mesh, and label-free fine-tuning on the finer mesh,
-which needs no solves, was not tested here.
+after the runs, differed little. Only the transformer was trained in the energy norm; the
+graph network was trained on the displacement error alone, and whether its rough stress
+fields come from the norm or from message passing over the mesh edges was not tested. The
+learning rates were fixed before the runs and not tuned, and the energy-norm-supervised
+transformer used the displacement-supervised settings unchanged. The departures from the
+pre-registrations are stated with their results: the statistic of the three-dimensional
+energy-norm run (\cref{sec:norm:three}), the registration of the two-dimensional comparison
+(\cref{sec:norm:two}), the amended three-dimensional gate (\cref{sec:labelfree:three}) and
+the claim that did not replicate (\cref{sec:holdout}); the spectral readings and the Ritz
+baseline were added after the runs. The scope of this paper, the energy objective without
+the joint-embedding term that a pre-registered comparison kept, was chosen after that
+comparison (supplementary Section~\SuppPrereg{}). Full self-attention grows with the square of
+the number of nodes, which limits the size of the meshes the transformer can take.
 
 \paragraph{Outlook}
 The construction extends wherever each step of a computation is a convex minimisation. In
 linear dynamics, every implicit step of a Newmark-type integrator solves a symmetric
-positive definite system whose effective stiffness combines the stiffness, mass and
-damping matrices, and \cref{lem:exact} holds step by step \cite{CaoSong2026}. Incremental
+positive definite system whose effective stiffness combines the stiffness, mass and damping
+matrices, and \cref{lem:exact} holds step by step \cite{CaoSong2026}. Incremental
 variational formulations of dissipative materials write each step of a nonlinear history as
 the minimisation of an incremental potential \cite{OrtizStainier1999}, and variational
 integrators derive each step of a time integration from a discrete variational principle
@@ -196,4 +105,5 @@ label-free training objective, although the energy gap is no longer a squared no
 counterparts of \cref{prop:amp,cor:zero} remain to be worked out; at finite strains the
 incremental potential is in general not convex \cite{OrtizStainier1999}, so that its
 minimiser need not be unique. These are the problems in which a solve may be expensive
-enough for label-free training to pay for itself.
+enough for label-free training to pay for itself, and in which the choice of norm will again
+decide what a surrogate learns.

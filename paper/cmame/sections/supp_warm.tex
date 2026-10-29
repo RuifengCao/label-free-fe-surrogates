@@ -1,0 +1,117 @@
+\section{Warm starts}\label{supp:warm}
+
+\paragraph{An iteration bound}
+A prediction can serve as the initial iterate of the conjugate gradient method
+\cite{HestenesStiefel1952} applied to $K\Ustar=F$. Let $u^k$ be the iterate after $k$
+iterations and $\gap_k=\gap(u^k)$, so that $\gap_0$ is the energy gap of the initial
+iterate. For $\kappa>1$ the classical bound \cite[Section~6.11.3]{Saad2003} is
+\begin{equation}
+\frac{\gap_k}{\gap_0} \le 4q^{2k},
+\qquad
+q = \frac{\kappa^{1/2}-1}{\kappa^{1/2}+1}.
+\label{eq:cheb}
+\end{equation}
+
+\begin{corollary}[Iteration bound of a warm start]\label{cor:warm}
+Let $\bar g\in(0,1)$ be a target relative energy gap and $g_0\in(\bar g,1]$ the relative
+energy gap of the initial iterate. Under \eqref{eq:cheb}, $k\ge\ln(4g_0/\bar g)/(2\ln
+q^{-1})$ iterations suffice to reach $\bar g$, and $g_0=1$ for the zero field. The warm
+start therefore lowers this iteration bound by $\ln(1/g_0)/(2\ln q^{-1})$ iterations, a
+fraction
+\begin{equation}
+\frac{\ln(1/g_0)}{\ln(4/\bar g)}
+\label{eq:warm}
+\end{equation}
+of the bound for the zero field; the fraction does not depend on $\kappa$.
+\end{corollary}
+
+\begin{proof}
+By \eqref{eq:cheb}, $g(u^k)=g_0\gap_k/\gap_0\le4g_0q^{2k}$, which is at most $\bar g$ once
+$k$ reaches the stated value; subtract the two iteration counts.
+\end{proof}
+
+\Cref{cor:warm} states in the energy norm an estimate that Sun et~al.~\cite{Sun2026FEVessel}
+give in the relative residual, after a bound of Wang et~al.~\cite{Wang2026PretrainFEM} for
+fixed-point iterations. It compares bounds, not iteration counts: how many iterations a warm
+start actually saves depends on the spectral content of its error and can even be negative.
+What it shows is that a prediction of given accuracy lowers the iteration bound by a fixed
+number of iterations, while the bound grows with $\ln(1/\bar g)$, so that its share shrinks
+as the tolerance tightens. Sun et~al.~\cite{Sun2026FEVessel} draw the same conclusion for
+conjugate gradients in the relative residual, where the constant of the bound and the
+conversion between residual and error add a bounded offset to the saving, and Wang
+et~al.~\cite{Wang2026PretrainFEM} from an asymptotic bound of the same form for fixed-point
+iterations; \cref{cor:warm} states it in the energy norm, without that offset, and
+\cref{rem:residual} bounds the initial residual by the energy gap.
+
+\begin{remark}[Residual-based stopping]\label{rem:residual}
+The initial residual of a prediction is $r_0=-Ke_0$, so
+$\norm{r_0}_2^2=e_0^{\top}K^2e_0\le\lambda_{\max}\norm{e_0}_K^2$, and with
+$\norm{\Ustar}_K^2=F^{\top}K^{-1}F\le\norm{F}_2^2/\lambda_{\min}$,
+\begin{equation}
+\frac{\norm{r_0}_2}{\norm{F}_2} \le (\kappa\,g_0)^{1/2},
+\label{eq:residual}
+\end{equation}
+while the zero field starts from $\norm{r_0}_2/\norm{F}_2=1$. Both inequalities are
+attained, the first when $e_0$ is an eigenvector of $\lambda_{\max}$ and the second when $F$
+is one of $\lambda_{\min}$, so the bound is sharp. A prediction that is accurate in energy
+can therefore start with a larger residual than the zero field, by a factor of up to
+$(\kappa g_0)^{1/2}$, because $K$ amplifies the stiff-mode components of its error, and a
+residual-based stopping test then credits a warm start with less than its energy accuracy.
+Wang et~al.~\cite{Wang2026PretrainFEM} observed the same for Newton's method: the initial
+residual of their predictions could exceed that of the zero initial guess although their
+errors were much smaller.
+\end{remark}
+
+\paragraph{The tests}
+For the prediction tested below, with an initial relative energy gap
+$g_0=\numKfiveStartGap$, the fraction \eqref{eq:warm} is \numWarmFractionSeven{} for $\bar
+g=10^{-7}$, \numWarmFractionTwelve{} for $\bar g=10^{-12}$ and \numWarmFractionSeventeen{}
+for $\bar g=10^{-17}$. A residual test $\norm{r_k}_2\le\tau\norm{F}_2$ with $\tau=10^{-6}$
+corresponds to targets in this range: it guarantees $g\le\kappa\tau^2$, which is up to about
+\numKappaTauTwo{} for the two-dimensional condition numbers of \cref{sec:methods:data}, and
+an iterate exactly at the threshold has $g\ge\tau^2/\kappa$, which is down to about
+\numTauSqKappaTwo{}.
+
+The July run tested a warm start under criterion K5. On \numKfiveEval{} validation instances
+and four load cases each, unpreconditioned conjugate gradients needed on average
+\numKfiveZero{} iterations from the zero field to reach a relative residual of
+\numKfiveTol{}, \numKfiveFree{} from the prediction of a label-free transformer of the
+earlier code, trained for 100 epochs for this test, and \numKfiveNaive{} from the scaled
+polynomial: savings of \numKfiveSaving{} and \numKfiveNaiveSaving{} against the 20\%
+required, so that K5 was triggered and the claim withdrawn. The prediction had a relative
+energy gap of \numKfiveStartGap{}, which five and twenty iterations from it lowered to
+\numKfiveFiveGap{} and \numKfiveTwentyGap{}, but it did not shorten the run to the
+tolerance. This is consistent with \cref{cor:warm,rem:residual}: at a tight tolerance a warm
+start of this accuracy lowers the iteration bound by only a small fraction, and a
+residual-based stop can see a prediction accurate in energy as further from convergence than
+the zero field. Neither the initial residuals nor energy-based stopping were measured, so
+the two effects cannot be separated here. The test used one network of the earlier code,
+trained for half the usual number of epochs, and one solver without preconditioning. The
+predictions timed in \cref{tab:cost}, started instead of the zero field, needed between
+\numCostWarmMore{} more and \numCostWarmFewer{} fewer iterations of conjugate gradients to a
+relative residual of \numCostCgTol{} (medians per set), again consistent with
+\cref{cor:warm,rem:residual}; their initial residuals were not recorded either.
+
+\paragraph{Reported speed-ups}
+The pretrain finite element method needed up to about nine times fewer conjugate-gradient
+iterations than a zero start at a tolerance of $10^{-3}$ \cite{Wang2026PretrainFEM}. In its
+pressure-vessel follow-up the saving of conjugate gradients fell from about three times at a
+relative residual of $10^{-3}$ to almost none at $10^{-4}$ \cite{Sun2026FEVessel}, and
+neural-operator warm starts have also been reported to accelerate iterative solvers
+\cite{Eshaghi2026NOWS}. Wang et~al.~\cite{Wang2026PretrainFEM} and Sun
+et~al.~\cite{Sun2026FEVessel} explain why the benefit shrinks as the tolerance tightens: a
+warm start lowers an iteration bound by a fixed number of iterations, as Wang et~al.\ show
+for fixed-point iterations and Sun et~al., in the relative residual, also for conjugate
+gradients. The bound is not the count: with conjugate gradients, the warm start of Sun
+et~al.\ saved 580 iterations at $10^{-3}$ but 69 at $10^{-4}$ (their Table 3).
+\Cref{cor:warm} states the bound for conjugate gradients in the energy norm: a warm start
+lowers the iteration bound by a number of iterations set by its own accuracy, so the share
+of the run it can save shrinks as the tolerance tightens, and a residual-based stop can hide
+part of it (\cref{rem:residual}). Reported warm-start speed-ups are therefore comparable
+only when the tolerance, the stopping test and the preconditioner are stated with them: Wang
+et~al.~\cite{Wang2026PretrainFEM} report, for their linear problems, iteration counts to a
+relative residual of $10^{-3}$, with unpreconditioned conjugate gradients in two dimensions
+and with unpreconditioned and preconditioned conjugate gradients in three, and Sun
+et~al.~\cite{Sun2026FEVessel} report iteration counts and wall-clock speed-ups at three
+relative-residual tolerances, the speed-ups computed from times that include the network's
+forward pass and, for algebraic multigrid, its set-up.

@@ -1,28 +1,77 @@
 \section{Pre-registration record and deviations}\label{app:prereg}
-\setcounter{table}{0}\setcounter{figure}{0}\setcounter{equation}{0}
+
+\Cref{tab:runs} lists the runs reported in the paper. Four of them decide its claims, and
+\cref{tab:claims,tab:holdout} give their pre-registered claims with the outcomes;
+\cref{tab:criteria} lists every criterion fixed in advance for every run, with the value
+measured and the outcome as recorded by the code at the time. The pre-registration of the
+July run also retired, before its run, an earlier criterion (a displacement improvement of
+at least 10\% from the energy term with 64 labels) that an earlier run had already answered
+in the negative; the July run measured \numGOneRetired{} with the fixed-weight form of the
+energy term, and the criterion played no part in its decisions. The following departures
+from the plans bear on the results. They are recorded in the repository's list of deviations
+and its provenance note, except the remark at the end of the paragraph on the energy term,
+which was noticed while the paper was written, and the paragraphs on the two-dimensional
+comparison, the holdout evaluation and the three-dimensional energy-norm run, whose content
+is recorded with those runs' pre-registrations and records.
+
+\begingroup\footnotesize\setlength{\tabcolsep}{3pt}\setlength{\LTcapwidth}{\linewidth}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.21\linewidth}
+>{\raggedright\arraybackslash}p{0.14\linewidth}
+>{\raggedright\arraybackslash}p{0.17\linewidth}
+>{\raggedright\arraybackslash}p{0.275\linewidth}
+>{\raggedright\arraybackslash}p{0.135\linewidth}@{}}
+\caption{The runs reported in the paper, by the names used in the text. The runs of July
+2026 used the earlier code, the others the later code, which multiplies the decoded field by
+$F_{\max}$ (\cref{sec:methods:networks}). Section~\ref{app:repro} lists the configurations
+and records with their hashes.}\label{tab:runs}\\
+\toprule
+Run & Date & Pre-registered & Role & Reported in \\
+\midrule
+\endfirsthead
+\caption[]{The runs reported in the paper (continued)}\\
+\toprule
+Run & Date & Pre-registered & Role & Reported in \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+Three-dimensional comparison & 22--28 September 2026 & yes, as an amendment & the label-free,
+displacement-supervised and graph networks in three dimensions; transfer to a finer mesh &
+\cref{sec:labelfree:three,sec:checks}, \ref{supp:three}, \ref{sec:transfer} \\
+Initial three-dimensional run & 31 August to 21 September 2026 & yes & superseded: its label-free
+objective was defective (deviation D14) & \ref{app:prereg} \\
+Two-dimensional comparison & 8--9 October 2026 & yes & the norm of the loss against the
+labels (H1--H3) & \cref{sec:norm:two,sec:labelfree:two}, \ref{supp:two} \\
+Holdout evaluation & 21 October 2026 & yes & the claims of both comparisons on instances
+that no network had seen; no training & \cref{sec:holdout} \\
+Three-dimensional energy-norm run & 22--25 October 2026 & yes & the norm of the loss
+against the labels in three dimensions & \cref{sec:norm:three}, \ref{supp:three} \\
+Ritz baseline & 28 October 2026 & no; specified before any paired computation & a classical
+approximation, paired with every network & \cref{sec:cost:ritz}, \ref{sec:transfer},
+\ref{supp:ritz} \\
+Latent-regularisation run (2D) & 29--30 September 2026 & yes & the two-dimensional
+label-free networks; latent regularisation & \cref{sec:labelfree:two}, \ref{app:e1} \\
+Bottleneck run (3D) & 30 September 2026 & yes & a token bottleneck to reduce the cost of
+attention & \cref{sec:cost:labels}, \ref{app:e1} \\
+July run (2D) & 16 July 2026 & yes; document uploaded with its hash line blank & the earlier
+two-dimensional comparison; warm start (K5); cross-resolution term (K6) &
+\ref{supp:warm}, \ref{app:july} \\
+Diagnostic run (2D) & 30 July 2026 & no & replication of the label-free network; the energy
+term with 16 labels & \ref{app:prereg}, \ref{app:july} \\
+Joint-embedding run (2D) & 31 July 2026 & yes; document committed after the run & the
+joint-embedding term (K3); the scope of the paper & \ref{app:prereg} \\
+\end{longtable}
+\endgroup
 
 \input{generated/table_criteria}
 
-\Cref{tab:criteria} lists every criterion fixed in advance for the runs reported in this
-paper, with the value measured and the outcome as recorded by the code at the time. The
-pre-registration of the July run also retired, before its run, an earlier criterion (a
-displacement improvement of at least 10\% from the energy term with 64 labels) that an
-earlier run had already answered in the negative; the July run measured \numGOneRetired{}
-with the fixed-weight form of the energy term, and the criterion played no part in its
-decisions. The following departures from the plans bear on the results. They are recorded
-in the repository's list of deviations and its provenance note, except the remark at the
-end of the paragraph on the energy term, which was noticed while this paper was written,
-and the paragraphs on the two-dimensional comparison, the holdout evaluation and the
-three-dimensional stiffness-norm run, whose content is recorded with those runs'
-pre-registrations and records.
-
 \paragraph{Deviation D14}
-The initial three-dimensional run (21 September 2026) needed eight attempts because of
-memory and process faults; each restart reused the networks already trained under the same
-registered configuration, and the engineering changes the restarts needed are recorded as
-leaving every value unchanged. It completed its registered protocol and read NO-GO, with
-conditions (a), (b) and (c) of its gate unmet and kill conditions KP1, KP2 and KP4
-triggered. After the verdict, its label-free networks were found to have a displacement
+The initial three-dimensional run (31 August to 21 September 2026) needed eight attempts
+because of memory and process faults; each restart reused the networks already trained under
+the same registered configuration, and the engineering changes the restarts needed are
+recorded as leaving every value unchanged. It completed its registered protocol and read
+NO-GO, with conditions (a), (b) and (c) of its gate unmet and kill conditions KP1, KP2 and
+KP4 triggered. After the verdict, its label-free networks were found to have a displacement
 error of \numDfourteenDisp{} and a relative energy gap of \numDfourteenGap{}, identical to
 five decimals across seeds and consistent with predicting the solution scaled by
 $\alpha=\numDfourteenAlpha{}$ (displacement error $1-\alpha$, relative energy gap
@@ -32,15 +81,15 @@ $F_{\max}\approx\alpha$. The fix gives the network one decoding path, used by th
 and by inference, with a test that fails on the registered code. The supervised networks,
 which are trained and evaluated through the inference path, were not affected. The verdict
 of the initial run stands as recorded. A pre-registered amendment then repeated everything
-that depended on the label-free objective: the label-free networks, their fine-tuning on
-the finer mesh and the latent-alignment criterion read from them. It reused the 30 trained
+that depended on the label-free objective: the label-free networks, their fine-tuning on the
+finer mesh and the latent-alignment criterion read from them. It reused the 30 trained
 supervised networks and the 6 networks trained from scratch on the fine mesh, each checked
 against its recorded SHA-256 hash, and it required a short pilot run first: one seed, 20
 epochs, which had to bring the displacement error below \numPilotLimit{} and reached
 \numPilotDisp{}. A first version of the amendment was registered and withdrawn on the same
 day, before any run, because the audit of its execution path had not been completed; the
 second version was registered after the audit. The amended run, the three-dimensional
-comparison (28 September 2026), was executed once, without interruption.
+comparison (22 to 28 September 2026), was executed once, without interruption.
 
 \paragraph{The sanity condition of the three-dimensional gate}
 Condition (a) of the three-dimensional gate required the supervised transformer with the
@@ -54,7 +103,8 @@ and that on the three-dimensional family the supervised network itself sits belo
 16 labels and above it from 64 labels on. In two dimensions the condition had read the
 networks of the energy-term sub-experiment of the July run, which met it at every budget;
 the networks of \cref{tab:labeleffjuly} would not have met it with 16 labels
-(\numGOneSanityTableSixteen{} times), because of the scatter described in \ref{app:july}.
+(\numGOneSanityTableSixteen{} times), because of the scatter described in
+Section~\ref{app:july}.
 The amendment declared the change as made after the fact and required the original form to
 be computed and reported beside it. Under the amendment the gate read GO; under the
 registered form, which assesses every budget, it read NO-GO. Both readings are in
@@ -74,16 +124,16 @@ without their solutions.
 \paragraph{The energy term with 16 labels}
 In the networks of \cref{tab:2djuly,tab:labeleffjuly}, the two-dimensional supervised
 transformer with the energy term used the gradient-scaled form at every budget, and with 16
-labels its displacement errors scattered across seeds (\ref{app:july}); the energy-term
-sub-experiment of the same run trained both the gradient-scaled and the fixed-weight form.
-The diagnostic run (30 July 2026), with six seeds in two separate experiments, gave
-displacement errors from \numDiagScaledMin{} to \numDiagScaledMax{} for the gradient-scaled
-form, against \numDiagFixedMin{} to \numDiagFixedMax{} in all \numDiagFixedSeeds{} seeds for
-a fixed weight of one on the normalised energy. The three-dimensional pre-registration
-therefore fixed that weight at 16 labels and the gradient-scaled form from 64 on. The
-description of the protocol stored in the three-dimensional report still names the
-gradient-scaled form for every budget; the registered code applied the pre-registered
-policy.
+labels its displacement errors scattered across seeds (Section~\ref{app:july}); the
+energy-term sub-experiment of the same run trained both the gradient-scaled and the
+fixed-weight form. The diagnostic run (30 July 2026), with six seeds in two separate
+experiments, gave displacement errors from \numDiagScaledMin{} to \numDiagScaledMax{} for
+the gradient-scaled form, against \numDiagFixedMin{} to \numDiagFixedMax{} in all
+\numDiagFixedSeeds{} seeds for a fixed weight of one on the normalised energy. The
+three-dimensional pre-registration therefore fixed that weight at 16 labels and the
+gradient-scaled form from 64 on. The description of the protocol stored in the
+three-dimensional report still names the gradient-scaled form for every budget; the
+registered code applied the pre-registered policy.
 
 \paragraph{The joint-embedding term (criterion K3)}
 Criterion K3 of the July run's pre-registration concerned a separate run, the
@@ -92,88 +142,97 @@ joint-embedding run (31 July 2026). That run pretrained the transformer without 
 joint-embedding term, which predicts the latent vectors of masked regions of the mesh from
 those of the rest, with a regulariser on the mean latent vectors; it then fine-tuned both
 with 16, 64 and 256 labels for 200 epochs, with three seeds. K3 would have dropped the term,
-and with it the version of the planned paper that used it, had the term changed neither the
-displacement error nor the relative energy gap by more than \numKthreeBand{} at any budget.
-K3 was not triggered, and the registered rule therefore kept the term (\cref{tab:criteria}).
-The criterion did not state a direction. Of the \numKthreeOutside{} changes outside the
-band, \numKthreeWorse{} made the fine-tuned network less accurate; the remaining one, a
-relative energy gap \numKthreeGain{} lower with 64 labels, compares with a baseline whose
-seeds scattered widely (relative energy gaps of \numKthreeBaseSeeds{}, against
-\numKthreeBaseRef{} for the same configuration in the July run). This paper reports the
-energy objective without the term. That scope was chosen after the result was known, and it
-departs from the version of the paper that the rule selected.
+and with it the scope that the pre-registration planned for the paper, had the term changed
+neither the displacement error nor the relative energy gap by more than \numKthreeBand{} at
+any budget. K3 was not triggered, and the registered rule therefore kept the term
+(\cref{tab:criteria}). The criterion did not state a direction. Of the \numKthreeOutside{}
+changes outside the band, \numKthreeWorse{} made the fine-tuned network less accurate; the
+remaining one, a relative energy gap \numKthreeGain{} lower with 64 labels, compares with a
+baseline whose seeds scattered widely (relative energy gaps of \numKthreeBaseSeeds{},
+against \numKthreeBaseRef{} for the same configuration in the July run). The paper reports
+the energy objective without the term. That scope was chosen after the result was known, and
+it departs from the scope that the rule selected.
 
 \paragraph{The two-dimensional comparison}
-The comparison of \cref{sec:results2d} was registered on 8 October 2026 and run once,
-starting on 8 October and completing on 9 October 2026; its adjudication, by a script fixed
-with the registration, recorded no deviation, and two operational departures recorded with
-the run, the route by which its return was fetched and a log file renamed after the run,
-touched no file that the adjudication reads. \Cref{tab:cm2d} gives its hypotheses with the
-readings that the pre-registration required beside each verdict. Its label-free row reused
-the three label-free networks of the latent-regularisation run (\ref{app:e1}): each was
+The two-dimensional comparison was registered on 8 October 2026 and run once, starting on 8
+October and completing on 9 October 2026; its adjudication, by a script fixed with the
+registration, recorded no deviation, and two operational departures recorded with the run,
+the route by which its return was fetched and a log file renamed after the run, touched no
+file that the adjudication reads. \Cref{tab:cm2d} gives its hypotheses with the readings
+that the pre-registration required beside each verdict. Its label-free row reused the three
+label-free networks of the latent-regularisation run (Section~\ref{app:e1}): each was
 checked against the SHA-256 hash that run had recorded, and evaluated again they reproduced
 that run's per-instance validation values exactly. Three things were known when the
 comparison was registered: the label-free networks' values on the validation instances,
 recorded with the latent-regularisation run; the results of the July run that motivated the
-comparison,
-measured on the same validation instances, so that the comparison has no fresh evaluation
-set; and the outcome of a functional check of the stiffness-norm loss, run before the
-registration was stamped, which had trained a transformer of width 32 and depth 2 for 25
+comparison, measured on the same validation instances, so that the comparison has no fresh
+evaluation set; and the outcome of a functional check of the energy-norm loss, run before
+the registration was stamped, which had trained a transformer of width 32 and depth 2 for 25
 epochs on 48 instances of another two-dimensional corpus, with two seeds. At that far
 smaller scale the check had shown both reductions that H2a and H2b test, and a label-free
 relative energy gap below that of supervised training on the displacement error, the
-comparison of H1, with the stiffness-norm loss and the label-free objective ranked
-differently in its two seeds, the comparison of H3. The registration disclosed the check.
-The readings of \cref{sec:results2d:spectrum}, and the rule that chose the instance of
-\cref{fig:field2d}, were specified after the verdict and bear on no criterion.
+comparison of H1, with the energy-norm loss and the label-free objective ranked differently
+in its two seeds, the comparison of H3. The registration disclosed the check. The readings
+of \cref{sec:norm:spectrum}, and the rule that chose the instance of \cref{fig:field2d},
+were specified after the verdict and bear on no criterion.
 
 \input{generated/table_cm2d}
 
 \paragraph{The holdout evaluation}
 The holdout evaluation was registered and stamped on 18 October 2026 and run on 21 October
-2026, before the three-dimensional stiffness-norm run; its adjudicator, fixed with the
-registration, read the eight claims, H3 and V (\cref{tab:holdout}). It trained nothing: each
-of its \numHoldStates{} stored networks was checked against its recorded hash and, before
-the held-out instances, reproduced its recorded per-instance values on the validation
-instances, the transformers exactly and the graph networks to within \numHoldContentDev{} in
-the median of the displacement error and of the relative energy gap, the two metrics that it
-checked. The pre-registration required the paper to report every claim's verdict and V's, to
-qualify a claim that did not replicate, with the held-out values beside the original ones,
-and to report the held-out means and medians beside the validation ones;
-\cref{sec:holdout,sec:results2d:norm} and \cref{tab:holdout,tab:holdoutvalues} do so. Two
+2026, before the three-dimensional energy-norm run; its adjudicator, fixed with the
+registration, read the eight claims, H3 and V (\cref{tab:holdout}). Its sets were fixed with
+it. In three dimensions the corpus has \numHoldThreeTail{} instances beyond the validation
+set and the training pool (\cref{sec:methods:data}); the holdout set is \numHoldThreeN{} of
+them, without the \numHoldThreeExcl{} that other recorded sets had drawn again. In two
+dimensions the corpus has \numHoldTwoTail{} instances beyond the deepest prefix of its
+training pool that any recorded run read; the holdout set is \numHoldTwoN{} of them, without
+the \numHoldTwoExcl{} that another recorded tool had rebuilt or whose own files were held
+outside the training machine. The evaluation labelled them with the sparse direct solver, in
+\numHoldThreeSolves{} solves in three dimensions and \numHoldTwoSolves{} in two, and
+evaluated the stored networks on them; the displacement-supervised transformer with the
+energy term, whose networks were not stored, was not evaluated. It trained nothing: each of
+its \numHoldStates{} stored networks was checked against its recorded hash and, before the
+held-out instances, reproduced its recorded per-instance values on the validation instances,
+the transformers exactly and the graph networks to within \numHoldContentDev{} in the median
+of the displacement error and of the relative energy gap, the two metrics that it checked.
+The pre-registration required the paper to report every claim's verdict and V's, to qualify
+a claim that did not replicate, with the held-out values beside the original ones, and to
+report the held-out means and medians beside the validation ones;
+\cref{sec:holdout,sec:norm:two} and \cref{tab:holdout,tab:holdoutvalues} do so. Two
 departures were recorded with the run. Each of its four steps started twice: the first
 attempts ran on a checkout of an earlier commit that did not contain the steps' script, and
 each stopped at once without writing anything; the steps were then run on the stamped
 commit. And between the search of the sandbox for other sets drawn from the corpora, on
 which the definition of the holdout sets rests, and the run, an independent review of the
-code of the three-dimensional stiffness-norm run, on 20 October 2026, meshed three
-validation instances of the three-dimensional corpus to compare their node counts with the
-records, and meshed the 1,024 instances of its training pool at their own mesh sizes, beyond
-the bound of 80 such instances that the pre-registration set; it rebuilt and solved two of
-them and ran one training step of the full-size transformer on each; it replayed the
-generator's draws for all 2,000 instances of the corpus, the held-out ones included, without
-meshing them, and meshed, solved or read no held-out instance. Neither departure changed a
-label, an evaluation or a criterion.
+code of the three-dimensional energy-norm run, on 20 October 2026, meshed three validation
+instances of the three-dimensional corpus to compare their node counts with the records, and
+meshed the 1,024 instances of its training pool at their own mesh sizes, beyond the bound of
+80 such instances that the pre-registration set; it rebuilt and solved two of them and ran
+one training step of the full-size transformer on each; it replayed the generator's draws
+for all 2,000 instances of the corpus, the held-out ones included, without meshing them, and
+meshed, solved or read no held-out instance. Neither departure changed a label, an
+evaluation or a criterion.
 
 \input{generated/table_holdout_values}
 
-\paragraph{The three-dimensional stiffness-norm run}
-The three-dimensional stiffness-norm run was registered and stamped on 21 October 2026,
-after the holdout evaluation had returned and before any network had been trained with the
-stiffness-norm loss in three dimensions (the review above had run one training step with
-either loss on each of its two instances, on a CPU, to check the code), and run once, from
-22 to 25 October 2026, without a deviation; its adjudicator recorded the verdicts and
-readings of \cref{tab:k3d}. Its pre-registration fixed the statistic, each seed's median
-over the validation instances, after the per-instance values of the supervised and the
+\paragraph{The three-dimensional energy-norm run}
+The three-dimensional energy-norm run was registered and stamped on 21 October 2026, after
+the holdout evaluation had returned and before any network had been trained with the
+energy-norm loss in three dimensions (the review above had run one training step with either
+loss on each of its two instances, on a CPU, to check the code), and run once, from 22 to 25
+October 2026, without a deviation; its adjudicator recorded the verdicts and readings of
+\cref{tab:k3d}. Its pre-registration fixed the statistic, each seed's median over the
+validation instances, after the per-instance values of the displacement-supervised and the
 label-free transformers, and the readings of the two-dimensional comparison on the medians,
-were known, and gave the reason: one instance carries the supervised transformer's seed
-means, so that on seed means the guard of its relative energy gap is \numKdMeansGapTau{} and
-no reduction could be shown. The seed means are reported beside every verdict, with their
-Welch intervals, as the pre-registration required, and so are the readings on the held-out
-instances, which it fixed without a verdict. The run evaluated the six stored networks again
-before training, and they reproduced their recorded values exactly; it trained the
-stiffness-norm transformer with the supervised transformer's settings, unchanged and not
-tuned for the new loss.
+were known, and gave the reason: one instance carries the displacement-supervised
+transformer's seed means, so that on seed means the guard of its relative energy gap is
+\numKdMeansGapTau{} and no reduction could be shown. The seed means are reported beside
+every verdict, with their Welch intervals, as the pre-registration required, and so are the
+readings on the held-out instances, which it fixed without a verdict. The run evaluated the
+six stored networks again before training, and they reproduced their recorded values
+exactly; it trained the energy-norm-supervised transformer with the displacement-supervised
+transformer's settings, unchanged and not tuned for the new loss.
 
 \paragraph{Provenance of the two-dimensional runs of July 2026}
 The two-dimensional runs of July 2026 were executed outside a version-controlled checkout,
@@ -208,7 +267,7 @@ that contained them. The first commit of the replaced history is kept under the 
 record of the repository's activity, which logs the creation of the branch at that commit
 on 14 July and the force push of 2 August, and the security log's entries that name the
 repository are committed with the records, as are the three reports used here, with their
-hashes (\ref{app:repro}).
+hashes (Section~\ref{app:repro}).
 
 \paragraph{Audit}
 An independent script recomputed the three-dimensional verdict from the report and agreed

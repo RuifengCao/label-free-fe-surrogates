@@ -1,0 +1,41 @@
+% generated from the committed records; do not edit
+\begingroup\footnotesize\setlength{\LTcapwidth}{\linewidth}
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{0.145\linewidth}>{\raggedright\arraybackslash}p{0.405\linewidth}>{\raggedright\arraybackslash}p{0.21\linewidth}>{\raggedright\arraybackslash}p{0.12\linewidth}@{}}
+\caption{The pre-registered claims of the comparisons reported in this paper, with the outcomes that the code recorded at the time.}\label{tab:claims}\\
+\toprule
+Run & Criterion & Measured & Outcome \\
+\midrule
+\endfirsthead
+\caption[]{The pre-registered claims of the comparisons reported in this paper, with the outcomes that the code recorded at the time. (continued)}\\
+\toprule
+Run & Criterion & Measured & Outcome \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+July run (2D), 16 July 2026 & K5: conjugate gradients from the prediction of a label-free network (64 validation instances) save $<$ 20\% of the iterations from zero & $-$0.9\% & triggered \\
+\midrule
+Three-dimensional comparison, 28 September 2026 & G2 (a), budgets $\geq$ 64 (amendment): displacement-supervised transformer with the energy term at least 3 times better than the zero field in displacement, and better than both naive baselines & 3.9 / 12.0 / 21.3 times; naive beaten & met \\
+ & G2 (a), every budget (the registered form, reported for reference) & 2.71 times at 16 labels & not met \\
+ & G2 (b): label-free displacement error within +10\% of the displacement-supervised transformer's at 1,024 labels, and relative energy-gap advantage $\geq$ 40\% at every budget & $-$36.3\%; 99.95\% / 99.85\% / 98.86\% / 99.97\% & met \\
+ & G2 (c): finer mesh, zero-shot displacement error $\leq$ 1.25 times in-band, and better than both naive baselines & 8.62 times; best naive 0.401 against 0.258 & not met \\
+ & Gate G2 = (a) and ((b) or (c)), amended &  & GO \\
+ & Gate G2, registered form (reference) &  & NO-GO \\
+ & KP4: finer mesh, zero-shot displacement error $>$ 1.5 times in-band, or a naive baseline better & 8.62 times & triggered \\
+\midrule
+Two-dimensional comparison, 9 October 2026 & H1: label-free transformer lower than the displacement-supervised transformer ($\mathcal{L}_D$) in relative energy gap beyond the noise guard, 1,024 labels & $-$71.3\% (guard 12.4\%) & supported \\
+ & H2a: energy-norm-supervised transformer ($\mathcal{L}_K$) lower than the displacement-supervised transformer ($\mathcal{L}_D$) in relative energy gap beyond the guard & $-$78.2\% (guard 16.4\%) & supported \\
+ & H2b: energy-norm-supervised transformer lower than the displacement-supervised transformer in von Mises error beyond the guard & $-$54.9\% (guard 12.3\%) & supported \\
+ & H3 (a reading, no criterion): energy-norm-supervised transformer against the label-free transformer in relative energy gap & $-$24.2\% (guard 38.1\%) & no difference shown \\
+\midrule
+Three-dimensional energy-norm run, 25 October 2026 & H2a-3D: energy-norm-supervised transformer ($\mathcal{L}_K$) lower than the displacement-supervised transformer ($\mathcal{L}_D$) in relative energy gap beyond the noise guard, on the seeds' medians & $-$98.2\% (guard 11.7\%) & supported \\
+ & H2b-3D: the same in von Mises error & $-$83.6\% (guard 10.0\%) & supported \\
+ & H3-3D (a reading without a criterion): energy-norm-supervised transformer against the label-free transformer in relative energy gap, on the seeds' medians & $-$41.0\% (guard 27.0\%) & energy-norm-supervised transformer lower \\
+\end{longtable}
+\endgroup
+\vspace{-\smallskipamount}
+\noindent\begin{minipage}{\linewidth}\footnotesize\raggedright
+The criteria are those of the pre-registration documents, which number their own; the runs are those of \cref{sec:methods:prereg}. Gates decide whether a study proceeds to its next stage, kill conditions withdraw a claim when triggered. G2 (a) is a sanity check of the supervised side, (b) the accuracy of the label-free network and (c) its transfer to the finer mesh; the amendment of the three-dimensional gate, written after the initial run, assessed (a) from 64 labels only; its naive baselines are the nearest-neighbour field and the scaled polynomial of \cref{sec:methods:networks}. The holdout evaluation's claims are in \cref{tab:holdout}. Supplementary Section~\SuppPrereg{} lists every criterion of every run with its notes, and the departures from the plans.\par
+Noise guard: a comparison of a network A with a reference B over three seeds each, with rel = mean(A)/mean(B) $-$ 1 and SE$_\mathrm{rel}$ = $(s_A^2/3 + s_B^2/3)^{1/2}$ divided by mean(B), where $s_A$ and $s_B$ are the sample standard deviations over the seeds, finds A lower beyond the guard when rel is below minus the guard, max(10\%, 2 SE$_\mathrm{rel}$), and higher beyond it when rel exceeds the guard; within it no difference is shown, which is not equivalence. The three-dimensional energy-norm run applies it to each seed's median over the instances. $\mathcal{L}_D$ and $\mathcal{L}_K$ are the losses \eqref{eq:ld} and \eqref{eq:lk}.
+\end{minipage}
+\par\medskip

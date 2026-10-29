@@ -1,0 +1,125 @@
+\section{Training without the solutions}\label{sec:labelfree}
+
+\Cref{sec:norm} changed the norm and kept the labels. This section keeps the energy norm and
+removes the labels: the label-free transformer is the same network trained on the energy of
+the same 1,024 instances \eqref{eq:training}, without their solutions. It is compared with
+the energy-norm-supervised transformer, from which it differs in the labels and also in the
+weighting of the load cases \eqref{eq:lkgrad} and in the learning rate
+(\cref{sec:methods:training}), and with the usual practice, supervision on the displacement
+error.
+
+\subsection{Three dimensions}\label{sec:labelfree:three}
+
+The label-free transformer was more accurate than the displacement-supervised transformer,
+with or without the energy term, on all five metrics, in the seed mean and in each of the
+three seeds (\cref{tab:3d}): its displacement error was \numThreeFreeDispAdvantage{} lower,
+its relative energy gap \numThreeAncOverFreeGap{} times lower than that of the variant with
+the energy term, the better of the two, a factor of \numThreeAncOverFreeGapRoot{} in the
+energy-norm error, and its von Mises error \numThreeFreeVm{} against \numThreeLabVm{} and
+\numThreeAncVm{}. Compared instance by instance within each seed, it had the lower relative
+energy gap on \numPairThreeLabGap{} of the \numThreePairs{} instance-seed pairs against the
+displacement-supervised transformer, the lower von Mises error on \numPairThreeLabVm{} and
+the lower displacement error on \numPairThreeLabDisp{}. The two transformers differ in the
+objective and also in the learning rate, which was fixed in advance and not tuned for either
+(\cref{sec:methods:training}). The pre-registered condition on the accuracy of the
+label-free transformer required its displacement error to be within 10\% of the
+displacement-supervised transformer's with 1,024 labels, and its relative energy gap to be
+at least 40\% lower at every number of labels; it was met with a wide margin, at
+\numGTwoParity{} and with a smallest advantage of \numGTwoAdvMin{}. It was one of three
+conditions of the comparison's gate, whose sanity condition an amendment written after the
+initial run assessed from 64 labels only; under its registered form the gate would have read
+NO-GO. The claims here rest on the accuracy condition and on the measurements, not on the
+gate's verdict (supplementary Sections~\SuppPrereg{} and~\SuppThree{}). The comparison fixed
+no noise guard; read after the run with the guard of the two-dimensional comparison,
+\numThreeGuardWithin{} of the \numThreeGuardTotal{} differences of seed means lie within it,
+two of them, in relative energy gap and peak stress error, through the instance of
+\cref{sec:norm:three}.
+
+Against the energy-norm-supervised transformer, which has the labels and the norm, the
+label-free transformer was the less accurate. Removing the labels raised the median
+energy-norm error by a factor of \numNlThreeLabelE{} and the median von Mises error by
+\numNlThreeLabelVm{} (\cref{fig:normlabels}), against factors of \numNlThreeNormE{} and
+\numNlThreeNormVm{} for changing the norm. The pre-registration of the energy-norm run fixed
+this comparison as a reading without a criterion: the energy-norm-supervised transformer's
+median relative energy gap was \numKdFreeRel{} lower than the label-free transformer's,
+beyond the guard of \numKdFreeTau{}, and lower on \numKdFreePairs{} of the \numThreePairs{}
+instance-seed pairs; with three seeds, the Welch 95\% interval of this reading runs from
+\numKdFreeWelchLow{} to \numKdFreeWelchHigh{}. On the medians it was also the more accurate
+in displacement (\numKdFreeDispRel{}), von Mises error (\numKdFreeVmRel{}) and peak stress
+error (\numKdFreePeakRel{}), beyond the guard, and within the guard in critical-region
+recall, readings among \numKdSecondary{} exploratory comparisons (supplementary
+Section~\SuppThree{}). On the held-out instances the difference in relative energy gap was
+\numKdHoldFreeRel{}, beyond a guard of \numKdHoldFreeTau{}. Which of the labels, the
+weighting of the load cases and the learning rate accounts for it was not tested.
+
+\subsection{Two dimensions}\label{sec:labelfree:two}
+
+In two dimensions the label-free transformer was more accurate than the
+displacement-supervised transformer on every metric but the displacement error, in each of
+the three seeds (\cref{tab:2d}): its relative energy gap was \numCmLabOverFreeGap{} times
+lower, a factor of \numCmLabOverFreeGapRoot{} in the energy-norm error, and its von Mises
+error \numCmFreeVm{} against \numCmLabVm{}, but its displacement error was
+\numCmFreeDispExcessAbs{} higher, and higher in each seed. Instance by instance it had the
+lower relative energy gap on \numPairCmLabGap{} of the \numCmPairs{} instance-seed pairs and
+the lower von Mises error on \numPairCmLabVm{}, but the lower displacement error on only
+\numPairCmLabDisp{}; on \numPairCmOpposite{} of the pairs the two errors ranked the two
+networks in opposite orders (\cref{rem:rank}). The pre-registered hypothesis H1, that the
+label-free transformer has the lower relative energy gap, was supported: its seed mean was
+\numHOneRel{} lower, beyond the guard of \numHOneTau{}, with the same readings on the
+medians and in the intervals as H2a and H2b. We have not investigated why the label-free
+transformer was the more accurate in displacement in three dimensions and not in two, with
+the same code.
+
+H3, the energy-norm-supervised against the label-free transformer, was pre-registered as a
+reading without a criterion, and showed no difference beyond the guard. The
+energy-norm-supervised transformer's relative energy gap, \numCmKnormGap{}, was
+\numHThreeRel{} lower, within the guard of \numHThreeTau{}, which its seeds made wide
+(\numCmKnormGapSeeds{}, against \numCmFreeGapSeeds{}). In every seed it was the more
+accurate of the two on every metric, by \numHThreeSeedRel{} in relative energy gap in seeds
+0, 1 and 2, and resampling the instances, with the seeds kept, put its relative energy gap
+\numHThreeResLow{} to \numHThreeResHigh{} below the label-free transformer's (95\%
+interval); the guard, which treats the three seeds as the replicates, does not separate the
+two networks. On the medians, removing the labels raised the energy-norm error by a factor
+of \numNlCmLabelE{} and the von Mises error by \numNlCmLabelVm{}, against factors of
+\numNlCmNormE{} and \numNlCmNormVm{} for changing the norm (\cref{fig:normlabels}). On the
+held-out instances H3 again showed no difference beyond the guard, and the label-free
+transformer's seed-mean relative energy gap was the lower, \numHoldTwoFreeGap{} against
+\numHoldTwoKnormGap{} (\cref{sec:holdout}).
+
+\subsection{Fewer labels}\label{sec:labelfree:budget}
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{generated/fig_label_efficiency.pdf}
+\caption{Errors against the number of labelled training instances, in three dimensions
+(left) and two (right): seed-mean relative displacement error (top) and relative energy gap
+(bottom) of the supervised networks. The horizontal line is the label-free transformer,
+trained on the same 1,024 instances without their solutions. The displacement-supervised
+transformer with the energy term is shown in three dimensions only; the
+energy-norm-supervised transformer appears in two dimensions only, since in three it was
+trained with 1,024 labelled instances only, and the graph network was trained with 64 and
+1,024 labels only.}
+\label{fig:labeleff}
+\end{figure}
+
+With fewer labels the supervised networks were trained for fewer steps as well
+(\cref{sec:methods:training}), and their errors were in general larger (\cref{fig:labeleff};
+the values are in supplementary Section~\SuppThree{}). In three dimensions the label-free
+transformer's relative energy gap was lower than that of every network trained on the
+displacement error at every number of labels, and its displacement error lower than both
+displacement-supervised transformers';
+the graph network reached a lower displacement error than the label-free transformer with
+1,024 labels, not with 64. The displacement-supervised transformer's relative energy gap did
+not fall monotonically: its seed mean rose from 256 to 1,024 labels, through the instance of
+\cref{sec:norm:three}. In two dimensions the label-free transformer's relative energy gap
+was lower than those of the displacement-supervised transformer and the graph network at
+every number of labels; its advantage over the displacement-supervised transformer fell from
+\numCmAdvMax{} with 16 labels to \numCmAdvMin{} with 1,024. In displacement, the two
+networks supervised on it needed 1,024 labels to pass the label-free transformer; supervised
+in the energy norm, the transformer came within the guard of the label-free one on every
+metric from 256 labels on (supplementary Section~\SuppTwo{}). With 16, 64 and 256 labelled
+instances, \numCmLabWorseSixteen{}, \numCmLabWorseSixtyFour{} and \numCmLabWorseTwoFiveSix{}
+of the displacement-supervised transformer's \numCmPairs{} instance-seed predictions were
+worse than the zero field, against \numCmKnormWorseSixteen{}, \numCmKnormWorseSixtyFour{}
+and \numCmKnormWorseTwoFiveSix{} for the energy-norm-supervised transformer and none for the
+label-free one.

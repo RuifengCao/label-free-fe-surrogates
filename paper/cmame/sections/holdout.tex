@@ -1,77 +1,53 @@
 \section{Held-out instances}\label{sec:holdout}
 
-The comparisons of \cref{sec:results3d,sec:results2d} were read on the validation instances,
-on which the runs were monitored and, in two dimensions, on which the results that motivated
-the comparison had been seen. A pre-registered evaluation (\cref{tab:runs}) read eight of
-their claims again, with the stored networks unchanged, on instances of the same corpora on
-which no recorded run or tool had trained or evaluated a network or computed a label, under
-rules fixed before any of them was solved. In three dimensions the corpus has
-\numHoldThreeTail{} instances beyond the validation set and the training pool
-(\cref{sec:methods:data}); the holdout set is \numHoldThreeN{} of them, without the
-\numHoldThreeExcl{} that other recorded sets had drawn again. In two dimensions the corpus
-has \numHoldTwoTail{} instances beyond the deepest prefix of its training pool that any
-recorded run read; the holdout set is \numHoldTwoN{} of them, without the \numHoldTwoExcl{}
-that another recorded tool had rebuilt or whose own files were held outside the training
-machine. The pre-registration was stamped on 18 October 2026. The evaluation then labelled
-the held-out instances with the sparse direct solver, in \numHoldThreeSolves{} solves in
-three dimensions and \numHoldTwoSolves{} in two, and evaluated the stored networks on them;
-the supervised transformer with the energy term, whose networks were not stored, was not
-evaluated.
-
 \input{generated/table_holdout}
 
-\Cref{tab:holdout} gives the claims with their values on the validation and on the held-out
-instances; seven of the eight replicated. The eight verdicts are not independent: the claims
-of each dimension read the same instances, and several of them the same networks; H2b and
-H2c read one comparison, and the sign part of T3 is an identity (\cref{cor:zero}). As the
-pre-registration states, agreement among dependent verdicts adds little evidence. In three
-dimensions the label-free transformer was again more accurate than the supervised
-transformer on all five metrics, in each seed and in the seed mean (T1); the graph network
-again had the lower displacement error on most instances, \numHoldTTwoMin{} to
-\numHoldTTwoMax{} of them in the three seeds, and the higher von Mises error on every
-instance-seed pair (T2); and the supervised transformer and the graph network had load cases
-worse than the zero field, \numHoldTThreeLab{} and \numHoldTThreeMgn{} of
-\numHoldTThreeLoads{}, each with a positive energy and no other (T3). In two dimensions the
-label-free transformer's lower relative energy gap (H1) and its larger displacement error
-with smaller errors on the other four metrics (D2) replicated, as did the stiffness-norm
-transformer's lower von Mises error, beyond the guard and by more than half (H2b and H2c).
+The comparisons of \cref{sec:norm,sec:labelfree,sec:checks} were read on the validation
+instances, on which the runs were monitored and, in two dimensions, on which the results
+that motivated the comparison had been seen. A pre-registered evaluation read eight of their
+claims again, with the stored networks unchanged, on instances of the same corpora on which
+no recorded run or tool had trained or evaluated a network or computed a label:
+\numHoldThreeN{} instances in three dimensions and \numHoldTwoN{} in two
+(\cref{sec:methods:data}), labelled only after the rules had been fixed. The
+displacement-supervised transformer with the energy term, whose networks were not stored,
+was not evaluated. \Cref{tab:holdout} gives the claims with their values on both sets; seven
+of the eight replicated. The verdicts are not independent: the claims of each dimension read
+the same instances and several of them the same networks, and agreement among them adds
+little evidence.
 
-The stiffness-norm transformer's lower relative energy gap (H2a) did not replicate. Its
-seeds' relative energy gaps on the held-out instances were \numHoldHTwoANewSeeds{}, against
-\numHoldHTwoABaseSeeds{} for the supervised transformer: \numHoldHTwoARel{} lower, within
-the guard of \numHoldHTwoATau{}. The readings beside it, fixed in advance without a
-criterion, locate the failure in a few instances. The stiffness-norm transformer's mean
-relative energy gap was \numHoldHTwoARatio{} times as large on the held-out instances as on
-the validation instances (95\% interval, the held-out instances resampled:
-\numHoldHTwoARatioLow{} to \numHoldHTwoARatioHigh{}), whereas its median was much the same
-on both, \numHoldHTwoAMedHold{} and \numHoldHTwoAMedVal{}. Of its \numHoldTwoPairs{}
-instance-seed predictions on the held-out instances, \numHoldTwoWorseInstKnorm{} had a mean
-relative energy gap above one, against \numHoldTwoWorseInstLab{} of the supervised
+In three dimensions the label-free transformer was again more accurate than the
+displacement-supervised transformer on all five metrics, in each seed and in the seed mean;
+the graph network again had the lower displacement error on most instances and the higher
+von Mises error, now on every instance-seed pair (\numMgnVmHigher{} of \numThreePairs{} on
+the validation instances); and the networks trained on the displacement error again had load
+cases worse than the zero field, each with a positive energy. In two dimensions the
+label-free transformer's lower relative energy gap, and its larger displacement error with
+better values of the other four metrics, replicated, as did the energy-norm-supervised
+transformer's lower von Mises error, beyond the guard and by more than half.
+
+The energy-norm-supervised transformer's lower mean relative energy gap in two dimensions
+did not replicate. Its seeds' relative energy gaps on the held-out instances were
+\numHoldHTwoANewSeeds{}, against \numHoldHTwoABaseSeeds{} for the displacement-supervised
+transformer: \numHoldHTwoARel{} lower, within the guard of \numHoldHTwoATau{}. The readings
+fixed beside it locate the failure in a few instances. Its mean relative energy gap was
+\numHoldHTwoARatio{} times as large on the held-out as on the validation instances (95\%
+interval, the held-out instances resampled: \numHoldHTwoARatioLow{} to
+\numHoldHTwoARatioHigh{}), whereas its median was much the same on both,
+\numHoldHTwoAMedHold{} and \numHoldHTwoAMedVal{}. Of its \numHoldTwoPairs{} instance-seed
+predictions on the held-out instances, \numHoldTwoWorseInstKnorm{} had a mean relative
+energy gap above one, against \numHoldTwoWorseInstLab{} of the displacement-supervised
 transformer's and \numHoldTwoWorseInstFree{} of the label-free transformer's, where on the
-validation instances none of the three had any; of the \numHoldTwoLoads{} load cases,
-\numHoldTwoWorseLoadKnorm{}, \numHoldTwoWorseLoadLab{} and \numHoldTwoWorseLoadFree{} were
-worse than the zero field, each with a positive energy and no other. Read after the
-evaluation, the largest relative energy gaps of the stiffness-norm transformer's three seeds
-on the held-out instances were \numHoldHTwoATopSeeds{}. On the seeds' medians the reduction
-against the supervised transformer was \numHoldHTwoAMedRel{}, beyond a guard of
-\numHoldHTwoAMedTau{}. The claim of \cref{sec:results2d:norm} thus holds for the typical
-instance, not for the mean, which a few held-out instances carry. H3, the stiffness-norm
-transformer against the label-free transformer, again showed no difference beyond the guard;
-on the seed means the label-free transformer's relative energy gap was now the lower,
-\numHoldTwoFreeGap{} against \numHoldTwoKnormGap{}.
+validation instances none of the three had any; read after the evaluation, the largest
+relative energy gaps of its three seeds were \numHoldHTwoATopSeeds{}. On the seeds' medians
+the reduction was \numHoldHTwoAMedRel{}, beyond a guard of \numHoldHTwoAMedTau{}: the claim
+holds for the typical instance, not for the mean, which a few held-out instances carry. H3
+again showed no difference beyond the guard, and the label-free transformer's seed-mean
+relative energy gap was now the lower, \numHoldTwoFreeGap{} against \numHoldTwoKnormGap{}.
 
-Beside the claims, the per-instance values themselves were compared, network by network and
-metric by metric, between the held-out and the validation instances (V): of the
-\numHoldVQuantities{} quantities none was rejected by a rank test at a family-wise level of
-\numHoldVAlpha{}, and the validation instances were read as representative. That verdict
-does not show that the means are unchanged: a mean that a few instances carry can move
-without a rejection, as the stiffness-norm transformer's relative energy gap did.
-\Cref{tab:holdoutvalues} gives the means and medians on both sets for every network and
-metric, and \ref{app:prereg} the evaluation's two departures from its plan. The Ritz
-projection of \cref{sec:methods:ritz}, added after the original analyses, was paired with the
-networks on the held-out instances as on the validation instances: in three dimensions its
-displacement error was smaller than the label-free transformer's on
-\numRitzHoldFreeDispSixMin{} to \numRitzHoldFreeDispSixMax{} of the instances at $p=6$ and on
-\numRitzHoldFreeDispNineMin{} to \numRitzHoldFreeDispNineMax{} at $p=9$, and its peak stress
-error larger on at least \numRitzHoldFreePeakMin{} of them at every degree (supplementary
-material, Table S1).
+Beside the claims, the per-instance values of every network and metric were compared between
+the two sets: of the \numHoldVQuantities{} quantities none was rejected by a rank test at a
+family-wise level of \numHoldVAlpha{}, and the validation instances were read as
+representative. That verdict does not show that the means are unchanged: a mean that a few
+instances carry can move without a rejection, as the energy-norm-supervised transformer's
+relative energy gap did. Supplementary Section~\SuppPrereg{} gives the means and medians on
+both sets and the evaluation's two departures from its plan.

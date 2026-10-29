@@ -1,11 +1,12 @@
 % Supplementary material of the manuscript. Every number comes from generated/, which the
 % repository's generation script writes from the committed records; do not type numbers by
-% hand. Build: latexmk -pdf supplementary.tex (from this directory).
+% hand. Build after the manuscript, whose labels it reads from main.aux:
+%   latexmk -pdf main.tex && latexmk -pdf supplementary.tex   (from this directory)
 \documentclass[11pt,a4paper]{article}
 
 \usepackage[british]{babel}
 \usepackage[margin=2.2cm]{geometry}
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{array}
@@ -13,78 +14,84 @@
 \usepackage{pdflscape}
 \usepackage{flafter}
 \usepackage{microtype}
-\usepackage[hidelinks]{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{url}
+\usepackage{xr}
+\usepackage[capitalise]{cleveref}
+% the paper's labels (sections, tables, figures, equations, statements), read from main.aux;
+% its numbers carry no prefix, those of this material the prefix S. Its citations are not
+% read: this material numbers its own references.
+\makeatletter
+\begingroup\let\bibcite\@gobbletwo\externaldocument{main}\endgroup
+\makeatother
+\renewcommand{\thesection}{S\arabic{section}}
 \renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\theequation}{S\arabic{equation}}
+% references of this material, numbered S1, S2, ... apart from the paper's
+\renewcommand{\citenumfont}[1]{S#1}
+\renewcommand{\bibnumfmt}[1]{[S#1]}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\do\_\do\.}
+\makeatother
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\renewcommand{\thelemma}{S\arabic{lemma}}
+\renewcommand{\theproposition}{S\arabic{proposition}}
+\renewcommand{\thecorollary}{S\arabic{corollary}}
+\renewcommand{\theremark}{S\arabic{remark}}
+\crefname{lemma}{Lemma}{Lemmas}
+\crefname{proposition}{Proposition}{Propositions}
+\crefname{corollary}{Corollary}{Corollaries}
+\crefname{remark}{Remark}{Remarks}
+
+\newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\gap}{\operatorname{gap}}
+\newcommand{\vm}{\sigma_{\mathrm{vm}}}
+\newcommand{\Ustar}{U^{\ast}}
 \newcommand{\cstar}{c^{\ast}}
+\newcommand{\R}{\mathbb{R}}
 
 \input{generated/numbers}
+\input{suppsections}
+\pdfinfo{/Title (Supplementary material: The norm, not the labels) /Author (Ruifeng Cao, Xidan Song)}
+% each section must carry the number by which the paper cites it (suppsections.tex)
+\newcommand{\checksection}[1]{\begingroup\edef\x{\thesection}\edef\y{#1}%
+  \ifx\x\y\else\errmessage{Supplementary section \x\space is cited as \y}\fi\endgroup}
 
-\title{Supplementary material for\\[2pt] \large Training finite-element surrogates without
-solutions: the discrete potential energy as exact objective, metric and failure detector}
+\title{Supplementary material for\\[2pt] \large The norm, not the labels: training and
+evaluating finite-element surrogates in the energy norm}
 \author{Ruifeng Cao \and Xidan Song}
 \date{}
 
 \begin{document}
 \maketitle
 
-\section*{S1. The Ritz projection paired with the networks}
+\noindent Numbers of sections, tables, figures, equations and statements with the prefix S
+refer to this supplementary material, those without it to the paper; the references of this
+material are listed at its end and cited as [S1], [S2] and so on. Its sections:
+\SuppPrereg{} the pre-registration record and deviations, with the list of runs;
+\SuppThree{} and \SuppTwo{} further results in three and two dimensions; \SuppTransfer{}
+transfer to a finer mesh; \SuppWarm{} warm starts; \SuppSide{} two side experiments;
+\SuppJuly{} the July run; \SuppRepro{} reproducibility and the executable checks;
+\SuppRitz{} the Ritz projection paired with the networks; \SuppTiming{} timing.
 
-The paper pairs the polynomial Ritz-Galerkin projection of each instance, computed from the
-instance's own stiffness matrix and loads without labels or training, with every network's
-prediction of the same instance; this baseline was added after the original analyses and was
-not pre-registered, as the paper states. Table~\ref{tab:ritzpairs} gives, for each set,
-model and degree $p$ of the ladder, the share of the instances on which the projection was
-strictly the more accurate, as the lowest and the highest over the three seeds of a trained
-network. The sets are the validation instances of the three- and two-dimensional
-comparisons, their held-out instances, and the finer three-dimensional mesh, on which the
-networks trained in-band were applied zero-shot. The projection has \numRitzThreeK{}
-unknowns at $p=6$, 7, 8 and 9 in three dimensions and \numRitzTwoK{} at $p=6$ and 8 in two.
+\input{sections/appendix_prereg}\checksection{\SuppPrereg}
+\input{sections/supp_three}\checksection{\SuppThree}
+\input{sections/supp_two}\checksection{\SuppTwo}
+\input{sections/transfer}\checksection{\SuppTransfer}
+\input{sections/supp_warm}\checksection{\SuppWarm}
+\input{sections/appendix_e1}\checksection{\SuppSide}
+\input{sections/appendix_july}\checksection{\SuppJuly}
+\input{sections/appendix_repro}\checksection{\SuppRepro}
+\input{sections/supp_ritz}\checksection{\SuppRitz}
+\input{sections/supp_timing}\checksection{\SuppTiming}
 
-\begin{landscape}
-\input{generated/table_ritz_pairs}
-\end{landscape}
-
-\section*{S2. The three-dimensional stiffness-norm run}
-
-Table~\ref{tab:kmedians} gives every metric of the three transformers of the three-dimensional
-stiffness-norm run on the 256 validation instances, as the seeds' medians over the
-instances, the statistic that the run's pre-registered verdicts read, and as the seeds'
-means. Table~\ref{tab:kcomparisons} gives the \numKdSecondary{} secondary comparisons that its
-pre-registration fixed as exploratory readings, without a criterion: for each of the five
-metrics, the stiffness-norm transformer against the supervised transformer trained on the
-relative displacement error and against the label-free transformer, and the label-free
-transformer against the supervised one, on the medians and on the means. Each reading
-applies the noise guard of the paper: rel is the relative difference of the two networks'
-seed-averaged values, and a difference counts only beyond the larger of 10\% and twice its
-standard error over the three seeds. Without a true difference, a comparison can cross the
-guard by chance, as the pre-registration's simulations of the rule show, so several
-crossings among
-\numKdSecondary{} are expected by chance. For the critical-region recall higher is better,
-and the reading says which network was the better.
-
-\input{generated/table_k3d_medians}
-
-\input{generated/table_k3d_comparisons}
-
-\section*{S3. Timing: threads and an earlier measurement}
-
-The solvers of the cost table ran with the machine's \numCostThreads{} threads. The effect of
-the number of threads was measured on another host of the same type, with
-\numThreadsHost{} threads, on the first \numThreadsValN{} validation and \numThreadsFineN{}
-fine-mesh instances of the three-dimensional comparison: with one thread, the direct solve
-took the same time, to within \numThreadsDirectDev{}, and conjugate gradients
-\numThreadsCgGainMin{} to \numThreadsCgGainMax{} less; a repeat with all threads agreed with
-the first measurement to within \numThreadsDrift{}. In two dimensions (\numThreadsTwoN{}
-instances, without a repeat), one thread was \numThreadsTwoDirect{} faster for the direct
-solve and \numThreadsTwoCg{} for conjugate gradients.
-
-
-The timings of the cost table of the paper were measured on 28 October 2026, on the machine
-that computed the Ritz projection, so that every row of the table comes from one machine.
-The same instances and networks had been timed on 8 October 2026 on another machine
-(\numRerunCpu{}, \numRerunThreads{} threads). The surrogate's accuracies agreed between the
-two measurements to within a relative \numRerunAccDev{}, and the iteration counts of
-conjugate gradients differed by at most \numRerunIters{} per load case. The times of the
-earlier measurement are committed with the records.
+\bibliographystyle{elsarticle-num}
+\bibliography{references}
 
 \end{document}

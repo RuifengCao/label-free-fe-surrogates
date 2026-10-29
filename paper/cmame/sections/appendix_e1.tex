@@ -1,18 +1,16 @@
 \section{Two pre-registered side experiments}\label{app:e1}
-\setcounter{table}{0}\setcounter{figure}{0}\setcounter{equation}{0}
-\setcounter{proposition}{0}\renewcommand{\theproposition}{\Alph{section}.\arabic{proposition}}
 
-This appendix reports two experiments that were pre-registered separately and whose outcomes
-are not part of the two comparisons of the main text, although the bottleneck networks
-appear in the readings of \cref{sec:transfer:amplitude}: a regulariser of the latent
-representations, whose unregularised networks are the two-dimensional label-free networks
-of \cref{sec:results2d}, and a token bottleneck that reduces the cost of attention.
+This section reports two experiments that were pre-registered separately and whose outcomes
+are not part of the comparisons of the paper, although the bottleneck networks appear in the
+readings of \cref{sec:transfer:amplitude}: a regulariser of the latent representations,
+whose unregularised networks are the two-dimensional label-free networks of the paper
+(\cref{sec:labelfree:two}), and a token bottleneck that reduces the cost of attention.
 
 \subsection{Latent regularisation}\label{app:e1:latent}
 
 Three criteria of \cref{tab:criteria} (K4, E6 and KP6) and the experiment of this
 subsection concern the latent vectors of the transformer, the outputs of its encoder, one
-per node, which the rest of the paper does not use. Self-supervised representation learning
+per node, which the paper does not use. Self-supervised representation learning
 guards against representational collapse, the mapping of different inputs to nearly
 identical latent vectors, with regularisers on the distribution of the latent vectors. The
 sketched isotropic Gaussian regulariser SIGReg \cite{Balestriero2025LeJEPA} projects the
@@ -40,13 +38,13 @@ rather than anything learned. The unregularised networks of this run are the lab
 networks of the two-dimensional comparison, which reuses them without retraining
 (\cref{sec:methods:training}); the regulariser itself plays no part in the results.
 
-Criterion K4 of the July run (\cref{tab:criteria}) concerned the same kind of regulariser
-in an earlier setting: three regularisers of the latent distribution, each added to the
-energy and the masked-prediction term of the joint-embedding objective (\ref{app:prereg})
+Criterion K4 of the July run (\cref{tab:criteria}) concerned the same kind of regulariser in
+an earlier setting: three regularisers of the latent distribution, each added to the energy
+and the masked-prediction term of the joint-embedding objective (Section~\ref{app:prereg})
 and trained for 2,000 steps on 64 instances, with and without the geometry descriptor, were
-compared by the standardised effective rank of the latent vectors on 256 instances. The
-best raised it by more than the factor of 1.5 at or below which the criterion would have
-been triggered.
+compared by the standardised effective rank of the latent vectors on 256 instances. The best
+raised it by more than the factor of 1.5 at or below which the criterion would have been
+triggered.
 
 What accuracy does imply for the latent representation is limited to load cases on a
 shared stiffness matrix. Fix one instance, with load vectors $F_1,\dots,F_L$ and solutions
@@ -73,8 +71,8 @@ $\norm{\Ustar_i-\Ustar_j}_K\le\norm{\Ustar_i-D(z_i)}_K+\norm{D(z_i)-D(z_j)}_K
 
 The bound is informative when the solutions themselves are separated; on sixteen
 validation instances of each corpus the smallest separation between the load cases of one
-instance, relative to the mean stiffness norm of its solutions, was \numPremiseTwo{} (two
-dimensions) and \numPremiseThree{} (three). Across geometries there is no common stiffness
+instance, relative to the mean energy norm of its solutions, was \numPremiseTwo{} (two
+dimensions) and \numPremiseThree{} (three). Across geometries there is no common energy
 norm, and the natural analogue in a transported metric fails: among the same sixteen
 instances, two different geometries had solutions under the same load, normalised to unit
 length and interpolated to common coordinates, closer to each other (\numCrossTwo{} and

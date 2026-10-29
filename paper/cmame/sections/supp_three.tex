@@ -1,0 +1,87 @@
+\section{Three dimensions: further results}\label{supp:three}
+
+\paragraph{The gate of the three-dimensional comparison}
+The gate of the three-dimensional comparison combined three conditions as (a) and ((b) or
+(c)) (\cref{tab:criteria}): (a) a sanity check on the supervised side, (b) the label-free
+transformer's displacement error within 10\% of the displacement-supervised transformer's
+with 1,024 labels and an advantage in relative energy gap of at least 40\% at every budget,
+and (c) transfer to the finer mesh. Condition (b), the pre-registered test of the label-free
+network's accuracy, was met with a wide margin: the label-free displacement error was
+\numGTwoParity{} relative to the displacement-supervised one, and the smallest advantage in
+relative energy gap was \numGTwoAdvMin{}; the kill conditions on that accuracy, KP1 and KP2,
+were not triggered. Condition (c) failed, and kill condition KP4 withdrew the transfer claim
+(Section~\ref{sec:transfer}). Condition (a) was met from 64 labels on, but with 16 labels
+the displacement-supervised transformer with the energy term was only
+\numGTwoSanitySixteen{} times more accurate in displacement than the zero field, against the
+\numGTwoSanityX{} required. The amendment, written after this result of the initial run was
+known, assessed (a) only from \numGTwoFloor{} labels: under it the gate read GO, and under
+the registered form, which assesses every budget, it read NO-GO (Section~\ref{app:prereg}).
+The claims of the paper rest on condition (b) and on the measurements, not on the gate's
+verdict.
+
+\paragraph{The displacement-supervised transformer's seed means}
+The displacement-supervised transformer's mean relative energy gap, \numThreeLabGapMs{}, is
+the mean of three seeds, \numThreeLabGapSeeds{}. The second is dominated by validation
+instance No.~\numWorstIndex{}, whose prediction in seed \numThreeLabWorstSeed{} had a
+relative energy gap of \numThreeLabWorst{}, averaged over its four load cases, with a
+displacement error of \numWorstSeedLabDisp{}, a von Mises error of \numWorstSeedLabVm{} and
+a peak stress error of \numWorstSeedLabPeak{}. The same instance had the largest relative
+energy gap of the displacement-supervised transformer in all three seeds, and its median
+relative energy gap, \numThreeLabGapMedian{}, is far below its mean. The energy term
+repaired most of this, but not at every budget: with 256 labels it raised the displacement
+error of the displacement-supervised transformer in every seed and, through one of the three
+seeds, its mean relative energy gap (\cref{tab:labeleff}), although it reduced the number of
+instance-seed predictions worse than the zero field from \numThreeLabWorseTwoFiveSix{} to
+\numThreeAncWorseTwoFiveSix{}.
+
+\paragraph{Fewer labels}
+\Cref{tab:labeleff} gives the values that \cref{fig:labeleff} plots, in both dimensions,
+with the networks of the two-dimensional comparison; the values of the July run are in
+Section~\ref{app:july}.
+
+\input{generated/table_label_efficiency}
+
+\paragraph{The three-dimensional energy-norm run}
+\Cref{tab:k3d} gives the pre-registered hypotheses of the run with their per-seed values and
+the readings that its pre-registration required beside each verdict. \Cref{tab:kmedians}
+gives every metric of the three transformers on the 256 validation instances, as the seeds'
+medians over the instances, the statistic that the verdicts read, and as the seeds' means.
+\Cref{tab:kcomparisons} gives the \numKdSecondary{} secondary comparisons that the
+pre-registration fixed as exploratory readings, without a criterion: for each of the five
+metrics, the energy-norm-supervised transformer against the displacement-supervised and the
+label-free transformers, and the label-free transformer against the displacement-supervised
+one, on the medians and on the means. Each reading applies the noise guard of the paper: rel
+is the relative difference of the two networks' seed-averaged values, and a difference
+counts only beyond the larger of 10\% and twice its standard error over the three seeds.
+Without a true difference, a comparison can cross the guard by chance, as the
+pre-registration's simulations of the rule show, so several crossings among
+\numKdSecondary{} are expected by chance. For the critical-region recall higher is better,
+and the reading says which network was the better. Descriptively, on the medians, the change
+of norm removed \numKdClosureVm{} of the displacement-supervised transformer's excess over
+the label-free transformer in von Mises error and \numKdClosureGap{} in relative energy gap,
+a reading that the pre-registration fixed without a criterion. The energy-norm-supervised
+and the displacement-supervised transformers were trained about seven weeks apart, each with
+the code of its time, whose training path a regression on small problems showed to be the
+same; the stored networks were evaluated again with the later code and reproduced their
+earlier values exactly.
+
+\input{generated/table_k3d}
+
+\input{generated/table_k3d_medians}
+
+\input{generated/table_k3d_comparisons}
+
+\paragraph{A typical instance}
+\Cref{fig:field-median} shows the validation instance with the median relative energy gap of
+the label-free transformer, on which the predictions of the networks trained on the
+displacement error were better than the zero field and their stress fields still rough.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{generated/fig_field_median.pdf}
+\caption{A typical validation instance, the one with the median relative energy gap of the
+label-free transformer, seed 0, under the \numFigMedianLoad{} (selection rules in
+Section~\ref{app:repro:plots}). Von Mises stress of the reference solution and of the three
+networks, displayed as in \cref{fig:field-worst}.}
+\label{fig:field-median}
+\end{figure}

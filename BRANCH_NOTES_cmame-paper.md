@@ -2225,3 +2225,59 @@ generator, and no record, configuration, pre-registration or source file changed
   `tests/test_cmame_references.py` and `tests/test_repository_transfer.py`
   read the new tag and the pending DOI. RUNBOOK_CMAME's suite lines read the
   current count. Suite 824 (820 + 4).
+
+## Stage 17 (29 Oct 2026) -- the manuscript restructured around the norm of the loss against the labels; supplementary material S1 to S10
+
+- As decided by the PI on 29 October 2026 (the assessment of the paper's narrative for the
+  Journal of Computational Physics, option A), the manuscript's main line is which norm to
+  train and evaluate finite-element surrogates in. Title: "The norm, not the labels:
+  training and evaluating finite-element surrogates in the energy norm". The stiffness norm
+  is called the energy norm throughout, and the networks are named by their loss: the
+  displacement-supervised, the energy-norm-supervised and the label-free transformers, and
+  the graph network. No run, number or verdict changed; the records are unchanged.
+- Structure: 1 Introduction; 2 Related work (paragraphs on the norm of the loss and on error
+  estimation without the solution; 17 references added, checked on 29 October 2026 against
+  the bibliographic records their comments name); 3 Energy, norm and stress; 4 Problems,
+  networks and comparisons; 5 The norm of the loss (the 3D energy-norm run, H2a and H2b,
+  the spectra); 6 Training without the solutions (the 3D comparison, H1 and H3, fewer
+  labels); 7 Evaluation in the energy norm (the reversal of the rankings, predictions worse
+  than the zero field); 8 Held-out instances; 9 A classical baseline and the cost; 10
+  Discussion; 11 Conclusion; Appendix A the pre-registered claims (`table_claims.tex`, new).
+- New Fig. 1 (`fig_norm_labels.pdf`): the same transformer in the two-by-two of norm and
+  labels, one cell empty, in both dimensions, with the medians over the validation instances
+  of the relative energy-norm and von Mises errors averaged over the seeds (`numNl*`); the
+  generator checks every statement the text makes about them, and a new test recomputes
+  them from the reports.
+- Moved to the supplementary material, nothing deleted: the pre-registration record with the
+  list of runs (S1), further 3D and 2D results (S2, S3), the transfer (S4), the warm starts
+  with their corollary and remark (S5), the side experiments (S6), the July run (S7),
+  reproducibility with the conditioning lemma and the modewise corollary (S8), the Ritz pairs
+  (S9) and the timing (S10). The paper cites these sections by the numbers in
+  `suppsections.tex`, which the supplementary material checks as it is built; the
+  supplementary material reads the paper's labels from `main.aux` and numbers its own
+  references [S1], [S2] and so on. `sections/results3d.tex` and `sections/results2d.tex` are
+  removed (their content is in Sections 5 to 8 and the supplementary material);
+  `sections/holdout.tex` is Section 8; the schematic figure is dropped.
+- Front matter: one corresponding author (Ruifeng Cao); keywords, highlights and the
+  graphical abstract redrawn around the norm and the labels.
+- Dates: the three-dimensional comparison ran from 22 to 28 September 2026 and reused the
+  supervised networks that its initial run (31 August to 21 September 2026) had trained in
+  the first half of September; the text and Table S1 now say so.
+- An independent review of the restructured text (29 October 2026, read only; the numbers
+  resolved and checked against the records) found the energy-norm statement of the abstract
+  off by a factor of two, two statements stronger than the numbers (the factor 1.3 holds for
+  the median energy-norm and von Mises errors only; the Ritz projection beats the label-free
+  transformer in the seed means, not in every seed), a 2D-only spectral reading stated
+  generally, and a sentence on the 3D label budgets that the energy-norm-supervised
+  transformer contradicts; all are corrected, and the generator now checks that the Ritz
+  projection's median peak stress error at the top of its ladder is more than twice the
+  label-free transformer's in each seed, and quotes the Welch interval of the 3D seed-mean
+  von Mises reduction (it includes zero). Its other points on caveats, terms, dates and
+  length are addressed: each caveat is stated with its result, the held-out instances are
+  a section of their own after the evaluation, and the main text is shorter by the moves
+  above.
+- Tests: `tests/test_cmame_material.py` gains one (Fig. 1's numbers recomputed from the
+  reports) and checks the claims table, the new names, the highlights, the Ritz projection
+  against the networks at the top of its ladder and the Welch interval; the quotes of
+  `tests/test_cmame_references.py` follow the text to the supplementary material.
+  RUNBOOK_CMAME's suite lines read the current count. Suite 825 (824 + 1).

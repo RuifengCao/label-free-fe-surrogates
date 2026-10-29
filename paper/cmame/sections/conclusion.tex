@@ -1,37 +1,24 @@
 \section{Conclusion}\label{sec:conclusion}
 
-For linear elastostatics, the assembled discrete potential energy is an exact label-free
-training objective: minimising it is supervised regression in the stiffness norm, which
-measures the strain energy of the stress error, and it needs no solve. The same identity
-makes the energy an evaluation metric that follows the stress rather than the displacement
-and ranks the predictions of one load case without reference solutions, and a failure
-detector: the sign of the energy of a prediction tells whether it is worse than the zero
-field, and a closed-form rescaling ensures that it is not. In a pre-registered comparison on
-three-dimensional tetrahedral meshes, a transformer trained on the energy alone was more
-accurate on every metric, in each of three seeds, than the same transformer trained on the
-solutions of the same instances with the relative displacement error. In the same run, by a
-reading not fixed in advance, a supervised graph network with lower displacement errors had
-several times larger von Mises errors, so that the two errors ranked the networks in
-opposite orders. These findings replicated on held-out instances. Trained on the
-stiffness-norm error of the same solutions, the supervised transformer lowered its median
-relative energy gap by \numKdGapRel{} and its median von Mises error by \numKdVmRel{} (on
-the seeds' medians, a statistic chosen after the per-instance values of the networks
-compared were known), closing its gap to the label-free transformer, whose median relative
-energy gap it undercut by a margin that three seeds leave uncertain: what the label-free
-objective gains over displacement supervision is the norm, which it provides without a
-solve. In two dimensions the label-free network had a larger displacement error than the
-supervised one and smaller energy and stress errors; trained on the stiffness-norm error
-instead of the displacement error, with the same labels, the supervised network lowered its
-von Mises error by more than half, supporting a pre-registered hypothesis that replicated on
-held-out instances, and its errors lay lower in the spectrum of the stiffness matrix, as
-measured afterwards; the reduction of its relative energy gap did not replicate there. In
-three dimensions, a classical Ritz projection of a few hundred unknowns, added after the
-original analyses and given the stiffness matrix, was at its highest degree more accurate in
-displacement than each network on almost every instance, and less accurate in peak stress
-than the two transformers trained in the stiffness norm. A warm start from one label-free
-prediction of the earlier code did not shorten unpreconditioned conjugate gradients to a
-relative residual of \numKfiveTol{} in two dimensions, and the predictions timed in
-\cref{tab:cost} did not shorten it to \numCostCgTol{} in two dimensions or three. In three
-dimensions no network transferred to a substantially finer mesh without retraining, although
-a label-free rescaling removed most of the label-free network's error there. These limits,
-and the criteria that were not met, are reported with the results.
+For linear elastostatics, the assembled discrete potential energy exceeds its minimum by half
+the squared energy-norm error of a prediction, which is the strain energy of its stress error.
+Minimising it is supervised regression in the energy norm without solutions; the usual
+displacement loss regresses in the Euclidean norm, which under-weights the stiff modes that
+carry the strains. In pre-registered comparisons that changed only the norm of the
+supervised loss, with the same solutions, the median von Mises error of a three-dimensional
+transformer fell \numNlThreeNormVmWord{}fold, and in two dimensions the mean fell by more than
+half, also on held-out instances; in two dimensions, measured after the run, the errors were
+of about the same size but lay lower in the spectrum of the stiffness matrix. Removing the
+solutions with the energy norm kept cost far less: in three dimensions the transformer
+trained on the energy alone came within a factor of \numNlThreeLabelWithin{} of the
+energy-norm-supervised one in median energy-norm and von Mises error, and was more accurate
+than the displacement-supervised one on every metric, in every seed. For these surrogates,
+the norm of the loss, not the use of solutions, limited the stress accuracy. The same norm
+should decide how surrogates are compared: a graph network with the lowest displacement error
+of the networks had among the largest stress errors, and the energy itself ranks the
+predictions of a load case and flags, by its sign, those worse than the zero field, without a
+solution. Given the stiffness matrix, a polynomial Ritz projection of a few hundred unknowns
+was more accurate than the label-free transformer, in the seed means, on every metric but
+peak stress, and no network transferred to a substantially finer mesh; these limits, the
+claim that did not replicate on held-out instances and the criteria that were not met are
+reported with the results.

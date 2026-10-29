@@ -3,7 +3,7 @@
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\caption{Three-dimensional solids, every metric at the largest label budget. The supervised networks were trained on 1,024 labelled instances; the label-free network on the same 1,024 instances without their solutions.}
+\caption{Three-dimensional solids, every metric at the largest label budget. The supervised networks were trained on 1,024 labelled instances; the label-free transformer on the same 1,024 instances without their solutions.}
 \label{tab:3d}
 \resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
 \begin{tabular}{lcccccc}
@@ -11,10 +11,10 @@
 Model & \shortstack{Displacement \\ error} & \shortstack{Relative \\ energy gap} & \shortstack{von Mises \\ error} & \shortstack{Peak stress \\ error} & \shortstack{Critical-region \\ recall} & \shortstack{Worse than \\ zero field} \\
 \midrule
 Label-free & 0.0300 $\pm$ 0.0028 & 0.00912 $\pm$ 0.00228 & 0.0554 $\pm$ 0.0045 & 0.0807 $\pm$ 0.0134 & 0.793 $\pm$ 0.022 & 0/768 \\
-Supervised & 0.0470 $\pm$ 0.0038 & 31.2 $\pm$ 53.5 & 0.370 $\pm$ 0.140 & 0.784 $\pm$ 0.807 & 0.619 $\pm$ 0.005 & 18/768 \\
-Supervised + energy term & 0.0470 $\pm$ 0.0122 & 0.116 $\pm$ 0.050 & 0.128 $\pm$ 0.008 & 0.115 $\pm$ 0.026 & 0.730 $\pm$ 0.006 & 2/768 \\
-Supervised, stiffness norm & 0.0227 $\pm$ 0.0022 & 0.00504 $\pm$ 0.00022 & 0.0440 $\pm$ 0.0014 & 0.0386 $\pm$ 0.0011 & 0.858 $\pm$ 0.001 & 0/768 \\
-Graph network, supervised & 0.0168 $\pm$ 0.0001 & 0.447 $\pm$ 0.084 & 0.296 $\pm$ 0.010 & 0.488 $\pm$ 0.011 & 0.679 $\pm$ 0.009 & 28/768 \\
+Supervised, displacement & 0.0470 $\pm$ 0.0038 & 31.2 $\pm$ 53.5 & 0.370 $\pm$ 0.140 & 0.784 $\pm$ 0.807 & 0.619 $\pm$ 0.005 & 18/768 \\
+Supervised, displacement + energy term & 0.0470 $\pm$ 0.0122 & 0.116 $\pm$ 0.050 & 0.128 $\pm$ 0.008 & 0.115 $\pm$ 0.026 & 0.730 $\pm$ 0.006 & 2/768 \\
+Supervised, energy norm & 0.0227 $\pm$ 0.0022 & 0.00504 $\pm$ 0.00022 & 0.0440 $\pm$ 0.0014 & 0.0386 $\pm$ 0.0011 & 0.858 $\pm$ 0.001 & 0/768 \\
+Graph network, displacement & 0.0168 $\pm$ 0.0001 & 0.447 $\pm$ 0.084 & 0.296 $\pm$ 0.010 & 0.488 $\pm$ 0.011 & 0.679 $\pm$ 0.009 & 28/768 \\
 \midrule
 Nearest-neighbour field & 0.382 & 1.22 & 0.717 & 1.23 & 0.509 & 88/256 \\
 Scaled polynomial & 1.56 & 4,362 & 14.9 & 54.8 & 0.137 & 256/256 \\
@@ -31,9 +31,9 @@ Zero field & 1.00 & 1.00 & 1.00 & 1.00 & -- & -- \\
 \smallskip
 \begin{minipage}{\linewidth}\footnotesize\raggedright
 256 validation instances, never trained on; four load cases each. Errors are relative to the reference finite-element solution, per load case, then averaged over the load cases; the relative energy gap of the zero field is 1. Trained networks: mean $\pm$ sample standard deviation over 3 seeds; the nearest-neighbour field and the scaled polynomial are deterministic.\par
-Worse than zero field: instance-seed pairs whose relative energy gap, the mean over the four load cases as the evaluation records it, exceeds 1, that is, predictions further from the solution in the stiffness norm than the zero field on average; the count uses the reference solutions. The test of \cref{cor:zero} needs none and applies to single load cases (\cref{sec:methods:metrics}).\par
+Worse than zero field: instance-seed pairs whose relative energy gap, the mean over the four load cases as the evaluation records it, exceeds 1, that is, predictions further from the solution in the energy norm than the zero field on average; the count uses the reference solutions. The test of \cref{cor:zero} needs none and applies to single load cases (\cref{sec:methods:metrics}).\par
 Critical-region recall: the share of the 10\% most stressed elements of the reference solution that are also among the 10\% most stressed of the prediction (higher is better; in every other column lower is better).\par
-The three-dimensional comparison (\cref{tab:runs}). Supervised, stiffness norm: the three-dimensional stiffness-norm run (\cref{tab:runs,sec:results3d:norm}), the supervised transformer trained on $\mathcal{L}_K$ \eqref{eq:lk} with the same labelled instances, settings and seeds, beside the stored label-free and supervised transformers, which it evaluated again, reproducing their values exactly.\par
-Ritz projection (\cref{sec:methods:ritz}), added after the original analyses: computed per instance from its own stiffness matrix and loads, without labels or training, with 168, 252, 360 and 495 unknowns at $p = 6$, 7, 8 and 9; deterministic, so its count of predictions worse than the zero field is over the instances.
+The three-dimensional comparison (\cref{sec:methods:prereg}). Supervised, energy norm: the three-dimensional energy-norm run (\cref{sec:norm:three}), the same transformer trained on $\mathcal{L}_K$ \eqref{eq:lk} with the same labelled instances, settings and seeds, beside the stored label-free and displacement-supervised transformers, which it evaluated again, reproducing their values exactly.\par
+Ritz projection (\cref{sec:methods:ritz}), added after the pre-registered runs: computed per instance from its own stiffness matrix and loads, without labels or training, with 168, 252, 360 and 495 unknowns at $p = 6$, 7, 8 and 9; deterministic, so its count of predictions worse than the zero field is over the instances.
 \end{minipage}
 \end{table}

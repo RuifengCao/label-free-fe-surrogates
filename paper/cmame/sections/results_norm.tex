@@ -1,0 +1,133 @@
+\section{The norm of the loss}\label{sec:norm}
+
+This section tests the explanation of \cref{sec:theory} directly. The same transformer, with
+the same labelled instances, initial weights, order of the instances and learning rate, is
+trained with the relative displacement error $\mathcal{L}_D$ \eqref{eq:ld} or with the
+relative energy-norm error $\mathcal{L}_K$ \eqref{eq:lk}; nothing else changes
+(\cref{sec:methods:training}). Both comparisons were pre-registered, with directions fixed
+in advance. \Cref{fig:normlabels} summarises them, and \cref{tab:3d,tab:2d} give every
+metric.
+
+\subsection{Three dimensions}\label{sec:norm:three}
+
+\input{generated/table_3d}
+
+The three-dimensional energy-norm run trained the transformer on $\mathcal{L}_K$ with the
+1,024 labelled instances of the three-dimensional comparison, and evaluated the stored
+label-free and displacement-supervised transformers beside it, which reproduced their
+earlier values exactly. Its two hypotheses were supported. The energy-norm-supervised
+transformer's median relative energy gap, \numKdKnormGapMedian{} averaged over the seeds,
+was \numKdGapRel{} lower than the displacement-supervised transformer's,
+\numKdLabGapMedian{}, beyond the noise guard of \numKdGapTau{}, a \numNlThreeNormE{}-fold
+reduction of the median energy-norm error; and its median von Mises error was \numKdVmRel{}
+lower (guard \numKdVmTau{}), in each seed. Its displacement error fell too, from
+\numThreeLabDisp{} to \numThreeKnormDisp{} in the seed mean (\cref{tab:3d}), and none of its
+\numThreePairs{} instance-seed predictions was worse than the zero field, against
+\numThreeLabWorse{} of the displacement-supervised transformer's. The verdicts read each
+seed's median over the 256 validation instances, a statistic fixed after the per-instance
+values of the two stored transformers, and the two-dimensional comparison's readings on the
+medians, were known. The reason is one validation instance, No.~\numWorstIndex{}: in seed
+\numThreeLabWorstSeed{} the displacement-supervised transformer's prediction of it had a
+relative energy gap of \numThreeLabWorst{}, averaged over its four load cases, which carries
+that network's seed means (\cref{tab:3d}) and widens the guard on them. On the seed means
+the von Mises error was \numKdMeansVmRel{} lower, beyond the guard of \numKdMeansVmTau{},
+although with three seeds its Welch 95\% interval runs from \numKdMeansVmWelchLow{} to
+\numKdMeansVmWelchHigh{}, and the relative energy gap \numKdMeansGapRel{} lower, within a
+guard that this instance widens to \numKdMeansGapTau{}. On the \numHoldThreeN{} held-out
+instances of \cref{sec:holdout}, read without a verdict, the two reductions were
+\numKdHoldGapRel{} and \numKdHoldVmRel{}, beyond guards of \numKdHoldGapTau{} and
+\numKdHoldVmTau{}. The test rests on one model size and one family of geometries, with the
+displacement-supervised settings unchanged and not tuned for the new loss; it supports the
+explanation of \cref{sec:theory} rather than establishing it in general.
+
+\subsection{Two dimensions}\label{sec:norm:two}
+
+\input{generated/table_2d}
+
+The two-dimensional comparison trained the displacement-supervised and the
+energy-norm-supervised transformers, which differ only in the loss, and pre-registered two
+hypotheses about them: H2a, that the energy-norm-supervised transformer has the lower
+relative energy gap, which is close to a check that the change of loss took effect, and H2b,
+that it has the lower von Mises error. The von Mises error is a term of neither loss: H2b
+tests the explanation that \cref{prop:stress} gives. The comparison was evaluated on the
+validation instances on which the results that motivated it had been seen, and was
+registered with the values of its label-free transformers on them known and after a
+functional check at a far smaller scale had shown the directions of its hypotheses
+(supplementary Section~\SuppPrereg{}). Both were supported on the validation instances. With
+1,024 labelled instances the energy-norm-supervised transformer's relative energy gap was
+\numHTwoARel{} lower (guard \numHTwoATau{}), \numHTwoARootRel{} lower in the
+root-mean-square relative energy-norm error, and its von Mises error \numHTwoBRel{} lower,
+\numCmKnormVm{} against \numCmLabVm{} (guard \numHTwoBTau{}). On the seeds' medians the
+guard gave the same readings, and the 95\% intervals of the two relative differences, from
+Welch's statistic over the seeds and from resampling the instances, lay below zero. Instance
+by instance it had the lower relative energy gap on \numPairCmKnormLabGap{} of the
+instance-seed pairs, the lower von Mises error on \numPairCmKnormLabVm{} and the lower
+displacement error on \numPairCmKnormLabDisp{}: changing the norm lowered the stress error
+by more than half and left the displacement error about where it was, \numCmKnormDisp{}
+against \numCmLabDisp{}. Weighted by element area, as in \cref{prop:stress}, instead of
+equally, the ratio of the two networks' mean von Mises errors was \numSpecVmAreaRatio{},
+against \numSpecVmElemRatio{} for the reported metric. On the held-out instances the
+reduction of the von Mises error replicated, by more than half, and that of the mean
+relative energy gap did not (\cref{sec:holdout}).
+
+\subsection{Where the errors lie in the spectrum}\label{sec:norm:spectrum}
+
+\Cref{rem:factor} writes the relative energy gap of a prediction as the product of the
+squared relative displacement error $\delta^2$ and the normalised Rayleigh quotient $\rho$,
+which measures how far up the spectrum of $K$ the error lies relative to the solution. After
+the two-dimensional run, and without pre-registration, we measured both for the four
+networks trained on 1,024 instances on each of the \numSpecLoads{} triples of seed,
+validation instance and load case, and, from the eigendecomposition of each instance's
+stiffness matrix, how each error's squared energy norm is distributed over the eigenmodes
+(\cref{fig:spectra}). The solution itself lies at the bottom of the spectrum: its Rayleigh
+quotient was a median \numSpecRqStarOverMin{} times the smallest eigenvalue of $K$. The
+median of $\rho$ was \numSpecRqFree{} for the label-free transformer, \numSpecRqKnorm{} for
+the energy-norm-supervised transformer, \numSpecRqLab{} for the displacement-supervised
+transformer and \numSpecRqMgn{} for the graph network.
+
+\begin{figure}[tbp]
+\centering
+\includegraphics[width=\linewidth]{generated/fig_spectra.pdf}
+\caption{Two dimensions, networks trained on 1,024 instances, measured after the run: where
+the errors lie in the spectrum of the stiffness matrix. Left: for each of the
+\numSpecLoads{} triples of seed, validation instance and load case (one point per triple and
+network), the normalised Rayleigh quotient $\rho$ of the error against the relative
+displacement error $\delta$ (\cref{rem:factor}); large markers are the medians of the two
+coordinates, and the dashed lines are lines of equal relative energy gap $g=\rho\,\delta^2$.
+Right: for each value of $\lambda_m/R(\Ustar)$ on the abscissa, the median over the triples
+of the share of the error's squared energy norm in the eigenmodes at or above it; the dashed
+curve is the same share of the solution's squared energy norm.}
+\label{fig:spectra}
+\end{figure}
+
+The two transformers that differ only in the norm of the loss had errors of about the same
+size in different places. Over the triples, the geometric mean of the ratio of their $\rho$,
+displacement-supervised over energy-norm-supervised, was \numSpecLabKnormRq{}
+(\numSpecLabKnormRqSeeds{} in seeds 0, 1 and 2), and the displacement-supervised
+transformer's $\rho$ was the larger on \numSpecLabKnormAbove{} of the triples; the geometric
+mean of the ratio of their $\delta^2$ was \numSpecLabKnormDisp{}. On a logarithmic scale the
+ratio of $\rho$ accounts for \numSpecSpectralShare{} of the geometric-mean ratio of their
+relative energy gaps, \numSpecLabKnormGap{}, and the ratio of $\delta^2$ for the rest. The
+modes with $\lambda_m\ge 100\,R(\Ustar)$ held a median \numSpecShareKLab{} of the squared
+energy norm of the displacement-supervised transformer's error, against
+\numSpecShareKKnorm{} for the energy-norm-supervised transformer, \numSpecShareKFree{} for
+the label-free transformer and \numSpecShareKStar{} of the solution's own. The graph
+network's errors had the size of the displacement-supervised transformer's (ratio of
+$\delta^2$ \numSpecMgnLabDisp{}) and lay higher still (ratio of $\rho$ \numSpecMgnLabRq{}).
+The networks ran with TF32 matrix products, whose rounding weighs heavily in the energy
+norm; with TF32 off, the difference between the two norms reads larger still (supplementary
+Section~\SuppRepro{}).
+
+In three dimensions, where the full eigendecomposition was not computed, the same quotient
+was measured after the run from the norms of the errors for the networks of the
+three-dimensional comparison, not for the energy-norm-supervised transformer. Its median was
+\numFieldRqFree{} for the label-free transformer, \numFieldRqLab{} for the
+displacement-supervised transformer and \numFieldRqMgn{} for the graph network, and it was
+larger for the displacement-supervised transformer than for the label-free one on
+\numFieldRqAboveLab{} of the \numFieldLoads{} triples of seed, instance and load case.
+Training in the Euclidean norm of the displacement thus left errors that lay higher in the
+spectrum: of about the same size in two dimensions, and larger in three, where the
+displacement-supervised transformer's displacement error also exceeded the label-free one's
+(\cref{tab:3d}). By \eqref{eq:factor} such errors cost more energy and, by
+\cref{prop:stress}, more stress error. Supplementary Section~\SuppTwo{} gives the
+two-dimensional readings seed by seed, and the stress fields of one instance.

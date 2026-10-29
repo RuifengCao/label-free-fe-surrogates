@@ -9,9 +9,6 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{longtable}
-\usepackage{xcolor}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning,fit}
 \usepackage{microtype}
 % line numbers for reviewers (the Guide for Authors does not require them);
 % \linenumbersfalse removes them, for the preprint
@@ -20,9 +17,10 @@
 \usepackage[hidelinks,hypertexnames=false]{hyperref}
 \usepackage[capitalise,nameinlink]{cleveref}
 \biboptions{sort&compress}
-\hypersetup{pdftitle={Training finite-element surrogates without solutions: the discrete
-  potential energy as exact objective, metric and failure detector},
+\hypersetup{pdftitle={The norm, not the labels: training and evaluating finite-element
+  surrogates in the energy norm},
   pdfauthor={Ruifeng Cao, Xidan Song}}
+\Urlmuskip=0mu plus 1mu
 \makeatletter
 \g@addto@macro{\UrlBreaks}{\do\_\do\.}
 \myfooterfont{\scriptsize\itshape}
@@ -56,6 +54,7 @@
 \newcommand{\pending}[1]{\par\smallskip\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{\small\textbf{Pending.} #1}}\par\smallskip}
 
 \input{generated/numbers}
+\input{suppsections}
 
 \journal{Journal of Computational Physics}
 
@@ -63,14 +62,14 @@
 
 \begin{frontmatter}
 
-\title{Training finite-element surrogates without solutions: the discrete potential
-energy as exact objective, metric and failure detector}
+\title{The norm, not the labels: training and evaluating finite-element surrogates in the
+energy norm}
 
 \author[man]{Ruifeng Cao\corref{cor1}}
 \ead{ruifeng.cao@manchester.ac.uk}
-\author[whu]{Xidan Song\corref{cor1}}
+\author[whu]{Xidan Song}
 \ead{liuqingdamafen@whu.edu.cn}
-\cortext[cor1]{Corresponding authors. Ruifeng Cao handles correspondence.}
+\cortext[cor1]{Corresponding author.}
 
 \affiliation[man]{organization={School of Engineering, The University of Manchester},
   addressline={Oxford Road}, city={Manchester}, postcode={M13~9PL},
@@ -84,8 +83,8 @@ energy as exact objective, metric and failure detector}
 \end{abstract}
 
 \begin{keyword}
-finite element method \sep surrogate modelling \sep label-free training \sep
-minimum total potential energy \sep energy norm \sep pre-registration
+finite element method \sep neural surrogate \sep energy norm \sep potential energy \sep
+label-free training \sep linear elasticity
 \end{keyword}
 
 \end{frontmatter}
@@ -97,19 +96,16 @@ minimum total potential energy \sep energy norm \sep pre-registration
 \input{sections/related}
 \input{sections/theory}
 \input{sections/methods}
-\input{sections/results3d}
-\input{sections/results2d}
+\input{sections/results_norm}
+\input{sections/results_labelfree}
+\input{sections/checks}
 \input{sections/holdout}
-\input{sections/transfer}
 \input{sections/cost}
 \input{sections/discussion}
 \input{sections/conclusion}
 
 \appendix
-\input{sections/appendix_prereg}
-\input{sections/appendix_e1}
-\input{sections/appendix_repro}
-\input{sections/appendix_july}
+\input{sections/appendix_claims}
 
 \input{sections/declarations}
 

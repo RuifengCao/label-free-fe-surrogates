@@ -3,20 +3,20 @@
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\caption{Three-dimensional stiffness-norm run: the 30 secondary comparisons, exploratory, each with the noise guard, on the seeds' medians and on the seeds' means.}
+\caption{Three-dimensional energy-norm run: the 30 secondary comparisons, exploratory, each with the noise guard, on the seeds' medians and on the seeds' means.}
 \label{tab:kcomparisons}
 \resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
 \begin{tabular}{llcccc}
 \toprule
 Comparison (A against B) & Metric & Medians: rel (guard) & Reading & Seed means: rel (guard) & Reading \\
 \midrule
-Stiffness norm against supervised ($\mathcal{L}_D$) & Displacement error & $-$51.1\% (guard 10.0\%) & A better & $-$51.8\% (guard 10.8\%) & A better \\
+Energy norm against displacement ($\mathcal{L}_D$) & Displacement error & $-$51.1\% (guard 10.0\%) & A better & $-$51.8\% (guard 10.8\%) & A better \\
  & Relative energy gap & $-$98.2\% (guard 11.7\%) & A better & $-$99.98\% (guard 197.9\%) & within \\
  & von Mises error & $-$83.6\% (guard 10.0\%) & A better & $-$88.1\% (guard 43.7\%) & A better \\
  & Peak stress error & $-$82.9\% (guard 10.0\%) & A better & $-$95.1\% (guard 118.9\%) & within \\
  & Critical-region recall & +36.7\% (guard 10.0\%) & A better & +38.6\% (guard 10.0\%) & A better \\
 \midrule
-Stiffness norm against label-free & Displacement error & $-$25.0\% (guard 12.3\%) & A better & $-$24.3\% (guard 13.7\%) & A better \\
+Energy norm against label-free & Displacement error & $-$25.0\% (guard 12.3\%) & A better & $-$24.3\% (guard 13.7\%) & A better \\
  & Relative energy gap & $-$41.0\% (guard 27.0\%) & A better & $-$44.7\% (guard 29.0\%) & A better \\
  & von Mises error & $-$19.4\% (guard 10.0\%) & A better & $-$20.6\% (guard 10.0\%) & A better \\
  & Peak stress error & $-$51.7\% (guard 22.0\%) & A better & $-$52.1\% (guard 19.2\%) & A better \\

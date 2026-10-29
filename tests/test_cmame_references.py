@@ -156,36 +156,26 @@ def test_the_references_checked_on_11_october_say_so():
 def test_the_text_states_the_published_versions_and_credits_the_bound():
     s = _sections()
     for name, quote in (
-            ("theory.tex", r"the other statements are added here, except \cref{cor:warm}, "
-                           r"which states in the energy norm an estimate that " + SUN + r" give "
-                           r"in the relative residual, after a bound of " + WANG + r" for "
-                           r"fixed-point iterations."),
-            ("theory.tex", r"the classical bound \cite[Section~6.11.3]{Saad2003} is"),
-            ("theory.tex", SUN + r" draw the same conclusion for conjugate gradients in the "
+            ("supp_warm.tex", r"\Cref{cor:warm} states in the energy norm an estimate that "
+                              + SUN + r" give in the relative residual, after a bound of "
+                              + WANG + r" for fixed-point iterations."),
+            ("supp_warm.tex", r"the classical bound \cite[Section~6.11.3]{Saad2003} is"),
+            ("supp_warm.tex", SUN + r" draw the same conclusion for conjugate gradients in the "
                            r"relative residual, where the constant of the bound and the conversion "
                            r"between residual and error add a bounded offset to the saving, and "
                            + WANG + r" from an asymptotic "
                            r"bound of the same form for fixed-point iterations; \cref{cor:warm} "
                            r"states it in the energy norm, without that offset, and "
                            r"\cref{rem:residual} bounds the initial residual by the energy gap."),
-            ("theory.tex", WANG + r" observed the same for Newton's method: the initial "
+            ("supp_warm.tex", WANG + r" observed the same for Newton's method: the initial "
                            r"residual of their predictions could exceed that of the zero "
                            r"initial guess although their errors were much smaller."),
-            ("introduction.tex", r"(\cref{cor:warm}); " + SUN + r" give this estimate in the "
-                                 r"relative residual, after a bound of " + WANG + r" for "
-                                 r"fixed-point iterations."),
-            ("related.tex", r"Two of these studies explain why the saving shrinks as the "
-                            r"tolerance tightens: " + WANG + r" with an asymptotic iteration "
-                            r"bound for fixed-point iterations, and " + SUN + r" with its "
-                            r"extension to conjugate gradients, in the relative residual, and a "
-                            r"model of the solver's set-up cost. \Cref{cor:warm} states the "
-                            r"bound for conjugate gradients in the energy norm"),
             ("related.tex", r"the supervised one was more accurate in displacement and in the "
                             r"$H^1$ seminorm \cite{Sun2026FEVessel}"),
             ("related.tex", r"in polycrystals the label-free network was more accurate in "
                             r"stress than the supervised one, which was trained on the "
                             r"reference stresses \cite{MonteiroFernandes2025}"),
-            ("discussion.tex", WANG + r" and " + SUN + r" explain why the benefit shrinks as "
+            ("supp_warm.tex", WANG + r" and " + SUN + r" explain why the benefit shrinks as "
                                r"the tolerance tightens: a warm start lowers an iteration bound by a "
                                r"fixed number of iterations, as Wang et~al.\ show for fixed-point "
                                r"iterations and Sun et~al., in the relative residual, also for "
@@ -198,7 +188,7 @@ def test_the_text_states_the_published_versions_and_credits_the_bound():
                                r"labels instead of the energy, with every other setting "
                                r"unchanged, was more accurate in displacement and in the $H^1$ "
                                r"seminorm (their Table 2)"),
-            ("discussion.tex", SUN + r" report iteration counts and wall-clock speed-ups at three "
+            ("supp_warm.tex", SUN + r" report iteration counts and wall-clock speed-ups at three "
                                r"relative-residual tolerances, the speed-ups computed from times "
                                r"that include the network's forward pass and, for algebraic "
                                r"multigrid, its set-up."),
@@ -208,14 +198,16 @@ def test_the_text_states_the_published_versions_and_credits_the_bound():
                             r"errors in energy and deformation gradient, a gap that adding the "
                             r"deformation gradient to the supervised loss narrowed but did not "
                             r"close \cite{Dalton2023}"),
-            ("introduction.tex", r"have given opposite outcomes "
-                                 r"\cite{Dalton2023,MonteiroFernandes2025,Sun2026FEVessel}"),
+            ("introduction.tex", r"the energy-trained network was the more accurate in "
+                                 r"energy, strain or stress in two others "
+                                 r"\cite{Dalton2023,MonteiroFernandes2025}, and the less "
+                                 r"accurate in a third \cite{Sun2026FEVessel}"),
             ("methods.tex", r"the extents, each divided by the upper end of its sampling range, "
                             r"so that the absolute size is kept"),
             ("methods.tex", r"a supervised network with $n$ labelled instances took $200n$ "
                             r"steps, 3,200 with 16, and the comparisons at the smaller budgets "
                             r"differ in the number of steps as well as in the labels."),
-            ("discussion.tex", WANG + r" report, for their linear problems, iteration counts "
+            ("supp_warm.tex", WANG + r" report, for their linear problems, iteration counts "
                                r"to a relative residual of $10^{-3}$, with unpreconditioned "
                                r"conjugate gradients in two dimensions and with unpreconditioned "
                                r"and preconditioned conjugate gradients in three, and Sun et~"
@@ -229,7 +221,9 @@ def test_the_text_states_the_published_versions_and_credits_the_bound():
                                r"not be unique."),
             ("discussion.tex", r"the discretisation invariance reported for point-cloud "
                                r"operators trained on the energy"),
-            ("discussion.tex", r"compatible with $X$ at all \cite{LeCun2007EBM}."),
+            ("discussion.tex", r"As in an energy-based model \cite{LeCun2007EBM}, which uses one "
+                               r"scalar energy to find the most compatible output, to rank "
+                               r"candidates and to detect incompatible ones"),
             ("transfer.tex", r"was tested by varying the density of the input point cloud, "
                              r"not by refining the mesh as here.")):
         assert quote in s[name], (name, quote)
@@ -237,24 +231,24 @@ def test_the_text_states_the_published_versions_and_credits_the_bound():
     for name, gone in (
             ("related.tex", "slightly more accurate"),
             ("related.tex", "bounds it for conjugate gradients"),
-            ("discussion.tex", "a preconditioned method in three"),
-            ("discussion.tex", "both note"),
-            ("discussion.tex", "a warm start saves a fixed number"),
+            ("supp_warm.tex", "a preconditioned method in three"),
+            ("supp_warm.tex", "both note"),
+            ("supp_warm.tex", "a warm start saves a fixed number"),
             ("related.tex", "Two train the same network"),
             ("discussion.tex", "$H^1$ norm"),
             ("related.tex", "$H^1$ norm"),
             ("related.tex", "Two of these studies note"),
-            ("theory.tex", r"\cref{cor:warm} after a bound"),
-            ("discussion.tex", "observed that the benefit shrinks"),
-            ("discussion.tex", "bounds this effect"),
+            ("supp_warm.tex", r"\cref{cor:warm} after a bound"),
+            ("supp_warm.tex", "observed that the benefit shrinks"),
+            ("supp_warm.tex", "bounds this effect"),
             ("discussion.tex", "resolution invariance"),
             ("discussion.tex", r"variational integrators \cite{MarsdenWest2001} write each"),
             ("transfer.tex", "on the training mesh")):
         assert gone.lower() not in s[name].lower(), (name, gone)
 
 
-def test_the_break_even_of_section_8_is_recomputed_from_the_records():
-    """Section 8.4: the labels of the 3D training instances at the median direct solve, and
+def test_the_break_even_of_the_cost_section_is_recomputed_from_the_records():
+    """Section 9.3: the labels of the 3D training instances at the median direct solve, and
     the predictions after which one seed's training is recovered, recomputed here from the
     timing record and the deviation ledger, independently of the generator."""
     import json
@@ -280,6 +274,5 @@ def test_the_break_even_of_section_8_is_recomputed_from_the_records():
               r"predicted instances, and after about \numCostBreakEvenMatch{} against conjugate "
               r"gradients stopped at the surrogate's accuracy, an upper bound since that stop reads the "
               r"reference solution",
-              r"Label-free training pays for itself where a solve is expensive enough",
-              r"Supervised finite-element surrogates need a solve per training example."):
+              r"Label-free training pays for itself where a solve is expensive enough"):
         assert s in text, s
