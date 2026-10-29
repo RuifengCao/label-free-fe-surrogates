@@ -1,0 +1,37 @@
+{"arm": "phase2b", "set": "val3d", "precheck": {"set": "val3d", "n": 8, "median_rel_dev": {"s0": [0.0, 0.0], "s1": [0.0, 0.0], "s2": [0.0, 0.0]}}}
+[enriched phase2b val3d] 16/256 | 17 s
+[enriched phase2b val3d] 32/256 | 21 s
+[enriched phase2b val3d] 48/256 | 32 s
+[enriched phase2b val3d] 64/256 | 41 s
+[enriched phase2b val3d] 80/256 | 51 s
+[enriched phase2b val3d] 96/256 | 61 s
+[enriched phase2b val3d] 112/256 | 74 s
+[enriched phase2b val3d] 128/256 | 79 s
+[enriched phase2b val3d] 144/256 | 91 s
+[enriched phase2b val3d] 160/256 | 95 s
+[enriched phase2b val3d] 176/256 | 107 s
+[enriched phase2b val3d] 192/256 | 112 s
+[enriched phase2b val3d] 208/256 | 124 s
+[enriched phase2b val3d] 224/256 | 133 s
+[enriched phase2b val3d] 240/256 | 145 s
+[enriched phase2b val3d] 256/256 | 151 s
+{"arm": "phase2b", "set": "val3d", "n": 256, "identity_failed": 0, "content_passed": true, "bound_ok": true, "bound_excess_max": -5.061770482059445e-06, "ratio": {"0": [0.6368, 0.6616], "1": [0.7267, 0.5443], "2": [0.8118, 0.4166]}, "seconds": 151.4}
+{"arm": "phase2b", "set": "fine3d", "precheck": {"set": "fine3d", "n": 8, "median_rel_dev": {"s0": [0.0, 0.0], "s1": [0.0, 0.0], "s2": [0.0, 0.0]}}}
+[enriched phase2b fine3d] 16/256 | 169 s
+[enriched phase2b fine3d] 32/256 | 313 s
+[enriched phase2b fine3d] 48/256 | 464 s
+[enriched phase2b fine3d] 64/256 | 549 s
+[enriched phase2b fine3d] 80/256 | 694 s
+[enriched phase2b fine3d] 96/256 | 794 s
+[enriched phase2b fine3d] 112/256 | 907 s
+[enriched phase2b fine3d] 128/256 | 996 s
+[enriched phase2b fine3d] 144/256 | 1056 s
+[enriched phase2b fine3d] 160/256 | 1159 s
+[enriched phase2b fine3d] 176/256 | 1257 s
+[enriched phase2b fine3d] 192/256 | 1435 s
+[enriched phase2b fine3d] 208/256 | 1570 s
+[enriched phase2b fine3d] 224/256 | 1654 s
+[enriched phase2b fine3d] 240/256 | 1715 s
+[enriched phase2b fine3d] 256/256 | 1818 s
+{"arm": "phase2b", "set": "fine3d", "n": 256, "identity_failed": 0, "content_passed": true, "bound_ok": true, "bound_excess_max": -4.959663929549052e-11, "ratio": {"0": [0.7373, 0.6976], "1": [0.6947, 0.6573], "2": [0.6855, 0.6006]}, "seconds": 1818.0}
+{"arm": "phase2b", "sets_complete": ["fine3d", "val3d"], "complementary": false, "seconds": 2102.7}

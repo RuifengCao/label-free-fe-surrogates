@@ -1,0 +1,17 @@
+[ritz val2d] 16/256 instance_06616.npz dofs 1162 gap p6:0.07179 p8:0.06269 id 0.0e+00 | 1 s
+[ritz val2d] 32/256 instance_12264.npz dofs 1574 gap p6:0.06994 p8:0.06194 id 0.0e+00 | 1 s
+[ritz val2d] 48/256 instance_04270.npz dofs 1116 gap p6:0.0444 p8:0.03865 id 0.0e+00 | 1 s
+[ritz val2d] 64/256 instance_22382.npz dofs 920 gap p6:0.05189 p8:0.04219 id 0.0e+00 | 1 s
+[ritz val2d] 80/256 instance_13264.npz dofs 1364 gap p6:0.03438 p8:0.03002 id 0.0e+00 | 1 s
+[ritz val2d] 96/256 instance_01248.npz dofs 910 gap p6:0.02028 p8:0.0141 id 0.0e+00 | 1 s
+[ritz val2d] 112/256 instance_23555.npz dofs 1010 gap p6:0.01999 p8:0.01478 id 0.0e+00 | 1 s
+[ritz val2d] 128/256 instance_23173.npz dofs 934 gap p6:0.008002 p8:0.003006 id 0.0e+00 | 1 s
+[ritz val2d] 144/256 instance_04356.npz dofs 1058 gap p6:0.01252 p8:0.007116 id 0.0e+00 | 1 s
+[ritz val2d] 160/256 instance_07402.npz dofs 1246 gap p6:0.008736 p8:0.003309 id 0.0e+00 | 1 s
+[ritz val2d] 176/256 instance_03707.npz dofs 2088 gap p6:0.05301 p8:0.04725 id 0.0e+00 | 1 s
+[ritz val2d] 192/256 instance_22813.npz dofs 826 gap p6:0.04126 p8:0.03568 id 0.0e+00 | 1 s
+[ritz val2d] 208/256 instance_14600.npz dofs 622 gap p6:0.01074 p8:0.00696 id 0.0e+00 | 1 s
+[ritz val2d] 224/256 instance_11513.npz dofs 1094 gap p6:0.03444 p8:0.02741 id 0.0e+00 | 1 s
+[ritz val2d] 240/256 instance_07871.npz dofs 984 gap p6:0.1012 p8:0.09059 id 0.0e+00 | 1 s
+[ritz val2d] 256/256 instance_04404.npz dofs 894 gap p6:0.03691 p8:0.03151 id 0.0e+00 | 1 s
+{"set": "val2d", "n": 256, "n_used": 256, "identity_failed": 0, "identity_max_rel_diff": 0.0, "median_gap": {"6": 0.030537032400160376, "8": 0.024783238289822738}, "dropped_max": {"6": 0, "8": 0}, "worse_than_zero": {"6": 0, "8": 0}, "sign_mismatch": 0, "seconds": 1.9}

@@ -111,7 +111,7 @@ python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_com
     --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
     2>&1 | tee runs/cmame/timing/pytest.log | tail -n 3
 ```
-The suite's last line reads `806 passed, 3 deselected`, then warnings and the
+The suite's last line reads `817 passed, 3 deselected`, then warnings and the
 time (the two LaTeX builds and the bibliography test are left out: they
 need a TeX installation that the box does not have). Anything failed, an
 error, or another count: stop and report. Any other output than the
@@ -535,7 +535,7 @@ python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_com
     --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
     2>&1 | tee runs/cmame/spectra/pytest.log | tail -n 3
 ```
-The suite's last line reads `806 passed, 3 deselected`, then warnings and the
+The suite's last line reads `817 passed, 3 deselected`, then warnings and the
 time. Anything failed, an error, another count, or any other output than the
 comments describe: stop and report.
 
@@ -1272,7 +1272,7 @@ python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_com
     --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
     2>&1 | tee runs/ritz/pytest.log | tail -n 3
 ```
-The suite's last line reads `806 passed, 3 deselected`, then warnings and the
+The suite's last line reads `817 passed, 3 deselected`, then warnings and the
 time. Anything failed, an error, another count, or any other output than the
 comments describe: stop and report.
 
@@ -1454,4 +1454,5 @@ a wp9 arm's report, and `--reread <arm dir>` for its reading) and compared
 with the returned one; the enriched reading's Ritz rows against the
 baseline's p = 8 on val3d and fine3d. It is committed under
 `records/cmame/ritz/`; the manuscript's baseline rows, its cost-table row and
-its discussion are then generated from it.
+its discussion are then generated from it. It ran on 28 October 2026
+(`records/cmame/README.md`).

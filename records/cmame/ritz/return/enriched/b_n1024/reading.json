@@ -1,0 +1,68 @@
+{
+ "arm": "b_n1024",
+ "appendix": true,
+ "spec": "Appendix 2, fixed 20 October 2026; exploratory",
+ "sets_complete": [
+  "F2",
+  "F5",
+  "IB"
+ ],
+ "sets_required": [
+  "IB",
+  "F2",
+  "F5"
+ ],
+ "sets_refused": {},
+ "bound_ok": {
+  "IB": true,
+  "F2": true,
+  "F5": true
+ },
+ "all_instances": {
+  "inband": {
+   "sets": [
+    "IB"
+   ],
+   "ratio": {
+    "IB": {
+     "3": 0.9330338628978994,
+     "4": 0.9296353442766085,
+     "5": 0.9329927694812855
+    }
+   },
+   "threshold": 0.8,
+   "holds": false
+  },
+  "ood": {
+   "sets": [
+    "F2",
+    "F5"
+   ],
+   "peak_ratio": {
+    "F2": {
+     "3": 0.910537676396548,
+     "4": 0.9467139241279321,
+     "5": 0.9143937440724297
+    },
+    "F5": {
+     "3": 0.6072824001863661,
+     "4": 0.5889965180098058,
+     "5": 0.6218709030396921
+    }
+   },
+   "threshold": 0.5,
+   "holds": false
+  },
+  "complementary": false
+ },
+ "identity_failed": {
+  "IB": [],
+  "F2": [],
+  "F5": []
+ },
+ "choices": "per-instance values are the means over the load battery (as the records); the per-load-case medians are in each set's summary; the out-of-distribution condition must hold for every seed and set; arms are read separately; 'complementary' is true when a computed condition holds, false when both are computed and neither holds, null otherwise; all_instances reads every instance, identity_ok_instances (present when an instance fails the identity check) only those that pass; a set whose network does not reproduce its records is left out (sets_refused)",
+ "solves": {
+  "ritz": "Appendix 1: eigendecomposition of A = P^T K P, eigenvalues at most 1e-13 times the largest dropped, no scaling",
+  "enriched": "the Galerkin system of span{u} + range(P) after Jacobi scaling, eigendecomposition, eigenvalues at most 1e-12 times the largest dropped (the reference script's solve; Appendix 2 leaves it open)"
+ }
+}

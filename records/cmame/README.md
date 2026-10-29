@@ -876,3 +876,153 @@ reads, and it records none (PREREG_K3D Sec. 8).
 - the numbers this section quotes from the verdict, the return and the
   records named are theirs; the operator instruction is quoted from outside
   the repository.
+
+## Ritz baseline and enriched c*: the run of 28 October 2026 (RUNBOOK_CMAME Sec. G)
+
+`ritz/ritz_return_20261029-1150.tgz` is the return of RUNBOOK_CMAME Sec. G
+as the operator sent it on 29 October 2026 (23,818,923 bytes, SHA-256
+`c0f5621fac38e8a946c34c7870a6c284305e2c2f0ccec29b24946a0f984c96af`, as sent
+and as recomputed on receipt). `ritz/return/` holds its files other than the
+19 per-instance `rows.jsonl`, byte for byte (50 files, 1.35 MB); the rows (81
+MB unpacked, the largest file 19.6 MB) stay in the tarball, whose
+`provenance.txt` lists the SHA-256 of all 68 files. The run: the branch at
+`0c1d59a` (tree `d36f70537aadbf7a98e1a265aebea6daaa111b0b`, `git describe`
+`prereg-k3d-2-g0c1d59a`, tracked files clean), on the host of
+PREREG_HOLDOUT's and PREREG_K3D's runs (an Intel Xeon Platinum 8470Q, 25
+CPUs; an RTX 5090, driver 595.71.05; a memory limit of 96,636,764,160 bytes,
+90 GiB; `oom_kill 0`). G0c's suite: 806 passed, 3 deselected. G0d printed
+Sec. G's eleven lines. G1 ran the fifteen steps in order, each with one start
+line and `exit=0`, the first from 2026-10-28T17:26:48Z and the last from
+19:55:47Z for 1,968 s, so to about 20:29.
+
+Checked on receipt (29 October 2026; `tests/test_ritz_return.py` repeats each
+check that the committed files allow):
+- every file against `provenance.txt`;
+- each set's summary rebuilt from its rows and the records (G3's
+  `--resummarise`) and each arm's reading from its summaries (`--reread`):
+  all 25 files identical byte for byte, wp9's two arms with wp9-pool's
+  records copies of their reports (`--report`, at the SHA-256 that
+  `configs/ritz_v1.json` pins), which this branch does not carry, so that the
+  test rebuilds those two arms' readings but not their six summaries;
+- every set's rows numbered 0 to n-1, no file twice, their SHA-256 the
+  summaries' `rows_sha256`;
+- the enriched reading's Ritz rows (p = 8) against the baseline's p = 8 on
+  val3d and fine3d: relative difference at most 1.3e-10.
+
+The baseline (Appendix 1; post hoc). The 5,565 instances of the five sets
+passed the identity check (largest relative difference 2.5e-12, on h2d), no
+direction was dropped at any p, and no load case of a Ritz solution was worse
+than the zero field. Each set's medians, over its instances, of the
+per-instance means over the load battery:
+
+| set | p | unknowns | relative energy gap | displacement error | von Mises error | peak von Mises error | critical-region recall |
+|---|---|---|---|---|---|---|---|
+| val3d (256) | 6 | 168 | 0.0177 | 0.0203 | 0.0837 | 0.32 | 0.817 |
+| val3d (256) | 7 | 252 | 0.0112 | 0.0132 | 0.0617 | 0.281 | 0.862 |
+| val3d (256) | 8 | 360 | 0.0083 | 0.00963 | 0.0518 | 0.253 | 0.882 |
+| val3d (256) | 9 | 495 | 0.00634 | 0.00756 | 0.044 | 0.226 | 0.894 |
+| fine3d (256) | 6 | 168 | 0.0193 | 0.0221 | 0.0897 | 0.462 | 0.81 |
+| fine3d (256) | 7 | 252 | 0.0126 | 0.0149 | 0.0668 | 0.424 | 0.859 |
+| fine3d (256) | 8 | 360 | 0.00932 | 0.0111 | 0.0573 | 0.39 | 0.881 |
+| fine3d (256) | 9 | 495 | 0.00703 | 0.00853 | 0.0488 | 0.354 | 0.893 |
+| h3d (686) | 6 | 168 | 0.0172 | 0.0196 | 0.0835 | 0.325 | 0.821 |
+| h3d (686) | 7 | 252 | 0.0108 | 0.0127 | 0.0615 | 0.287 | 0.862 |
+| h3d (686) | 8 | 360 | 0.00798 | 0.00947 | 0.0513 | 0.253 | 0.88 |
+| h3d (686) | 9 | 495 | 0.00614 | 0.00745 | 0.0437 | 0.221 | 0.894 |
+| val2d (256) | 6 | 42 | 0.0305 | 0.0379 | 0.12 | 0.27 | 0.832 |
+| val2d (256) | 8 | 72 | 0.0248 | 0.0325 | 0.111 | 0.21 | 0.846 |
+| h2d (4111) | 6 | 42 | 0.0322 | 0.0406 | 0.122 | 0.273 | 0.833 |
+| h2d (4111) | 8 | 72 | 0.0265 | 0.0348 | 0.111 | 0.21 | 0.85 |
+
+The pairing (`baseline/<set>/summary.json`, `ladder.<p>.paired`): per model,
+seed and metric, the share of instances on which the Ritz solution is
+strictly better (lower, except the critical-region recall; ties apart),
+rounded to the percent, except that a share strictly between 0 and 1 is never
+shown as 0% or 100%. For the label-free transformers and L_K on every set,
+the range over the three seeds, with the models' medians of the relative
+energy gap and of the peak von Mises error in brackets:
+
+| set | model (median energy gap; peak von Mises error) | p | relative energy gap | displacement error | von Mises error | peak von Mises error | critical-region recall |
+|---|---|---|---|---|---|---|---|
+| val3d | `phase2b:ar@1024` (0.00581 to 0.00932; 0.0659 to 0.095) | 6 | 0.4% to 6% | 67% to 79% | 1% to 8% | 0% to 1% | 48% to 71% |
+|  |  | 7 | 3% to 25% | 91% to 98% | 14% to 31% | 0% to 1% | 81% to 96% |
+|  |  | 8 | 11% to 73% | 98% to 99% | 37% to 67% | 0% to 1% | 95% to 99.6% |
+|  |  | 9 | 38% to 100% | 99.6% to 100% | 69% to 98% | 0% to 2% | 99.6% to 100% |
+| val3d | `k3d:labels_knorm@1024` (0.00432 to 0.00452; 0.0373 to 0.0388) | 6 | 0% to 1% | 43% to 57% | 0% to 2% | 0% | 23% to 25% |
+|  |  | 7 | 0% to 1% | 78% to 85% | 4% to 7% | 0% | 51% to 54% |
+|  |  | 8 | 1% to 4% | 94% to 96% | 13% to 19% | 0% | 61% to 65% |
+|  |  | 9 | 6% to 10% | 98% to 99% | 28% to 43% | 0% | 74% to 80% |
+| fine3d | `phase2b:ar (zero-shot)` (0.0791 to 0.111; 0.203 to 0.254) | 6 | 99.6% to 100% | 100% | 100% | 8% to 19% | 92% to 96% |
+|  |  | 7 | 100% | 100% | 100% | 9% to 20% | 99% to 100% |
+|  |  | 8 | 100% | 100% | 100% | 12% to 20% | 100% |
+|  |  | 9 | 100% | 100% | 100% | 14% to 21% | 100% |
+| h3d | `r1:ar` (0.00578 to 0.00901; 0.0659 to 0.0917) | 6 | 1% to 3% | 67% to 81% | 1% to 4% | 0% to 0.1% | 56% to 79% |
+|  |  | 7 | 2% to 21% | 91% to 97% | 12% to 28% | 0% to 0.1% | 84% to 95% |
+|  |  | 8 | 12% to 71% | 98% to 99.9% | 32% to 69% | 0% to 0.3% | 96% to 99% |
+|  |  | 9 | 34% to 99.9% | 99.6% to 100% | 67% to 96% | 0% to 1% | 99.7% to 100% |
+| h3d | `k3d:labels_knorm` (0.00437 to 0.00465; 0.0355 to 0.0388) | 6 | 0.1% to 1% | 45% to 58% | 1% to 2% | 0% to 0.1% | 27% to 28% |
+|  |  | 7 | 1% to 2% | 82% to 88% | 3% to 7% | 0% to 0.3% | 52% to 55% |
+|  |  | 8 | 2% to 4% | 94% to 97% | 11% to 17% | 0% to 0.3% | 63% to 67% |
+|  |  | 9 | 6% to 12% | 98% to 99% | 31% to 44% | 0% to 0.3% | 77% to 84% |
+| val2d | `cm2d:ar@1024` (0.0247 to 0.0254; 0.136 to 0.139) | 6 | 16% to 20% | 80% to 84% | 47% to 53% | 0% to 0.4% | 95% to 96% |
+|  |  | 8 | 61% to 66% | 96% to 97% | 82% to 86% | 2% to 3% | 98% to 99% |
+| val2d | `cm2d:labels_knorm@1024` (0.0113 to 0.0247; 0.0424 to 0.132) | 6 | 0.4% to 15% | 44% to 73% | 2% to 45% | 0% | 24% to 89% |
+|  |  | 8 | 2% to 55% | 64% to 96% | 7% to 74% | 0% to 2% | 33% to 98% |
+| h2d | `r1:ar` (0.028 to 0.0285; 0.139 to 0.14) | 6 | 17% to 19% | 79% to 84% | 49% to 53% | 0.1% to 0.2% | 94% to 96% |
+|  |  | 8 | 62% to 66% | 94% to 95% | 81% to 85% | 4% | 99% |
+
+Against the supervised transformers trained on the displacement error, with
+or without the energy term (every budget, zero-shot on the fine set
+included), the graph networks and the deterministic baselines, the Ritz
+solution's relative energy gap is the lower on every instance at every p, on
+every set. Every other recorded model's shares are in the summaries.
+
+The timing (`return/timing/`): the cost table's measurements of Sec. A run
+again on this host beside the Ritz timing, on the same instances (the first 32
+validation instances and 8 of the fine set), with 8 October 2026's
+measurements on the earlier host (`timing/`, an Intel Xeon Gold 6459C) in
+brackets. The direct solve on the fine set stopped starting new solves at its
+900 s budget after 7 of the 8 instances (8 on 8 October); every accuracy value
+of the cost table's measurements equals 8 October's. The Ritz timing used the
+host's 25 BLAS threads, as each file's `machine` records.
+
+| seconds, median (8 October 2026 in brackets) | 3D validation | 3D fine set | 2D validation |
+|---|---|---|---|
+| instances, median free dofs | 32, 14,304 | 8, 112,095 | 32, 1,088 |
+| network inference, cold (GPU) | 0.0492 (0.0495) | 2.15 (2.17) | 0.00319 (0.00259) |
+| Ritz after assembly, by p (3D 6 to 9; 2D 6, 8) | 0.0336, 0.0529, 0.109, 0.144 | 0.541, 0.75, 1.04, 1.39 | 0.00143, 0.00206 |
+| assembly of K (the repository's assembler) | 0.9 | 8.07 | 0.00947 |
+| direct solve | 1.22 (0.907) | 133 (105), 7 of 8 solved | 0.00377 (0.00312) |
+| conjugate gradients | 1.72 (1.24) | 26.1 (26.2) | 0.0285 (0.0237) |
+| conjugate gradients to the network's accuracy | 0.292 (0.217) | 4.5 (4.26) | 0.00876 (0.00721) |
+
+The enriched c* (Appendix 2; exploratory, not in the manuscript). Each arm's
+reading (`enriched/<arm>/reading.json`) and Appendix 2's ratio per seed: in
+band (IB, val3d), the median enriched relative energy gap over the smaller of
+c* u's and Ritz's medians; out of distribution (F2, F5, fine3d), the median
+enriched peak von Mises error over Ritz's. "Per load case" is the sensitivity
+reading fixed on 27 October 2026, before the run: the same rule on the medians
+over every instance and load case. For every arm it reads as the reading does.
+
+| arm | set | ratio per seed | per load case | reading of the arm |
+|---|---|---|---|---|
+| `b_n1024` | IB (in band, at most 0.8) | 0.933, 0.930, 0.933 | 0.916, 0.919, 0.918 | not complementary |
+|  | F2 (peak, at most 0.5) | 0.911, 0.947, 0.914 | 0.902, 0.941, 0.913 |  |
+|  | F5 (peak, at most 0.5) | 0.607, 0.589, 0.622 | 0.461, 0.464, 0.567 |  |
+| `s_n1024` | IB (in band, at most 0.8) | 0.932, 0.935, 0.936 | 0.922, 0.923, 0.923 | not complementary |
+|  | F2 (peak, at most 0.5) | 0.937, 0.947, 0.940 | 0.911, 0.941, 0.918 |  |
+|  | F5 (peak, at most 0.5) | 0.514, 0.485, 0.524 | 0.391, 0.338, 0.380 |  |
+| `phase2b` | val3d (in band, at most 0.8) | 0.637, 0.727, 0.812 | 0.641, 0.744, 0.819 | not complementary |
+|  | fine3d (peak, at most 0.5) | 0.698, 0.657, 0.601 | 0.699, 0.661, 0.617 |  |
+| `phase2b_labels` (beyond Appendix 2) | val3d (in band, at most 0.8) | 0.989, 0.990, 0.992 | 0.989, 0.990, 0.989 | not complementary |
+|  | fine3d (peak, at most 0.5) | 0.989, 0.989, 0.980 | 0.987, 0.987, 0.973 |  |
+| `phase2b_mgn` (beyond Appendix 2) | val3d (in band, at most 0.8) | 0.966, 0.968, 0.969 | 0.968, 0.968, 0.969 | not complementary |
+|  | fine3d (peak, at most 0.5) | 0.995, 0.999, 0.999 | 0.996, 0.999, 0.999 |  |
+| `k3d_labels_knorm` (beyond Appendix 2) | val3d (in band, at most 0.8) | 0.933, 0.921, 0.928 | 0.932, 0.914, 0.922 | complementary |
+|  | fine3d (peak, at most 0.5) | 0.418, 0.250, 0.408 | 0.384, 0.239, 0.322 |  |
+
+No instance failed the identity check; every network reproduced its report at
+the precheck (the transformers exactly, the graph network within 1.2e-4) and
+on the whole set; the enriched solution was never worse than c* u or Ritz by
+more than round-off (`bound_ok`, the largest excess 1.6e-12); no direction was
+dropped in the enriched solve.

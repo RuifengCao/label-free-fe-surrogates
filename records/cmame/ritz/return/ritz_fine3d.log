@@ -1,0 +1,17 @@
+[ritz fine3d] 16/256 instance_00015.npz dofs 134460 gap p6:0.0203 p7:0.0145 p8:0.01066 p9:0.00841 id 0.0e+00 | 45 s
+[ritz fine3d] 32/256 instance_00031.npz dofs 138420 gap p6:0.01666 p7:0.01022 p8:0.007574 p9:0.005741 id 0.0e+00 | 83 s
+[ritz fine3d] 48/256 instance_00047.npz dofs 209208 gap p6:0.01271 p7:0.00751 p8:0.005439 p9:0.003994 id 0.0e+00 | 133 s
+[ritz fine3d] 64/256 instance_00063.npz dofs 95841 gap p6:0.01784 p7:0.01086 p8:0.00768 p9:0.005386 id 0.0e+00 | 153 s
+[ritz fine3d] 80/256 instance_00079.npz dofs 122478 gap p6:0.01677 p7:0.01052 p8:0.007538 p9:0.005457 id 0.0e+00 | 195 s
+[ritz fine3d] 96/256 instance_00095.npz dofs 125175 gap p6:0.01962 p7:0.01371 p8:0.01088 p9:0.008896 id 0.0e+00 | 224 s
+[ritz fine3d] 112/256 instance_00111.npz dofs 101346 gap p6:0.01937 p7:0.01457 p8:0.0126 p9:0.01126 id 0.0e+00 | 257 s
+[ritz fine3d] 128/256 instance_00127.npz dofs 128409 gap p6:0.02805 p7:0.01614 p8:0.01095 p9:0.007677 id 0.0e+00 | 284 s
+[ritz fine3d] 144/256 instance_00143.npz dofs 81069 gap p6:0.0178 p7:0.01111 p8:0.008295 p9:0.006211 id 0.0e+00 | 305 s
+[ritz fine3d] 160/256 instance_00159.npz dofs 108198 gap p6:0.02448 p7:0.01595 p8:0.01205 p9:0.009681 id 0.0e+00 | 338 s
+[ritz fine3d] 176/256 instance_00175.npz dofs 99270 gap p6:0.01761 p7:0.01011 p8:0.006981 p9:0.004983 id 0.0e+00 | 371 s
+[ritz fine3d] 192/256 instance_00191.npz dofs 194610 gap p6:0.02084 p7:0.01405 p8:0.01112 p9:0.009094 id 0.0e+00 | 414 s
+[ritz fine3d] 208/256 instance_00207.npz dofs 90009 gap p6:0.01578 p7:0.01068 p8:0.008576 p9:0.006989 id 0.0e+00 | 452 s
+[ritz fine3d] 224/256 instance_00223.npz dofs 105663 gap p6:0.0218 p7:0.01453 p8:0.01099 p9:0.00865 id 0.0e+00 | 479 s
+[ritz fine3d] 240/256 instance_00239.npz dofs 91860 gap p6:0.01645 p7:0.01057 p8:0.008189 p9:0.006644 id 0.0e+00 | 500 s
+[ritz fine3d] 256/256 instance_00255.npz dofs 119931 gap p6:0.01509 p7:0.008979 p8:0.006462 p9:0.004779 id 0.0e+00 | 533 s
+{"set": "fine3d", "n": 256, "n_used": 256, "identity_failed": 0, "identity_max_rel_diff": 0.0, "median_gap": {"6": 0.019312796778443275, "7": 0.01264412354107848, "8": 0.009323333322200866, "9": 0.007034306989645857}, "dropped_max": {"6": 0, "7": 0, "8": 0, "9": 0}, "worse_than_zero": {"6": 0, "7": 0, "8": 0, "9": 0}, "sign_mismatch": 0, "seconds": 533.8}

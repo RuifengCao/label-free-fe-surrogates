@@ -1,0 +1,37 @@
+{"arm": "k3d_labels_knorm", "set": "val3d", "precheck": {"set": "val3d", "n": 8, "median_rel_dev": {"s0": [0.0, 0.0], "s1": [0.0, 0.0], "s2": [0.0, 0.0]}}}
+[enriched k3d_labels_knorm val3d] 16/256 | 15 s
+[enriched k3d_labels_knorm val3d] 32/256 | 18 s
+[enriched k3d_labels_knorm val3d] 48/256 | 28 s
+[enriched k3d_labels_knorm val3d] 64/256 | 35 s
+[enriched k3d_labels_knorm val3d] 80/256 | 43 s
+[enriched k3d_labels_knorm val3d] 96/256 | 52 s
+[enriched k3d_labels_knorm val3d] 112/256 | 64 s
+[enriched k3d_labels_knorm val3d] 128/256 | 69 s
+[enriched k3d_labels_knorm val3d] 144/256 | 80 s
+[enriched k3d_labels_knorm val3d] 160/256 | 84 s
+[enriched k3d_labels_knorm val3d] 176/256 | 96 s
+[enriched k3d_labels_knorm val3d] 192/256 | 101 s
+[enriched k3d_labels_knorm val3d] 208/256 | 113 s
+[enriched k3d_labels_knorm val3d] 224/256 | 122 s
+[enriched k3d_labels_knorm val3d] 240/256 | 132 s
+[enriched k3d_labels_knorm val3d] 256/256 | 140 s
+{"arm": "k3d_labels_knorm", "set": "val3d", "n": 256, "identity_failed": 0, "content_passed": true, "bound_ok": true, "bound_excess_max": -1.4337604531398202e-05, "ratio": {"0": [0.9325, 0.2091], "1": [0.9209, 0.2354], "2": [0.9277, 0.2012]}, "seconds": 140.0}
+{"arm": "k3d_labels_knorm", "set": "fine3d", "precheck": {"set": "val3d", "n": 8, "median_rel_dev": {"s0": [0.0, 0.0], "s1": [0.0, 0.0], "s2": [0.0, 0.0]}}}
+[enriched k3d_labels_knorm fine3d] 16/256 | 161 s
+[enriched k3d_labels_knorm fine3d] 32/256 | 301 s
+[enriched k3d_labels_knorm fine3d] 48/256 | 464 s
+[enriched k3d_labels_knorm fine3d] 64/256 | 549 s
+[enriched k3d_labels_knorm fine3d] 80/256 | 685 s
+[enriched k3d_labels_knorm fine3d] 96/256 | 794 s
+[enriched k3d_labels_knorm fine3d] 112/256 | 901 s
+[enriched k3d_labels_knorm fine3d] 128/256 | 995 s
+[enriched k3d_labels_knorm fine3d] 144/256 | 1055 s
+[enriched k3d_labels_knorm fine3d] 160/256 | 1158 s
+[enriched k3d_labels_knorm fine3d] 176/256 | 1255 s
+[enriched k3d_labels_knorm fine3d] 192/256 | 1434 s
+[enriched k3d_labels_knorm fine3d] 208/256 | 1558 s
+[enriched k3d_labels_knorm fine3d] 224/256 | 1652 s
+[enriched k3d_labels_knorm fine3d] 240/256 | 1712 s
+[enriched k3d_labels_knorm fine3d] 256/256 | 1814 s
+{"arm": "k3d_labels_knorm", "set": "fine3d", "n": 256, "identity_failed": 0, "content_passed": null, "bound_ok": true, "bound_excess_max": -1.2403489693668668e-12, "ratio": {"0": [0.5538, 0.4184], "1": [0.5164, 0.2502], "2": [0.5151, 0.4082]}, "seconds": 1814.3}
+{"arm": "k3d_labels_knorm", "sets_complete": ["fine3d", "val3d"], "complementary": true, "seconds": 1968.4}

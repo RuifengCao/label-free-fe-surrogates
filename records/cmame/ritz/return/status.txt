@@ -1,0 +1,30 @@
+ritz_val3d.log start 2026-10-28T17:26:48Z autodl-container-45e441a24a-99d5b40d
+ritz_val3d.log exit=0
+ritz_fine3d.log start 2026-10-28T17:27:52Z autodl-container-45e441a24a-99d5b40d
+ritz_fine3d.log exit=0
+ritz_h3d.log start 2026-10-28T17:36:46Z autodl-container-45e441a24a-99d5b40d
+ritz_h3d.log exit=0
+ritz_val2d.log start 2026-10-28T17:39:37Z autodl-container-45e441a24a-99d5b40d
+ritz_val2d.log exit=0
+ritz_h2d.log start 2026-10-28T17:39:39Z autodl-container-45e441a24a-99d5b40d
+ritz_h2d.log exit=0
+enriched_b_n1024.log start 2026-10-28T17:39:46Z autodl-container-45e441a24a-99d5b40d
+enriched_b_n1024.log exit=0
+enriched_s_n1024.log start 2026-10-28T17:40:51Z autodl-container-45e441a24a-99d5b40d
+enriched_s_n1024.log exit=0
+enriched_phase2b.log start 2026-10-28T17:42:08Z autodl-container-45e441a24a-99d5b40d
+enriched_phase2b.log exit=0
+ritz_timing_3d.log start 2026-10-28T18:17:13Z autodl-container-45e441a24a-99d5b40d
+ritz_timing_3d.log exit=0
+ritz_timing_2d.log start 2026-10-28T18:23:26Z autodl-container-45e441a24a-99d5b40d
+ritz_timing_2d.log exit=0
+timing_3d.log start 2026-10-28T18:23:28Z autodl-container-45e441a24a-99d5b40d
+timing_3d.log exit=0
+timing_2d.log start 2026-10-28T18:56:40Z autodl-container-45e441a24a-99d5b40d
+timing_2d.log exit=0
+enriched_phase2b_labels.log start 2026-10-28T18:56:52Z autodl-container-45e441a24a-99d5b40d
+enriched_phase2b_labels.log exit=0
+enriched_phase2b_mgn.log start 2026-10-28T19:31:43Z autodl-container-45e441a24a-99d5b40d
+enriched_phase2b_mgn.log exit=0
+enriched_k3d_labels_knorm.log start 2026-10-28T19:55:47Z autodl-container-45e441a24a-99d5b40d
+enriched_k3d_labels_knorm.log exit=0

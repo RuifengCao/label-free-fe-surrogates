@@ -1,0 +1,37 @@
+{"arm": "phase2b_mgn", "set": "val3d", "precheck": {"set": "val3d", "n": 8, "median_rel_dev": {"s0": [1.968931380265982e-05, 5.0009514377573747e-05], "s1": [1.4239604113494364e-05, 3.678918781697924e-05], "s2": [1.7622771623310225e-05, 0.00012101860437695262]}}}
+[enriched phase2b_mgn val3d] 16/256 | 16 s
+[enriched phase2b_mgn val3d] 32/256 | 20 s
+[enriched phase2b_mgn val3d] 48/256 | 30 s
+[enriched phase2b_mgn val3d] 64/256 | 38 s
+[enriched phase2b_mgn val3d] 80/256 | 46 s
+[enriched phase2b_mgn val3d] 96/256 | 55 s
+[enriched phase2b_mgn val3d] 112/256 | 68 s
+[enriched phase2b_mgn val3d] 128/256 | 73 s
+[enriched phase2b_mgn val3d] 144/256 | 87 s
+[enriched phase2b_mgn val3d] 160/256 | 91 s
+[enriched phase2b_mgn val3d] 176/256 | 104 s
+[enriched phase2b_mgn val3d] 192/256 | 108 s
+[enriched phase2b_mgn val3d] 208/256 | 122 s
+[enriched phase2b_mgn val3d] 224/256 | 131 s
+[enriched phase2b_mgn val3d] 240/256 | 142 s
+[enriched phase2b_mgn val3d] 256/256 | 149 s
+{"arm": "phase2b_mgn", "set": "val3d", "n": 256, "identity_failed": 0, "content_passed": true, "bound_ok": true, "bound_excess_max": -4.697110447121622e-09, "ratio": {"0": [0.9663, 0.9522], "1": [0.968, 0.9535], "2": [0.9694, 0.9518]}, "seconds": 149.6}
+{"arm": "phase2b_mgn", "set": "fine3d", "precheck": {"set": "fine3d", "n": 8, "median_rel_dev": {"s0": [3.088826304772341e-07, 3.099936689897563e-05], "s1": [1.9421931155352533e-07, 1.385431183237834e-05], "s2": [1.369617080733507e-07, 1.8270771423193383e-05]}}}
+[enriched phase2b_mgn fine3d] 16/256 | 107 s
+[enriched phase2b_mgn fine3d] 32/256 | 190 s
+[enriched phase2b_mgn fine3d] 48/256 | 299 s
+[enriched phase2b_mgn fine3d] 64/256 | 346 s
+[enriched phase2b_mgn fine3d] 80/256 | 439 s
+[enriched phase2b_mgn fine3d] 96/256 | 503 s
+[enriched phase2b_mgn fine3d] 112/256 | 576 s
+[enriched phase2b_mgn fine3d] 128/256 | 638 s
+[enriched phase2b_mgn fine3d] 144/256 | 685 s
+[enriched phase2b_mgn fine3d] 160/256 | 761 s
+[enriched phase2b_mgn fine3d] 176/256 | 832 s
+[enriched phase2b_mgn fine3d] 192/256 | 928 s
+[enriched phase2b_mgn fine3d] 208/256 | 1012 s
+[enriched phase2b_mgn fine3d] 224/256 | 1075 s
+[enriched phase2b_mgn fine3d] 240/256 | 1121 s
+[enriched phase2b_mgn fine3d] 256/256 | 1195 s
+{"arm": "phase2b_mgn", "set": "fine3d", "n": 256, "identity_failed": 0, "content_passed": true, "bound_ok": true, "bound_excess_max": -9.10335175297039e-13, "ratio": {"0": [0.9975, 0.9946], "1": [0.9991, 0.9994], "2": [0.9993, 0.9987]}, "seconds": 1195.6}
+{"arm": "phase2b_mgn", "sets_complete": ["fine3d", "val3d"], "complementary": false, "seconds": 1442.0}

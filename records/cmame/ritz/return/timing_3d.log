@@ -1,0 +1,43 @@
+[timing] val 1/32 dof 12798 | surrogate 0.0378 s (warm 0.0377) | direct 0.9026 s | cg 1.2083 s | cg_warm 1.3361 s | cg_match 0.2642 s | cg_match_cstar 0.2724 s | 8 s
+[timing] val 2/32 dof 16185 | surrogate 0.0634 s (warm 0.0626) | direct 1.4776 s | cg 1.8958 s | cg_warm 2.0734 s | cg_match 0.3336 s | cg_match_cstar 0.3396 s | 16 s
+[timing] val 3/32 dof 15807 | surrogate 0.0560 s (warm 0.0555) | direct 1.8159 s | cg 1.7416 s | cg_warm 1.6929 s | cg_match 0.2605 s | cg_match_cstar 0.2624 s | 24 s
+[timing] val 4/32 dof 14667 | surrogate 0.0479 s (warm 0.0476) | direct 1.2373 s | cg 1.8683 s | cg_warm 1.8513 s | cg_match 0.3806 s | cg_match_cstar 0.3769 s | 32 s
+[timing] val 5/32 dof 11565 | surrogate 0.0340 s (warm 0.0333) | direct 1.2119 s | cg 1.0566 s | cg_warm 1.1000 s | cg_match 0.1646 s | cg_match_cstar 0.1643 s | 37 s
+[timing] val 6/32 dof 10167 | surrogate 0.0256 s (warm 0.0253) | direct 0.7803 s | cg 0.8590 s | cg_warm 0.8807 s | cg_match 0.1354 s | cg_match_cstar 0.1426 s | 46 s
+[timing] val 7/32 dof 16644 | surrogate 0.0575 s (warm 0.0571) | direct 1.4745 s | cg 2.4280 s | cg_warm 2.3863 s | cg_match 0.4689 s | cg_match_cstar 0.4680 s | 57 s
+[timing] val 8/32 dof 10197 | surrogate 0.0258 s (warm 0.0252) | direct 0.5522 s | cg 1.1267 s | cg_warm 1.0774 s | cg_match 0.2347 s | cg_match_cstar 0.2388 s | 63 s
+[timing] val 9/32 dof 13389 | surrogate 0.0396 s (warm 0.0392) | direct 1.0469 s | cg 1.6969 s | cg_warm 1.8243 s | cg_match 0.3381 s | cg_match_cstar 0.3433 s | 70 s
+[timing] val 10/32 dof 12771 | surrogate 0.0416 s (warm 0.0414) | direct 0.9187 s | cg 1.4734 s | cg_warm 1.3914 s | cg_match 0.2432 s | cg_match_cstar 0.2478 s | 78 s
+[timing] val 11/32 dof 10734 | surrogate 0.0295 s (warm 0.0288) | direct 0.7523 s | cg 0.8977 s | cg_warm 0.9247 s | cg_match 0.1762 s | cg_match_cstar 0.1802 s | 88 s
+[timing] val 12/32 dof 18498 | surrogate 0.0688 s (warm 0.0689) | direct 1.6586 s | cg 2.3468 s | cg_warm 2.3376 s | cg_match 0.4944 s | cg_match_cstar 0.4830 s | 98 s
+[timing] val 13/32 dof 25446 | surrogate 0.1301 s (warm 0.1301) | direct 6.3775 s | cg 2.9996 s | cg_warm 3.0211 s | cg_match 0.5004 s | cg_match_cstar 0.4865 s | 115 s
+[timing] val 14/32 dof 9765 | surrogate 0.0306 s (warm 0.0299) | direct 0.5620 s | cg 0.8153 s | cg_warm 0.8136 s | cg_match 0.1425 s | cg_match_cstar 0.1438 s | 123 s
+[timing] val 15/32 dof 41451 | surrogate 0.3198 s (warm 0.3215) | direct 16.0008 s | cg 6.4227 s | cg_warm 5.9782 s | cg_match 1.1704 s | cg_match_cstar 1.2060 s | 158 s
+[timing] val 16/32 dof 13752 | surrogate 0.0522 s (warm 0.0516) | direct 1.1983 s | cg 1.5195 s | cg_warm 1.5176 s | cg_match 0.2772 s | cg_match_cstar 0.2829 s | 165 s
+[timing] val 17/32 dof 15249 | surrogate 0.0505 s (warm 0.0501) | direct 1.8412 s | cg 1.6544 s | cg_warm 1.6271 s | cg_match 0.2549 s | cg_match_cstar 0.2578 s | 173 s
+[timing] val 18/32 dof 20040 | surrogate 0.0827 s (warm 0.0828) | direct 3.2177 s | cg 2.2033 s | cg_warm 2.1583 s | cg_match 0.3956 s | cg_match_cstar 0.3992 s | 184 s
+[timing] val 19/32 dof 22455 | surrogate 0.1031 s (warm 0.1033) | direct 4.2904 s | cg 2.7554 s | cg_warm 2.5983 s | cg_match 0.4132 s | cg_match_cstar 0.4266 s | 198 s
+[timing] val 20/32 dof 22905 | surrogate 0.1071 s (warm 0.1076) | direct 5.5584 s | cg 2.7499 s | cg_warm 2.5355 s | cg_match 0.4219 s | cg_match_cstar 0.4289 s | 213 s
+[timing] val 21/32 dof 7248 | surrogate 0.0152 s (warm 0.0146) | direct 0.3723 s | cg 0.5128 s | cg_warm 0.5007 s | cg_match 0.0725 s | cg_match_cstar 0.0719 s | 218 s
+[timing] val 22/32 dof 11112 | surrogate 0.0293 s (warm 0.0290) | direct 0.6484 s | cg 1.1229 s | cg_warm 1.1914 s | cg_match 0.2276 s | cg_match_cstar 0.2351 s | 224 s
+[timing] val 23/32 dof 10395 | surrogate 0.0266 s (warm 0.0261) | direct 0.7132 s | cg 1.0442 s | cg_warm 0.9829 s | cg_match 0.1627 s | cg_match_cstar 0.1601 s | 232 s
+[timing] val 24/32 dof 27630 | surrogate 0.1488 s (warm 0.1498) | direct 5.8479 s | cg 3.0441 s | cg_warm 3.0342 s | cg_match 0.5825 s | cg_match_cstar 0.5929 s | 249 s
+[timing] val 25/32 dof 28290 | surrogate 0.1603 s (warm 0.1612) | direct 6.7560 s | cg 3.1892 s | cg_warm 3.3406 s | cg_match 0.5739 s | cg_match_cstar 0.5957 s | 268 s
+[timing] val 26/32 dof 20580 | surrogate 0.0963 s (warm 0.0964) | direct 2.6779 s | cg 2.4328 s | cg_warm 2.4520 s | cg_match 0.4487 s | cg_match_cstar 0.4639 s | 280 s
+[timing] val 27/32 dof 21741 | surrogate 0.0969 s (warm 0.0970) | direct 4.2705 s | cg 2.3271 s | cg_warm 2.3671 s | cg_match 0.3963 s | cg_match_cstar 0.4191 s | 293 s
+[timing] val 28/32 dof 10638 | surrogate 0.0263 s (warm 0.0260) | direct 0.5806 s | cg 1.2889 s | cg_warm 1.3629 s | cg_match 0.2618 s | cg_match_cstar 0.2669 s | 299 s
+[timing] val 29/32 dof 20472 | surrogate 0.0883 s (warm 0.0884) | direct 3.9144 s | cg 2.1378 s | cg_warm 2.1363 s | cg_match 0.3261 s | cg_match_cstar 0.3280 s | 311 s
+[timing] val 30/32 dof 10599 | surrogate 0.0285 s (warm 0.0282) | direct 0.8518 s | cg 0.8799 s | cg_warm 0.9171 s | cg_match 0.1406 s | cg_match_cstar 0.1455 s | 320 s
+[timing] val 31/32 dof 7365 | surrogate 0.0149 s (warm 0.0145) | direct 0.3661 s | cg 0.5332 s | cg_warm 0.5349 s | cg_match 0.0848 s | cg_match_cstar 0.0859 s | 326 s
+[timing] val 32/32 dof 13941 | surrogate 0.0437 s (warm 0.0432) | direct 1.1612 s | cg 1.7351 s | cg_warm 1.7230 s | cg_match 0.3077 s | cg_match_cstar 0.3094 s | 333 s
+{"set": "val", "n": 32, "surrogate_cold_s": 0.049212513520615175, "surrogate_warm_s": 0.04886921151774004, "direct_s": 1.2246032320108498, "cg_s": 1.7159791404992575, "cg_warm_s": 1.7079527034948114, "cg_match_s": 0.2924766935175285, "cg_match_cstar_s": 0.2961542075063335, "disp_rel_l2": 0.03131559428631134, "energy_gap_rel": 0.00847632033893454, "direct_label_max_rel_dev": 0.0, "cg_label_max_rel_dev": 3.5715965084412067e-12, "cg_warm_label_max_rel_dev": 5.328699456494734e-12, "cg_match_label_max_rel_dev": null, "cg_match_cstar_label_max_rel_dev": null}
+[timing] fine 1/8 dof 75333 | surrogate 0.9913 s (warm 0.9930) | direct 44.5620 s | cg 14.8689 s | cg_warm 15.3079 s | cg_match 2.0913 s | cg_match_cstar 2.2059 s | 88 s
+[timing] fine 2/8 dof 118122 | surrogate 2.3744 s (warm 2.3779) | direct 133.0359 s | cg 37.7103 s | cg_warm 37.3323 s | cg_match 4.5597 s | cg_match_cstar 5.2386 s | 326 s
+[timing] fine 3/8 dof 128187 | surrogate 2.8087 s (warm 2.8127) | direct 247.8527 s | cg 28.8648 s | cg_warm 30.2627 s | cg_match 4.4315 s | cg_match_cstar 4.8487 s | 664 s
+[timing] fine 4/8 dof 74157 | surrogate 0.9826 s (warm 0.9871) | direct 62.8354 s | cg 13.8359 s | cg_warm 15.2902 s | cg_match 1.9335 s | cg_match_cstar 1.8997 s | 768 s
+[timing] fine 5/8 dof 76155 | surrogate 1.0405 s (warm 1.0450) | direct 99.0882 s | cg 12.7893 s | cg_warm 14.0394 s | cg_match 1.7893 s | cg_match_cstar 1.8472 s | 906 s
+[timing] fine 6/8 dof 143004 | surrogate 3.4675 s (warm 3.4730) | direct 274.2077 s | cg 40.3075 s | cg_warm 42.1903 s | cg_match 6.3431 s | cg_match_cstar 6.2214 s | 1302 s
+[timing] fine 7/8 dof 127350 | surrogate 2.7462 s (warm 2.7510) | direct 162.2664 s | cg 38.9161 s | cg_warm 40.2949 s | cg_match 6.2946 s | cg_match_cstar 6.5982 s | 1581 s
+[timing] fine 8/8 dof 106068 | surrogate 1.9316 s (warm 1.9366) | direct skipped | cg 23.3012 s | cg_warm 24.4679 s | cg_match 4.8768 s | cg_match_cstar 5.1696 s | 1656 s
+{"set": "fine", "n": 8, "surrogate_cold_s": 2.1529825189791154, "surrogate_warm_s": 2.1572536254752777, "direct_s": 133.03594996000174, "cg_s": 26.08301733600092, "cg_warm_s": 27.36533322649484, "cg_match_s": 4.4955887850082945, "cg_match_cstar_s": 5.009165454015601, "disp_rel_l2": 0.27399933463163395, "energy_gap_rel": 0.11517366619213518, "direct_label_max_rel_dev": 0.0, "cg_label_max_rel_dev": 3.0901490767845872e-12, "cg_warm_label_max_rel_dev": 3.7532863736482895e-12, "cg_match_label_max_rel_dev": null, "cg_match_cstar_label_max_rel_dev": null}
+{"check_against_report": {"checked": true, "n": 8, "disp_rel_l2_max_rel_dev": 0.0, "energy_gap_rel_max_rel_dev": 0.0}}

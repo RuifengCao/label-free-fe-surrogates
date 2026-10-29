@@ -2047,3 +2047,94 @@ generator, and no record, configuration, pre-registration or source file changed
   repository side; the timing's repetition rule),
   `tests/test_cmame_runbook.py` (Sec. G) and `tests/test_k3d_prereg.py` (the
   K3D records' tree, above). Suite 809 (779 + 30).
+
+## Stage 15 (29 Oct 2026) -- the return of RUNBOOK_CMAME Sec. G committed as received: the Ritz baseline and the enriched c*
+
+- What. The return of Sec. G's run of 28 October 2026 on the box, under
+  `records/cmame/ritz/`: the tarball as the operator sent it
+  (`ritz_return_20261029-1150.tgz`, 23,818,923 bytes, SHA-256
+  `c0f5621fac38e8a946c34c7870a6c284305e2c2f0ccec29b24946a0f984c96af`) and its
+  50 files other than the per-instance rows, unpacked beside it byte for byte
+  (`ritz/return/`). The 19 rows files (81 MB unpacked, the largest 19.6 MB)
+  stay in the tarball: earlier returns were committed unpacked, with their
+  tarballs left out and their SHA-256 recorded; here the tarball itself is the
+  record (decided on 29 October 2026). `records/cmame/README.md` gives the
+  return, the checks and the readings.
+- The run. The branch at `0c1d59a` (tree
+  `d36f70537aadbf7a98e1a265aebea6daaa111b0b`, `git describe`
+  `prereg-k3d-2-g0c1d59a`), on the host of PREREG_HOLDOUT's and PREREG_K3D's
+  runs; G0c's suite 806 passed, 3 deselected; G0d's eleven lines; the fifteen
+  steps of G1 in order, each with one start line and `exit=0`, from
+  2026-10-28T17:26:48Z to about 20:29; no memory event.
+- Checked on receipt, on 29 October 2026: every file against the return's
+  `provenance.txt`; every summary rebuilt from its rows and the records and
+  every reading from its summaries, all 25 files identical byte for byte
+  (wp9's two arms with wp9-pool's records copies of their reports, at the
+  SHA-256 that `configs/ritz_v1.json` pins); every set's rows numbered 0 to
+  n-1, no file twice; the enriched reading's Ritz rows against the baseline's
+  p = 8 within 1.3e-10. The 5,565 instances of the baseline passed the
+  identity check (largest relative difference 2.5e-12); no direction was
+  dropped; no Ritz solution was worse than the zero field on any load case;
+  every network reproduced its report.
+- The readings (the README's tables give them). The baseline: on val3d the
+  Ritz solution's displacement error is the lower, against the label-free
+  transformer, on 67% to 79% of the instances at p = 6 and on 99.6% to 100%
+  at p = 9; its relative energy gap on 0.4% to 6% at p = 6 and on 38% to
+  100% at p = 9, by seed; its peak von Mises error on at most 2% at every p.
+  Against L_K, on at most 10.2% in the relative energy gap (at p = 9) and on
+  none in the peak von Mises error. Against the supervised transformers
+  trained on the displacement error, with or without the energy term, the
+  graph networks and the deterministic baselines, its relative energy gap is
+  the lower on every instance at every p, on every set. The enriched c*:
+  Appendix 2's three arms are not complementary; beyond Appendix 2, L_K is
+  (out of distribution, the fine set's ratios 0.418, 0.250 and 0.408), and
+  Phase-2's labels-only transformer and graph network are not.
+- Fixed before the run, in the project's note of 27 October 2026 (the check
+  of the pushed code before the operator instruction was sent), and done as
+  written:
+  - a sensitivity reading of Appendix 2 on the per-load-case medians beside
+    the reading (the summaries carry them): for every arm it reads as the
+    reading does;
+  - the check that every set's rows are numbered 0 to n-1 without repeats;
+  - the code's choices that Stage 14's list leaves out, stated here: (1)
+    val2d's identity check reads its free-dof count, Sec. D's spectral export
+    carrying no node count, and h3d's and h2d's ||U*||_K is
+    sqrt(-2 Pi_h(U*)) from PREREG_HOLDOUT's arrays (the labels' relative
+    residuals at most 5.3e-11, so that the two agree to about 1e-10); (2) an
+    instance that fails the identity check is left out of its set's medians,
+    means and worse-than-zero counts (`n_used`), not only of the pairing
+    (none failed); (3) "better" is strict, ties counted apart; (4) val2d's
+    pairing leaves out wp9-pool session 2's five reports on the same
+    instances (the rule of 2 October 2026; the summary's `not_paired`); (5)
+    P^T K P is formed once at the largest p and each smaller p takes its
+    principal sub-block, the solution of a separate solve at that p; (6) W, H
+    and D are the instance's metadata, checked against its nodes (the mesh
+    spans [0, W] x [0, H] (x [0, D]) and every Dirichlet dof sits on x = 0,
+    within 1e-8, the step stopping otherwise), which every generator's
+    placement rule guarantees, holes and cavities being kept off the
+    boundary; (7) the timing's `ritz_s` includes the extraction of the free
+    block and the basis, and the 2D assembly builds the load battery too.
+- Decided on 29 October 2026 by the PI:
+  - the manuscript's cost table takes every row from the measurements of 28
+    October 2026 on this host, the Ritz row among them with its assembly
+    apart; those of 8 October 2026, on the earlier host, agree in every
+    accuracy value and are mentioned in the supplementary material;
+  - the manuscript reports the baseline as Appendix 1's last item asks,
+    with one change: it states that this is a classical baseline added post
+    hoc, after the original analyses, that its specification was fixed on 20
+    October 2026 before any paired computation on the manuscript's
+    instances, that it was written after exploratory readings on freshly
+    drawn instances and on wp9's sets, and that no pre-registered verdict
+    changes; the occasion of the addition that the item names (Stage 14) is
+    not stated.
+- `src`, the configurations and the scripts are unchanged. RUNBOOK_CMAME
+  G3 gains the date of the run; the suite lines of A0c, D0c and G0c read the
+  current count.
+- Tests: `tests/test_ritz_return.py` (11): the tarball and its members, the
+  unpacked files against them, `provenance.txt`, the fifteen steps and the
+  checks of G0c and G0d, the rows, the identity and the Ritz solutions, the
+  summaries and readings rebuilt in process and compared byte for byte (the
+  baseline's, the three-dimensional arms', every reading), the README's
+  statement on the models whose energy gap the Ritz solution beats on every
+  instance, the sensitivity reading, and the README's and these notes'
+  quotes. Suite 820 (809 + 11).

@@ -1,0 +1,37 @@
+{"arm": "phase2b_labels", "set": "val3d", "precheck": {"set": "val3d", "n": 8, "median_rel_dev": {"s0": [0.0, 0.0], "s1": [0.0, 0.0], "s2": [0.0, 0.0]}}}
+[enriched phase2b_labels val3d] 16/256 | 15 s
+[enriched phase2b_labels val3d] 32/256 | 18 s
+[enriched phase2b_labels val3d] 48/256 | 28 s
+[enriched phase2b_labels val3d] 64/256 | 35 s
+[enriched phase2b_labels val3d] 80/256 | 44 s
+[enriched phase2b_labels val3d] 96/256 | 52 s
+[enriched phase2b_labels val3d] 112/256 | 64 s
+[enriched phase2b_labels val3d] 128/256 | 69 s
+[enriched phase2b_labels val3d] 144/256 | 82 s
+[enriched phase2b_labels val3d] 160/256 | 86 s
+[enriched phase2b_labels val3d] 176/256 | 99 s
+[enriched phase2b_labels val3d] 192/256 | 103 s
+[enriched phase2b_labels val3d] 208/256 | 114 s
+[enriched phase2b_labels val3d] 224/256 | 123 s
+[enriched phase2b_labels val3d] 240/256 | 133 s
+[enriched phase2b_labels val3d] 256/256 | 141 s
+{"arm": "phase2b_labels", "set": "val3d", "n": 256, "identity_failed": 0, "content_passed": true, "bound_ok": true, "bound_excess_max": -1.2338613811224697e-10, "ratio": {"0": [0.989, 0.9882], "1": [0.9896, 0.9887], "2": [0.9917, 0.9886]}, "seconds": 141.7}
+{"arm": "phase2b_labels", "set": "fine3d", "precheck": {"set": "fine3d", "n": 8, "median_rel_dev": {"s0": [0.0, 0.0], "s1": [0.0, 0.0], "s2": [0.0, 0.0]}}}
+[enriched phase2b_labels fine3d] 16/256 | 162 s
+[enriched phase2b_labels fine3d] 32/256 | 313 s
+[enriched phase2b_labels fine3d] 48/256 | 464 s
+[enriched phase2b_labels fine3d] 64/256 | 549 s
+[enriched phase2b_labels fine3d] 80/256 | 694 s
+[enriched phase2b_labels fine3d] 96/256 | 794 s
+[enriched phase2b_labels fine3d] 112/256 | 902 s
+[enriched phase2b_labels fine3d] 128/256 | 996 s
+[enriched phase2b_labels fine3d] 144/256 | 1065 s
+[enriched phase2b_labels fine3d] 160/256 | 1159 s
+[enriched phase2b_labels fine3d] 176/256 | 1257 s
+[enriched phase2b_labels fine3d] 192/256 | 1436 s
+[enriched phase2b_labels fine3d] 208/256 | 1570 s
+[enriched phase2b_labels fine3d] 224/256 | 1654 s
+[enriched phase2b_labels fine3d] 240/256 | 1715 s
+[enriched phase2b_labels fine3d] 256/256 | 1817 s
+{"arm": "phase2b_labels", "set": "fine3d", "n": 256, "identity_failed": 0, "content_passed": true, "bound_ok": true, "bound_excess_max": -2.1237199065299306e-11, "ratio": {"0": [0.9876, 0.9895], "1": [0.9855, 0.9888], "2": [0.9852, 0.98]}, "seconds": 1817.5}
+{"arm": "phase2b_labels", "sets_complete": ["fine3d", "val3d"], "complementary": false, "seconds": 2088.6}

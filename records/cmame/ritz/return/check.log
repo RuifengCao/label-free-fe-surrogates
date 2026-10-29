@@ -1,0 +1,11 @@
+{"set": "val3d", "n": 256, "files": "present", "inputs": "verified"}
+{"set": "fine3d", "n": 256, "files": "present", "inputs": "verified"}
+{"set": "h3d", "n": 686, "files": "present", "inputs": "verified"}
+{"set": "val2d", "n": 256, "files": "present", "inputs": "verified"}
+{"set": "h2d", "n": 4111, "files": "present", "inputs": "verified"}
+{"arm": "b_n1024", "seeds": [3, 4, 5], "states_verified": 3, "sets": {"IB": 2048, "F2": 256, "F5": 256}}
+{"arm": "s_n1024", "seeds": [3, 4, 5], "states_verified": 3, "sets": {"IB": 2048, "F2": 256, "F5": 256}}
+{"arm": "phase2b", "seeds": [0, 1, 2], "states_verified": 3, "sets": {"val3d": 256, "fine3d": 256}}
+{"arm": "phase2b_labels", "seeds": [0, 1, 2], "states_verified": 3, "sets": {"val3d": 256, "fine3d": 256}}
+{"arm": "phase2b_mgn", "seeds": [0, 1, 2], "states_verified": 3, "sets": {"val3d": 256, "fine3d": 256}}
+{"arm": "k3d_labels_knorm", "seeds": [0, 1, 2], "states_verified": 3, "sets": {"val3d": 256, "fine3d": 256}}

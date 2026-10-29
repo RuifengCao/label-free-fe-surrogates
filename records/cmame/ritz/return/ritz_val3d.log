@@ -1,0 +1,17 @@
+[ritz val3d] 16/256 instance_01713.npz dofs 13752 gap p6:0.01572 p7:0.009311 p8:0.006804 p9:0.005262 id 0.0e+00 | 7 s
+[ritz val3d] 32/256 instance_01828.npz dofs 13941 gap p6:0.02447 p7:0.01426 p8:0.01024 p9:0.007803 id 0.0e+00 | 8 s
+[ritz val3d] 48/256 instance_00637.npz dofs 26598 gap p6:0.01948 p7:0.01186 p8:0.008391 p9:0.006137 id 0.0e+00 | 13 s
+[ritz val3d] 64/256 instance_00935.npz dofs 24903 gap p6:0.01546 p7:0.009341 p8:0.00633 p9:0.004648 id 0.0e+00 | 16 s
+[ritz val3d] 80/256 instance_01298.npz dofs 21909 gap p6:0.02329 p7:0.01311 p8:0.00901 p9:0.006539 id 0.0e+00 | 18 s
+[ritz val3d] 96/256 instance_00077.npz dofs 16020 gap p6:0.01741 p7:0.01155 p8:0.009111 p9:0.007543 id 0.0e+00 | 23 s
+[ritz val3d] 112/256 instance_00066.npz dofs 9975 gap p6:0.0176 p7:0.01038 p8:0.00691 p9:0.005063 id 0.0e+00 | 28 s
+[ritz val3d] 128/256 instance_01276.npz dofs 8967 gap p6:0.0169 p7:0.01036 p8:0.007239 p9:0.005535 id 0.0e+00 | 30 s
+[ritz val3d] 144/256 instance_00895.npz dofs 9192 gap p6:0.02456 p7:0.01611 p8:0.01266 p9:0.01043 id 0.0e+00 | 36 s
+[ritz val3d] 160/256 instance_01547.npz dofs 10740 gap p6:0.02002 p7:0.01209 p8:0.008942 p9:0.006935 id 0.0e+00 | 38 s
+[ritz val3d] 176/256 instance_01000.npz dofs 30303 gap p6:0.02642 p7:0.0165 p8:0.01258 p9:0.01014 id 0.0e+00 | 44 s
+[ritz val3d] 192/256 instance_01233.npz dofs 15435 gap p6:0.01641 p7:0.01062 p8:0.008352 p9:0.006847 id 0.0e+00 | 46 s
+[ritz val3d] 208/256 instance_01647.npz dofs 31335 gap p6:0.02006 p7:0.01268 p8:0.009778 p9:0.007742 id 0.0e+00 | 52 s
+[ritz val3d] 224/256 instance_00860.npz dofs 24897 gap p6:0.01883 p7:0.01251 p8:0.009495 p9:0.007689 id 0.0e+00 | 56 s
+[ritz val3d] 240/256 instance_00306.npz dofs 36603 gap p6:0.02545 p7:0.01466 p8:0.01034 p9:0.007569 id 0.0e+00 | 61 s
+[ritz val3d] 256/256 instance_00347.npz dofs 14493 gap p6:0.01465 p7:0.009276 p8:0.006938 p9:0.005526 id 0.0e+00 | 64 s
+{"set": "val3d", "n": 256, "n_used": 256, "identity_failed": 0, "identity_max_rel_diff": 0.0, "median_gap": {"6": 0.017717746825624277, "7": 0.011161843869693211, "8": 0.0082984437145096, "9": 0.006340114935540899}, "dropped_max": {"6": 0, "7": 0, "8": 0, "9": 0}, "worse_than_zero": {"6": 0, "7": 0, "8": 0, "9": 0}, "sign_mismatch": 0, "seconds": 64.5}

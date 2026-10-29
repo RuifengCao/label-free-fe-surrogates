@@ -1,0 +1,18 @@
+HEAD 0c1d59a6a973b8a6436269a1fbf708be43b8a59b
+tree d36f70537aadbf7a98e1a265aebea6daaa111b0b
+NVIDIA GeForce RTX 5090, 595.71.05, 32607 MiB
+CPU(s):                             208
+Model name:                         Intel(R) Xeon(R) Platinum 8470Q
+Thread(s) per core:                 2
+Socket(s):                          2
+nproc 25
+hostname autodl-container-45e441a24a-99d5b40d
+2500000 100000
+96636764160
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+               total        used        free      shared  buff/cache   available
+Mem:             754          73         436           5         245         670
