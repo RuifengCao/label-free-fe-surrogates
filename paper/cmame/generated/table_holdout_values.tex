@@ -1,0 +1,60 @@
+% generated from the committed records; do not edit
+\begingroup\footnotesize\setlength{\LTcapwidth}{\linewidth}\setlength{\tabcolsep}{3pt}
+\begin{longtable}{@{}llccc@{}}
+\caption{Holdout evaluation: the mean and the median of every network and metric on the validation and on the held-out instances.}\label{tab:holdoutvalues}\\
+\toprule
+Network & Metric & \shortstack{Validation: \\ mean / median} & \shortstack{Holdout: \\ mean / median} & \shortstack{Ratio of the \\ means (95\%)} \\
+\midrule
+\endfirsthead
+\caption[]{Holdout evaluation: the mean and the median of every network and metric on the validation and on the held-out instances. (continued)}\\
+\toprule
+Network & Metric & \shortstack{Validation: \\ mean / median} & \shortstack{Holdout: \\ mean / median} & \shortstack{Ratio of the \\ means (95\%)} \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\multicolumn{5}{@{}l}{\emph{Three dimensions, 686 held-out instances}} \\
+Label-free & Displacement & 0.0300 / 0.0280 & 0.0285 / 0.0269 & 0.95 (0.93--0.98) \\
+ & Energy gap & 0.00912 / 0.00758 & 0.00805 / 0.00739 & 0.88 (0.86--0.91) \\
+ & von Mises & 0.0554 / 0.0532 & 0.0541 / 0.0521 & 0.98 (0.96--0.99) \\
+ & Peak stress & 0.0807 / 0.0788 & 0.0799 / 0.0775 & 0.99 (0.97--1.01) \\
+ & Recall & 0.793 / 0.790 & 0.790 / 0.787 & 1.00 (0.99--1.00) \\
+Supervised & Displacement & 0.0470 / 0.0408 & 0.0493 / 0.0419 & 1.05 (0.98--1.16) \\
+ & Energy gap & 31.2 / 0.255 & 172 / 0.231 & 5.50 (0.01--16.49) \\
+ & von Mises & 0.370 / 0.259 & 0.408 / 0.253 & 1.10 (0.75--1.80) \\
+ & Peak stress & 0.784 / 0.235 & 0.646 / 0.209 & 0.82 (0.37--1.71) \\
+ & Recall & 0.619 / 0.629 & 0.623 / 0.635 & 1.01 (1.00--1.01) \\
+Graph network & Displacement & 0.0168 / 0.0137 & 0.0160 / 0.0142 & 0.95 (0.91--1.01) \\
+ & Energy gap & 0.447 / 0.209 & 0.307 / 0.197 & 0.69 (0.59--0.84) \\
+ & von Mises & 0.296 / 0.252 & 0.276 / 0.242 & 0.93 (0.90--0.97) \\
+ & Peak stress & 0.488 / 0.186 & 0.353 / 0.172 & 0.72 (0.63--0.82) \\
+ & Recall & 0.679 / 0.700 & 0.683 / 0.702 & 1.01 (1.00--1.01) \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Two dimensions, 4,111 held-out instances}} \\
+Label-free & Displacement & 0.0634 / 0.0472 & 0.0646 / 0.0477 & 1.02 (0.99--1.05) \\
+ & Energy gap & 0.0383 / 0.0253 & 0.0393 / 0.0284 & 1.02 (0.99--1.06) \\
+ & von Mises & 0.123 / 0.120 & 0.124 / 0.124 & 1.01 (0.99--1.03) \\
+ & Peak stress & 0.128 / 0.138 & 0.129 / 0.140 & 1.01 (0.99--1.03) \\
+ & Recall & 0.753 / 0.753 & 0.751 / 0.752 & 1.00 (0.99--1.00) \\
+Supervised & Displacement & 0.0505 / 0.0406 & 0.0519 / 0.0410 & 1.03 (1.00--1.05) \\
+ & Energy gap & 0.133 / 0.118 & 0.137 / 0.119 & 1.02 (0.99--1.07) \\
+ & von Mises & 0.235 / 0.231 & 0.236 / 0.231 & 1.00 (0.99--1.01) \\
+ & Peak stress & 0.141 / 0.147 & 0.145 / 0.147 & 1.03 (1.01--1.05) \\
+ & Recall & 0.668 / 0.675 & 0.669 / 0.677 & 1.00 (1.00--1.00) \\
+Stiffness norm & Displacement & 0.0547 / 0.0420 & 0.0567 / 0.0419 & 1.04 (1.01--1.07) \\
+ & Energy gap & 0.0290 / 0.0210 & 0.0781 / 0.0223 & 2.69 (1.12--4.64) \\
+ & von Mises & 0.106 / 0.108 & 0.111 / 0.109 & 1.05 (1.02--1.08) \\
+ & Peak stress & 0.0947 / 0.100 & 0.105 / 0.101 & 1.11 (1.02--1.24) \\
+ & Recall & 0.804 / 0.802 & 0.802 / 0.803 & 1.00 (1.00--1.00) \\
+Graph network & Displacement & 0.0499 / 0.0392 & 0.0496 / 0.0383 & 1.00 (0.97--1.02) \\
+ & Energy gap & 0.825 / 0.517 & 0.793 / 0.554 & 0.96 (0.92--1.00) \\
+ & von Mises & 0.578 / 0.489 & 0.567 / 0.504 & 0.98 (0.96--1.00) \\
+ & Peak stress & 0.321 / 0.153 & 0.320 / 0.159 & 1.00 (0.95--1.05) \\
+ & Recall & 0.517 / 0.549 & 0.520 / 0.544 & 1.01 (1.00--1.01) \\
+\end{longtable}
+\endgroup
+\vspace{-\smallskipamount}
+\noindent\begin{minipage}{\linewidth}\footnotesize\raggedright
+Per network and metric, the mean and the median over the instances of each instance's value averaged over the seeds; the validation values recomputed by the holdout evaluation, whose check of the reports' displacement errors and relative energy gaps they passed (the graph networks' to within $2 \times 10^{-4}$ in the median). Ratio: holdout mean over validation mean, with a 95\% percentile interval from 2,000 resamplings of the holdout instances. V's two-sided Mann--Whitney tests compare the per-instance values; Holm's procedure rejected none of their p-values, which the evaluation's verdict records, at a family-wise level of 5\%. The stiffness-norm transformer was evaluated in 2D only: its 3D counterpart was trained after this evaluation (\cref{sec:results3d:norm}).
+\end{minipage}
+\par\medskip

@@ -1,12 +1,15 @@
-"""cmame-paper Stage 10f: the references checked on 11 October 2026, and the archive cited as
-a data reference.
+"""cmame-paper Stage 10f, and statics-paper Stage 16: the references checked on 11 October
+2026, and the archive cited as a data reference.
 
 The six references checked against the PDFs of their published versions carry a comment
 saying so: the chapter of LeCun et al. is cited as published (2007), with its six editors and
 its pages, instead of the authors' version, and Saad (2003) has its DOI. The Zenodo archive of
 the version described is a data reference, rendered with "[dataset]" before it as the
-journal's guide asks, with the title, author and DOI of CITATION.cff and the tag that its
-identifier names, and cited in the Data availability statement. Where the text gives the
+journal's guide asks, with the title and author of CITATION.cff and the tag of the version
+described, and cited in the Data availability statement; its DOI is added, here, in the
+statement and in CITATION.cff, when it is reserved (until then a pending box in the
+statement says so, and CITATION.cff names the repository's first archive). Where the text
+gives the
 iteration bound of a warm start for conjugate gradients, it credits the estimate of Sun et al.
 in the relative residual and the bound of Wang et al. for fixed-point iterations; it states their solvers, their observation on
 Newton residuals, the polycrystal comparison of Monteiro Fernandes et al. and the convexity
@@ -25,8 +28,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PAPER = ROOT / "paper" / "cmame"
 SECTIONS = PAPER / "sections"
 BIB = PAPER / "references.bib"
-DOI = "10.5281/zenodo.23298799"
-TAG = "cmame-submission"
+TAG = "statics-paper-1.0"               # the version that the manuscript describes
+FIRST_DOI = "10.5281/zenodo.23298799"    # the repository's first archive at Zenodo
 # the entries checked on 11 October 2026 against the PDFs of their published versions, and
 # the preprint of Sun et al.
 CHECKED = {"OrtizStainier1999": "article", "Taylor2023DFR": "article",
@@ -58,22 +61,27 @@ def _sections() -> dict[str, str]:
 
 
 def test_the_archive_is_a_data_reference_with_the_metadata_of_the_citation_file():
-    kind, _, body = _entries(BIB.read_text(encoding="utf-8"))["Cao2026Zenodo"]
+    kind, comment, body = _entries(BIB.read_text(encoding="utf-8"))["Cao2026Zenodo"]
     assert kind == "misc"
     assert _field(body, "author") == r"Cao, {\relax [dataset] R}uifeng"
-    assert (_field(body, "title"), _field(body, "howpublished"), _field(body, "year"),
-            _field(body, "doi")) == ("label-free-fe-surrogates", f"Zenodo, version {TAG}",
-                                     "2026", DOI)
-    # the record to be published under the reserved DOI carries what CITATION.cff says
+    assert (_field(body, "title"), _field(body, "howpublished"), _field(body, "year")) == (
+        "label-free-fe-surrogates", f"Zenodo, version {TAG}", "2026")
+    # a new version of the record: its DOI is not yet reserved, and no other DOI stands in
+    assert not re.search(r"^\s*doi\s*=", body, re.M)
+    assert "Its DOI is reserved, and added here, before the paper is submitted" in \
+        _flat(comment.replace("% ", ""))
+    # the record carries the title and author of CITATION.cff, which names the record's
+    # first version until the new one's DOI is reserved
     cff = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    for s in ('title: "label-free-fe-surrogates"\n', f"doi: {DOI}\n",
-              "authors:\n  - family-names: Cao\n    given-names: Ruifeng\n",
-              f'description: "Zenodo archive of the version tagged {TAG}"\n'):
+    for s in ('title: "label-free-fe-surrogates"\n', f"doi: {FIRST_DOI}\n",
+              "authors:\n  - family-names: Cao\n    given-names: Ruifeng\n"):
         assert s in cff, s
     statement = _flat(_sections()["declarations.tex"]
                       .split(r"\section*{Data availability}", 1)[1].split(r"\section*", 1)[0])
-    assert (rf"tagged \texttt{{{TAG}}} and archived at Zenodo \cite{{Cao2026Zenodo}}, "
-            rf"\url{{https://doi.org/{DOI}}}.") in statement
+    assert (rf"tagged \texttt{{{TAG}}} and archived at Zenodo \cite{{Cao2026Zenodo}}. "
+            r"\pending{The DOI of this archive, reserved before submission and given here and "
+            r"in the reference.}") in statement
+    assert FIRST_DOI not in statement and "doi.org" not in statement
 
 
 def test_the_bibliography_renders_the_data_reference_and_the_chapter(tmp_path):
@@ -90,8 +98,7 @@ def test_the_bibliography_renders_the_data_reference_and_the_chapter(tmp_path):
     assert "Warning--" not in res.stdout, res.stdout     # bibtex exits 0 on warnings too
     bbl = _flat((tmp_path / "t.bbl").read_text(encoding="utf-8"))
     for s in (r"\bibitem{Cao2026Zenodo} {\relax [dataset] R}.~Cao, label-free-fe-surrogates, "
-              rf"Zenodo, version {TAG} (2026). \newblock \href {{https://doi.org/{DOI}}} "
-              rf"{{\path{{doi:{DOI}}}}}.",
+              rf"Zenodo, version {TAG} (2026). \bibitem{{LeCun2007EBM}}",
               r"\bibitem{LeCun2007EBM} Y.~LeCun, S.~Chopra, R.~Hadsell, M.~Ranzato, F.~J. Huang, "
               r"Energy-based models, in: G.~Bak{\i}r, T.~Hofmann, B.~Sch{\"o}lkopf, A.~J. "
               r"Smola, B.~Taskar, S.~V.~N. Vishwanathan (Eds.), Predicting Structured Data, "
@@ -252,8 +259,9 @@ def test_the_break_even_of_section_8_is_recomputed_from_the_records():
     timing record and the deviation ledger, independently of the generator."""
     import json
     import statistics
-    rows = json.loads((ROOT / "records" / "cmame" / "timing" / "timing_3d.json").read_text(
-        encoding="utf-8"))["results"]["val"]["per_instance"]
+    rows = json.loads((ROOT / "records" / "cmame" / "ritz" / "return" / "timing" /
+                       "timing_3d.json").read_text(encoding="utf-8"))["results"]["val"][
+        "per_instance"]
     med = {k: statistics.median(float(r[k]) for r in rows)
            for k in ("direct_s", "surrogate_cold_s", "cg_match_s")}
     ledger = (ROOT / "DEVIATIONS_PHASE2.md").read_text(encoding="utf-8")
@@ -272,6 +280,6 @@ def test_the_break_even_of_section_8_is_recomputed_from_the_records():
               r"predicted instances, and after about \numCostBreakEvenMatch{} against conjugate "
               r"gradients stopped at the surrogate's accuracy, an upper bound since that stop reads the "
               r"reference solution",
-              r"needs a solve per training example, a cost that dominates where solves are "
-              r"expensive."):
+              r"Label-free training pays for itself where a solve is expensive enough",
+              r"Supervised finite-element surrogates need a solve per training example."):
         assert s in text, s

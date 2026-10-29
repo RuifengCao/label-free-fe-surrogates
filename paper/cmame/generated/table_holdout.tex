@@ -1,0 +1,32 @@
+% generated from the committed records; do not edit
+\begin{table}[tbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{The claims of the three- and two-dimensional comparisons read again on held-out instances, as the adjudicator of the holdout evaluation recorded them, beside their values on the validation instances.}
+\label{tab:holdout}
+\resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.07\linewidth}>{\raggedright\arraybackslash}p{0.42\linewidth}>{\raggedright\arraybackslash}p{0.155\linewidth}>{\raggedright\arraybackslash}p{0.155\linewidth}>{\raggedright\arraybackslash}p{0.16\linewidth}@{}}
+\toprule
+Claim & Statement & Validation & Holdout & Outcome \\
+\midrule
+T1 (3D) & Label-free transformer better than the supervised transformer on all five metrics, each seed and the seed mean & 20 of 20 & 20 of 20 & replicated \\
+T2 (3D) & Graph network: lower displacement error than the label-free transformer on most instances, each seed; higher von Mises error on at least 95\% of the pairs & 84.4\%--92.6\%; 99.9\% & 86.3\%--95.8\%; 100\% & replicated \\
+T3 (3D) & Load cases worse than the zero field, supervised transformer and graph network, each with a positive energy & 126 and 106 of 3,072 & 340 and 237 of 8,232 & replicated \\
+\midrule
+H1 (2D) & Label-free below the supervised transformer in relative energy gap, beyond the guard & $-$71.3\% (guard 12.4\%) & $-$71.3\% (guard 11.5\%) & replicated \\
+H2a (2D) & Stiffness-norm below the supervised transformer in relative energy gap, beyond the guard & $-$78.2\% (guard 16.4\%) & $-$42.9\% (guard 47.4\%) & \hspace{0pt}not replicated \\
+H2b (2D) & The same in von Mises error & $-$54.9\% (guard 12.3\%) & $-$52.8\% (guard 12.9\%) & replicated \\
+H2c (2D) & The same, by more than half & $-$54.9\% & $-$52.8\% & replicated \\
+D2 (2D) & Label-free transformer: higher displacement error than the supervised one, lower errors on the other four metrics, each seed and the seed mean & 20 of 20 & 20 of 20 & replicated \\
+H3 (2D) & A reading: stiffness-norm against label-free transformer, relative energy gap & $-$24.2\% (guard 38.1\%) & +99.1\% (guard 160.2\%) & no difference shown \\
+\midrule
+V & Per-instance values alike on the holdout and validation instances, 35 quantities & -- & none rejected & \hspace{0pt}representative \\
+\bottomrule
+\end{tabular}}
+
+\smallskip
+\begin{minipage}{\linewidth}\scriptsize\raggedright
+Validation: the values of \cref{sec:results3d} (T1 to T3, T3 per load case) and of \cref{sec:results2d} (H1 to D2). Holdout: the same stored networks on 686 (3D) and 4,111 (2D) held-out instances; the supervised transformer with the energy term has no stored networks. T1 and D2: the comparisons that hold, five metrics in three seeds and the seed mean; T2: the lowest and highest share over the seeds, and the share of the instance-seed pairs; H1 to H3: rel and the noise guard of the note to \cref{tab:criteria}; H2c: the rel of H2b, against $-$50\%. V: per network and metric, a two-sided Mann--Whitney test of the holdout against the validation instances, the 35 p-values taken together by Holm's procedure at a family-wise level of 5\% (\cref{tab:holdoutvalues}).
+\end{minipage}
+\end{table}

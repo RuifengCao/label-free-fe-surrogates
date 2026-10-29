@@ -109,6 +109,25 @@ unchanged solve/anchor/polish/theory pipeline); Phase 2 proper remains gated on 
 Every report also carries `data_economy` -- the WP5 asymmetry table (labelled
 instances bought vs. the unlabeled pool AR consumed), derived from the solve ledger.
 
+## The paper's tables, figures and numbers
+
+The manuscript's sources are in `paper/cmame/`: `main.tex`, its supplementary material
+`supplementary.tex`, the graphical abstract and the highlights. Every table but the list of
+runs, every figure but the schematic, and every number in the text that reports a result
+are generated from the committed records by
+
+    python scripts/make_cmame_material.py      # writes paper/cmame/generated/
+    cd paper/cmame && latexmk -pdf main.tex && latexmk -pdf supplementary.tex
+
+The script writes the tables (`table_*.tex`), the figures (`fig_*.pdf`), the numbers that
+the text quotes, one macro each (`numbers.tex`), the list of the runs with the hashes of
+their configurations (`hashes.tex`), a summary (`material.md`) and the list of every file it
+read with its SHA-256 (`sources.json`). `tests/test_cmame_material.py` regenerates the
+material and compares it with the committed files byte for byte, recomputes the quoted
+numbers from the records independently of the script, checks the design constants against
+the configurations and the code and builds both documents; `tests/test_cmame_references.py`
+checks the references.
+
 ## Layout
 
     src/fejepa/{fe,data,anchor,models,train,experiments}/ ...  # plan refs in docstrings

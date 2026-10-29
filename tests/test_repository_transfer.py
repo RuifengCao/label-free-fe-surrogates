@@ -6,8 +6,10 @@ after the transfer keeps the id of the repository whose creation the security lo
 the list of branches and tags gives, by Software Heritage's snapshot hash, the snapshot that
 the manuscript, the records' README, the provenance note and CITATION.cff quote, and the
 README states what the records show; the Data availability statement gives the address,
-the tag, the Zenodo DOI and that snapshot, and no pending box is left in the manuscript;
-the provenance note, the README and CITATION.cff agree with the manuscript."""
+the tag of the version described, its archive at Zenodo, whose DOI a pending box awaits
+until it is reserved (statics-paper Stage 16), and that snapshot, and no other pending box
+is left in the manuscript; the provenance note, the README and CITATION.cff agree with the
+manuscript."""
 
 from __future__ import annotations
 
@@ -33,7 +35,8 @@ OLD_URL = "https://github.com/HymnOfLight/FE-JEPA"
 MID_URL = "https://github.com/RuifengCao/FE-JEPA"
 DOI = "10.5281/zenodo.23298799"
 SNAPSHOT = "swh:1:snp:79f91af6d07e45a45933743bda38253b49c82bb6"
-TAG = "cmame-submission"
+TAG = "cmame-submission"                 # the version that the record's first version archives
+PAPER_TAG = "statics-paper-1.0"          # the version that the manuscript describes
 REPO_ID = 1299960094
 RAW_SHA256 = "f771989fa4077487d6e9d41d9601f0976bdb498665508cb634e440573aaabbab"
 ARCHIVED_CMAME = "c5f6b84c00b9f700c464319902f7f1ad7d4de840"    # cmame-paper when archived
@@ -207,8 +210,8 @@ def test_the_manuscript_gives_the_address_tag_doi_and_snapshot():
     tex = (SECTIONS / "declarations.tex").read_text(encoding="utf-8")
     statement = _flat(tex.split(r"\section*{Data availability}", 1)[1].split(r"\section*", 1)[0])
     for s in (rf"are available at \url{{{URL}}}. The version described here is tagged "
-              rf"\texttt{{{TAG}}} and archived at Zenodo \cite{{Cao2026Zenodo}}, "
-              rf"\url{{https://doi.org/{DOI}}}.",
+              rf"\texttt{{{PAPER_TAG}}} and archived at Zenodo \cite{{Cao2026Zenodo}}. "
+              r"\pending{The DOI of this archive, reserved before submission",
               "The repository as it stood on 11 October 2026, when it moved to its present "
               "address, is archived with its full history by Software Heritage as the snapshot",
               rf"\href{{https://archive.softwareheritage.org/{SNAPSHOT}}}"
@@ -221,8 +224,8 @@ def test_the_manuscript_gives_the_address_tag_doi_and_snapshot():
     for f, text in texts.items():
         assert "owner account" not in text, f.name
         assert "HymnOfLight" not in text and "FE-JEPA" not in text, f.name
-        if f.parent == SECTIONS:
-            assert r"\pending" not in text, f.name      # no pending box is left
+        if f.parent == SECTIONS:                        # the archive's DOI's box only
+            assert text.count(r"\pending") == (f.name == "declarations.tex"), f.name
     assert texts[PAPER / "main.tex"].count(r"\pending") <= 1   # the macro's definition at most
     repro = _flat((SECTIONS / "appendix_repro.tex").read_text(encoding="utf-8"))
     for s in ("Beside it are the entries that name the repository in the security log of the "

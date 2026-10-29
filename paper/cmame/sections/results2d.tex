@@ -19,7 +19,7 @@ label-free networks on these validation instances known, and after a functional 
 far smaller scale had shown the directions of H1, H2a and H2b (\ref{app:prereg}). Beyond the
 hypotheses and the readings that its pre-registration required beside them, the
 instance-by-instance comparisons and the readings taken after the run are not pre-registered
-criteria.
+criteria. \Cref{sec:holdout} reads its hypotheses again on held-out instances.
 
 \subsection{Accuracy}\label{sec:results2d:accuracy}
 
@@ -60,6 +60,15 @@ supervised transformer's. Against the supervised transformer, instance by instan
 the lower displacement error on \numPairCmMgnLabDisp{} of the pairs, the lower relative
 energy gap on \numPairCmMgnLabGap{} and the lower von Mises error on \numPairCmMgnLabVm{}.
 
+The Ritz projection of \cref{sec:methods:ritz}, added after the original analyses, with
+\numRitzTwoKSix{} and \numRitzTwoKEight{} unknowns, had a smaller displacement error than
+the label-free transformer on \numRitzTwoFreeDispMin{} to \numRitzTwoFreeDispMax{} of the
+instances, depending on the seed and the degree, a smaller relative energy gap on
+\numRitzTwoFreeGapSixMin{} to \numRitzTwoFreeGapSixMax{} at $p=6$ and on
+\numRitzTwoFreeGapEightMin{} to \numRitzTwoFreeGapEightMax{} at $p=8$, and a larger peak
+stress error on at least \numRitzTwoFreePeakMin{} of them (its rows in \cref{tab:2d}; the
+shares in the supplementary material, Table S1).
+
 \paragraph{Failures}
 Of the graph network's \numCmPairs{} instance-seed predictions, \numCmMgnWorse{} had a mean
 relative energy gap above one, against none for each of the three transformers
@@ -68,7 +77,9 @@ measured after the run over the \numSpecLoads{} triples of seed, instance and lo
 \cref{sec:results2d:spectrum}, \numSpecLoadWorseMgn{} of the graph network's predictions
 were worse than the zero field, against \numSpecLoadWorseFree{} for the label-free
 transformer, \numSpecLoadWorseLab{} for the supervised transformer and
-\numSpecLoadWorseKnorm{} for the stiffness-norm transformer.
+\numSpecLoadWorseKnorm{} for the stiffness-norm transformer. On the held-out instances of
+\cref{sec:holdout}, the supervised and the stiffness-norm transformers had a few predictions
+worse than the zero field, the label-free transformer none.
 
 \subsection{Supervision in the stiffness norm}\label{sec:results2d:norm}
 
@@ -86,18 +97,28 @@ Mises error is lower. The von Mises error is a term of neither loss, and by
 bounds the area-weighted von Mises error: H2b tests the explanation this paper gives for the
 label-free network's accurate stresses. Both hypotheses fixed a direction only.
 
-Both were supported. With 1,024 labelled instances the stiffness-norm transformer's relative
-energy gap was \numHTwoARel{} lower than the supervised transformer's (guard
-\numHTwoATau{}), \numHTwoARootRel{} lower in the root-mean-square relative stiffness-norm
-error, and its von Mises error \numHTwoBRel{} lower, \numCmKnormVm{} against \numCmLabVm{}
-(guard \numHTwoBTau{}). It had the lower relative energy gap on \numPairCmKnormLabGap{} of
-the instance-seed pairs, the lower von Mises error on \numPairCmKnormLabVm{} and the lower
+Both were supported on the validation instances. With 1,024 labelled instances the
+stiffness-norm transformer's relative energy gap was \numHTwoARel{} lower than the
+supervised transformer's (guard \numHTwoATau{}), \numHTwoARootRel{} lower in the
+root-mean-square relative stiffness-norm error, and its von Mises error \numHTwoBRel{}
+lower, \numCmKnormVm{} against \numCmLabVm{} (guard \numHTwoBTau{}). On the held-out
+instances of \cref{sec:holdout} the reduction of the von Mises error replicated,
+\numHoldHTwoBRel{} (guard \numHoldHTwoBTau{}), and that of the relative energy gap did not:
+it was \numHoldHTwoARel{}, within a guard of \numHoldHTwoATau{} that the stiffness-norm
+transformer's seeds made wide, its seed 0 being only \numHoldHTwoASeedZero{} below the
+supervised transformer's. A few held-out instances carry those seed means:
+\numHoldTwoWorseInstKnorm{} of the stiffness-norm transformer's \numHoldTwoPairs{}
+instance-seed predictions there had a mean relative energy gap above one, against none on
+the validation instances; on the seeds' medians the reduction was \numHoldHTwoAMedRel{},
+beyond a guard of \numHoldHTwoAMedTau{}. On the validation instances the stiffness-norm
+transformer had the lower relative energy gap on \numPairCmKnormLabGap{} of the
+instance-seed pairs, the lower von Mises error on \numPairCmKnormLabVm{} and the lower
 displacement error on \numPairCmKnormLabDisp{}: changing the norm lowered the von Mises
-error by more than half and left the displacement error about where it was,
-\numCmKnormDisp{} against \numCmLabDisp{}. Weighted by element area, as in
-\cref{prop:stress}, instead of equally, the ratio of the two networks' mean von Mises errors
-was \numSpecVmAreaRatio{}, against \numSpecVmElemRatio{} for the reported metric (measured
-after the run, \ref{app:repro:checks}).
+error by more than half, on the validation and on the held-out instances, and left the
+displacement error about where it was, \numCmKnormDisp{} against \numCmLabDisp{}. Weighted
+by element area, as in \cref{prop:stress}, instead of equally, the ratio of the two
+networks' mean von Mises errors was \numSpecVmAreaRatio{}, against \numSpecVmElemRatio{} for
+the reported metric (measured after the run, \ref{app:repro:checks}).
 
 A third comparison, H3, was pre-registered as a reading without a criterion: the
 stiffness-norm transformer against the label-free transformer. It showed no difference
@@ -117,7 +138,8 @@ resampling the instances, with the seeds kept, put its relative energy gap
 \cref{tab:cm2d}); the guard, which treats the three seeds as the replicates, does not
 separate the two networks. H3 compares two networks rather than training with and without
 labels: by \eqref{eq:lkgrad} the two objectives weight the same residual differently per
-load case, and the two networks were trained at different learning rates.
+load case, and the two networks were trained at different learning rates. On the held-out
+instances H3 again showed no difference beyond the guard (\cref{sec:holdout}).
 
 \subsection{Where the errors lie in the spectrum}\label{sec:results2d:spectrum}
 

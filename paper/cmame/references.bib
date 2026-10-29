@@ -1,4 +1,4 @@
-% References of the CMAME manuscript. Entries marked "verified" were checked against the
+% References of the manuscript. Entries marked "verified" were checked against the
 % publisher's record (or arXiv) on 3 October 2026; an entry whose comment names another
 % source and date (for example the authors' version) was checked against that source on
 % that date.
@@ -558,15 +558,41 @@
   doi       = {10.7551/mitpress/7443.003.0014}
 }
 
+% checked 29 October 2026 against the arXiv record of arXiv:2412.04596 (v3, 28 September
+% 2026) and its PDF: authors, title, identifier, and what the text states (training without
+% precomputed solutions on the energy assembled element by element; the prediction as the
+% initial guess of Newton's method for a neo-Hookean beam). The record gives the DOI
+% 10.1137/25M1776007 of a version published by SIAM, whose journal, volume and pages could
+% not be read that day; the preprint is cited until they are.
+@misc{Larson2026MLPEnergy,
+  author = {Larson, Mats G. and Lundholm, Carl and Persson, Anna},
+  title  = {Learning nonlinear finite element solution operators using multilayer perceptrons and energy minimization},
+  year   = {2026},
+  note   = {arXiv:2412.04596v3},
+  doi    = {10.48550/arXiv.2412.04596}
+}
+
+% verified 29 October 2026 against the article's page at the publisher: authors, title,
+% journal, volume, issue, pages, year and DOI
+@article{Barucq2026Enrich,
+  author  = {Barucq, H{\'e}l{\`e}ne and Duprez, Michel and Faucher, Florian and Franck, Emmanuel and Lecourtier, Fr{\'e}d{\'e}rique and Lleras, Vanessa and Michel-Dansac, Victor and Victorion, Nicolas},
+  title   = {Enriching continuous {Lagrange} finite element approximation spaces using neural networks},
+  journal = {ESAIM: Mathematical Modelling and Numerical Analysis},
+  volume  = {60},
+  number  = {2},
+  pages   = {541--603},
+  year    = {2026},
+  doi     = {10.1051/m2an/2026007}
+}
+
 % The archive of the version described in the paper, a data reference cited in the Data
 % availability statement. The journal's guide asks for "[dataset]" immediately before a
-% data reference; the brace group places it before the author's initial. The DOI was
-% reserved on 11 October 2026; the record is published, with this title, author and
-% version, before the paper is submitted.
+% data reference; the brace group places it before the author's initial. Its DOI is
+% reserved, and added here, before the paper is submitted, and the record is published, with
+% this title, author and version, at submission.
 @misc{Cao2026Zenodo,
   author       = {Cao, {\relax [dataset] R}uifeng},
   title        = {label-free-fe-surrogates},
-  howpublished = {Zenodo, version cmame-submission},
-  year         = {2026},
-  doi          = {10.5281/zenodo.23298799}
+  howpublished = {Zenodo, version statics-paper-1.0},
+  year         = {2026}
 }

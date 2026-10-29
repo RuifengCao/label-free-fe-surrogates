@@ -53,11 +53,14 @@ the runs, with the criteria that failed reported alongside those that were met. 
 identity above, the comparison is between two losses: the squared stiffness-norm error,
 which the energy gives without a solve, and the usual relative displacement error, which
 needs the solutions; the labels add no information that $K$ and $F$ do not already carry.
-In two dimensions, a third network, supervised in the stiffness norm, separates the norm of
-the loss from the labels. The claim of this paper is therefore not that labels are
-uninformative, but that the norm in which one can train without labels is the one that
+In two and three dimensions, a third network, supervised in the stiffness norm, separates
+the norm of the loss from the labels. The claim of this paper is therefore not that labels
+are uninformative, but that the norm in which one can train without labels is the one that
 controls the stresses, and that supervised training in the usual displacement norm controls
-them less well. The paper extends a companion note \cite{CaoSong2026}, which stated the
+them less well. Where labels are available, supervised training in that norm may do better
+still: in three dimensions it reached a median relative energy gap below the label-free
+network's, by a margin that three seeds leave uncertain (\cref{sec:results3d:norm}). The
+paper extends a companion note \cite{CaoSong2026}, which stated the
 exactness identity, the conditioning bounds and their executable checks, and first reported
 the main results of the July run (\ref{app:july}).
 
@@ -85,22 +88,47 @@ depends only on the prediction's relative energy gap and the target tolerance
 (\cref{cor:warm}); Sun et~al.~\cite{Sun2026FEVessel} give this estimate in the relative
 residual, after a bound of Wang et~al.~\cite{Wang2026PretrainFEM} for fixed-point
 iterations.
-\item Three dimensions (\cref{sec:results3d}). A transformer trained on the energy alone
-was more accurate on all five metrics, in every seed, than the same transformer trained on
-the solutions of the same 1,024 instances, and the pre-registered accuracy condition on the
-label-free network was met with a wide margin. In the same run, a graph network trained on
-those solutions had lower displacement errors than the label-free transformer on most
-instances but higher von Mises errors on almost all of them, so that the two errors ranked
-the networks in opposite orders; this is a reading of the run, not a pre-registered
-criterion. Every supervised network returned some predictions worse than the zero field; the
-label-free network returned none, averaged over each instance's load cases, and
-\numThreeFreeLoadWorse{} in \numThreeFreeLoads{} load cases taken singly.
+\item Three dimensions (\cref{sec:results3d}). A transformer trained on the energy alone was
+more accurate on all five metrics, in every seed, than the same transformer trained on the
+solutions of the same 1,024 instances with the relative displacement error, and the
+pre-registered accuracy condition on the label-free network was met with a wide margin. In
+the same run, a graph network trained on those solutions had lower displacement errors than
+the label-free transformer on most instances but higher von Mises errors on almost all of
+them, so that the two errors ranked the networks in opposite orders; this is a reading of
+the run, not a pre-registered criterion. Every network supervised on the displacement error
+returned some predictions worse than the zero field; the label-free network returned none,
+averaged over each instance's load cases, and \numThreeFreeLoadWorse{} in
+\numThreeFreeLoads{} load cases taken singly. These three findings replicated on
+\numHoldThreeN{} held-out instances under criteria fixed before the evaluation, for the
+networks whose weights were stored, all but the supervised transformer with the energy term
+(\cref{sec:holdout}). Trained on the stiffness-norm error of the same solutions, the
+supervised transformer lowered its median relative energy gap by \numKdGapRel{} and its
+median von Mises error by \numKdVmRel{}, as two pre-registered hypotheses predicted; their
+statistic, the seeds' medians, was chosen after the per-instance values of the networks
+compared were known. Descriptively, the change of norm more than closed the supervised
+transformer's gap to the label-free transformer in these two errors (\numKdClosureGap{} and
+\numKdClosureVm{} of it), and the retrained transformer's median relative energy gap fell
+\numKdFreeRel{} below the label-free transformer's, a pre-registered reading beyond the
+noise guard whose Welch 95\% interval over the three seeds, \numKdFreeWelchLow{} to
+\numKdFreeWelchHigh{}, includes zero.
 \item Two dimensions (\cref{sec:results2d}). The label-free transformer's displacement error
 was \numCmFreeDispExcessAbs{} larger than the supervised transformer's, and it was more
 accurate on every other metric. Trained on the stiffness-norm error instead of the
 displacement error, with the same labels, the supervised transformer lowered its von Mises
 error by \numHTwoBRel{} (a pre-registered hypothesis, supported), and its errors lay lower
-in the spectrum of the stiffness matrix, as measured afterwards.
+in the spectrum of the stiffness matrix, as measured afterwards. On \numHoldTwoN{} held-out
+instances the label-free transformer's advantages and the lower von Mises error of the
+stiffness-norm transformer replicated, while the reduction of its relative energy gap did
+not exceed the noise guard (\cref{sec:holdout}).
+\item A classical baseline, added after the original analyses
+(\cref{sec:methods:ritz,sec:results3d:ritz,sec:results2d:accuracy,sec:transfer}). Each
+network was paired, instance by instance, with a polynomial Ritz-Galerkin projection of the
+same problem with at most \numRitzThreeKMax{} unknowns, which needs the stiffness matrix but
+no labels. In three dimensions the projection had a smaller displacement error than the
+label-free transformer on most instances at every degree, and a comparable relative energy
+gap at the highest, but median peak stress errors \numRitzValPeakRatioMin{} to
+\numRitzValPeakRatioMax{} times as large; on the finer mesh its relative energy gap was
+lower than each network's on almost every instance.
 \item Negative results (\cref{sec:transfer,sec:cost}, \ref{app:e1}). No network transferred
 to a three-dimensional mesh about twice as fine without retraining; a closed-form rescaling
 applied after the fact removed about two-thirds of the label-free network's displacement
@@ -116,8 +144,11 @@ validation sets took a further \numThreeEvalSolves{}.
 
 We do not claim that a surrogate is faster than solving a linear elastostatic problem; at
 the sizes studied here, conjugate gradients reached the surrogate's accuracy within a few
-times its inference time (\cref{sec:cost:inference}). Linear elastostatics
-is the test bed on which the exactness of the objective can be proved and the comparison
+times its inference time (\cref{sec:cost:inference}). Nor do we claim that the networks are
+more accurate than a classical approximation of the same problem: given the stiffness
+matrix, the Ritz projection of \cref{sec:methods:ritz} was the more accurate in displacement
+(\cref{sec:results3d:ritz}). Linear elastostatics is the test bed on which the exactness of
+the objective can be proved and the comparison
 with supervision kept narrow: the same network, the same instances and the same schedule,
 with only the loss and its learning rate differing. The interest of label-free training lies
 where solves are expensive and labels scarce, for example in nonlinear and time-dependent
@@ -127,8 +158,9 @@ problems whose implicit steps are again energy minimisations (\cref{sec:discussi
 \cref{sec:methods} the problems, networks and protocol. \Cref{sec:results3d} reports the
 three-dimensional comparison, organised by the three roles, and \cref{sec:results2d} the
 two-dimensional comparison that separates the norm of the loss from the labels;
-\cref{sec:transfer} reports the transfer to a finer mesh and \cref{sec:cost} the cost and
-the warm starts. \Cref{sec:discussion} discusses the results and their limits.
+\cref{sec:holdout} reads their claims again on held-out instances, \cref{sec:transfer}
+reports the transfer to a finer mesh and \cref{sec:cost} the cost and the warm starts.
+\Cref{sec:discussion} discusses the results and their limits.
 \ref{app:prereg} lists every pre-registered criterion with its outcome and the deviations
 from the plans, \ref{app:e1} two pre-registered side experiments, on latent regularisation
 and on a token bottleneck, \ref{app:repro} how every number is reproduced from the records,

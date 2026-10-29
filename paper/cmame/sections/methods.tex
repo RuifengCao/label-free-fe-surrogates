@@ -24,6 +24,14 @@ Initial three-dimensional run & 21 September 2026 & yes & superseded: its label-
 objective was defective (deviation D14) & \ref{app:prereg} \\
 Two-dimensional comparison & 8--9 October 2026 & yes & the norm of the loss against the
 labels (H1--H3) & \cref{sec:results2d} \\
+Holdout evaluation & 21 October 2026 & yes & the claims of
+\cref{sec:results3d,sec:results2d} on instances that no network had seen; no training &
+\cref{sec:holdout} \\
+Three-dimensional stiffness-norm run & 22--25 October 2026 & yes & the norm of the loss
+against the labels in three dimensions & \cref{sec:results3d:norm} \\
+Ritz baseline & 28 October 2026 & no; specified before any paired computation & a classical
+approximation, paired with every network &
+\cref{sec:results3d:ritz,sec:results2d:accuracy,sec:holdout,sec:transfer:zeroshot,sec:cost:inference} \\
 Latent-regularisation run (2D) & 29--30 September 2026 & yes & the two-dimensional
 label-free networks; latent regularisation & \cref{sec:results2d}, \ref{app:e1} \\
 Bottleneck run (3D) & 30 September 2026 & yes & a token bottleneck to reduce the cost of
@@ -56,7 +64,9 @@ $l_y$ uniform on $[0.8,1.5]$ and zero to three non-overlapping circular holes of
 between $0.06$ and $0.16$ times $\min(l_x,l_y)$, are meshed with linear triangles of target
 size uniform on $[0.05,0.12]$ and assembled with scikit-fem \cite{Gustafsson2020}. The
 corpus has 30,000 instances: 256 form the validation set and the first 1,024 of the
-remainder the training pool. Two further sets of 2,000 instances, each instance meshed
+remainder the training pool. The last \numHoldTwoTail{} instances of the remainder lie beyond
+the deepest prefix of it that any recorded run read, and \numHoldTwoN{} of them form the
+holdout set of \cref{sec:holdout}. Two further sets of 2,000 instances, each instance meshed
 twice, at the original size and 1.8 or 2.5 times more coarsely, test cross-resolution
 transfer (\ref{app:july}).
 
@@ -66,11 +76,12 @@ $[0.8,1.5]$, $l_z$ on $[0.6,1.2]$ and zero to three non-overlapping spherical ca
 radius between $0.08$ and $0.16$ times $\min(l_x,l_y,l_z)$, are meshed with linear
 tetrahedra at a characteristic length $l_c$ drawn uniformly from $[0.0579,0.0906]$ per
 instance; we call this range in-band. The corpus has 2,000 instances: 256 form the
-validation set, the first 1,024 of the remainder the training pool, and the other 720 were
-never used. The validation meshes have between \numNodesInMin{} and \numNodesInMax{} nodes
-(median \numNodesInMedian{}), with three degrees of freedom per node. A finer set of 320
-instances from the same distribution is meshed at $l_c=0.0374$; its first 256 instances,
-with between \numNodesFineMin{} and \numNodesFineMax{} nodes (median
+validation set, the first 1,024 of the remainder the training pool, and the other
+\numHoldThreeTail{} were not used for training or validation; \numHoldThreeN{} of them form
+the holdout set of \cref{sec:holdout}. The validation meshes have between \numNodesInMin{}
+and \numNodesInMax{} nodes (median \numNodesInMedian{}), with three degrees of freedom per
+node. A finer set of 320 instances from the same distribution is meshed at $l_c=0.0374$; its
+first 256 instances, with between \numNodesFineMin{} and \numNodesFineMax{} nodes (median
 \numNodesFineMedian{}), form the evaluation set of \cref{sec:transfer}, and the last 64 are
 reserved for few-shot training. No network saw a fine mesh in its in-band training.
 
@@ -180,8 +191,9 @@ displacement error,
 \label{eq:ld}
 \end{equation}
 where $u_j$ is the prediction and $\Ustar_j$ the reference solution for load case $j$ of an
-instance, and $F_j$ its load vector. In two dimensions the same network was also trained on
-the relative stiffness-norm error,
+instance, and $F_j$ its load vector. In both dimensions the same network was also trained on
+the relative stiffness-norm error, in three dimensions by a later pre-registered run
+(\cref{tab:runs}),
 \begin{equation}
 \mathcal{L}_K=\frac{1}{L}\sum_{j=1}^{L}\frac{\norm{u_j-\Ustar_j}_K}{\norm{\Ustar_j}_K}
 =\frac{1}{L}\sum_{j=1}^{L}g(u_j)^{1/2},
@@ -217,22 +229,25 @@ settings unchanged. Training was in single precision with TF32 matrix products
 accumulated in single precision), with three seeds (0, 1, 2) per network. The supervised
 networks were trained with 16, 64, 256 and 1,024 labelled instances, the first 16, 64, 256
 and 1,024 instances of the training pool, the graph network with 64 and 1,024 only, a saving
-of machine time fixed in the pre-registrations of September and October 2026. Every
-network ran 200 epochs, so that a supervised network with $n$ labelled instances took $200n$
-steps, 3,200 with 16, and the comparisons at the smaller budgets differ in the number of
-steps as well as in the labels. The label-free
-network was trained on the
-same 1,024 instances without their solutions, for 204,800 steps; its training set is thus
-the supervised networks' largest one with the labels removed. The two-dimensional
-label-free networks are the unregularised networks of the latent-regularisation run
-(\ref{app:e1}), trained with these settings and the later code; the two-dimensional
-comparison reuses them without retraining. In the two-dimensional comparison, at a given
-seed the transformers start from the same initial weights and, with 1,024 instances, see
-them in the same sequence of per-epoch
-permutations, so that the supervised and the stiffness-norm transformers differ only in the
-loss. The networks of the warm-start test (\cref{sec:cost:warm}), of the cross-resolution
-test (\ref{app:july}) and of the few-shot training (\cref{sec:transfer:zeroshot}) were
-trained with the settings given where they are reported.
+of machine time fixed in the pre-registrations of September and October 2026. Every network
+ran 200 epochs, so that a supervised network with $n$ labelled instances took $200n$ steps,
+3,200 with 16, and the comparisons at the smaller budgets differ in the number of steps as
+well as in the labels. The label-free network was trained on the same 1,024 instances
+without their solutions, for 204,800 steps; its training set is thus the supervised
+networks' largest one with the labels removed. The two-dimensional label-free networks are
+the unregularised networks of the latent-regularisation run (\ref{app:e1}), trained with
+these settings and the later code; the two-dimensional comparison reuses them without
+retraining. In the two-dimensional comparison, at a given seed the transformers start from
+the same initial weights and, with 1,024 instances, see them in the same sequence of
+per-epoch permutations, so that the supervised and the stiffness-norm transformers differ
+only in the loss. The three-dimensional stiffness-norm transformer was trained in October
+2026 with the supervised settings, seeds and labelled instances, about seven weeks after the
+supervised transformer with which it is compared; at each seed it started from that
+network's initial weights and saw the instances in its order, as a regression of the two
+versions of the code on small problems showed (\cref{sec:results3d:norm}). The networks of
+the warm-start test (\cref{sec:cost:warm}), of the cross-resolution test (\ref{app:july})
+and of the few-shot training (\cref{sec:transfer:zeroshot}) were trained with the settings
+given where they are reported.
 
 \subsection{Metrics}\label{sec:methods:metrics}
 
@@ -266,6 +281,40 @@ load case after the runs for the networks with 1,024 labelled instances whose en
 exported (\cref{sec:results3d:detection,sec:results2d:accuracy}). The field plots show instances
 chosen by rules fixed before any field was drawn (\ref{app:repro:plots}).
 
+\subsection{A classical approximation of the same size}\label{sec:methods:ritz}
+
+For each instance we also computed the Ritz-Galerkin projection of the finite-element
+problem onto a space of vector polynomials, from the instance's own stiffness matrix and
+load vectors, without labels or training. With the instance's box
+$[0,l_x]\times[0,l_y]\times[0,l_z]$ (\cref{sec:methods:data}) and $P_k$ the Legendre
+polynomial of degree $k$, each displacement component is spanned by the functions
+\begin{equation}
+\phi_{abc}(x,y,z)=\frac{x}{l_x}\,P_a\Bigl(\frac{2x}{l_x}-1\Bigr)\,P_b\Bigl(\frac{2y}{l_y}-1\Bigr)\,
+P_c\Bigl(\frac{2z}{l_z}-1\Bigr),\qquad a+b+c\le p-1,
+\label{eq:ritzbasis}
+\end{equation}
+evaluated at the nodes, and in two dimensions by the same functions without the factor in
+$z$; the factor $x/l_x$ makes every function vanish on the clamped face. With $\Phi$ the
+matrix whose columns are these functions on the free degrees of freedom, the projection of a
+load case is $u_p=\Phi\,(\Phi^{\top}K\Phi)^{+}\Phi^{\top}F$, the pseudo-inverse taken
+through the eigendecomposition of $\Phi^{\top}K\Phi$ with the directions whose eigenvalue is
+at most $10^{-13}$ times the largest dropped; on no instance was a direction dropped. Like
+the rescaled prediction $\cstar u$, which is the projection onto the span of $u$
+(\cref{prop:amp}), $u_p$ minimises $\Pi_h$ over its space, so that its relative energy gap
+is the smallest that the space allows. We report every degree of the ladder that the
+specification fixed, $p=6$, 7, 8 and 9 in three dimensions, with \numRitzThreeK{} unknowns,
+and $p=6$ and 8 in two, with \numRitzTwoK{}. Each instance's projection is compared with
+every network's prediction of it on the five metrics of \cref{sec:methods:metrics}, and we
+report the share of the instances on which the projection was strictly the more accurate,
+for each seed of a network. This comparison was added after the original analyses and was
+not pre-registered. Its specification was written on 20 October 2026, after exploratory
+readings on instances drawn afresh from the same generators and on the evaluation sets of a
+separate study; it was committed with the configuration of the run on 27 October 2026 and
+was in the public repository before any paired computation on the instances of this paper,
+which ran on 28 October 2026. It changes no pre-registered verdict. The projection needs the
+assembled stiffness matrix, which the surrogates do not; \cref{sec:cost:inference} times
+both.
+
 \subsection{Pre-registration}\label{sec:methods:prereg}
 
 Each run whose results decide a claim of this paper was specified, before it was executed,
@@ -276,18 +325,23 @@ run were declared publishable in advance. The configuration is identified by its
 hash, and the code refused to start a run whose configuration did not match the registered
 hash. Each run was completed once, and restarts after faults reused the networks already
 trained (\ref{app:prereg}); the one repetition, the amendment of deviation D14 described
-below, repeated only what a defect of the code had invalidated. \Cref{tab:runs} names the
-runs. The documents of the runs of September and October 2026 were committed and pushed to
-the project's public repository before their runs, and tags mark the commits. For the two
-pre-registered runs of July 2026 the public record is weaker: one document was uploaded
-with its hash line blank, the other committed after its run (\ref{app:prereg}).
-The two-dimensional comparison and the two side experiments of \ref{app:e1} compare two
-networks over three seeds with a noise guard fixed in their pre-registrations: a difference
-of seed means counts only beyond the larger of 10\% and twice its standard error, and within
-the guard no difference is shown, which is not equivalence (note to \cref{tab:criteria}).
-The three-dimensional pre-registration fixed no such guard; its gate compares seed means
-with fixed thresholds. Results that were not pre-registered, the
-diagnostic run and the readings taken after the runs on the stored networks, are labelled
+below, repeated only what a defect of the code had invalidated. The holdout evaluation
+started each of its four steps twice: the first attempts ran on a checkout that lacked the
+steps' script and stopped at once, without computing anything (\ref{app:prereg}).
+\Cref{tab:runs} names the runs. The documents of the runs of September and October 2026 were
+committed and pushed to the project's public repository before their runs, and tags mark the
+commits. For the two pre-registered runs of July 2026 the public record is weaker: one
+document was uploaded with its hash line blank, the other committed after its run
+(\ref{app:prereg}). The two-dimensional comparison, the two side experiments of
+\ref{app:e1}, the holdout evaluation and the three-dimensional stiffness-norm run compare
+two networks over three seeds with a noise guard fixed in their pre-registrations: a
+difference of seed means counts only beyond the larger of 10\% and twice its standard error,
+and within the guard no difference is shown, which is not equivalence (note to
+\cref{tab:criteria}); the three-dimensional stiffness-norm run applies the guard to each
+seed's median over the instances instead of its mean (\cref{sec:results3d:norm}). The
+pre-registration of the three-dimensional comparison fixed no such guard; its gate compares
+seed means with fixed thresholds. Results that were not pre-registered, the diagnostic run,
+the readings taken after the runs on the stored networks and the Ritz baseline, are labelled
 as such. \Cref{tab:criteria} lists every pre-registered criterion of these runs with its
 outcome, met or not, under the labels of the pre-registration documents.
 
@@ -304,4 +358,6 @@ label-free network would train on 1,744 instances, whereas the registered config
 which is what ran, trained it on the same 1,024 instances as the supervised networks
 (deviation D16). And the joint-embedding run kept, under its decision rule, a
 self-supervised term in the pretraining objective; this paper reports the energy objective
-without it, a scope chosen after that result was known.
+without it, a scope chosen after that result was known. The holdout evaluation recorded two
+departures, neither of which changed a label, an evaluation or a criterion
+(\ref{app:prereg}).

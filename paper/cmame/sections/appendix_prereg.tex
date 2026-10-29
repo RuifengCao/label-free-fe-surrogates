@@ -12,8 +12,9 @@ with the fixed-weight form of the energy term, and the criterion played no part 
 decisions. The following departures from the plans bear on the results. They are recorded
 in the repository's list of deviations and its provenance note, except the remark at the
 end of the paragraph on the energy term, which was noticed while this paper was written,
-and the paragraph on the two-dimensional comparison, whose content is recorded with that
-comparison's pre-registration and records.
+and the paragraphs on the two-dimensional comparison, the holdout evaluation and the
+three-dimensional stiffness-norm run, whose content is recorded with those runs'
+pre-registrations and records.
 
 \paragraph{Deviation D14}
 The initial three-dimensional run (21 September 2026) needed eight attempts because of
@@ -127,6 +128,52 @@ The readings of \cref{sec:results2d:spectrum}, and the rule that chose the insta
 \cref{fig:field2d}, were specified after the verdict and bear on no criterion.
 
 \input{generated/table_cm2d}
+
+\paragraph{The holdout evaluation}
+The holdout evaluation was registered and stamped on 18 October 2026 and run on 21 October
+2026, before the three-dimensional stiffness-norm run; its adjudicator, fixed with the
+registration, read the eight claims, H3 and V (\cref{tab:holdout}). It trained nothing: each
+of its \numHoldStates{} stored networks was checked against its recorded hash and, before
+the held-out instances, reproduced its recorded per-instance values on the validation
+instances, the transformers exactly and the graph networks to within \numHoldContentDev{} in
+the median of the displacement error and of the relative energy gap, the two metrics that it
+checked. The pre-registration required the paper to report every claim's verdict and V's, to
+qualify a claim that did not replicate, with the held-out values beside the original ones,
+and to report the held-out means and medians beside the validation ones;
+\cref{sec:holdout,sec:results2d:norm} and \cref{tab:holdout,tab:holdoutvalues} do so. Two
+departures were recorded with the run. Each of its four steps started twice: the first
+attempts ran on a checkout of an earlier commit that did not contain the steps' script, and
+each stopped at once without writing anything; the steps were then run on the stamped
+commit. And between the search of the sandbox for other sets drawn from the corpora, on
+which the definition of the holdout sets rests, and the run, an independent review of the
+code of the three-dimensional stiffness-norm run, on 20 October 2026, meshed three
+validation instances of the three-dimensional corpus to compare their node counts with the
+records, and meshed the 1,024 instances of its training pool at their own mesh sizes, beyond
+the bound of 80 such instances that the pre-registration set; it rebuilt and solved two of
+them and ran one training step of the full-size transformer on each; it replayed the
+generator's draws for all 2,000 instances of the corpus, the held-out ones included, without
+meshing them, and meshed, solved or read no held-out instance. Neither departure changed a
+label, an evaluation or a criterion.
+
+\input{generated/table_holdout_values}
+
+\paragraph{The three-dimensional stiffness-norm run}
+The three-dimensional stiffness-norm run was registered and stamped on 21 October 2026,
+after the holdout evaluation had returned and before any network had been trained with the
+stiffness-norm loss in three dimensions (the review above had run one training step with
+either loss on each of its two instances, on a CPU, to check the code), and run once, from
+22 to 25 October 2026, without a deviation; its adjudicator recorded the verdicts and
+readings of \cref{tab:k3d}. Its pre-registration fixed the statistic, each seed's median
+over the validation instances, after the per-instance values of the supervised and the
+label-free transformers, and the readings of the two-dimensional comparison on the medians,
+were known, and gave the reason: one instance carries the supervised transformer's seed
+means, so that on seed means the guard of its relative energy gap is \numKdMeansGapTau{} and
+no reduction could be shown. The seed means are reported beside every verdict, with their
+Welch intervals, as the pre-registration required, and so are the readings on the held-out
+instances, which it fixed without a verdict. The run evaluated the six stored networks again
+before training, and they reproduced their recorded values exactly; it trained the
+stiffness-norm transformer with the supervised transformer's settings, unchanged and not
+tuned for the new loss.
 
 \paragraph{Provenance of the two-dimensional runs of July 2026}
 The two-dimensional runs of July 2026 were executed outside a version-controlled checkout,

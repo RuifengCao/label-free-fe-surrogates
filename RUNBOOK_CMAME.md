@@ -28,6 +28,10 @@ the manuscript.
   baseline's timing; no pre-registration (the specification of 20 October
   2026 is in BRANCH_NOTES_cmame-paper.md, Stage 14).
 
+The branch was called `cmame-paper` until 29 October 2026, when it was renamed
+`statics-paper` on GitHub, its commits and tags unchanged. Sections A to G keep their
+commands as they ran, with the old name; any later section uses the new one.
+
 No section writes another's files: each reads E1's or Phase-2b's states and
 corpora (Sec. D also CM2D's kept states and its committed return; Sec. E all
 three runs' states; Sec. F Phase-2b's and Phase-2's states and Sec. E's h3d
@@ -111,7 +115,7 @@ python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_com
     --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
     2>&1 | tee runs/cmame/timing/pytest.log | tail -n 3
 ```
-The suite's last line reads `817 passed, 3 deselected`, then warnings and the
+The suite's last line reads `821 passed, 3 deselected`, then warnings and the
 time (the two LaTeX builds and the bibliography test are left out: they
 need a TeX installation that the box does not have). Anything failed, an
 error, or another count: stop and report. Any other output than the
@@ -535,7 +539,7 @@ python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_com
     --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
     2>&1 | tee runs/cmame/spectra/pytest.log | tail -n 3
 ```
-The suite's last line reads `817 passed, 3 deselected`, then warnings and the
+The suite's last line reads `821 passed, 3 deselected`, then warnings and the
 time. Anything failed, an error, another count, or any other output than the
 comments describe: stop and report.
 
@@ -1272,7 +1276,7 @@ python -m pytest -q --deselect tests/test_cmame_material.py::test_manuscript_com
     --deselect tests/test_cmame_references.py::test_the_bibliography_renders_the_data_reference_and_the_chapter \
     2>&1 | tee runs/ritz/pytest.log | tail -n 3
 ```
-The suite's last line reads `817 passed, 3 deselected`, then warnings and the
+The suite's last line reads `821 passed, 3 deselected`, then warnings and the
 time. Anything failed, an error, another count, or any other output than the
 comments describe: stop and report.
 

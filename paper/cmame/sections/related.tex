@@ -22,8 +22,13 @@ system, evaluated matrix-free, and uses the gradient identity of \cref{lem:exact
 computational device; its loss is the Euclidean norm of the residual, or a regression on
 provisional labels produced by a few conjugate-gradient iterations. The variational
 physics-informed neural operator \cite{Eshaghi2025VINO} evaluates the continuous functional
-analytically on its own bilinear discretisation over uniform grids. Other label-free
-approaches build on the finite-element residual or weak form
+analytically on its own bilinear discretisation over uniform grids. Larson
+et~al.~\cite{Larson2026MLPEnergy} train multilayer perceptrons that map the data of
+parametrised, possibly nonlinear, problems to the nodal values of their finite-element
+solutions by minimising the energy assembled element by element, without precomputed
+solutions, and use the prediction as the initial guess of Newton's method in
+hyperelasticity. Other label-free approaches build on the finite-element residual or weak
+form
 \cite{Lee2025FEONet,Uriarte2022,Gao2022,Goswami2022}. Closest to the present work are graph
 networks on finite-element meshes trained by minimising the potential energy
 \cite{Dalton2023}, physics-informed MeshGraphNets trained without data for non-stationary
@@ -67,18 +72,19 @@ opposite order to their stress errors.
 
 \paragraph{Solvers, warm starts and conditioning}
 Neural predictions have been used as initial iterates of iterative solvers
-\cite{Wang2026PretrainFEM,Eshaghi2026NOWS,Sun2026FEVessel} and inside hybrid iterative
-schemes \cite{Lee2025MetaSolver}. Two of these studies explain why the saving shrinks as the
-tolerance tightens: Wang et~al.~\cite{Wang2026PretrainFEM} with an asymptotic iteration
+\cite{Wang2026PretrainFEM,Eshaghi2026NOWS,Sun2026FEVessel}, inside hybrid iterative schemes
+\cite{Lee2025MetaSolver}, and to enrich continuous finite-element approximation spaces, with
+error estimates that improve on the standard ones by a factor set by the quality of the
+prediction \cite{Barucq2026Enrich}. Two of these studies explain why the saving shrinks as
+the tolerance tightens: Wang et~al.~\cite{Wang2026PretrainFEM} with an asymptotic iteration
 bound for fixed-point iterations, and Sun et~al.~\cite{Sun2026FEVessel} with its extension
 to conjugate gradients, in the relative residual, and a model of the solver's set-up cost.
 \Cref{cor:warm} states the bound for conjugate gradients in the energy norm, in terms of the
 prediction's relative energy gap, and \cref{sec:cost:warm} reports a pre-registered test in
-which a warm start saved nothing at a tight tolerance.
-The training difficulty of residual-based physics losses has been traced to operator
-conditioning: descent on a squared residual is governed by an operator whose condition
-number is the square of the original one \cite{DeRyck2024}; the energy objective avoids
-the squaring (\cref{rem:dual}).
+which a warm start saved nothing at a tight tolerance. The training difficulty of
+residual-based physics losses has been traced to operator conditioning: descent on a squared
+residual is governed by an operator whose condition number is the square of the original one
+\cite{DeRyck2024}; the energy objective avoids the squaring (\cref{rem:dual}).
 
 \paragraph{Fair comparison and pre-registration}
 Weak baselines and selective reporting have led to over-optimism in machine learning for

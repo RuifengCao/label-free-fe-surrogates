@@ -1,6 +1,6 @@
-% Graphical abstract of the CMAME manuscript (Elsevier: 531 x 1328 pixels, h x w, or
+% Graphical abstract of the manuscript (Elsevier: 531 x 1328 pixels, h x w, or
 % proportionally more; readable at 5 x 13 cm). The quoted results come from
-% generated/numbers.tex, like the manuscript's. Build from paper/cmame with
+% generated/numbers.tex, like the manuscript's. Build from the manuscript's directory with
 %   pdflatex graphical_abstract.tex
 \documentclass[border=0pt]{standalone}
 \usepackage{amsmath,amssymb}
@@ -62,9 +62,10 @@
 \draw[rule, line width=0.4pt] (0.15,1.12) -- (12.85,1.12);
 \node[anchor=north west, text width=12.6cm, align=left, inner sep=0pt] at (0.2,0.98)
   {\textbf{Pre-registered tests.}\enspace
-   \textbf{3D}, same transformer: trained on the energy alone, it was more accurate on all
-   five metrics than when trained on 1,024 labelled instances.\enspace
-   \textbf{2D}, same labels: a stiffness-norm loss instead of the displacement loss
-   lowered the von Mises error by {\numHTwoBRel}.};
+   \textbf{3D}, same transformer: energy-only training beat a displacement loss on 1,024
+   labelled instances on all five metrics; a stiffness-norm loss on the same labels cut the
+   median energy gap by {\numKdGapRel}.\enspace
+   \textbf{2D}: it cut the von Mises error by {\numHTwoBRel}.\enspace
+   \textbf{Held out}: seven of eight claims replicated.};
 \end{tikzpicture}
 \end{document}

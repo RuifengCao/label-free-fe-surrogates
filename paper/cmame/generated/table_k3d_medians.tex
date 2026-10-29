@@ -1,0 +1,23 @@
+% generated from the committed records; do not edit
+\begin{table}[tbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Three-dimensional stiffness-norm run: every metric of the three transformers on the 256 validation instances, the seeds' medians and the seeds' means over the instances (mean $\pm$ sample standard deviation over the three seeds).}
+\label{tab:kmedians}
+\resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
+\begin{tabular}{llccccc}
+\toprule
+Network & Statistic & \shortstack{Displacement \\ error} & \shortstack{Relative \\ energy gap} & \shortstack{von Mises \\ error} & \shortstack{Peak stress \\ error} & \shortstack{Critical-region \\ recall} \\
+\midrule
+Label-free & seed medians & 0.0271 $\pm$ 0.0022 & 0.00752 $\pm$ 0.00176 & 0.0527 $\pm$ 0.0040 & 0.0785 $\pm$ 0.0149 & 0.790 $\pm$ 0.023 \\
+ & seed means & 0.0300 $\pm$ 0.0028 & 0.00912 $\pm$ 0.00228 & 0.0554 $\pm$ 0.0045 & 0.0807 $\pm$ 0.0134 & 0.793 $\pm$ 0.022 \\
+\midrule
+Supervised ($\mathcal{L}_D$) & seed medians & 0.0415 $\pm$ 0.0026 & 0.251 $\pm$ 0.026 & 0.259 $\pm$ 0.015 & 0.222 $\pm$ 0.014 & 0.628 $\pm$ 0.009 \\
+ & seed means & 0.0470 $\pm$ 0.0038 & 31.2 $\pm$ 53.5 & 0.370 $\pm$ 0.140 & 0.784 $\pm$ 0.807 & 0.619 $\pm$ 0.005 \\
+\midrule
+Supervised, stiffness norm & seed medians & 0.0203 $\pm$ 0.0019 & 0.00444 $\pm$ 0.00010 & 0.0425 $\pm$ 0.0013 & 0.0379 $\pm$ 0.0008 & 0.858 $\pm$ 0.001 \\
+ & seed means & 0.0227 $\pm$ 0.0022 & 0.00504 $\pm$ 0.00022 & 0.0440 $\pm$ 0.0014 & 0.0386 $\pm$ 0.0011 & 0.858 $\pm$ 0.001 \\
+\bottomrule
+\end{tabular}}
+\end{table}

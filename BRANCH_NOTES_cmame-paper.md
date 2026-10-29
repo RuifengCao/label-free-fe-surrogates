@@ -1,5 +1,6 @@
 # BRANCH NOTES -- cmame-paper
 
+Renamed `statics-paper` on GitHub on 29 October 2026 (Stage 16); this file keeps its name.
 Branched 3 Oct 2026 from `wp9-pool` at `414a372` (Stage 0e). Purpose: the
 CMAME manuscript (`paper/cmame/`) and the box sessions it needs. `wp9-pool`
 stays at its pre-stamp head for PREREG_W9; nothing here touches PREREG_W9,
@@ -2138,3 +2139,89 @@ generator, and no record, configuration, pre-registration or source file changed
   statement on the models whose energy gap the Ritz solution beats on every
   instance, the sensitivity reading, and the README's and these notes'
   quotes. Suite 820 (809 + 11).
+
+## Stage 16 (29 Oct 2026) -- the manuscript revised: the held-out instances, the three-dimensional stiffness-norm run and the Ritz baseline; the branch renamed
+
+- The branch. Renamed from `cmame-paper` to `statics-paper` on GitHub on 29
+  October 2026, after Stage 15 was pushed (decided by the PI that day). Its
+  commits and tags are unchanged, and GitHub redirects the web addresses of
+  the old name. The stamped pre-registrations, `configs/ritz_v1.json` and
+  Sections A to G of RUNBOOK_CMAME name the old branch, as they ran;
+  RUNBOOK_CMAME's opening now says so. `paper/cmame/`, `records/cmame/` and
+  the files named after them keep their names: stamped documents and pinned
+  configurations name them.
+- The manuscript (`paper/cmame/`), as decided by the PI on 29 October 2026:
+  - The holdout evaluation (PREREG_HOLDOUT) in a new Section 7: its claims, H3
+    and V with their values on both sets (`table_holdout.tex`), and in
+    Appendix A the means and medians of both sets (`table_holdout_values.tex`),
+    the run and its two departures. H2a, which did not replicate, is qualified
+    in Section 6.2 with its held-out values and the readings beside it, as its
+    Sec. 6 requires of any version of the paper written after the evaluation.
+  - The three-dimensional stiffness-norm run (PREREG_K3D) in a new Section 5.6
+    with its table (`table_k3d.tex`) and in Table 2; the seeds' medians and
+    means and the 30 secondary comparisons in the supplementary material.
+    Section 5.6, Appendix A and the limitations state that the statistic was
+    fixed after the reference's per-instance values were known, and why.
+  - The Ritz baseline (Stage 14's Appendix 1; the return of Stage 15): the
+    method in a new Section 4.5, its rows at every degree in Tables 2, 5 and
+    7, the paired shares in Sections 5.7, 6.1, 7 and 8.1 and, for every set,
+    model and degree, in the supplementary material (`table_ritz_pairs.tex`).
+    As decided at Stage 15, the text states that it was added after the
+    original analyses and not pre-registered, its specification written on 20
+    October 2026, after exploratory readings, and committed on 27 October
+    2026, public before any paired computation on the manuscript's instances
+    (28 October 2026), and that it changes no pre-registered verdict.
+  - The cost table (Table 10) takes every row from the measurements of 28
+    October 2026 on the host of the Ritz run, the assembly and the Ritz
+    projection in rows of their own, and states the fine-mesh direct solve's
+    budget (seven of eight instances solved); the threads' readings and the
+    measurement of 8 October 2026 move to the supplementary material.
+  - The abstract (247 words), the highlights (five, at most 85 characters),
+    the introduction, the related work (Larson et al., arXiv:2412.04596v3,
+    whose SIAM version's journal, volume and pages are to be checked; Barucq
+    et al. 2026), the discussion, the conclusion and the graphical abstract
+    follow.
+  - `\journal` names the Journal of Computational Physics. The Data
+    availability statement names the version described by the tag
+    `statics-paper-1.0` and its archive at Zenodo, whose DOI is pending (a
+    box in the statement; `references.bib` and `CITATION.cff` gain it when
+    it is reserved). Appendix C prints the records' paths relative to
+    `records/` and refers to the README, which gains a section naming the
+    generation script, its outputs and its tests.
+  - New: `supplementary.tex`, the supplementary material (Tables S1 to S3,
+    the threads and the earlier timing).
+- An independent review of the revision (29 October 2026, read only; the
+  numbers recomputed from the records with its own scripts) found every
+  number right. Its points on wording, scope and disclosure are addressed:
+  the abstract, introduction and conclusion qualify the K3D verdicts by
+  their statistic and add the share of the gap closed (PREREG_K3D Sec. 5,
+  105.0% in von Mises error and 101.3% in relative energy gap on the
+  medians); "every supervised network" reads "every network supervised on
+  the displacement error", and the held-out replication names the networks
+  without stored weights; the Ritz baseline is labelled post hoc wherever
+  it is reported, its specification dated by its commit (27 October 2026),
+  public before the run; the Ritz statements are restricted to three dimensions where they
+  are, read network by network, and qualified for peak stress on the finer
+  mesh; Section 7 reports PREREG_HOLDOUT Sec. 6's two-dimensional counts of
+  predictions worse than the zero field and states that the verdicts are not
+  independent, and the seeds' largest gaps are labelled as read after the
+  evaluation; Table 2's note, Appendix A's content check and its account of
+  the review of 20 October 2026 are corrected; the tag drops "v2"; the
+  metric is called the peak stress error throughout; the notation of the
+  Ritz basis follows the paper's.
+- `src`, the configurations and the records are unchanged.
+- Tests: `tests/test_cmame_material.py` gains four (the K3D numbers and table
+  recomputed from the report and its holdout arrays, the share of the gap
+  closed included; the holdout numbers and every cell of Table A.3 from the
+  evaluation's arrays and manifests; the Ritz numbers and rows from its
+  summaries; that the sources name no journal but the one of `\journal` and,
+  in their journal fields, the references', print `records/cmame/` once and
+  speak of no earlier submission or version); its cost-table test reads the
+  timings of 28 October 2026 and the Ritz timings, its highlights test ties
+  the lines to the records, its test of hand-typed numbers reads the
+  supplementary material too, and its build test builds the supplementary
+  material and checks that the graphical abstract's text ends on its page
+  (text pushed off the page is clipped without a warning).
+  `tests/test_cmame_references.py` and `tests/test_repository_transfer.py`
+  read the new tag and the pending DOI. RUNBOOK_CMAME's suite lines read the
+  current count. Suite 824 (820 + 4).

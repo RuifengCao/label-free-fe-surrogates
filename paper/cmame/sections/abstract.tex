@@ -1,18 +1,19 @@
-Supervised training of a finite-element surrogate needs a solve per training example, a
-cost that dominates where solves are expensive. For linear elastostatics we train on the assembled
-discrete potential energy instead. Minimising it is exactly supervised regression in the
-stiffness norm, which measures the strain energy of the stress error, yet no example is
-solved. The identity gives the energy three roles: training objective, metric and failure
-detector. Without reference solutions, the energy ranks predictions of one load case by
-their stiffness-norm error, and its sign flags predictions worse than the zero field. In a pre-registered three-dimensional comparison, a
-transformer trained on the energy alone was more accurate on every metric, in each of three
-seeds, than the same network trained on the solutions of the same instances. In the same
-run, a supervised graph network had the smaller displacement error on most instances and the
-larger von Mises error on almost all, a post hoc reading. Every supervised network was worse
-than the zero field on some load cases, all flagged by the sign of the energy. In two
-dimensions the label-free transformer had a larger displacement error than its supervised
-counterpart but smaller errors on every other metric. Trained on the stiffness-norm error
-with the same labels, the counterpart more than halved its von Mises error, supporting a
-pre-registered hypothesis. No network transferred to a substantially finer mesh without
-retraining; a post hoc, label-free rescaling removed most of the label-free network's error
-there.
+Supervised finite-element surrogates need a solve per training example. For linear
+elastostatics, minimising the assembled discrete potential energy instead is exactly
+supervised regression in the stiffness norm, which measures the stress error's strain
+energy, and no example is solved. Without reference solutions, the energy also ranks
+predictions of a load case; its sign flags those worse than the zero field. In a
+pre-registered three-dimensional comparison, a transformer trained on the energy alone beat
+the same network trained on the solutions with a displacement loss on every metric, in each
+of three seeds; every network supervised in that loss was worse than the zero field on some
+load cases, each flagged by the energy's sign. Both replicated on held-out instances for the
+stored networks. Supervised in the stiffness norm, the transformer lowered its median energy
+gap by \numKdGapRel{} and von Mises error by \numKdVmRel{}, supporting two pre-registered
+hypotheses, and closed its gap to the label-free network: the advantage lies in the norm of
+the loss. In two dimensions, where the label-free network had the larger displacement error,
+the stiffness-norm loss more than halved the supervised von Mises error, also on held-out
+instances, where its energy-gap reduction did not replicate. In three dimensions, a Ritz
+projection added post hoc, needing the stiffness matrix but no labels, had a smaller
+displacement error than the label-free network on most instances but median peak stress
+errors \numRitzValPeakRatioMin{} to \numRitzValPeakRatioMax{} times as large. No network
+transferred to a substantially finer mesh without retraining.

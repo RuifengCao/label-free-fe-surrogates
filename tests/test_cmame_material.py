@@ -1,9 +1,10 @@
-"""The CMAME manuscript (paper/cmame): its tables, figures and in-text numbers
-are generated from the committed records only and reproduce byte for byte; the
+"""The manuscript (paper/cmame): its tables, figures and in-text numbers are
+generated from the committed records only and reproduce byte for byte; the
 numbers agree with the records when recomputed independently; the text carries
 no hand-typed result; the design constants it states match the configurations
-and the code; the statements of its Section 3 hold on assembled instances; and
-the manuscript compiles."""
+and the code; the statements of its Section 3 hold on assembled instances; it
+names no journal to which it was submitted before; and the manuscript and its
+supplementary material compile."""
 
 from __future__ import annotations
 
@@ -23,10 +24,12 @@ ROOT = Path(__file__).resolve().parents[1]
 PAPER = ROOT / "paper" / "cmame"
 OUT = PAPER / "generated"
 TEXT = ("table_2d.tex", "table_2djuly.tex", "table_3d.tex", "table_label_efficiency.tex",
-        "table_label_efficiency_july.tex", "table_transfer.tex", "table_criteria.tex", "table_cm2d.tex", "table_amplitude.tex",
-        "table_remesh.tex", "table_e2.tex", "table_e1.tex", "table_cost.tex", "numbers.tex",
-        "hashes.tex",
-        "material.md", "sources.json")
+        "table_label_efficiency_july.tex", "table_transfer.tex", "table_criteria.tex",
+        "table_cm2d.tex", "table_amplitude.tex", "table_remesh.tex", "table_e2.tex",
+        "table_e1.tex", "table_cost.tex", "table_k3d.tex", "table_holdout.tex",
+        "table_holdout_values.tex", "table_ritz_pairs.tex", "table_k3d_medians.tex",
+        "table_k3d_comparisons.tex", "numbers.tex", "hashes.tex", "material.md",
+        "sources.json")
 FIGS = ("fig_disp_vs_stress.pdf", "fig_energy_gap.pdf", "fig_label_efficiency.pdf",
         "fig_e2_cost_accuracy.pdf", "fig_spectra.pdf", "fig_field2d.pdf", "fig_field_worst.pdf",
         "fig_field_median.pdf", "fig_field_fine.pdf")
@@ -38,6 +41,10 @@ RCM = ROOT / "records" / "cmame" / "cm2d" / "return" / "report.json"
 VCM = ROOT / "records" / "cmame" / "cm2d" / "verdict.json"
 SPEC = ROOT / "records" / "cmame" / "spectra" / "export"
 FLD = ROOT / "records" / "cmame" / "timing" / "fields"
+RK3 = ROOT / "records" / "cmame" / "k3d" / "return" / "report.json"
+VK3 = ROOT / "records" / "cmame" / "k3d" / "verdict.json"
+HOLD = ROOT / "records" / "cmame" / "holdout"
+RITZ = ROOT / "records" / "cmame" / "ritz" / "return"
 TAGS = {"ar": "Free", "labels": "Lab", "labels_knorm": "Knorm", "mgn": "Mgn"}
 
 
@@ -94,7 +101,18 @@ def test_sources_name_every_record_read(built):
               ROOT / "DEVIATIONS_PHASE2.md", RCM, VCM, SPEC / "spectra.json",
               SPEC / "spectra_val.npz", SPEC / "fig2d.npz", FLD / "fields.json",
               FLD / "energies_val.npz", FLD / "fig5.npz", FLD / "fig6.npz", FLD / "fig7.npz",
-              ROOT / "scripts" / "adjudicate_cm2d.py"):
+              ROOT / "scripts" / "adjudicate_cm2d.py", RK3, VK3, HOLD / "verdict.json",
+              *(HOLD / "return" / s / f for s in ("h3d", "h2d")
+                for f in ("eval.json", "eval_arrays.npz", "manifest.json")),
+              HOLD / "return" / "status.txt", RITZ / "status.txt", RITZ / "machine.txt",
+              ROOT / "records" / "cmame" / "ritz" / "ritz_return_20261029-1150.tgz",
+              *(RITZ / "baseline" / s / "summary.json"
+                for s in ("val3d", "fine3d", "h3d", "val2d", "h2d")),
+              *(RITZ / "timing" / f for f in ("timing_2d.json", "timing_3d.json",
+                                               "ritz_timing_2d.json", "ritz_timing_3d.json")),
+              ROOT / "records" / "cmame" / "timing" / "timing_3d.json",
+              ROOT / "configs" / "holdout_v1.json", ROOT / "configs" / "k3d_v1.json",
+              ROOT / "configs" / "ritz_v1.json"):
         rel = str(p.relative_to(ROOT))
         assert src[rel] == _sha(p), rel
 
@@ -778,12 +796,22 @@ def _shown(cell: str) -> tuple:
     return float(v), 0.5 * 10 ** -dec
 
 
+def _span(cell: str) -> tuple:
+    """A cost-table range of two times in one unit, each with half its last digit."""
+    v, unit = cell.split()
+    lo, hi = v.split("--")
+    return _secs(f"{lo} {unit}"), _secs(f"{hi} {unit}")
+
+
 def test_the_cost_table_follows_from_the_timing_records(built):
     """Section 8.4: every cell and number of the cost table recomputed from the
-    per-instance timing records with numpy (the generator uses statistics), and
-    the script's own summary medians agreeing; the threads' readings likewise."""
+    per-instance timing records of 28 October 2026 with numpy (the generator uses
+    statistics), the script's own summary medians agreeing; the rows of the assembly and
+    of the Ritz projection from their own records, timed on the same instances and the
+    same machine; the readings of the threads, and of the earlier timing on another
+    machine, which the supplementary material gives, likewise."""
     tab, N = built["files"]["table_cost.tex"], built["numbers"]
-    T, H = ROOT / "records" / "cmame" / "timing", ROOT / "records" / "cmame" / "threads"
+    T, H = RITZ / "timing", ROOT / "records" / "cmame" / "threads"
     rec = {f: json.loads((T / f).read_text()) for f in ("timing_2d.json", "timing_3d.json")}
     sets = {"2D": rec["timing_2d.json"]["results"]["val"],
             "3D": rec["timing_3d.json"]["results"]["val"],
@@ -797,8 +825,23 @@ def test_the_cost_table_follows_from_the_timing_records(built):
         return [c.strip() for c in found[0].rstrip("\\ ").split("&")[1:]]
 
     def med(res, key):
-        return float(np.median([r[key] for r in res["per_instance"]]))
+        # over the instances on which the value was measured (the fine mesh's direct solve
+        # left its last instance, and the ratios that use it, unmeasured)
+        return float(np.median([r[key] for r in res["per_instance"]
+                                if r.get(key) is not None]))
 
+    # the direct solve missed only the fine mesh's last instance, on its time budget
+    budget = rec["timing_3d.json"]["settings"]["solve_budget_s"]
+    for name, res in sets.items():
+        pi = res["per_instance"]
+        miss = [i for i, r in enumerate(pi) if r["direct_s"] is None]
+        if name == "3D, fine mesh":
+            assert miss == [len(pi) - 1] and pi[-1]["direct_skipped"] == "budget"
+            assert sum(sum(r["direct_runs"]) for r in pi[:-1]) >= budget == 900
+            assert res["summary"]["direct_n_solved"] == len(pi) - 1 == 7
+        else:
+            assert miss == []
+        assert res["summary"]["complete"]
     for key, label in (("surrogate_cold_s", "Surrogate, first call"),
                        ("surrogate_warm_s", "Surrogate, repeated call"),
                        ("direct_s", "Sparse direct solve"), ("cg_s", "CG from the zero field"),
@@ -833,16 +876,65 @@ def test_the_cost_table_follows_from_the_timing_records(built):
                          strict=True):
         v, half = _shown(cell)
         assert abs(v - per_load(res, "cg_match_disp_at_match")) <= half * 1.0001
-    # every solve complete, none fell back, every match reached
+    # every other solve complete, none fell back, every match reached
     for res in sets.values():
         for r in res["per_instance"]:
             assert not (r["cg_fallback"] or r["cg_warm_fallback"] or r["cg_match_unreached"]
                         or r["cg_match_cstar_unreached"])
+    # the assembly and the Ritz projection: the same instances, the same machine; the
+    # projection's time is that of the free block, the basis, the projected matrix and
+    # loads, the small solve and the reconstruction, from the lowest degree to the highest
+    rt = {"2D": json.loads((T / "ritz_timing_2d.json").read_text())["results"]["val"],
+          "3D": json.loads((T / "ritz_timing_3d.json").read_text())["results"]["val"],
+          "3D, fine mesh": json.loads((T / "ritz_timing_3d.json").read_text())["results"]["fine"]}
+    ladder = {"2D": ("6", "8"), "3D": ("6", "7", "8", "9"), "3D, fine mesh": ("6", "7", "8", "9")}
+    for f in ("ritz_timing_2d.json", "ritz_timing_3d.json"):
+        m = json.loads((T / f).read_text())["machine"]
+        assert m["cpu"] == "Intel(R) Xeon(R) Platinum 8470Q"
+        assert {p_["num_threads"] for p_ in m["threadpools"]} == {25}
+    mach = (RITZ / "machine.txt").read_text()
+    assert re.search(r"^Model name:\s+Intel\(R\) Xeon\(R\) Platinum 8470Q$", mach, re.M)
+    assert re.search(r"^nproc 25$", mach, re.M)
+    for (name, res), a_cell, r_cell in zip(sets.items(), row("Assembly of $K$, the "
+                                                              "repository's assembler"),
+                                           row("Ritz projection after assembly"), strict=True):
+        rows = rt[name]["rows"]
+        assert [x["file"] for x in rows] == [r["file"] for r in res["per_instance"]]
+        assert all(x["K_max_rel_diff"] == 0.0 for x in rows)
+        asm = float(np.median([x["assembly_s"] for x in rows]))
+        v, half = _secs(a_cell)
+        assert abs(v - asm) <= half * 1.0001, (name, a_cell)
+        times = []
+        for p in ladder[name]:
+            for x in rows:
+                q = x["p"][p]
+                assert q["dropped"] == 0
+                assert q["ritz_s"] == pytest.approx(
+                    x["free_s"] + q["basis_s"] + q["kp_s"] + q["solve_s"] + q["recon_s"],
+                    rel=1e-9)
+            times.append(float(np.median([x["p"][p]["ritz_s"] for x in rows])))
+        assert times == sorted(times)
+        (lo, hlo), (hi, hhi) = _span(r_cell)
+        assert abs(lo - times[0]) <= hlo * 1.0001 and abs(hi - times[-1]) <= hhi * 1.0001
+        if name != "2D":
+            tag = "Val" if name == "3D" else "Fine"
+            for macro, x in ((f"numCostRitz{tag}Min", times[0]),
+                             (f"numCostRitz{tag}Max", times[-1]), (f"numCostAsm{tag}", asm),
+                             (f"numCostSurr{tag}", med(res, "surrogate_cold_s"))):
+                v, half = _secs(N[macro])
+                assert abs(v - x) <= half * 1.0001, macro
+    over = [float(np.median([x["assembly_s"] for x in rt[n]["rows"]]))
+            / float(np.median([x["p"][p]["ritz_s"] for x in rt[n]["rows"]]))
+            for n in ("3D", "3D, fine mesh") for p in ladder[n]]
+    assert (N["numCostAsmOverRitzMin"], N["numCostAsmOverRitzMax"]) == (
+        f"{min(over):.0f}", f"{max(over):.0f}")
     # the text's numbers
     for tag, res in zip(("Two", "ThreeVal", "ThreeFine"), sets.values(), strict=True):
-        ratio = float(np.median([r["direct_s"] / r["surrogate_cold_s"]
-                                 for r in res["per_instance"]]))
+        solved = [r for r in res["per_instance"] if r["direct_s"] is not None]
+        ratio = float(np.median([r["direct_s"] / r["surrogate_cold_s"] for r in solved]))
         assert ratio == pytest.approx(med(res, "direct_over_surrogate_cold"), rel=1e-9)
+        assert ratio == pytest.approx(res["summary"]["direct_over_surrogate_cold"]["median"],
+                                      rel=1e-12)
         v, half = _shown(N[f"numCost{tag}DirectRatio"])
         assert abs(v - ratio) <= half * 1.0001
         match = float(np.median([r["cg_match_s"] / r["surrogate_cold_s"]
@@ -851,6 +943,8 @@ def test_the_cost_table_follows_from_the_timing_records(built):
         assert abs(v - match) <= half * 1.0001
         v, half = _shown(N[f"numCost{tag}Gap"])
         assert abs(v - med(res, "energy_gap_rel")) <= half * 1.0001
+    assert (N["numCostFineDirectSolved"], N["numCostFineDirectTotal"]) == ("seven", "eight")
+    assert N["numCostThreads"] == "25"
     saving = [float(np.median([1 - sum(r["cg_warm_iters"]) / sum(r["cg_iters"])
                                for r in res["per_instance"]])) for res in sets.values()]
     for macro, x in (("numCostWarmMore", -min(saving)), ("numCostWarmFewer", max(saving))):
@@ -868,7 +962,19 @@ def test_the_cost_table_follows_from_the_timing_records(built):
             "relative energy gap above 1") in note
     assert f"and {words[n_inst]} of the {words[len(fine)]} instances a mean above 1" in note
     assert "2D: the first 32 validation instances" in note
-    # the threads: one thread against the environment's, and the repeat
+    assert ("(Xeon Platinum 8470Q, 25 CPUs, the thread environment set to 25)" in note
+            and "with the machine's 25 BLAS threads" in note)
+    assert ("The fine-mesh direct solve used up its budget of 900 s after seven of the eight "
+            "instances; its median, and the ratios that use it, are over those seven.") in note
+    assert r"Threads: \cref{sec:cost:inference} and the supplementary material." in note
+    # the threads, on another host of the same type: one thread against the environment's,
+    # and the repeat (supplementary material, S3)
+    hm = (H / "machine.txt").read_text()
+    assert re.search(r"^Model name:\s+Intel\(R\) Xeon\(R\) Platinum 8470Q$", hm, re.M)
+    # another host: its GPU ran another driver than the cost table's
+    drv = [re.search(r"^NVIDIA GeForce RTX 5090, ([\d.]+),", x, re.M).group(1)
+           for x in (hm, mach)]
+    assert drv[0] != drv[1]
     thr = {k: json.loads((H / f"timing_3d_{k}.json").read_text()) for k in ("env", "one", "env2")}
     tm = {k: {s: {q: float(np.median([r[q] for r in thr[k]["results"][s]["per_instance"]]))
                   for q in ("direct_s", "cg_s")} for s in ("val", "fine")} for k in thr}
@@ -878,38 +984,483 @@ def test_the_cost_table_follows_from_the_timing_records(built):
     drift = max(abs(tm["env2"][s][q] / tm["env"][s][q] - 1) for s in ("val", "fine")
                 for q in ("direct_s", "cg_s"))
     for macro, x in (("numThreadsDirectDev", direct_dev), ("numThreadsCgGainMin", min(gain)),
-                     ("numThreadsCgGainMax", max(gain))):
+                     ("numThreadsCgGainMax", max(gain)), ("numThreadsDrift", drift)):
         v, half = _shown(N[macro])
         assert abs(v - 100 * x) <= half * 1.0001, macro
+    assert (N["numThreadsValN"], N["numThreadsFineN"]) == tuple(
+        str(len(thr["env"]["results"][s]["per_instance"])) for s in ("val", "fine"))
     pools = {k: json.loads((H / f"blas_{k}.log").read_text())["pools"] for k in ("env", "one")}
-    assert {p_["num_threads"] for p_ in pools["env"]} == {int(N["numThreadsHost"])}
+    assert {p_["num_threads"] for p_ in pools["env"]} == {int(N["numThreadsHost"])} == {25}
     assert {p_["num_threads"] for p_ in pools["one"]} == {1}
-    assert (f"Threads, on a second host (Xeon Platinum 8470Q, {N['numThreadsHost']} threads)"
-            in note)
-    assert rf"the direct solve took the same time (within {100 * direct_dev:.1f}\%)" in note
-    assert rf"agreed within {100 * drift:.1f}\%" in note
     t2 = {k: json.loads((H / f"timing_2d_{k}.json").read_text()) for k in ("env", "one")}
     g2 = {q: 1 - float(np.median([r[q] for r in t2["one"]["results"]["val"]["per_instance"]]))
           / float(np.median([r[q] for r in t2["env"]["results"]["val"]["per_instance"]]))
           for q in ("direct_s", "cg_s")}
-    assert (rf"one thread was {100 * g2['direct_s']:.1f}\% faster for the direct solve and "
-            rf"{100 * g2['cg_s']:.1f}\% for CG") in note
-    assert "Xeon Platinum 8470Q" in note and "Xeon Gold 6459C" in note
+    for macro, q in (("numThreadsTwoDirect", "direct_s"), ("numThreadsTwoCg", "cg_s")):
+        v, half = _shown(N[macro])
+        assert abs(v - 100 * g2[q]) <= half * 1.0001, macro
+    assert N["numThreadsTwoN"] == str(len(t2["env"]["results"]["val"]["per_instance"]))
+    supp = " ".join((PAPER / "supplementary.tex").read_text(encoding="utf-8").split())
+    assert ("measured on another host of the same type, with \\numThreadsHost{} threads"
+            in supp)
+    # the earlier timing of the same instances and networks, on another machine
+    old_dir = ROOT / "records" / "cmame" / "timing"
+    om = (old_dir / "machine.txt").read_text()
+    assert re.search(r"^Model name:\s+Intel\(R\) Xeon\(R\) Gold 6459C$", om, re.M)
+    assert (N["numRerunCpu"], N["numRerunThreads"]) == (
+        "Xeon Gold 6459C", re.search(r"^nproc (\d+)$", om, re.M).group(1))
+    worst, iters = 0.0, 0
+    for f, ss in (("timing_2d.json", ("val",)), ("timing_3d.json", ("val", "fine"))):
+        old = json.loads((old_dir / f).read_text())
+        assert old["state_sha256"] == rec[f]["state_sha256"]
+        for s in ss:
+            for a, b in zip(old["results"][s]["per_instance"],
+                            rec[f]["results"][s]["per_instance"], strict=True):
+                assert a["file"] == b["file"]
+                for k in ("disp_rel_l2", "energy_gap_rel", "vm_rel_l2", "peak_vm_rel_err",
+                          "crit_recall", "energy_gap_rel_cstar", "disp_rel_l2_cstar", "cstar"):
+                    x, y = np.asarray(a[k], float), np.asarray(b[k], float)
+                    worst = max(worst, float(np.max(np.abs(y - x) / np.abs(x))))
+                for k in ("cg_iters", "cg_warm_iters", "cg_match_iters"):
+                    iters = max(iters, int(np.max(np.abs(np.subtract(a[k], b[k])))))
+    m_, e_ = re.fullmatch(r"\$(\d) \\times 10\^\{(-\d+)\}\$", N["numRerunAccDev"]).groups()
+    assert abs(worst - float(f"{m_}e{e_}")) <= 0.5 * 10 ** int(e_) * 1.0001
+    assert N["numRerunIters"] == words[iters]
+    assert "on 8 October 2026 on another machine" in supp
     # no pending box is left in the section, and Appendix C no longer excepts the table
     sec = (PAPER / "sections" / "cost.tex").read_text(encoding="utf-8")
     assert r"\pending" not in sec and r"\input{generated/table_cost}" in sec
     assert "pending cost table" not in (PAPER / "sections" / "appendix_repro.tex").read_text()
 
+
+# ------------------------------------------------------------------ the follow-up runs
+METRICS5 = ("disp_rel_l2", "energy_gap_rel", "vm_rel_l2", "peak_vm_rel_err", "crit_recall")
+
+
+def _k3d(k: dict, arm: str, metric: str) -> np.ndarray:
+    """(seeds, instances) values of the stiffness-norm run's report, whose cells sit at
+    its top level."""
+    return np.array([e["per_instance"][metric] for e in k["cells"][arm]["1024"]["per_seed_eval"]])
+
+
+def _close(N: dict, macro: str, x: float, scale: float = 1.0) -> None:
+    """A macro shows x (times scale) to its last digit."""
+    v, half = _shown(N[macro].replace("−", "-").replace("+", ""))
+    assert abs(v - scale * x) <= half * 1.0001, (macro, N[macro], x)
+
+
+def _row_cells(tab: str, label: str) -> list:
+    found = [ln for ln in tab.splitlines() if ln.startswith(label + " & ")]
+    assert len(found) == 1, label
+    return [c.strip() for c in found[0].rstrip("\\ ").split(" & ")[1:]]
+
+
+def test_k3d_numbers_and_table_follow_from_the_report(built):
+    """Section 6.4 and its table (the three-dimensional stiffness-norm run), recomputed from
+    the report's per-instance values without the verdict: the pre-registered statistic, each
+    seed's median over the 256 validation instances, with the noise guard; beside it the
+    seed means, Welch's interval, the pairs and the predictions worse than the zero field;
+    the same readings on the 686 held-out instances, from the run's holdout arrays; and the
+    stored networks of the three-dimensional comparison reproducing its values exactly."""
+    from scipy.stats import t as student_t
+
+    N, tab = built["numbers"], built["files"]["table_k3d.tex"]
+    k, r3 = json.loads(RK3.read_bytes()), json.loads(R3D.read_bytes())
+    for arm in ("ar", "labels"):
+        for m in METRICS5:
+            assert np.array_equal(_k3d(k, arm, m), _inst(r3, arm, m)), (arm, m)
+    z = np.load(ROOT / "records" / "cmame" / "k3d" / "return" / "holdout_arrays.npz",
+                allow_pickle=False)
+    assert z["values"].shape[2] == 686
+
+    def held(row, m):
+        return z["values"][list(z["rows"]).index(row), :, :, list(z["metrics"]).index(m)]
+
+    hyp = (("Gap", "labels_knorm", "labels", "energy_gap_rel"),
+           ("Vm", "labels_knorm", "labels", "vm_rel_l2"),
+           ("Free", "labels_knorm", "ar", "energy_gap_rel"))
+    rel_row, guard_row = _row_cells(tab, "rel"), _row_cells(tab, "Guard")
+    for col, (tag, a, b, m) in enumerate(hyp):
+        sa, sb = np.median(_k3d(k, a, m), axis=1), np.median(_k3d(k, b, m), axis=1)
+        rel, se, guard = _guard(sa, sb)
+        assert rel < -guard and (tag == "Free" or (sa < sb).all()), tag
+        _close(N, f"numKd{tag}Rel", -rel, 100)
+        _close(N, f"numKd{tag}Tau", guard, 100)
+        assert _signed(rel_row[col]) == [pytest.approx(rel, abs=5e-4)], tag
+        assert _signed(guard_row[col]) == [pytest.approx(guard, abs=5e-4)], tag
+        hrel, _, hguard = _guard(np.median(held(a, m), axis=1), np.median(held(b, m), axis=1))
+        assert hrel < -hguard, tag                       # the same direction, held out
+        _close(N, f"numKdHold{tag}Rel", -hrel, 100)
+        _close(N, f"numKdHold{tag}Tau", hguard, 100)
+        if tag == "Free":
+            # a reading without a criterion: beyond the guard, but Welch's interval spans zero
+            va, vb = np.var(sa, ddof=1) / 3, np.var(sb, ddof=1) / 3
+            df = (va + vb) ** 2 / (va ** 2 / 2 + vb ** 2 / 2)
+            half = student_t.ppf(0.975, df) * se
+            assert rel - half < 0 < rel + half
+            _close(N, "numKdFreeWelchLow", rel - half, 100)
+            _close(N, "numKdFreeWelchHigh", rel + half, 100)
+    assert _row_cells(tab, "Reading") == ["supported", "supported", "A lower"]
+    # the seed means: the von Mises error lower beyond the guard; the energy gap's guard
+    # exceeds 100%, so that its seed means cannot show the reduction
+    for tag, m in (("Vm", "vm_rel_l2"), ("Gap", "energy_gap_rel")):
+        rel, _, guard = _guard(_k3d(k, "labels_knorm", m).mean(axis=1),
+                               _k3d(k, "labels", m).mean(axis=1))
+        _close(N, f"numKdMeans{tag}Rel", -rel, 100)
+        _close(N, f"numKdMeans{tag}Tau", guard, 100)
+        assert (rel < -guard) if tag == "Vm" else (guard > 1 and rel < 0)
+    # the share of the supervised transformer's excess over the label-free transformer that
+    # the change of norm removes, on the seed-averaged medians (descriptive): all of it
+    for m, tag in (("vm_rel_l2", "Vm"), ("energy_gap_rel", "Gap")):
+        md = {a: np.median(_k3d(k, a, m), axis=1).mean() for a in ("ar", "labels", "labels_knorm")}
+        closure = (md["labels"] - md["labels_knorm"]) / (md["labels"] - md["ar"])
+        assert closure > 1, m
+        _close(N, f"numKdClosure{tag}", closure, 100)
+    med = {a: np.median(_k3d(k, a, "energy_gap_rel"), axis=1)
+           for a in ("ar", "labels", "labels_knorm")}
+    for macro, x in (("numKdKnormGapMedian", med["labels_knorm"].mean()),
+                     ("numKdLabGapMedian", med["labels"].mean()),
+                     ("numKdFreeGapMedian", med["ar"].mean()),
+                     ("numKdFreeMedMin", med["ar"].min()), ("numKdFreeMedMax", med["ar"].max())):
+        _close(N, macro, x)
+    gap = {a: _k3d(k, a, "energy_gap_rel") for a in ("ar", "labels_knorm")}
+    assert N["numKdFreePairs"] == f"{int((gap['labels_knorm'] < gap['ar']).sum()):,}"
+    assert gap["ar"].size == 768
+    assert N["numThreeKnormWorse"] == "0" and not (gap["labels_knorm"] > 1).any()
+    for m, tag in zip(METRICS5, ("Disp", "Gap", "Vm", "Peak", "Recall"), strict=True):
+        assert _f(N[f"numThreeKnorm{tag}"]) == pytest.approx(
+            _k3d(k, "labels_knorm", m).mean(), rel=5e-3), m
+    # the stiffness-norm transformer against the label-free one on the seeds' medians, as
+    # the text reads the secondary comparisons: more accurate on four metrics
+    for m, tag in (("disp_rel_l2", "Disp"), ("vm_rel_l2", "Vm"), ("peak_vm_rel_err", "Peak")):
+        rel, _, guard = _guard(np.median(_k3d(k, "labels_knorm", m), axis=1),
+                               np.median(_k3d(k, "ar", m), axis=1))
+        assert rel < -guard, m
+        _close(N, f"numKdFree{tag}Rel", -rel, 100)
+    sup = " ".join(built["files"]["table_k3d_comparisons.tex"].split())
+    assert sup.count(" & ") >= 30 and N["numKdSecondary"] == "30"
+
+
+def test_holdout_numbers_follow_from_the_arrays(built):
+    """The held-out instances (Section 7 and its tables), recomputed from the evaluation's
+    arrays and labels manifests without the verdict: the sets; T2 and T3 in three
+    dimensions; H1, H2a, H2b and H3 in two, with the readings beside H2a; and the values of
+    both sets."""
+    N = built["numbers"]
+    rc = json.loads(RCM.read_bytes())
+    z = {s: np.load(HOLD / "return" / s / "eval_arrays.npz", allow_pickle=False)
+         for s in ("h3d", "h2d")}
+
+    def val(s, row, m, key="values"):
+        return z[s][key][list(z[s]["rows"]).index(row), :, :, list(z[s]["metrics"]).index(m)]
+
+    for s, tag in (("h3d", "Three"), ("h2d", "Two")):
+        mf = json.loads((HOLD / "return" / s / "manifest.json").read_text())
+        tail = mf["n_corpus"] - mf["split"]["n_val"] - mf["used_prefix"]
+        assert mf["n"] == tail - len(mf["excluded"]) == len(z[s]["files"])
+        assert not set(z[s]["files"]) & set(z[s]["val_files"])
+        assert (N[f"numHold{tag}N"], N[f"numHold{tag}Tail"], N[f"numHold{tag}Excl"],
+                N[f"numHold{tag}Solves"]) == (f"{mf['n']:,}", f"{tail:,}",
+                                              f"{len(mf['excluded']):,}", f"{4 * mf['n']:,}")
+        assert mf["ledger"]["total"] == 4 * mf["n"] and mf["method"] == "direct"
+    # T2: the graph network's lower displacement error, per seed; its higher von Mises error
+    share = (val("h3d", "mgn", "disp_rel_l2") < val("h3d", "ar", "disp_rel_l2")).mean(axis=1)
+    _close(N, "numHoldTTwoMin", share.min(), 100)
+    _close(N, "numHoldTTwoMax", share.max(), 100)
+    assert (val("h3d", "mgn", "vm_rel_l2") > val("h3d", "ar", "vm_rel_l2")).all()
+    # T3: load cases worse than the zero field, each with a positive energy and no other
+    g = z["h3d"]["gap_load"]
+    pi = z["h3d"]["pi_load"]
+    rows3 = list(z["h3d"]["rows"])
+    for row, macro in (("labels", "numHoldTThreeLab"), ("mgn", "numHoldTThreeMgn")):
+        gr, pr = g[rows3.index(row)], pi[rows3.index(row)]
+        assert np.isfinite(gr).all() and ((pr > 0) == (gr > 1)).all()
+        assert N[macro] == f"{int((gr > 1).sum()):,}"
+    assert N["numHoldTThreeLoads"] == f"{g[0].size:,}" == "8,232"
+    # H1, H2a, H2b and H3 in two dimensions: the seeds' means over the held-out instances
+    for tag, a, b, m in (("One", "ar", "labels", "energy_gap_rel"),
+                         ("TwoA", "labels_knorm", "labels", "energy_gap_rel"),
+                         ("TwoB", "labels_knorm", "labels", "vm_rel_l2")):
+        rel, _, guard = _guard(val("h2d", a, m).mean(axis=1), val("h2d", b, m).mean(axis=1))
+        assert (rel < -guard) == (tag != "TwoA"), tag       # H2a alone did not replicate
+        _close(N, f"numHoldH{tag}Rel", -rel, 100)
+        _close(N, f"numHoldH{tag}Tau", guard, 100)
+    kn, lb = val("h2d", "labels_knorm", "energy_gap_rel"), val("h2d", "labels", "energy_gap_rel")
+    for macro, x in (("numHoldHTwoANewSeeds", kn.mean(axis=1)),
+                     ("numHoldHTwoABaseSeeds", lb.mean(axis=1))):
+        assert _nums(N[macro]) == pytest.approx(list(x), rel=5e-3), macro
+    _close(N, "numHoldHTwoASeedZero", 1 - kn[0].mean() / lb[0].mean(), 100)
+    assert 0 < kn[0].mean() < lb[0].mean()
+    # the readings beside H2a: the guard on the medians, the largest gaps, the ratio of the
+    # means to the validation instances', the medians of both sets
+    rel, _, guard = _guard(np.median(kn, axis=1), np.median(lb, axis=1))
+    assert rel < -guard
+    _close(N, "numHoldHTwoAMedRel", -rel, 100)
+    _close(N, "numHoldHTwoAMedTau", guard, 100)
+    top = kn.max(axis=1)
+    assert _nums(N["numHoldHTwoATopSeeds"]) == pytest.approx(list(top), abs=0.051)
+    assert N["numHoldHTwoATop"] == f"{top.max():.0f}" and int(np.argmin(top)) == 1
+    kv = _inst(rc, "labels_knorm", "energy_gap_rel")
+    assert np.allclose(val("h2d", "labels_knorm", "energy_gap_rel", "val_values"), kv,
+                       rtol=1e-12, atol=0)
+    hold, vali = kn.mean(axis=0), kv.mean(axis=0)
+    _close(N, "numHoldHTwoARatio", hold.mean() / vali.mean())
+    _close(N, "numHoldHTwoAMedHold", np.median(hold))
+    _close(N, "numHoldHTwoAMedVal", np.median(vali))
+    assert _f(N["numHoldHTwoARatioLow"]) > 1
+    # H3: no difference shown; on the seed means the label-free transformer is now the lower
+    fr = val("h2d", "ar", "energy_gap_rel")
+    rel, _, guard = _guard(kn.mean(axis=1), fr.mean(axis=1))
+    assert 0 < rel <= guard
+    _close(N, "numHoldHThreeRel", rel, 100)
+    _close(N, "numHoldHThreeTau", guard, 100)
+    _close(N, "numHoldTwoFreeGap", fr.mean())
+    _close(N, "numHoldTwoKnormGap", kn.mean())
+    # the values of both sets (the supplementary table of the means and medians)
+    tv = " ".join(built["files"]["table_holdout_values.tex"].split())
+    n_q = sum(len(z_["rows"]) * len(z_["metrics"]) for z_ in z.values())
+    assert N["numHoldVQuantities"] == str(n_q) == "35"
+    for s, head in (("h3d", "Three dimensions, 686 held-out instances"),
+                    ("h2d", "Two dimensions, 4,111 held-out instances")):
+        assert head in tv
+    body = [ln for ln in built["files"]["table_holdout_values.tex"].splitlines()
+            if ln.count(" & ") == 4 and not ln.startswith("Network")]
+    assert len(body) == n_q and all(ln.count(" / ") == 2 for ln in body)
+    # every cell: the mean and the median over the instances of each instance's value
+    # averaged over the seeds, on both sets, and the ratio of the means inside its interval
+    names = {"Label-free": "ar", "Supervised": "labels", "Stiffness norm": "labels_knorm",
+             "Graph network": "mgn"}
+    order = [(s, r, m) for s in ("h3d", "h2d") for r in z[s]["rows"] for m in z[s]["metrics"]]
+    net = None
+    for ln, (s, r, m) in zip(body, order, strict=True):
+        cells = [c.strip() for c in ln.rstrip("\\ ").split(" & ")]
+        net = names.get(cells[0], net) if cells[0] else net
+        assert net == r, (ln, r)
+        for cell, key in ((cells[2], "val_values"), (cells[3], "values")):
+            x = val(s, r, m, key).mean(axis=0)
+            for shown, want in zip(cell.split(" / "), (x.mean(), np.median(x)), strict=True):
+                v, half = _shown(shown)
+                assert abs(v - want) <= half * 1.0001, (s, r, m, key, shown, want)
+        ratio = val(s, r, m).mean(axis=0).mean() / val(s, r, m, "val_values").mean(axis=0).mean()
+        rv, lo, hi = (float(x) for x in re.fullmatch(r"([\d.]+) \(([\d.]+)--([\d.]+)\)",
+                                                      cells[4]).groups())
+        assert abs(rv - ratio) <= 0.005 * 1.0001 and lo <= rv <= hi, (s, r, m, cells[4])
+    # the pre-registered readings of the predictions worse than the zero field, held out in
+    # two dimensions: per row, the instance-seed predictions with a mean gap above one and
+    # the load cases with a gap above one, each with a positive energy and no other
+    for row, R in (("ar", "Free"), ("labels", "Lab"), ("labels_knorm", "Knorm"), ("mgn", "Mgn")):
+        inst = int((val("h2d", row, "energy_gap_rel") > 1).sum())
+        i_ = list(z["h2d"]["rows"]).index(row)
+        g, pi = z["h2d"]["gap_load"][i_], z["h2d"]["pi_load"][i_]
+        assert ((pi > 0) == (g > 1)).all()
+        assert N[f"numHoldTwoWorseInst{R}"] == (f"{inst:,}" if inst else "none")
+        assert N[f"numHoldTwoWorseLoad{R}"] == f"{int((g > 1).sum()):,}"
+        assert not (val("h2d", row, "energy_gap_rel", "val_values") > 1).sum() or row == "mgn"
+    assert N["numHoldTwoPairs"] == f"{val('h2d', 'ar', 'energy_gap_rel').size:,}"
+    assert N["numHoldTwoLoads"] == f"{z['h2d']['gap_load'][0].size:,}"
+
+
+def _ritz(s: str) -> dict:
+    return json.loads((RITZ / "baseline" / s / "summary.json").read_text())
+
+
+def test_ritz_numbers_follow_from_the_summaries(built):
+    """Every number the text and the abstract quote of the Ritz projection, recomputed from
+    the summaries of its return (which tests/test_ritz_return.py rebuilds from the
+    per-instance rows): the shares of the instances on which it, or a network, is strictly
+    the more accurate; its medians; its unknowns; and its rows of the accuracy tables."""
+    N = built["numbers"]
+    R = {s: _ritz(s) for s in ("val3d", "fine3d", "h3d", "val2d", "h2d")}
+
+    def ritz(s, model, p, m):
+        return [e[m]["ritz_better_share"] for e in R[s]["ladder"][str(p)]["paired"][model]]
+
+    def net(s, model, p, m):
+        return [1 - e[m]["ritz_better_share"] - e[m]["ties"] / e[m]["n"]
+                for e in R[s]["ladder"][str(p)]["paired"][model]]
+
+    def unit(macro, x):
+        """A share shown to the unit, or to more digits where the unit would show 0 or 100."""
+        v, half = _shown(N[macro])
+        assert abs(v - 100 * x) <= half * 1.0001, (macro, N[macro], x)
+        if 0 < x < 1:
+            assert v not in (0.0, 100.0), macro
+
+    def bound(macro, x, lower=True):
+        """'at least' (rounded down) or 'at most' (rounded up) to one decimal."""
+        v = _f(N[macro])
+        assert (v <= 100 * x + 1e-9 < v + 0.1) if lower else (v - 0.1 < 100 * x - 1e-9 <= v), \
+            (macro, N[macro], x)
+
+    k3 = [R["val3d"]["ladder"][str(p)]["k"] for p in (6, 7, 8, 9)]
+    assert k3 == [3 * (p * (p + 1) * (p + 2) // 6) for p in (6, 7, 8, 9)] == [168, 252, 360, 495]
+    assert N["numRitzThreeK"] == "168, 252, 360 and 495"
+    assert [R["val2d"]["ladder"][str(p)]["k"] for p in (6, 8)] == [42, 72]
+    assert N["numRitzTwoK"] == "42 and 72"
+    free3, free2 = "phase2b:ar@1024", "cm2d:ar@1024"
+    hfree = [m for m in R["h3d"]["ladder"]["6"]["paired"] if m.split(":")[1].startswith("ar")]
+    assert len(hfree) == 1
+    for p, P in ((6, "Six"), (9, "Nine")):
+        x = ritz("val3d", free3, p, "disp_rel_l2")
+        unit(f"numRitzValFreeDisp{P}Min", min(x))
+        unit(f"numRitzValFreeDisp{P}Max", max(x))
+        x = ritz("h3d", hfree[0], p, "disp_rel_l2")
+        unit(f"numRitzHoldFreeDisp{P}Min", min(x))
+        unit(f"numRitzHoldFreeDisp{P}Max", max(x))
+        for s, macro in (("val3d", "numRitzValGap"), ("fine3d", "numRitzFineGap")):
+            _close(N, macro + P, R[s]["ladder"][str(p)]["median"]["energy_gap_rel"])
+        _close(N, "numRitzValPeak" + P, R["val3d"]["ladder"][str(p)]["median"]["peak_vm_rel_err"])
+    assert all(min(ritz("val3d", free3, p, "disp_rel_l2")) > 0.5 for p in (6, 7, 8, 9))
+    ratios = [R["val3d"]["ladder"][str(p)]["median"]["peak_vm_rel_err"]
+              / e["peak_vm_rel_err"]["model_median"]
+              for p in (6, 7, 8, 9) for e in R["val3d"]["ladder"][str(p)]["paired"][free3]]
+    _close(N, "numRitzValPeakRatioMin", min(ratios))
+    _close(N, "numRitzValPeakRatioMax", max(ratios))
+    bound("numRitzValFreePeakMin",
+          min(s for p in (6, 7, 8, 9) for s in net("val3d", free3, p, "peak_vm_rel_err")))
+    bound("numRitzHoldFreePeakMin",
+          min(s for p in (6, 7, 8, 9) for s in net("h3d", hfree[0], p, "peak_vm_rel_err")))
+    trained = [m for m in R["val3d"]["ladder"]["6"]["paired"]
+               if m.split(":")[1].split("@")[0].split(" ")[0]
+               not in ("zero", "scale_aware_poly", "knn_field")]
+    assert {"phase2b:ar@1024", "phase2b:labels@1024", "k3d:labels_knorm@1024",
+            "phase2b:mgn@1024"} <= set(trained)
+    bound("numRitzValNineDispAll", min(s for m in trained for s in ritz("val3d", m, 9,
+                                                                         "disp_rel_l2")))
+    kn = "k3d:labels_knorm@1024"
+    bound("numRitzValKnormGapMin",
+          min(s for p in (6, 7, 8, 9) for s in net("val3d", kn, p, "energy_gap_rel")))
+    assert all(s == 1.0 for p in (6, 7, 8, 9) for s in net("val3d", kn, p, "peak_vm_rel_err"))
+    # held out: the stiffness-norm transformer's lower gap and, but for a few, lower peak
+    bound("numRitzHoldKnormGapMin",
+          min(s for p in (6, 7, 8, 9) for s in net("h3d", "k3d:labels_knorm", p,
+                                                    "energy_gap_rel")))
+    miss = [round((1 - s) * R["h3d"]["n"]) for p in (6, 7, 8, 9)
+            for s in net("h3d", "k3d:labels_knorm", p, "peak_vm_rel_err")]
+    words_ = ("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
+    assert 0 < max(miss) and N["numRitzHoldKnormPeakMiss"] == words_[max(miss)]
+    # on the finer mesh the projection's displacement, energy and von Mises errors stay close
+    # to their in-band values, and its peak stress error does not (Section 8.1)
+    for p in (6, 7, 8, 9):
+        ratio = {m: R["fine3d"]["ladder"][str(p)]["mean"][m] / R["val3d"]["ladder"][str(p)]["mean"][m]
+                 for m in ("disp_rel_l2", "energy_gap_rel", "vm_rel_l2", "peak_vm_rel_err")}
+        assert max(ratio["disp_rel_l2"], ratio["energy_gap_rel"], ratio["vm_rel_l2"]) < 1.2
+        assert ratio["peak_vm_rel_err"] > 1.3
+    fm = [e["energy_gap_rel"]["model_median"] for e in R["val3d"]["ladder"]["9"]["paired"][free3]]
+    assert min(fm) <= R["val3d"]["ladder"]["9"]["median"]["energy_gap_rel"] <= max(fm)
+    # two dimensions
+    d2 = [s for p in (6, 8) for s in ritz("val2d", free2, p, "disp_rel_l2")]
+    unit("numRitzTwoFreeDispMin", min(d2))
+    unit("numRitzTwoFreeDispMax", max(d2))
+    for p, P in ((6, "Six"), (8, "Eight")):
+        x = ritz("val2d", free2, p, "energy_gap_rel")
+        unit(f"numRitzTwoFreeGap{P}Min", min(x))
+        unit(f"numRitzTwoFreeGap{P}Max", max(x))
+    bound("numRitzTwoFreePeakMin",
+          min(s for p in (6, 8) for s in net("val2d", free2, p, "peak_vm_rel_err")))
+    # the finer mesh: every network, the fine-tuned ones included
+    ftrained = [m for m in R["fine3d"]["ladder"]["6"]["paired"]
+                if m.split(":")[1].split("@")[0].split(" ")[0]
+                not in ("zero", "scale_aware_poly", "knn_field")]
+    assert "phase2b:finetune@64" in ftrained and "phase2b:mgn@max (zero-shot)" in ftrained
+    bound("numRitzFineGapAll", min(s for m in ftrained for p in (6, 7, 8, 9)
+                                   for s in ritz("fine3d", m, p, "energy_gap_rel")))
+
+    def fine_peak(models):
+        x = [s for m in models for p in (6, 7, 8, 9)
+             for s in net("fine3d", m, p, "peak_vm_rel_err")]
+        return min(x), max(x)
+
+    for models, tag in ((["phase2b:ar (zero-shot)"], "Free"),
+                        (["e2_m512:ar (zero-shot)", "e2_m1024:ar (zero-shot)"], "Bn"),
+                        (["phase2b:finetune@64"], "Ft")):
+        lo, hi = fine_peak(models)
+        unit(f"numRitzFine{tag}PeakMin", lo)
+        unit(f"numRitzFine{tag}PeakMax", hi)
+    bound("numRitzFineLabPeakMax", fine_peak(["phase2b:labels@max (zero-shot)"])[1],
+          lower=False)
+    assert fine_peak(["phase2b:mgn@max (zero-shot)"])[1] == 0
+    # the rows of the accuracy tables: the projection's instance means, every degree
+    for s, name in (("val3d", "table_3d.tex"), ("val2d", "table_2d.tex"),
+                    ("fine3d", "table_transfer.tex")):
+        tab = built["files"][name]
+        for p in R[s]["ladder_p"]:
+            cells = _row_cells(tab, f"Ritz projection, $p = {p}$")
+            means = R[s]["ladder"][str(p)]["mean"]
+            for cell, m in zip(cells, METRICS5, strict=False):
+                v, half = _shown(cell)
+                assert abs(v - means[m]) <= half * 1.0001, (s, p, m)
+            if s != "fine3d":
+                assert cells[-1] == f"0/{R[s]['n']}"
+    # the supplementary table of the shares: every set, model and degree
+    pairs = built["files"]["table_ritz_pairs.tex"]
+    n_rows = sum(len(R[s]["ladder_p"]) * len(models) for s, models in (
+        ("val3d", range(10)), ("val2d", range(7)),
+        *((s, R[s]["ladder"][str(R[s]["ladder_p"][0])]["paired"]) for s in ("fine3d", "h3d",
+                                                                             "h2d"))))
+    body = [ln for ln in pairs.splitlines() if ln.count(" & ") == 7 and not ln.startswith("Set")]
+    assert len(body) == n_rows
+
+
+def test_no_earlier_journal_is_named(built):
+    """The manuscript, its supplementary material, the graphical abstract, the highlights and
+    the comments of its sources name no journal to which the paper was submitted before, no
+    tag or file named after one, and nothing that speaks of an earlier submission or version
+    (a revision, a resubmission, a new version of an archive), but for the one directory of
+    the October records that the list of hashes prints; the references name journals only in
+    their journal fields."""
+    bad = re.compile(r"cmame|CMAME|Computer Methods in Applied|Comput\. Methods Appl")
+    earlier = re.compile(r"\brevision|\brevised\b|resubmi|re-submi|previous(ly)? submi|"
+                         r"earlier submi|first submi|declined|desk[- ]reject|"
+                         r"-v\d\b|new version of|transferred to this", re.I)
+    files = [*PAPER.glob("*.tex"), *(PAPER / "sections").glob("*.tex"),
+             *OUT.glob("*.tex"), PAPER / "highlights.txt"]
+    for f in files:
+        text = f.read_text(encoding="utf-8")
+        hits = bad.findall(text)
+        if f.name == "hashes.tex":
+            assert text.count(r"\path{records/cmame/}") == 1 and hits == ["cmame"], hits
+        else:
+            assert not hits, (f.name, hits)
+        assert not earlier.search(text), (f.name, earlier.search(text).group(0))
+    assert r"\journal{Journal of Computational Physics}" in (PAPER / "main.tex").read_text()
+    bib = (PAPER / "references.bib").read_text(encoding="utf-8")
+    for line in bib.splitlines():
+        if bad.search(line):
+            assert re.match(r"\s*journal\s*=", line), line
+        if line.lstrip().startswith("%"):
+            assert not earlier.search(line), line
+
+
 def test_highlights_match_the_numbers(built):
+    """The Guide for Authors' highlights: three to five bullets of at most 85 characters,
+    spaces included; each claim as the records state it."""
     lines = (PAPER / "highlights.txt").read_text(encoding="utf-8").splitlines()
-    assert len(lines) == 5 and all(0 < len(x) <= 85 for x in lines)
+    assert 3 <= len(lines) <= 5 and all(0 < len(x) <= 85 and x.isascii() for x in lines)
     num = built["numbers"]
-    assert "zero labels beat 1,024 on all five metrics" in lines[1]
-    assert f"{num['numThreeMgnOverFreeVm']} times the label-free von Mises error" in lines[2]
-    # "halved": in 2D the stiffness-norm transformer's von Mises error is about half the
-    # supervised transformer's (H2b, the run of 9 October 2026)
-    assert "a stiffness-norm loss halved the von Mises error" in lines[3]
-    assert 0.4 <= float(num["numCmKnormVm"]) / float(num["numCmLabVm"]) <= 0.55
+    # Corollary 1, which the tests of Section 3 check on assembled instances
+    assert lines[0] == "Minimising discrete energy is stiffness-norm regression with no labels"
+    # T1: the label-free transformer better than the supervised one on all five metrics, in
+    # each seed, from the report of the three-dimensional comparison
+    r3 = json.loads(R3D.read_bytes())
+    for m in ("disp_rel_l2", "energy_gap_rel", "vm_rel_l2", "peak_vm_rel_err", "crit_recall"):
+        a, b = np.array(_seeds(r3, "ar", m)), np.array(_seeds(r3, "labels", m))
+        assert ((a > b) if m == "crit_recall" else (a < b)).all(), m
+    assert lines[1] == ("Pre-registered 3D test: energy-only training beat displacement loss "
+                        "on all metrics")
+    # H2a-3D on the seeds' medians, its macro to the unit
+    assert lines[2] == ("With the same labels, a stiffness-norm loss cut the 3D median energy "
+                        f"gap by {round(_f(num['numKdGapRel']))}%")
+    # the holdout evaluation: seven of its eight claims, all but H2a, the 2D energy gap
+    v = json.loads((HOLD / "verdict.json").read_text(encoding="utf-8"))
+    assert v["tally"] == {"REPLICATED": 7, "NOT REPLICATED": 1, "NOT EVALUATED": 0}
+    assert [h for h, c in v["claims"].items() if c["verdict"] != "REPLICATED"] == ["H2a"]
+    assert v["claims"]["H2a"]["metric"] == "energy_gap_rel"
+    assert lines[3] == ("Seven of eight claims replicated on held-out instances; a 2D "
+                        "energy-gap claim did not")
+    # Corollary 4, which the field records bear out on every load case (test above)
+    assert lines[4] == ("Energy flags predictions worse than the zero field without reference "
+                        "solutions")
 
 
 def test_abstract_has_no_numbers_and_at_most_250_words():
@@ -936,16 +1487,17 @@ ALLOWED_DECIMALS = {"0.05", "0.5", "1.5", "0.25", "0.38", "0.8", "0.06", "0.16",
                     "1.2", "0.08", "0.0579", "0.0906", "0.0374", "1.8", "2.5"}
 ALLOWED_PERCENT = {"5", "10", "20", "30", "40", "95"}
 # names that contain version numbers, not results: the AI models named in the
-# generative-AI declaration and in Appendix C, and the licences and the archive's DOI
+# generative-AI declaration and in Appendix C, the tag of the version described, and the
+# licences and the archive's DOI
 # named in the Data availability statement
-NAMES_WITH_VERSIONS = ("Claude Fable 5.1", "Claude Opus 5.5",
+NAMES_WITH_VERSIONS = ("Claude Fable 5.1", "Claude Opus 5.5", "statics-paper-1.0",
                        "PolyForm Noncommercial License 1.0.0", "CC BY 4.0",
                        "10.5281/zenodo.23298799")
 
 
 def test_the_text_carries_no_hand_typed_result():
     bad = []
-    for f in sorted((PAPER / "sections").glob("*.tex")):
+    for f in [*sorted((PAPER / "sections").glob("*.tex")), PAPER / "supplementary.tex"]:
         prose = _prose(f.read_text(encoding="utf-8"))
         for name in NAMES_WITH_VERSIONS:
             prose = prose.replace(name, "")
@@ -1236,3 +1788,18 @@ def test_manuscript_compiles(tmp_path):
         w, h = (float(x) for x in re.search(r"Page size:\s+([\d.]+) x ([\d.]+) pts",
                                             info).groups())
         assert w / h == pytest.approx(2.5, abs=0.01)
+    # the text at its foot ends on the page: text that a box pushes off the page is clipped
+    # without a warning, and pdftotext leaves it out
+    pdftotext = shutil.which("pdftotext")
+    if pdftotext:
+        shown = " ".join(subprocess.run([pdftotext, str(work / "graphical_abstract.pdf"), "-"],
+                                        capture_output=True, text=True).stdout.split())
+        assert "Held out: seven of eight claims replicated." in shown
+    # the supplementary material, a separate file at submission
+    res = subprocess.run(["latexmk", "-pdf", "-interaction=nonstopmode", "-halt-on-error",
+                          "supplementary.tex"], cwd=work, capture_output=True, text=True,
+                         timeout=300)
+    slog = (work / "supplementary.log").read_text(encoding="latin-1")
+    assert res.returncode == 0, slog[-3000:]
+    assert not re.search(r"(Reference|Citation) .* undefined", slog)
+    assert "Overfull" not in slog and "Float too large" not in slog

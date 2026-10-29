@@ -1,6 +1,5 @@
-% Manuscript for Computer Methods in Applied Mechanics and Engineering.
-% Every number in the text, tables and figures comes from generated/ (written by
-% scripts/make_cmame_material.py from the committed records); do not type numbers
+% Every number in the text, tables and figures comes from generated/, which the
+% repository's generation script writes from the committed records; do not type numbers
 % by hand. Build: latexmk -pdf main.tex (from this directory).
 \documentclass[preprint,12pt]{elsarticle}
 
@@ -58,7 +57,7 @@
 
 \input{generated/numbers}
 
-\journal{Computer Methods in Applied Mechanics and Engineering}
+\journal{Journal of Computational Physics}
 
 \begin{document}
 
@@ -100,6 +99,7 @@ minimum total potential energy \sep energy norm \sep pre-registration
 \input{sections/methods}
 \input{sections/results3d}
 \input{sections/results2d}
+\input{sections/holdout}
 \input{sections/transfer}
 \input{sections/cost}
 \input{sections/discussion}

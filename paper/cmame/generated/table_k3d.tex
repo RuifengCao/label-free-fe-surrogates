@@ -1,0 +1,41 @@
+% generated from the committed records; do not edit
+\begin{table}[tbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{The pre-registered hypotheses of the three-dimensional stiffness-norm run, with 1,024 labelled instances, as its adjudicator recorded them, and the readings its pre-registration required beside each.}
+\label{tab:k3d}
+\resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
+\begin{tabular}{lccc}
+\toprule
+ & H2a-3D & H2b-3D & H3-3D \\
+\midrule
+Network A & Supervised, stiffness norm & Supervised, stiffness norm & Supervised, stiffness norm \\
+Reference B & Supervised ($\mathcal{L}_D$) & Supervised ($\mathcal{L}_D$) & Label-free \\
+Metric & Relative energy gap & von Mises error & Relative energy gap \\
+\midrule
+A, seeds 0, 1, 2 & 0.00432, 0.00448, 0.00452 & 0.0412, 0.0425, 0.0437 & 0.00432, 0.00448, 0.00452 \\
+B, seeds 0, 1, 2 & 0.224, 0.256, 0.275 & 0.247, 0.254, 0.276 & 0.00932, 0.00744, 0.00581 \\
+\midrule
+rel & $-$98.2\% & $-$83.6\% & $-$41.0\% \\
+SE$_\mathrm{rel}$ & 5.9\% & 3.4\% & 13.5\% \\
+Guard & 11.7\% & 10.0\% & 27.0\% \\
+Reading & supported & supported & A lower \\
+\midrule
+Welch 95\% interval & $-$123.5\% to $-$73.0\% & $-$98.0\% to $-$69.2\% & $-$98.7\% to +16.7\% \\
+Instance resampling 95\% & $-$98.4\% to $-$98.1\% & $-$84.5\% to $-$82.7\% & $-$43.9\% to $-$38.4\% \\
+\midrule
+Seed means: rel (guard) & $-$99.98\% (guard 197.9\%) & $-$88.1\% (guard 43.7\%) & $-$44.7\% (guard 29.0\%) \\
+Seed means: Welch 95\% & $-$526\% to +326\% & $-$182\% to +6\% & $-$106\% to +16\% \\
+\midrule
+Holdout: rel (guard) & $-$98.0\% (guard 12.6\%) & $-$83.0\% (guard 10.0\%) & $-$38.0\% (guard 25.6\%) \\
+Holdout, seed means: rel (guard) & $-$99.997\% (guard 199.6\%) & $-$89.0\% (guard 60.2\%) & $-$35.4\% (guard 26.4\%) \\
+\bottomrule
+\end{tabular}}
+
+\smallskip
+\begin{minipage}{\linewidth}\footnotesize\raggedright
+Every reading is of the seeds' values, each seed's median over the 256 validation instances (the pre-registered statistic) unless the row says seed means; rel, SE$_\mathrm{rel}$ and the noise guard as defined in the note to \cref{tab:criteria}. Welch: rel $\pm$ t $\times$ SE$_\mathrm{rel}$ at the Welch--Satterthwaite degrees of freedom, a symmetric interval that can extend below $-$100\%. Instance resampling: the 2.5\% and 97.5\% percentiles of rel over 2,000 resamplings of the 256 instances, the same instances for both networks and every seed, the seeds kept, each seed's value the median of its resampled values. Holdout: the same readings on the 686 held-out instances of \cref{sec:holdout}, without a verdict.\par
+H3-3D is a reading without a criterion. With the roles of A and B exchanged, rel was +69.5\% against a guard of 45.8\%.
+\end{minipage}
+\end{table}

@@ -31,6 +31,20 @@ not the energy and stress errors, consistent with
 \cref{sec:theory:metrics,sec:results2d:norm}.
 Label-free fine-tuning on the finer meshes, which needs no solves, was not tested.
 
+On the finer mesh, where no network transferred without retraining, the Ritz projection of
+\cref{sec:methods:ritz}, added after the original analyses, kept most of its accuracy, its
+displacement, energy and von Mises errors close to their in-band values and its peak stress
+error larger (\cref{tab:transfer,tab:3d}): its median relative energy gap was
+\numRitzFineGapSix{} at $p=6$ and \numRitzFineGapNine{} at $p=9$, lower than each network's
+on at least \numRitzFineGapAll{} of the instances, the networks trained with fine-mesh
+labels included. In the peak stress error the label-free transformer, applied without
+retraining, remained the more accurate on \numRitzFineFreePeakMin{} to
+\numRitzFineFreePeakMax{} of the instances, the two token bottlenecks on
+\numRitzFineBnPeakMin{} to \numRitzFineBnPeakMax{}, the supervised transformer on at most
+\numRitzFineLabPeakMax{} and the graph network on none; fine-tuned with the 64 fine-mesh
+labels, the label-free transformer was the more accurate on \numRitzFineFtPeakMin{} to
+\numRitzFineFtPeakMax{}.
+
 \subsection{Amplitude error on the finer mesh}\label{sec:transfer:amplitude}
 
 \input{generated/table_amplitude}
@@ -68,8 +82,8 @@ this explanation causally. It agrees with an observation of the July run, whose 
 not multiply the output by $F_{\max}$: networks trained on meshes \numCoarsenLow{} and
 \numCoarsenHigh{} times coarser lost little accuracy on the original meshes
 (\ref{app:july}). But the errors of those networks were probably dominated by the missing
-load amplitude, so the contrast is suggestive only. A separate pre-registered study,
-outside the scope of this paper, tests an output scale that does not depend on the mesh.
+load amplitude, so the contrast is suggestive only. Whether an output scale that does not
+depend on the mesh removes the failure is the subject of separate work.
 \Cref{fig:field-fine} shows a typical fine-mesh prediction before and after the rescaling:
 the prediction has the shape of the solution and too small an amplitude.
 
