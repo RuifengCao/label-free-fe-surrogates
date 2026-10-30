@@ -1,6 +1,6 @@
 # Manuscript material (generated from the committed records; do not edit)
 
-### Two-dimensional plates, every metric at the largest label budget. The supervised networks were trained on 1,024 labelled instances; the label-free transformer on the same 1,024 instances without their solutions.
+### Two-dimensional plates: every metric on the 256 validation instances, four load cases each, for the networks trained on 1,024 instances (the label-free transformer on the same instances without their solutions) and for the baselines. Trained networks: mean ± sample standard deviation over three seeds. Metrics as in \cref{sec:methods:metrics}; lower is better except in critical-region recall.
 
 | Model | Displacement error | Relative energy gap | von Mises error | Peak stress error | Critical-region recall | Worse than zero field |
 |---|---|---|---|---|---|---|
@@ -14,13 +14,9 @@
 | Ritz projection, $p = 8$ | 0.0424 | 0.0333 | 0.109 | 0.208 | 0.852 | 0/256 |
 | Zero field | 1.00 | 1.00 | 1.00 | 1.00 | – | – |
 
-- 256 validation instances, never trained on; four load cases each. Errors are relative to the reference finite-element solution, per load case, then averaged over the load cases; the relative energy gap of the zero field is 1. Trained networks: mean ± sample standard deviation over 3 seeds; the nearest-neighbour field and the scaled polynomial are deterministic.
-- Worse than zero field: instance-seed pairs whose relative energy gap, the mean over the four load cases as the evaluation records it, exceeds 1, that is, predictions further from the solution in the energy norm than the zero field on average; the count uses the reference solutions. The test of \cref{cor:zero} needs none and applies to single load cases (\cref{sec:methods:metrics}).
-- Critical-region recall: the share of the 10% most stressed elements of the reference solution that are also among the 10% most stressed of the prediction (higher is better; in every other column lower is better).
-- The two-dimensional comparison (\cref{sec:methods:prereg}). The label-free row evaluates, without retraining them, the label-free networks of the latent-regularisation run (supplementary Section~\SuppSide), trained on the same 1,024 instances. Supervised, energy norm: the same transformer trained on $\mathcal{L}_K$ \eqref{eq:lk} instead of $\mathcal{L}_D$ \eqref{eq:ld}, with everything else unchanged.
-- Ritz projection (\cref{sec:methods:ritz}), added after the pre-registered runs: computed per instance from its own stiffness matrix and loads, without labels or training, with 42 and 72 unknowns at $p = 6$ and 8; deterministic, so its count of predictions worse than the zero field is over the instances.
+- The Ritz projection (\cref{sec:methods:ritz}) was added after the pre-registered runs. It, the nearest-neighbour field and the scaled polynomial are deterministic, so their last column counts instances.
 
-### Two-dimensional plates, the July run with the earlier code: every metric at the largest label budget, on the instances of \cref{tab:2d}.
+### Two-dimensional plates, the July run with the earlier code: every metric on the validation instances of \cref{tab:2d}, for the networks trained on 1,024 instances and the baselines; trained networks: mean ± sample standard deviation over three seeds. Metrics as in \cref{sec:methods:metrics}; lower is better except in critical-region recall.
 
 | Model | Displacement error | Relative energy gap | von Mises error | Peak stress error | Critical-region recall | Worse than zero field |
 |---|---|---|---|---|---|---|
@@ -33,12 +29,9 @@
 | Scaled polynomial | 1.42 | 873 | 11.4 | 30.8 | 0.159 | 256/256 |
 | Zero field | 1.00 | 1.00 | 1.00 | 1.00 | – | – |
 
-- 256 validation instances, never trained on; four load cases each. Errors are relative to the reference finite-element solution, per load case, then averaged over the load cases; the relative energy gap of the zero field is 1. Trained networks: mean ± sample standard deviation over 3 seeds; the nearest-neighbour field and the scaled polynomial are deterministic.
-- Worse than zero field: instance-seed pairs whose relative energy gap, the mean over the four load cases as the evaluation records it, exceeds 1, that is, predictions further from the solution in the energy norm than the zero field on average; the count uses the reference solutions. The test of \cref{cor:zero} needs none and applies to single load cases (\cref{sec:methods:metrics}).
-- Critical-region recall: the share of the 10% most stressed elements of the reference solution that are also among the 10% most stressed of the prediction (higher is better; in every other column lower is better).
-- The July run (16 July 2026). Its code did not multiply the load scale back onto the output (\cref{sec:methods:networks}); we attribute the narrow spread of the displacement errors to this; no experiment isolated it.
+- The July run's code did not multiply the load scale back onto the output (\cref{sec:methods:networks}); we attribute the narrow spread of the displacement errors to this, which no experiment isolated.
 
-### Three-dimensional solids, every metric at the largest label budget. The supervised networks were trained on 1,024 labelled instances; the label-free transformer on the same 1,024 instances without their solutions.
+### Three-dimensional solids: every metric on the 256 validation instances, four load cases each, for the networks trained on 1,024 instances (the label-free transformer on the same instances without their solutions) and for the baselines. Trained networks: mean ± sample standard deviation over three seeds. Metrics as in \cref{sec:methods:metrics}; lower is better except in critical-region recall.
 
 | Model | Displacement error | Relative energy gap | von Mises error | Peak stress error | Critical-region recall | Worse than zero field |
 |---|---|---|---|---|---|---|
@@ -55,13 +48,9 @@
 | Ritz projection, $p = 9$ | 0.00798 | 0.00654 | 0.0449 | 0.223 | 0.896 | 0/256 |
 | Zero field | 1.00 | 1.00 | 1.00 | 1.00 | – | – |
 
-- 256 validation instances, never trained on; four load cases each. Errors are relative to the reference finite-element solution, per load case, then averaged over the load cases; the relative energy gap of the zero field is 1. Trained networks: mean ± sample standard deviation over 3 seeds; the nearest-neighbour field and the scaled polynomial are deterministic.
-- Worse than zero field: instance-seed pairs whose relative energy gap, the mean over the four load cases as the evaluation records it, exceeds 1, that is, predictions further from the solution in the energy norm than the zero field on average; the count uses the reference solutions. The test of \cref{cor:zero} needs none and applies to single load cases (\cref{sec:methods:metrics}).
-- Critical-region recall: the share of the 10% most stressed elements of the reference solution that are also among the 10% most stressed of the prediction (higher is better; in every other column lower is better).
-- The three-dimensional comparison (\cref{sec:methods:prereg}). Supervised, energy norm: the three-dimensional energy-norm run (\cref{sec:norm:three}), the same transformer trained on $\mathcal{L}_K$ \eqref{eq:lk} with the same labelled instances, settings and seeds, beside the stored label-free and displacement-supervised transformers, which it evaluated again, reproducing their values exactly.
-- Ritz projection (\cref{sec:methods:ritz}), added after the pre-registered runs: computed per instance from its own stiffness matrix and loads, without labels or training, with 168, 252, 360 and 495 unknowns at $p = 6$, 7, 8 and 9; deterministic, so its count of predictions worse than the zero field is over the instances.
+- The Ritz projection (\cref{sec:methods:ritz}) was added after the pre-registered runs. It, the nearest-neighbour field and the scaled polynomial are deterministic, so their last column counts instances.
 
-### Label efficiency: relative displacement error / relative energy gap against the number of labelled training instances (seed means).
+### Relative displacement error / relative energy gap against the number of labelled training instances, seed means over three seeds, in the three- and two-dimensional comparisons (\cref{tab:3d,tab:2d}); the nearest-neighbour field is deterministic. A dash marks a budget at which a network was not trained; the label-free row repeats its single value, which uses the same 1,024 instances without labels.
 
 | Run | Model | 16 | 64 | 256 | 1,024 |
 |---|---|---|---|---|---|
@@ -76,9 +65,8 @@
 | 2D | Nearest-neighbour field | 0.687 / 6.50 | 0.466 / 1.65 | 0.408 / 1.03 | 0.404 / 0.959 |
 | 2D | Label-free (no labels) | 0.0634 / 0.0383 | 0.0634 / 0.0383 | 0.0634 / 0.0383 | 0.0634 / 0.0383 |
 
-- Seed means over 3 seeds; the nearest-neighbour field is deterministic. A dash marks a budget at which the model was not trained (the graph network was trained at 64 and 1,024 labels only). 3D: the three-dimensional comparison (\cref{tab:3d}); 2D: the two-dimensional comparison (\cref{tab:2d}). The label-free row repeats its single value, which uses the same 1,024 instances without labels.
 
-### The July run (two dimensions, earlier code): relative displacement error / relative energy gap against the number of labelled training instances (seed means).
+### The July run (two dimensions, earlier code): relative displacement error / relative energy gap against the number of labelled training instances, seed means over three seeds. The nearest-neighbour field is that of \cref{tab:labeleff}, the graph network was trained at every budget, and the label-free row repeats its single value (1,024 instances, no labels).
 
 | Model | 16 | 64 | 256 | 1,024 |
 |---|---|---|---|---|
@@ -89,9 +77,8 @@
 | Nearest-neighbour field | 0.687 / 6.50 | 0.466 / 1.65 | 0.408 / 1.03 | 0.404 / 0.959 |
 | Label-free (no labels) | 0.166 / 0.0817 | 0.166 / 0.0817 | 0.166 / 0.0817 | 0.166 / 0.0817 |
 
-- Seed means over 3 seeds; the nearest-neighbour field is deterministic, and the same as in \cref{tab:labeleff}. The graph network was trained at every budget in this run. The label-free row repeats its single value, which uses the same 1,024 instances without labels.
 
-### Three-dimensional solids on the finer mesh (lc = 0.0374), never trained on. Zero-shot rows use the networks trained in-band; few-shot rows train, with labels, on the first 16 or on all of the 64 fine-mesh instances reserved for few-shot training.
+### Three-dimensional solids on the finer mesh (lc = 0.0374): every metric on the 256 fine-mesh evaluation instances, never trained on; trained networks: mean ± sample standard deviation over three seeds. Zero-shot rows use the networks trained in-band; few-shot rows train, with labels, on the first 16 or on all of the 64 fine-mesh instances reserved for few-shot training.
 
 | Model | Displacement error | Relative energy gap | von Mises error | Peak stress error | Critical-region recall |
 |---|---|---|---|---|---|
@@ -109,9 +96,7 @@
 | Label-free, then 64 fine-mesh labels | 0.0298 ± 0.0020 | 0.0520 ± 0.0088 | 0.126 ± 0.018 | 0.272 ± 0.068 | 0.731 ± 0.014 |
 | Supervised from scratch, 64 fine-mesh labels | 0.193 ± 0.076 | 13.2 ± 5.3 | 2.57 ± 0.47 | 8.94 ± 4.65 | 0.128 ± 0.043 |
 
-- 256 fine-mesh evaluation instances (median 36,216 nodes), disjoint from the 64 instances reserved for few-shot training. Mean ± sample standard deviation over 3 seeds; the naive baselines are deterministic and built from the 1,024 in-band labelled instances.
-- In-band, the label-free network's displacement error is 0.0300; the zero-shot ratio is therefore 8.62.
-- Few-shot training minimises the relative displacement error $\mathcal{L}_D$ \eqref{eq:ld}, without the energy term, for 50 epochs at learning rate 1.5 × 10⁻³, from the trained label-free network of the same seed or from random initialisation (scratch); the few-shot comparison was pre-registered as reported only. Ritz projection: \cref{sec:methods:ritz}, added after the pre-registered runs, deterministic, on the fine meshes themselves, with nothing trained.
+- The Ritz projection, added after the pre-registered runs and computed on the fine meshes themselves, and the naive baselines, built from the 1,024 in-band labelled instances, are deterministic.
 
 ### The pre-registered claims of the comparisons reported in this paper, with the outcomes that the code recorded at the time.
 
@@ -133,8 +118,6 @@
 |  | H2b-3D: the same in von Mises error | −83.6% (guard 10.0%) | supported |
 |  | H3-3D (a reading without a criterion): energy-norm-supervised transformer against the label-free transformer in relative energy gap, on the seeds' medians | −41.0% (guard 27.0%) | energy-norm-supervised transformer lower |
 
-- The criteria are those of the pre-registration documents, which number their own; the runs are those of \cref{sec:methods:prereg}. Gates decide whether a study proceeds to its next stage, kill conditions withdraw a claim when triggered. G2 (a) is a sanity check of the supervised side, (b) the accuracy of the label-free network and (c) its transfer to the finer mesh; the amendment of the three-dimensional gate, written after the initial run, assessed (a) from 64 labels only; its naive baselines are the nearest-neighbour field and the scaled polynomial of \cref{sec:methods:networks}. The holdout evaluation's claims are in \cref{tab:holdout}. Supplementary Section~\SuppPrereg{} lists every criterion of every run with its notes, and the departures from the plans.
-- Noise guard: a comparison of a network A with a reference B over three seeds each, with rel = mean(A)/mean(B) − 1 and SE_rel = $(s_A^2/3 + s_B^2/3)^{1/2}$ divided by mean(B), where $s_A$ and $s_B$ are the sample standard deviations over the seeds, finds A lower beyond the guard when rel is below minus the guard, max(10%, 2 SE_rel), and higher beyond it when rel exceeds the guard; within it no difference is shown, which is not equivalence. The three-dimensional energy-norm run applies it to each seed's median over the instances. $\mathcal{L}_D$ and $\mathcal{L}_K$ are the losses \eqref{eq:ld} and \eqref{eq:lk}.
 
 ### Every pre-registered criterion of the runs reported here, with its outcome.
 
@@ -167,7 +150,7 @@
 |  | KP4: finer mesh, zero-shot displacement error > 1.5 times in-band, or a naive baseline better | 8.62 times | triggered |
 |  | KP5: any pre-registered check of the conditioning bound, the modewise identity or the conjugate-gradient bound violated | none | not triggered |
 |  | KP6 (alignment): within-geometry rank correlation of latent and solution distances < 0.3 | 0.827 | not triggered |
-| Latent-\hspace{0pt}regularisation run (2D), 29 September 2026 | Latent regularisation, K1: relative change of the displacement error or of the relative energy gap beyond the noise guard | within the guard | not triggered |
+| Latent-\hspace{0pt}regularisation run (2D), 29 September 2026 | Latent regularisation, K1: relative change of the displacement error or of the relative energy gap beyond the noise guard | −4.7% (guard 10.0%), −4.6% (guard 10.0%) | not triggered |
 |  | Latent regularisation, K2: the separation does not rise in any seed | rose in every seed | not triggered |
 |  | Latent regularisation, GO: separation raised by ≥ 0.02 in every seed | +0.009 / +0.014 / +0.002 | NO-GO |
 | Bottleneck run (3D), 30 September 2026 | Token bottleneck, M = 512, K1: in-band relative energy gap or finer-mesh displacement error worse than the label-free transformer's beyond the noise guard | +280.9% (guard 287.2%), +79.1% (guard 41.9%) | triggered |
@@ -195,10 +178,8 @@
 |  | H2b-3D: the same in von Mises error | −83.6% (guard 10.0%) | supported |
 |  | H3-3D (a reading without a criterion): energy-norm-supervised transformer against the label-free transformer in relative energy gap, on the seeds' medians | −41.0% (guard 27.0%) | energy-norm-supervised transformer lower |
 
-- Runs are named as in \cref{tab:runs} and dated by their records; the pilot of the amendment is the short run that the amendment required before the three-dimensional comparison (Section~\ref{app:prereg}). Labels are those of the pre-registration documents, each of which numbers its own criteria. Gates (G1′, G2) decide whether the study proceeds to its next stage. Kill conditions withdraw a claim, or abandon a component, when triggered: in two dimensions K1–K6, C1-advantage (the claimed advantage in relative energy gap), C5 (the pre-registered checks of Section~\ref{app:repro:checks}) and E6 (latent alignment); in three dimensions KP1–KP6, with KP5 the counterpart of C5. The latent-regularisation and bottleneck runs number their criteria afresh, with the meanings given here. A criterion reads the trained networks of the tables it names; the energy-term sub-experiment of the July run trained its own supervised networks with and without the energy term, with the same configuration. K4, E6 and KP6 concern latent representations, which this paper does not use. Standardised effective rank: the participation ratio of the eigenvalues of the covariance of the latent vectors, each dimension standardised. The 3D amendment, the deviations and the joint-embedding term are described below, the latent regularisation and the token bottleneck in Section~\ref{app:e1}, the July run in Section~\ref{app:july}.
-- Noise guard: a comparison of a network A with a reference B over three seeds each, with rel = mean(A)/mean(B) − 1 and SE_rel = $(s_A^2/3 + s_B^2/3)^{1/2}$ divided by mean(B), where $s_A$ and $s_B$ are the sample standard deviations over the seeds, finds A lower beyond the guard when rel is below minus the guard, max(10%, 2 SE_rel), and higher beyond it when rel exceeds the guard; within it no difference is shown, which is not equivalence. The hypotheses H1–H3 of the 2D comparison use it (\cref{tab:cm2d}), and so do the latent-regularisation and bottleneck runs, with the label-free network as B (their pre-registrations call it the resolution), the holdout evaluation, and the three-dimensional energy-norm run, which applies it to each seed's median over the instances (\cref{tab:k3d}). $\mathcal{L}_D$ and $\mathcal{L}_K$ are the losses \eqref{eq:ld} and \eqref{eq:lk}.
 
-### The pre-registered hypotheses of the two-dimensional comparison, with 1,024 labelled instances, as its adjudicator recorded them, and the readings its pre-registration required beside each.
+### The pre-registered hypotheses of the two-dimensional comparison, with 1,024 labelled instances, as its adjudicator recorded them, and the readings its pre-registration required beside each, defined in Section~\ref{app:prereg}.
 
 |  | H1 | H2a | H2b | H3 |
 |---|---|---|---|---|
@@ -215,11 +196,9 @@
 | Welch 95% interval | −97% to −45% | −101% to −55% | −73% to −37% | −103% to +54% |
 | Instance resampling 95% | −74.3% to −68.3% | −80.3% to −76.3% | −57.2% to −52.8% | −28.0% to −21.9% |
 
-- rel, SE_rel and the noise guard as defined in the note to \cref{tab:criteria}, over the three seeds' values, each the mean over the 256 validation instances and their four load cases.
-- Medians: the same reading on each seed's median over the instances instead of its mean. Welch: rel ± t × SE_rel, with t the 97.5% quantile of Student's distribution at the Welch–Satterthwaite degrees of freedom, a symmetric interval that can extend below −100%. Instance resampling: the 2.5% and 97.5% percentiles of rel over 2,000 resamplings of the 256 validation instances, the same instances drawn for both networks and every seed, the seeds kept.
 - H3 is a reading without a criterion. With the roles of A and B exchanged, rel was +31.9% against a guard of 50.2%.
 
-### Time of the label-free transformer's inference against solves of the same systems, on the same instances, with the surrogate's accuracy there.
+### Wall time per instance of the label-free transformer's inference, on one GPU, and of solves of the same systems on the same machine's CPU, all load cases together and without the assembly, with the surrogate's accuracy on the same instances. CG: unpreconditioned conjugate gradients; its iterations (from the zero field / to the prediction's accuracy) and its displacement error are medians over the load cases, the other times and errors medians over the instances. Protocol in supplementary Section~\SuppTiming{}.
 
 |  | 2D | 3D | 3D, fine mesh |
 |---|---|---|---|
@@ -241,12 +220,10 @@
 | Displacement error after rescaling by c* | 0.040 | 0.014 | 0.076 |
 | CG's displacement error at that accuracy | 0.049 | 0.017 | 0.16 |
 
-- Medians over the instances (CG iterations, from the zero field / to the prediction's accuracy, and CG's displacement error: over the load cases). 2D: the first 32 validation instances of the two-dimensional comparison; 3D: the first 32 validation and 8 fine-mesh instances of the three-dimensional comparison; the label-free transformers of seed 0. Wall times per instance, all load cases together, without the assembly, which the surrogate does not need.
-- Surrogate: one NVIDIA GeForce RTX 5090 with TF32, preparing the inputs and copying the prediction back included; first call after an untimed warm-up on 4 validation instances, repeated call the median of 2 further passes. Solvers: the CPU of the same machine (Xeon Platinum 8470Q, 25 CPUs, the thread environment set to 25): SuperLU, which produced the labels, and unpreconditioned conjugate gradients (CG) to a relative residual of $10^{-10}$, from the zero field or from the prediction. CG to the prediction's accuracy stops, on each load case, at the first iterate whose relative energy error is at most the prediction's: it reads the reference solution, a lower bound. The fine-mesh direct solve used up its budget of 900 s after seven of the eight instances; its median, and the ratios that use it, are over those seven.
-- Ritz projection (\cref{sec:methods:ritz}), from the lowest to the highest degree ($p = 6$ to 9 in 3D, 6 and 8 in 2D), with the machine's 25 BLAS threads: the time after the assembly of $K$, which is listed apart (in 2D the assembler also builds the four load vectors), for the free block, the basis, $\Phi^{\top}K\Phi$ and $\Phi^{\top}F$, the small solve and the reconstruction.
-- On the fine mesh, three of the 32 load cases had a relative energy gap above 1 (4.76, 4.77 and 22.0) and three of the eight instances a mean above 1; CG matches such a load case with no iteration. Threads: \cref{sec:cost:inference} and the supplementary material.
+- Fine mesh, direct solve: the median over the seven of the eight instances that it solved before its budget of 900 s ran out.
+- CG to the prediction's accuracy reads the reference solution, so it is a lower bound; on the fine mesh it needs no iteration on the three load cases whose relative energy gap exceeds 1.
 
-### The pre-registered hypotheses of the three-dimensional energy-norm run, with 1,024 labelled instances, as its adjudicator recorded them, and the readings its pre-registration required beside each.
+### The pre-registered hypotheses of the three-dimensional energy-norm run, with 1,024 labelled instances, as its adjudicator recorded them, and the readings its pre-registration required beside each: each seed's median over the 256 validation instances, or in the holdout rows, which carry no verdict, over the \numHoldThreeN{} held-out instances, unless a row says seed means; the readings are those of \cref{tab:cm2d}.
 
 |  | H2a-3D | H2b-3D | H3-3D |
 |---|---|---|---|
@@ -266,10 +243,9 @@
 | Holdout: rel (guard) | −98.0% (guard 12.6%) | −83.0% (guard 10.0%) | −38.0% (guard 25.6%) |
 | Holdout, seed means: rel (guard) | −99.997% (guard 199.6%) | −89.0% (guard 60.2%) | −35.4% (guard 26.4%) |
 
-- Every reading is of the seeds' values, each seed's median over the 256 validation instances (the pre-registered statistic) unless the row says seed means; rel, SE_rel and the noise guard as defined in the note to \cref{tab:criteria}. Welch: rel ± t × SE_rel at the Welch–Satterthwaite degrees of freedom, a symmetric interval that can extend below −100%. Instance resampling: the 2.5% and 97.5% percentiles of rel over 2,000 resamplings of the 256 instances, the same instances for both networks and every seed, the seeds kept, each seed's value the median of its resampled values. Holdout: the same readings on the 686 held-out instances of \cref{sec:holdout}, without a verdict.
 - H3-3D is a reading without a criterion. With the roles of A and B exchanged, rel was +69.5% against a guard of 45.8%.
 
-### The claims of the three- and two-dimensional comparisons read again on held-out instances, as the adjudicator of the holdout evaluation recorded them, beside their values on the validation instances.
+### The claims of the comparisons that the pre-registered holdout evaluation read again on the held-out instances (\cref{sec:holdout}), with the same stored networks and as its adjudicator recorded them, beside their values on the validation instances. T1 and D2: comparisons that hold, five metrics in each seed and in the seed mean; T2: the range of the shares over the seeds, then the share of the instance-seed pairs; H1 to H3: the relative difference rel and its noise guard (\ref{app:claims}).
 
 | Claim | Statement | Validation | Holdout | Outcome |
 |---|---|---|---|---|
@@ -284,9 +260,8 @@
 | H3 (2D) | A reading: energy-norm-supervised against label-free transformer, relative energy gap | −24.2% (guard 38.1%) | +99.1% (guard 160.2%) | no difference shown |
 | V | Per-instance values alike on the holdout and validation instances, 35 quantities | – | none rejected | \hspace{0pt}representative |
 
-- Validation: the values of \cref{sec:norm,sec:labelfree,sec:checks} on the validation instances (T3 per load case). Holdout: the same stored networks on 686 (3D) and 4,111 (2D) held-out instances. T1 and D2: the comparisons that hold, five metrics in three seeds and the seed mean; T2: the lowest and highest share over the seeds, and the share of the instance-seed pairs; H1 to H3: rel and the noise guard of the note to \cref{tab:claims}; H2c: the rel of H2b, against −50%. V: per network and metric, a two-sided Mann–Whitney test of the holdout against the validation instances, the 35 p-values taken together by Holm's procedure at a family-wise level of 5% (supplementary Section~\SuppPrereg).
 
-### Holdout evaluation: the mean and the median of every network and metric on the validation and on the held-out instances.
+### Holdout evaluation: the mean and the median over the instances of every network and metric, each instance's value averaged over the seeds, on the validation instances, as the evaluation recomputed them, and on the held-out instances. Ratio: held-out mean over validation mean, with a 95% percentile interval from 2,000 resamplings of the held-out instances.
 
 | Network | Metric | Validation: mean / median | Holdout: mean / median | Ratio of the means (95%) |
 |---|---|---|---|---|
@@ -328,9 +303,9 @@
 |  | Peak stress | 0.321 / 0.153 | 0.320 / 0.159 | 1.00 (0.95–1.05) |
 |  | Recall | 0.517 / 0.549 | 0.520 / 0.544 | 1.01 (1.00–1.01) |
 
-- Per network and metric, the mean and the median over the instances of each instance's value averaged over the seeds; the validation values recomputed by the holdout evaluation, whose check of the reports' displacement errors and relative energy gaps they passed (the graph networks' to within $2 \times 10^{-4}$ in the median). Ratio: holdout mean over validation mean, with a 95% percentile interval from 2,000 resamplings of the holdout instances. V's two-sided Mann–Whitney tests compare the per-instance values; Holm's procedure rejected none of their p-values, which the evaluation's verdict records, at a family-wise level of 5%. The energy-norm-supervised transformer was evaluated in 2D only: its 3D counterpart was trained after this evaluation (\cref{sec:norm:three}).
+- The energy-norm-supervised transformer was evaluated in 2D only: its 3D counterpart was trained after this evaluation (\cref{sec:norm:three}).
 
-### The Ritz projection paired with the networks and baselines: the share of the instances on which the projection was the more accurate, per set and degree $p$.
+### The Ritz projection paired with the networks and baselines: the share of the instances on which the projection was strictly the more accurate, per set and degree $p$; for a trained network the lowest and the highest over the three seeds, one value when they agree.
 
 | Set | Model | $p$ | Displacement error | Relative energy gap | von Mises error | Peak stress error | Critical-region recall |
 |---|---|---|---|---|---|---|---|
@@ -457,7 +432,6 @@
 |  | Graph network, displacement | 6 | 55%–57% | 100% | 100% | 29%–33% | 99.9%–100% |
 |  |  | 8 | 71%–72% | 100% | 100% | 37%–42% | 99.98%–100% |
 
-- The share of the instances on which the Ritz projection was strictly the more accurate than the model, for each seed of a trained network (the lowest and the highest over the three seeds; one value when they agree), and for the deterministic baselines. Higher is better in critical-region recall, lower in every other metric; ties, which occur only in critical-region recall, are counted with neither. A share strictly between 0% and 100% is never shown as either. Networks at 1,024 labelled instances; on the finer mesh the networks trained in-band are applied zero-shot and the few-shot networks are those of the transfer comparison. The shares for every other network and budget of the summaries are in the records.
 
 ### Three-dimensional energy-norm run: every metric of the three transformers on the 256 validation instances, the seeds' medians and the seeds' means over the instances (mean ± sample standard deviation over the three seeds).
 
@@ -623,6 +597,9 @@
 - `numDiagScaledMax`: 0.52
 - `numDiagScaledMin`: 0.22
 - `numDiagSeeds`: six
+- `numEOneAccDisp`: −4.7%
+- `numEOneAccGap`: −4.6%
+- `numEOneAccGuard`: 10.0%
 - `numEOneBaseDisp`: 0.0634
 - `numEOneBaseGap`: 0.0383
 - `numEOneDeltaMax`: 0.014

@@ -91,20 +91,19 @@ transformer's seed-mean relative energy gap was the lower, \numHoldTwoFreeGap{} 
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=\linewidth]{generated/fig_label_efficiency.pdf}
-\caption{Errors against the number of labelled training instances, in three dimensions
-(left) and two (right): seed-mean relative displacement error (top) and relative energy gap
-(bottom) of the supervised networks. The horizontal line is the label-free transformer,
-trained on the same 1,024 instances without their solutions. The displacement-supervised
-transformer with the energy term is shown in three dimensions only; the
-energy-norm-supervised transformer appears in two dimensions only, since in three it was
-trained with 1,024 labelled instances only, and the graph network was trained with 64 and
-1,024 labels only.}
+\caption{Seed-mean relative displacement error (top) and relative energy gap (bottom) of the
+supervised networks against the number of labelled training instances, in three dimensions
+(left) and two (right). Horizontal line: the label-free transformer, trained on the same
+1,024 instances without their solutions.}
 \label{fig:labeleff}
 \end{figure}
 
 With fewer labels the supervised networks were trained for fewer steps as well
 (\cref{sec:methods:training}), and their errors were in general larger (\cref{fig:labeleff};
-the values are in supplementary Section~\SuppThree{}). In three dimensions the label-free
+the values are in supplementary Section~\SuppThree{}). The figure shows the
+displacement-supervised transformer with the energy term in three dimensions only, and the
+energy-norm-supervised transformer in two only, since in three it was trained with 1,024
+labelled instances only; the graph network was trained with 64 and 1,024 labels only. In three dimensions the label-free
 transformer's relative energy gap was lower than that of every network trained on the
 displacement error at every number of labels, and its displacement error lower than both
 displacement-supervised transformers';

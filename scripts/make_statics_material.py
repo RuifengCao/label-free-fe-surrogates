@@ -40,6 +40,9 @@ Outputs (paper/statics/generated/):
 * table_cost.tex -- the surrogate's inference against exact solves (Section 8.4);
 * table_amplitude.tex, table_remesh.tex, table_e1.tex, table_e2.tex -- the
   wp8 tables' rows (shared code) with this manuscript's captions;
+* cost_protocol.tex, amplitude_readings.tex, remesh_readings.tex, e2_readings.tex --
+  paragraphs of the supplementary material: the protocol of the cost table and the
+  readings beside three of its tables, which their notes gave until Stage 19;
 * numbers.tex -- one macro per number quoted in the text;
 * fig_disp_vs_stress.pdf, fig_energy_gap.pdf, fig_label_efficiency.pdf;
 * fig_spectra.pdf, fig_field2d.pdf (2D, post hoc) and fig_field_worst.pdf,
@@ -344,10 +347,13 @@ def longtable(head: list, rows: list, caption: str, label: str, notes: list, ali
         if i in rules:
             out.append(r"\midrule")
         out.append(_row(r, len(head)))
-    out += [r"\end{longtable}", r"\endgroup", r"\vspace{-\smallskipamount}",
-            r"\noindent\begin{minipage}{\linewidth}\footnotesize\raggedright"]
-    out += [tex(n) + (r"\par" if i < len(notes) - 1 else "") for i, n in enumerate(notes)]
-    out += [r"\end{minipage}", r"\par\medskip", ""]
+    out += [r"\end{longtable}", r"\endgroup"]
+    if notes:
+        out += [r"\vspace{-\smallskipamount}",
+                r"\noindent\begin{minipage}{\linewidth}\footnotesize\raggedright"]
+        out += [tex(n) + (r"\par" if i < len(notes) - 1 else "") for i, n in enumerate(notes)]
+        out += [r"\end{minipage}"]
+    out += [r"\par\medskip", ""]
     return "\n".join(out)
 
 
@@ -644,6 +650,74 @@ RELABEL = {
 }
 
 
+E1_NOTES = [
+    "SIGReg statistic (tokens): the regulariser's statistic on the latent vectors themselves "
+    "rather than on the projection head's output (lower is closer to an isotropic Gaussian). "
+    "Raw tokens: the regulariser on the latent vectors directly; one seed, reported only."]
+
+
+def side_readings(amp: dict, e2: dict, e1: dict) -> dict:
+    """The readings that the notes of the amplitude, remeshing and bottleneck tables gave, as
+    paragraphs of the supplementary text, from the same records and with the same rounding as
+    those notes (scripts/make_wp8_paper_material.py)."""
+    A, lcs = amp["archs"], amp["lc"]
+    name = {"transformer": "the transformer", "m512": "M = 512", "m1024": "M = 1,024"}
+    keys = [key for key, _, _ in W.E2_ARCHS]
+    if keys != ["transformer", "m512", "m1024"]:
+        raise SystemExit("the bottleneck sizes are not those of the text")
+    inband = and_list([f"{W._mean(A[k]['inband_c_star_median']):.2f} for {name[k]}"
+                       for k in keys])
+    means = and_list([f"from {W._g(W._mean(A[k]['fine_egap']))} to "
+                      f"{W._g(W._mean(A[k]['fine_egap_c']))} for {name[k]}" for k in keys])
+    hdr = "% generated from the committed records; do not edit\n"
+    amp_tex = (
+        r"In \cref{tab:amplitude}, $c^*$ is computed per load case on the evaluated mesh, from "
+        "that mesh's stiffness matrix and load vector, without labels or a solve; its in-band "
+        f"median was {inband}. Scaling by $c^*$ never increases the error in the energy norm "
+        rf"(\cref{{prop:amp}}), and it did not in any of the {amp['n_rows']:,} instance-seed "
+        "evaluations measured. The columns without $c^*$ reproduce the runs' own per-instance "
+        "arrays, the transformer's exactly and the bottlenecks' to a relative "
+        f"{amp['repro_max']:.2g} at most; the bottleneck run's own two evaluations of the same "
+        f"trained networks differ in-band by up to {amp['inrun_max']:.2g}, the "
+        "three-dimensional comparison's not at all. The fine-mesh relative energy gap has a "
+        f"heavy tail: its means over the instances fell with $c^*$ {means}.\n")
+    lc0, rest = lcs[0], lcs[1:]
+    fsc = and_list([f"{x:.3f}" for x in amp["fscale"][1:]])
+    sq = and_list([f"{(lc / lc0) ** 2:.3f}" for lc in rest])
+    lcl = and_list([f"{lc}" for lc in rest])
+    parts = [and_list([f"{W._mean(v):.2f}" for v in A[k]["remesh_unorm"][1:]])
+             + f" for {name[k]}" for k in keys]
+    unorm = "; ".join(parts[:-1]) + "; and " + parts[-1]
+    rem_tex = (
+        r"In \cref{tab:remesh}, the largest nodal load over the four load cases, by which both "
+        f"networks multiply their output, was at $l_c$ = {lcl} a factor of {fsc} of its value at "
+        f"$l_c = {lc0}$, against $(l_c/{lc0})^2$ = {sq}. At the same three values of $l_c$, "
+        f"the energy norm of the label-free prediction, relative to its value at $l_c = {lc0}$ "
+        f"and averaged over the seeds, was {unorm}.\n")
+    tr = e2["archs"]["transformer"]["step_ms_both"]
+    c, n, mach, st = e2["corpus"], e2["nodes"], e2["machine"], e2["bench_steps"]
+    if not mach["tf32"]:
+        raise SystemExit("the bottleneck benchmark ran without TF32, which the text says")
+    e2_tex = (
+        r"In \cref{tab:e2}, the in-band instances are the "
+        f"{c['n_val']} validation instances, with $l_c$ from {c['lc_range'][0]} to "
+        f"{c['lc_range'][1]}, and the fine-mesh instances {c['n_fine']} instances at "
+        f"$l_c = {c['lc_fine']}$, never trained on. A step time is that of one label-free "
+        f"training step on one instance of the stated size, on an {mach['gpu']} with TF32, "
+        "from a dedicated benchmark whose instances at the two ends of the in-band range have "
+        f"{n['inband_0']:,} and {n['inband_2']:,} nodes and whose fine-mesh instance has "
+        f"{n['fine']:,}: for the bottleneck the median over {words(st[2])} "
+        f"repetitions of the time of {st[1]} steps minus that of {st[0]} steps, divided by "
+        f"{st[1] - st[0]}, which removes the set-up time; for the transformer a single timed "
+        "step, its set-up included, the mean of its two benchmark measurements, "
+        f"{tr['inband_0'][0]:,.0f} and {tr['inband_0'][1]:,.0f} ms in-band and "
+        f"{tr['fine'][0]:,.0f} and {tr['fine'][1]:,.0f} ms on the fine mesh. The noise guard "
+        r"of the bottleneck run's criteria (\cref{tab:criteria}) is that of the paper's "
+        r"\ref{app:claims}, with the label-free transformer as the reference; the "
+        "pre-registration calls it the resolution.\n")
+    return {"amp": hdr + tex(amp_tex), "remesh": hdr + tex(rem_tex), "e2": hdr + tex(e2_tex)}
+
+
 def relabel(key: str, head: list, rows: list, notes: list) -> tuple:
     def sub(x: str, counts: dict) -> str:
         for i, (a, b) in enumerate(RELABEL[key]):
@@ -829,11 +903,14 @@ def criteria_rows(r2: dict, r3: dict, e1v: dict, e2v: dict, pilot: tuple,
     ]
     rules.append(len(rows))
     sd = e1v["S_delta"]
+    k1d, k1g = e1v["K1_detail"]["disp_rel_l2"], e1v["K1_detail"]["energy_gap_rel"]
     rows += [
         ["Latent-\\hspace{0pt}regularisation run (2D), 29 September 2026",
          "Latent regularisation, K1: "
          "relative change of the displacement error or of the relative energy gap beyond the "
-         "noise guard", "within the guard", fired(e1v["K1_parity"])],
+         "noise guard", f"{spct(k1d['rel_change'])} (guard {pct(k1d['threshold'])}), "
+         f"{spct(k1g['rel_change'])} (guard {pct(k1g['threshold'])})",
+         fired(e1v["K1_parity"])],
         ["", "Latent regularisation, K2: the separation does not rise in any seed",
          "rose in every seed", fired(e1v["K2_no_effect"])],
         ["", f"Latent regularisation, GO: separation raised by ≥ {e1v['S_effect_floor']:g} in "
@@ -1111,15 +1188,6 @@ def cm2d_hypothesis_table(v: dict, rc: dict) -> tuple:
             rows[k].append(val)
     ex = v["H3"]["roles_exchanged"]
     notes = [
-        r"rel, SE_rel and the noise guard as defined in the note to \cref{tab:criteria}, over "
-        "the three seeds' values, each the mean over the 256 validation instances and their "
-        "four load cases.",
-        "Medians: the same reading on each seed's median over the instances instead of its "
-        "mean. Welch: rel ± t × SE_rel, with t the 97.5% quantile of Student's distribution "
-        "at the Welch–Satterthwaite degrees of freedom, a symmetric interval that can extend "
-        "below −100%. Instance resampling: the 2.5% and "
-        "97.5% percentiles of rel over 2,000 resamplings of the 256 validation instances, "
-        "the same instances drawn for both networks and every seed, the seeds kept.",
         "H3 is a reading without a criterion. With the roles of A and B exchanged, rel was "
         f"{spct(ex['rel_change'])} against a guard of {pct(ex['threshold'])}.",
     ]
@@ -1314,6 +1382,12 @@ def numbers(r2: dict, rd: dict, r3: dict, amps: dict, e1base: dict, rw: dict,
     N.put("numEOneFloor", f"{e1v['S_effect_floor']:g}")
     N.put("numEOneDeltaMin", f"{min(e1v['S_delta']):.3f}")
     N.put("numEOneDeltaMax", f"{max(e1v['S_delta']):.3f}")
+    k1 = e1v["K1_detail"]
+    if k1["disp_rel_l2"]["threshold"] != k1["energy_gap_rel"]["threshold"] or e1v["K1_parity"]:
+        raise SystemExit("E1: the accuracy criterion is not the text's (one guard, not triggered)")
+    N.put("numEOneAccDisp", spct(k1["disp_rel_l2"]["rel_change"]))
+    N.put("numEOneAccGap", spct(k1["energy_gap_rel"]["rel_change"]))
+    N.put("numEOneAccGuard", pct(k1["disp_rel_l2"]["threshold"]))
     kap = [rep["results"]["wp6"]["metrics"]["conditioning"]["kappa_range"] for rep in (r2, r3)]
     N.put("numSqrtKappaMin", f"{min(k[0] for k in kap) ** 0.5:.0f}")
     N.put("numSqrtKappaMax", f"{max(k[1] for k in kap) ** 0.5:.0f}")
@@ -2401,34 +2475,43 @@ def cost_material(N: Numbers, used: dict) -> tuple:
     worse = and_list([num(x, 3) for x in fine["worse_loads"]])
     solved, total, limit = budget["3D, fine mesh"]
     notes = [
-        "Medians over the instances (CG iterations, from the zero field / to the prediction's "
-        "accuracy, and CG's displacement error: over the load cases). 2D: the first "
-        f"{cols['2D']['n']} validation instances of the two-dimensional comparison; 3D: the "
-        f"first {cols['3D']['n']} validation and {fine['n']} fine-mesh instances of the "
-        "three-dimensional comparison; the label-free transformers of seed 0. Wall times per "
-        "instance, all load cases together, without the assembly, which the surrogate does "
-        "not need.",
-        f"Surrogate: one {gpu} with TF32, preparing the inputs and copying the prediction back "
-        f"included; first call after an untimed warm-up on {st['warmup']} validation "
-        f"instances, repeated call the median of {st['repeats'] - 1} further passes. Solvers: "
-        f"the CPU of the same machine ({cpu_tex}, {nproc} CPUs, the thread environment set to "
-        f"{env_threads}): SuperLU, which produced the labels, and unpreconditioned conjugate "
-        "gradients (CG) to a relative residual of $10^{-10}$, from the zero field or from the "
-        "prediction. CG to the prediction's accuracy stops, on each load case, at the first "
-        "iterate whose relative energy error is at most the prediction's: it reads the "
-        "reference solution, a lower bound. The fine-mesh direct solve used up its budget of "
-        f"{limit:.0f} s after {words(solved)} of the {words(total)} instances; its median, and "
-        f"the ratios that use it, are over those {words(solved)}.",
-        r"Ritz projection (\cref{sec:methods:ritz}), from the lowest to the highest degree "
-        f"($p = 6$ to 9 in 3D, 6 and 8 in 2D), with the machine's {nproc} BLAS threads: the "
-        "time after the assembly of $K$, which is listed apart (in 2D the assembler also builds "
-        "the four load vectors), for the free block, the basis, $\\Phi^{\\top}K\\Phi$ and "
-        "$\\Phi^{\\top}F$, the small solve and the reconstruction.",
-        f"On the fine mesh, {words(len(fine['worse_loads']))} of the {fine['n'] * fine['loads']} "
-        f"load cases had a relative energy gap above 1 ({worse}) and "
-        f"{words(fine['worse_instances'])} of the {words(fine['n'])} instances a mean above 1; "
-        r"CG matches such a load case with no iteration. Threads: \cref{sec:cost:inference} "
-        "and the supplementary material."]
+        f"Fine mesh, direct solve: the median over the {words(solved)} of the {words(total)} "
+        f"instances that it solved before its budget of {limit:.0f} s ran out.",
+        "CG to the prediction's accuracy reads the reference solution, so it is a lower bound; "
+        f"on the fine mesh it needs no iteration on the {words(len(fine['worse_loads']))} load "
+        "cases whose relative energy gap exceeds 1."]
+    protocol = "\n".join([
+        "% generated from the committed records; do not edit",
+        r"\paragraph{The measurements of \cref{tab:cost}}",
+        f"The two-dimensional column times the first {cols['2D']['n']} validation instances of "
+        f"the two-dimensional comparison, and the three-dimensional columns the first "
+        f"{cols['3D']['n']} validation and {fine['n']} fine-mesh instances of the "
+        "three-dimensional comparison, with the label-free transformers of seed 0. The table "
+        "gives medians over the instances of the wall time per instance, all load cases "
+        "together and without the assembly, which the surrogate does not need; the "
+        "iterations of conjugate gradients (CG), from the zero field and to the prediction's "
+        "accuracy, and CG's displacement error are medians over the load cases. The surrogate "
+        f"ran on one {gpu} with TF32, preparing the inputs and copying the prediction back "
+        f"included; its first call was timed after an untimed warm-up on {st['warmup']} "
+        f"validation instances, and its repeated call is the median of {st['repeats'] - 1} "
+        f"further passes. The solvers ran on the CPU of the same machine ({cpu_tex}, {nproc} "
+        f"CPUs, the thread environment set to {env_threads}): SuperLU, which produced the "
+        "labels, and unpreconditioned CG to a relative residual of $10^{-10}$, from the zero "
+        "field or from the prediction. CG to the prediction's accuracy stops, on each load "
+        "case, at the first iterate whose relative energy error is at most the prediction's; "
+        "it reads the reference solution, so that a practical run would take at least as long. "
+        f"The fine-mesh direct solve used up its budget of {limit:.0f} s after "
+        f"{words(solved)} of the {words(total)} instances; its median, and the ratios that use "
+        f"it, are over those {words(solved)}. The Ritz projection ran from the lowest to the "
+        "highest degree ($p = 6$ to 9 in three dimensions, 6 and 8 in two) with the machine's "
+        f"{nproc} BLAS threads; its time is that after the assembly of $K$, which the table "
+        "lists apart (in two dimensions the assembler also builds the four load vectors), for "
+        "the free block, the basis, $\\Phi^{\\top}K\\Phi$ and $\\Phi^{\\top}F$, the small "
+        "solve and the reconstruction. On the fine mesh, "
+        f"{words(len(fine['worse_loads']))} of the {fine['n'] * fine['loads']} load cases had a "
+        f"relative energy gap above 1 ({worse}) and {words(fine['worse_instances'])} of the "
+        f"{words(fine['n'])} instances a mean above 1; CG matches such a load case with no "
+        "iteration.", ""])
     for name, _, _ in COST_SETS:
         c, tag = cols[name], COST_TAG[name]
         N.put(f"numCost{tag}DirectRatio", f"{c['direct_over_surrogate_cold']:.0f}"
@@ -2492,7 +2575,7 @@ def cost_material(N: Numbers, used: dict) -> tuple:
     if not (rv[0] < cols["3D"]["surrogate_cold_s"] < rv[-1]
             and rf_[-1] < cols["3D, fine mesh"]["surrogate_cold_s"]):
         raise SystemExit("the Ritz projection against the surrogate is not as the text says")
-    return head, rows, notes
+    return head, rows, notes, protocol
 
 
 def timing_rerun_numbers(N: Numbers, used: dict) -> None:
@@ -2708,15 +2791,6 @@ def k3d_material(N: Numbers, k: dict, vk: dict, r3: dict) -> tuple:
             rows[key].append(val)
     ex = h3["roles_exchanged"]
     notes = [
-        "Every reading is of the seeds' values, each seed's median over the 256 validation "
-        "instances (the pre-registered statistic) unless the row says seed means; rel, "
-        r"SE_rel and the noise guard as defined in the note to \cref{tab:criteria}. "
-        "Welch: rel ± t × SE_rel at the Welch–Satterthwaite degrees of freedom, a symmetric "
-        "interval that can extend below −100%. Instance resampling: the 2.5% and 97.5% "
-        "percentiles of rel over 2,000 resamplings of the 256 instances, the same instances "
-        "for both networks and every seed, the seeds kept, each seed's value the median of "
-        f"its resampled values. Holdout: the same readings on the {ho['n']} held-out "
-        r"instances of \cref{sec:holdout}, without a verdict.",
         f"H3-3D is a reading without a criterion. With the roles of A and B exchanged, rel was "
         f"{spct(ex['rel_change'])} against a guard of {pct(ex['threshold'])}."]
     # supplementary: the medians and means of every metric, and the 30 comparisons
@@ -2939,17 +3013,7 @@ def holdout_material(N: Numbers, vho: dict, used: dict, r3: dict, rcm: dict,
         raise SystemExit("holdout H2c: not the comparison of H2b against halving")
     if not all(cm[h]["verdict"] == "SUPPORTED" for h in ("H1", "H2a", "H2b")):
         raise SystemExit("holdout: the validation verdicts are not those of the text")
-    notes = [
-        r"Validation: the values of \cref{sec:norm,sec:labelfree,sec:checks} on the validation "
-        r"instances (T3 per load case). Holdout: "
-        f"the same stored networks on {N['numHoldThreeN']} (3D) and {N['numHoldTwoN']} (2D) "
-        "held-out instances. T1 and D2: the comparisons that hold, five metrics in three seeds and the "
-        "seed mean; T2: the lowest and highest share over the seeds, and the share of the "
-        "instance-seed pairs; H1 to H3: rel and the noise guard of the note to "
-        r"\cref{tab:claims}; H2c: the rel of H2b, against −50%. V: per network and metric, a "
-        "two-sided Mann–Whitney test of the holdout against the validation instances, the "
-        f"{len(V['quantities'])} p-values taken together by Holm's procedure at a family-wise "
-        f"level of {pct(V['alpha'], 0)} " + r"(supplementary Section~\SuppPrereg)."]
+    notes = []
     # the readings beside H2a (PREREG_HOLDOUT Sec. 6; no verdict)
     h2a = c["H2a"]
     kn = _arrays_values(z["h2d"], "labels_knorm", "energy_gap_rel")
@@ -3068,18 +3132,8 @@ def holdout_material(N: Numbers, vho: dict, used: dict, r3: dict, rcm: dict,
                               f"{r_['ratio']:.2f} ({r_['interval_95_holdout'][0]:.2f}–"
                               f"{r_['interval_95_holdout'][1]:.2f})"])
     vnotes = [
-        "Per network and metric, the mean and the median over the instances of each "
-        "instance's value averaged over the seeds; the validation values recomputed by the "
-        "holdout evaluation, whose check of the reports' displacement errors and relative "
-        "energy gaps they passed (the graph networks' to within "
-        f"{_sci(max(ch[k] for cc in vho['content_checks'].values() for ch in cc.values() for k in ('disp_rel_l2_median_rel_dev', 'energy_gap_rel_median_rel_dev')), 1)} "
-        "in the median). Ratio: holdout mean over validation mean, with a 95% percentile "
-        "interval from 2,000 resamplings of the holdout instances. V's two-sided "
-        "Mann–Whitney tests compare the per-instance values; Holm's procedure rejected none "
-        f"of their p-values, which the evaluation's verdict records, at a family-wise level of "
-        f"{pct(V['alpha'], 0)}. The energy-norm-supervised transformer was "
-        "evaluated in 2D only: its 3D counterpart was trained after this evaluation "
-        r"(\cref{sec:norm:three})."]
+        "The energy-norm-supervised transformer was evaluated in 2D only: its 3D counterpart "
+        r"was trained after this evaluation (\cref{sec:norm:three})."]
     return (head, rows, notes), (vhead, vrows, vnotes, tuple(vrules))
 
 
@@ -3308,16 +3362,7 @@ def ritz_material(N: Numbers, R: dict) -> tuple:
                     cells_.append(lo_ if lo_ == hi_ else f"{lo_}–{hi_}")
                 rows.append([RITZ_SET_NAMES[s] if (i == 0 and j == 0) else "",
                              _model_name(m) if j == 0 else "", str(p)] + cells_)
-    notes = [
-        "The share of the instances on which the Ritz projection was strictly the more "
-        "accurate than the model, for each seed of a trained network (the lowest and the "
-        "highest over the three seeds; one value when they agree), and for the deterministic "
-        "baselines. Higher is better in critical-region recall, lower in every other metric; "
-        "ties, which occur only in critical-region recall, are counted with neither. A share "
-        "strictly between 0% and 100% is never shown as either. Networks at 1,024 labelled "
-        "instances; on the finer mesh the networks trained in-band are applied zero-shot and "
-        "the few-shot networks are those of the transfer comparison. The shares for every "
-        "other network and budget of the summaries are in the records."]
+    notes = []
     return {"val3d": ritz_rows(v3), "val2d": ritz_rows(v2), "fine3d": ritz_rows(f3, worse=False),
             "pairs": (head, rows, notes, tuple(rules))}
 
@@ -3970,52 +4015,92 @@ def fig_fields3d(figs: dict, out: Path) -> list:
 
 
 # ---------------------------------------------------------------- main
-CAP_2D = ("Two-dimensional plates, every metric at the largest label budget. The supervised "
-          "networks were trained on 1,024 labelled instances; the label-free transformer on "
-          "the same 1,024 instances without their solutions.")
-CAP_2DJULY = (r"Two-dimensional plates, the July run with the earlier code: every metric at "
-              r"the largest label budget, on the instances of \cref{tab:2d}.")
-CAP_3D = ("Three-dimensional solids, every metric at the largest label budget. The supervised "
-          "networks were trained on 1,024 labelled instances; the label-free transformer on "
-          "the same 1,024 instances without their solutions.")
-CAP_LE = ("Label efficiency: relative displacement error / relative energy gap against the "
-          "number of labelled training instances (seed means).")
+CAP_2D = ("Two-dimensional plates: every metric on the 256 validation instances, four load "
+          "cases each, for the networks trained on 1,024 instances (the label-free transformer "
+          "on the same instances without their solutions) and for the baselines. Trained "
+          "networks: mean ± sample standard deviation over three seeds. Metrics as in "
+          r"\cref{sec:methods:metrics}; lower is better except in critical-region recall.")
+CAP_2DJULY = (r"Two-dimensional plates, the July run with the earlier code: every metric on "
+              r"the validation instances of \cref{tab:2d}, for the networks trained on 1,024 "
+              "instances and the baselines; trained networks: mean ± sample standard deviation "
+              r"over three seeds. Metrics as in \cref{sec:methods:metrics}; lower is better "
+              "except in critical-region recall.")
+CAP_3D = ("Three-dimensional solids: every metric on the 256 validation instances, four load "
+          "cases each, for the networks trained on 1,024 instances (the label-free transformer "
+          "on the same instances without their solutions) and for the baselines. Trained "
+          "networks: mean ± sample standard deviation over three seeds. Metrics as in "
+          r"\cref{sec:methods:metrics}; lower is better except in critical-region recall.")
+CAP_LE = ("Relative displacement error / relative energy gap against the number of labelled "
+          "training instances, seed means over three seeds, in the three- and two-dimensional "
+          r"comparisons (\cref{tab:3d,tab:2d}); the nearest-neighbour field is deterministic. "
+          "A dash marks a budget at which a network was not trained; the label-free row "
+          "repeats its single value, which uses the same 1,024 instances without labels.")
 CAP_LEJULY = ("The July run (two dimensions, earlier code): relative displacement error / "
-              "relative energy gap against the number of labelled training instances (seed "
-              "means).")
-CAP_TR = ("Three-dimensional solids on the finer mesh (lc = 0.0374), never trained on. "
-          "Zero-shot rows use the networks trained in-band; few-shot rows train, with labels, "
-          "on the first 16 or on all of the 64 fine-mesh instances reserved for few-shot "
-          "training.")
+              "relative energy gap against the number of labelled training instances, seed "
+              "means over three seeds. The nearest-neighbour field is that of "
+              r"\cref{tab:labeleff}, the graph network was trained at every budget, and the "
+              "label-free row repeats its single value (1,024 instances, no labels).")
+CAP_TR = ("Three-dimensional solids on the finer mesh (lc = 0.0374): every metric on the 256 "
+          "fine-mesh evaluation instances, never trained on; trained networks: mean ± sample "
+          "standard deviation over three seeds. Zero-shot rows use the networks trained "
+          "in-band; few-shot rows train, with labels, on the first 16 or on all of the 64 "
+          "fine-mesh instances reserved for few-shot training.")
 CAP_CR = "Every pre-registered criterion of the runs reported here, with its outcome."
 CAP_CL = ("The pre-registered claims of the comparisons reported in this paper, with the "
           "outcomes that the code recorded at the time.")
 CAP_CM2D = ("The pre-registered hypotheses of the two-dimensional comparison, with 1,024 "
             "labelled instances, as its adjudicator recorded them, and the readings its "
-            "pre-registration required beside each.")
+            r"pre-registration required beside each, defined in Section~\ref{app:prereg}.")
 CAP_AMP = ("Post hoc, three-dimensional: errors of the label-free networks before and after "
-           "scaling each prediction by its energy-optimal amplitude c*, in-band and on the "
-           "finer mesh (zero-shot).")
+           r"scaling each prediction by its energy-optimal amplitude c* \eqref{eq:cstar}, "
+           "in-band (the 256 validation instances) and on the 256 fine-mesh instances "
+           "(zero-shot); seed mean ± sample standard deviation over three seeds.")
 CAP_REM = ("Post hoc, three-dimensional: the energy-optimal amplitude c_b of the four load "
-           "cases of an instance together, for the label-free networks, on fixed geometries "
-           "and loads meshed at four mesh sizes lc.")
+           "cases of an instance together, for the label-free networks, on new geometries "
+           "each meshed at four mesh sizes lc with the same loads, so that only the mesh "
+           "changes; median over the geometries, then seed mean ± sample standard deviation. "
+           "Training range: lc = 0.0579–0.0906.")
 CAP_E2 = ("Token bottleneck against the label-free transformer, which has one token per "
           "node, both trained on the energy alone with the same corpus, split, seeds and "
-          "schedule (three dimensions).")
-CAP_COST = ("Time of the label-free transformer's inference against solves of the same "
-            "systems, on the same instances, with the surrogate's accuracy there.")
-CAP_E1 = ("Isotropic Gaussian regularisation of the latent vectors added to the label-free "
-          r"objective (two dimensions, with the later code of \cref{sec:methods:networks}).")
+          "schedule (three dimensions): seed mean ± sample standard deviation over three "
+          "seeds of the errors, in-band and on the finer mesh (zero-shot), and the time of one "
+          r"training step. Criteria and outcomes: \cref{tab:criteria}.")
+CAP_COST = ("Wall time per instance of the label-free transformer's inference, on one GPU, "
+            "and of solves of the same systems on the same machine's CPU, all load cases "
+            "together and without the assembly, with the surrogate's accuracy on the same "
+            "instances. CG: unpreconditioned conjugate gradients; its iterations (from the "
+            "zero field / to the prediction's accuracy) and its displacement error are medians "
+            "over the load cases, the other times and errors medians over the instances. "
+            r"Protocol in supplementary Section~\SuppTiming{}.")
+CAP_E1 = ("Sketched isotropic Gaussian regularisation (SIGReg) of the latent vectors added "
+          "to the label-free objective, two dimensions, with the later code of "
+          r"\cref{sec:methods:networks}: seed mean ± sample standard deviation on the 256 "
+          "validation instances; untrained rows measured after the runs. S: silhouette of the instance-mean latent vectors over four "
+          "geometry bins; probe R²: linear probe of the geometry descriptor; 1-NN: "
+          "leave-one-out accuracy of a nearest-neighbour classifier of the bin (chance "
+          "CHANCE).")
 CAP_K3D = ("The pre-registered hypotheses of the three-dimensional energy-norm run, with "
            "1,024 labelled instances, as its adjudicator recorded them, and the readings its "
-           "pre-registration required beside each.")
-CAP_HOLD = ("The claims of the three- and two-dimensional comparisons read again on held-out "
-            "instances, as the adjudicator of the holdout evaluation recorded them, beside "
-            "their values on the validation instances.")
-CAP_HOLDV = ("Holdout evaluation: the mean and the median of every network and metric on the "
-             "validation and on the held-out instances.")
+           "pre-registration required beside each: each seed's median over the 256 validation "
+           r"instances, or in the holdout rows, which carry no verdict, over the "
+           r"\numHoldThreeN{} held-out instances, unless a row says seed means; the readings "
+           r"are those of \cref{tab:cm2d}.")
+CAP_HOLD = ("The claims of the comparisons that the pre-registered holdout evaluation read "
+            r"again on the held-out instances (\cref{sec:holdout}), with the same stored "
+            "networks and as its adjudicator recorded them, beside their values on the "
+            "validation instances. T1 and D2: comparisons "
+            "that hold, five metrics in each seed and in the seed mean; T2: the range of the "
+            "shares over the seeds, then the share of the instance-seed pairs; H1 to H3: the "
+            r"relative difference rel and its noise guard (\ref{app:claims}).")
+CAP_HOLDV = ("Holdout evaluation: the mean and the median over the instances of every network "
+             "and metric, each instance's value averaged over the seeds, on the validation "
+             "instances, as the evaluation recomputed them, and on the held-out instances. "
+             "Ratio: held-out mean over validation mean, with a 95% "
+             "percentile interval from 2,000 resamplings of the held-out instances.")
 CAP_RITZP = ("The Ritz projection paired with the networks and baselines: the share of the "
-             "instances on which the projection was the more accurate, per set and degree $p$.")
+             "instances on which the projection was strictly the more accurate, per set and "
+             "degree $p$; for a trained network the lowest and the highest over the three "
+             "seeds, one value when they agree.")
 CAP_KMED = ("Three-dimensional energy-norm run: every metric of the three transformers on "
             "the 256 validation instances, the seeds' medians and the seeds' means over the "
             "instances (mean ± sample standard deviation over the three seeds).")
@@ -4051,7 +4136,7 @@ def build() -> dict:
     field_numbers(N, fj, ez)
     figure_numbers(N, figs)
     timing_numbers(N, e2, used)
-    h_cost, r_cost, n_cost = cost_material(N, used)
+    h_cost, r_cost, n_cost, p_cost = cost_material(N, used)
     timing_rerun_numbers(N, used)
     rk, vk = load(RK3, used), load(VK3, used)
     k = as_e8(rk)
@@ -4085,127 +4170,50 @@ def build() -> dict:
              + metric_rows(r3, ("zero",)))
     rowscm = (metric_rows(rcm, ("ar", "labels", "labels_knorm", "mgn", "knn_field",
                                 "scale_aware_poly")) + rz["val2d"] + metric_rows(rcm, ("zero",)))
-    def ritz_note(k_: str, ps: tuple) -> str:
-        deg = and_list([f"$p = {ps[0]}$", *(str(p_) for p_ in ps[1:])])
-        return (r"Ritz projection (\cref{sec:methods:ritz}), added after the pre-registered runs: "
-                "computed per instance from its own stiffness matrix and loads, without labels "
-                f"or training, with {k_} "
-                f"unknowns at {deg}; deterministic, so its count of predictions worse than "
-                "the zero field is over the instances.")
-    notescm = metric_notes(ncm, [
-        r"The two-dimensional comparison (\cref{sec:methods:prereg}). "
-        "The label-free row evaluates, without retraining them, the label-free networks of "
-        r"the latent-regularisation run (supplementary Section~\SuppSide), trained on the "
-        r"same 1,024 instances. Supervised, energy norm: the same transformer trained on "
-        r"$\mathcal{L}_K$ \eqref{eq:lk} instead of $\mathcal{L}_D$ \eqref{eq:ld}, with "
-        "everything else unchanged.", ritz_note(N["numRitzTwoK"], RITZ_LADDER[2])])
-    notes2 = metric_notes(n2, [
-        "The July run (16 July 2026). Its code did not multiply the load scale back onto the "
-        r"output (\cref{sec:methods:networks}); we attribute the narrow spread of the "
-        "displacement errors to this; no experiment isolated it."])
-    notes3 = metric_notes(n3, [
-        r"The three-dimensional comparison (\cref{sec:methods:prereg}). Supervised, energy "
-        r"norm: the three-dimensional energy-norm run (\cref{sec:norm:three}), the same "
-        r"transformer trained on $\mathcal{L}_K$ \eqref{eq:lk} with the same labelled "
-        "instances, settings and seeds, beside the stored label-free and "
-        "displacement-supervised transformers, which it evaluated again, reproducing their "
-        "values exactly.",
-        ritz_note(N["numRitzThreeK"], RITZ_LADDER[3])])
+    if not (ncm == n3 == n2 == 256):
+        raise SystemExit("the captions of Tables 2, 3 and S8 say 256 validation instances")
+    det_note = (r"The Ritz projection (\cref{sec:methods:ritz}) was added after the "
+                "pre-registered runs. It, the nearest-neighbour field and the scaled "
+                "polynomial are deterministic, so their last column counts instances.")
+    notescm = [det_note]
+    notes2 = [
+        r"The July run's code did not multiply the load scale back onto the output "
+        r"(\cref{sec:methods:networks}); we attribute the narrow spread of the displacement "
+        "errors to this, which no experiment isolated."]
+    notes3 = [det_note]
     hle = ["Run", "Model", "16", "64", "256", "1,024"]
     rle, rules_le = label_efficiency_rows((
         ("3D", r3, ("labels", "labels_anchor", "mgn", "knn_field")),
         ("2D", rcm, ("labels", "labels_knorm", "mgn", "knn_field"))))
-    nle = ["Seed means over 3 seeds; the nearest-neighbour field is deterministic. A dash marks "
-           "a budget at which the model was not trained (the graph network was trained at 64 "
-           r"and 1,024 labels only). 3D: the three-dimensional comparison (\cref{tab:3d}); 2D: "
-           r"the two-dimensional comparison (\cref{tab:2d}). The label-free row repeats its "
-           "single value, which uses the same 1,024 instances without labels."]
+    nle = []
     rlj, _ = label_efficiency_rows((
         ("2D, July", r2, ("labels", "labels_anchor", "ar_ft", "mgn", "knn_field")),))
     hlj = ["Model", "16", "64", "256", "1,024"]
     rlj = [r[1:] for r in rlj]
-    nlj = ["Seed means over 3 seeds; the nearest-neighbour field is deterministic, and the "
-           r"same as in \cref{tab:labeleff}. The graph network was trained at every budget in "
-           "this run. The label-free row repeats its single value, which uses the same 1,024 "
-           "instances without labels."]
+    nlj = []
     htr = ["Model", "Displacement\nerror", "Relative\nenergy gap", "von Mises\nerror",
            "Peak stress\nerror", "Critical-region\nrecall"]
     rtr = transfer_rows(r3)
     rtr = rtr[:5] + rz["fine3d"] + rtr[5:]
     p3 = r3["results"]["p3_transfer"]["metrics"]
-    ntr = [f"{per_instance(r3, 'ar', 'disp_rel_l2').shape[1]} fine-mesh evaluation instances "
-           f"(median {N['numNodesFineMedian']} nodes), disjoint from the 64 instances reserved "
-           "for few-shot training. "
-           "Mean ± sample standard deviation over 3 seeds; the naive baselines are "
-           "deterministic and built from the 1,024 in-band labelled instances.",
-           f"In-band, the label-free network's displacement error is "
-           f"{p3['ar']['inband_disp_mean']:.4f}; the zero-shot ratio is therefore "
-           f"{p3['ar']['fine_disp_mean'] / p3['ar']['inband_disp_mean']:.2f}.",
-           "Few-shot training minimises the relative displacement error $\\mathcal{L}_D$ "
-           r"\eqref{eq:ld}, without the energy term, for 50 epochs at learning rate "
-           "1.5 × 10⁻³, from the trained label-free network of the same seed or from random "
-           "initialisation (scratch); the few-shot comparison was pre-registered as reported "
-           r"only. Ritz projection: \cref{sec:methods:ritz}, added after the pre-registered runs, "
-           "deterministic, on the fine meshes themselves, with nothing trained."]
+    if per_instance(r3, "ar", "disp_rel_l2").shape[1] != 256:
+        raise SystemExit("the caption of Table S7 says 256 fine-mesh instances")
+    ntr = ["The Ritz projection, added after the pre-registered runs and computed on the fine "
+           "meshes themselves, and the naive baselines, built from the 1,024 in-band labelled "
+           "instances, are deterministic."]
     hcr = ["Run", "Criterion", "Measured", "Outcome"]
     pilot = (N["numPilotDisp"], N["numPilotLimit"])
     repro_max = adjudicator_constant(vcm, used, "REPRO_MAX")
     rcr, rules_cr = criteria_rows(r2, r3, e1v, e2v, pilot, rw, vcm, repro_max, vho, vk, dates)
     rcl, rules_cl = claims_rows(rcr)
-    ncl = ["The criteria are those of the pre-registration documents, which number their own; "
-           r"the runs are those of \cref{sec:methods:prereg}. Gates decide whether a study "
-           "proceeds to its next stage, kill conditions withdraw a claim when triggered. G2 (a) "
-           "is a sanity check of the supervised side, (b) the accuracy of the label-free "
-           "network and (c) its transfer to the finer mesh; the amendment of the "
-           "three-dimensional gate, written after the initial run, assessed (a) from 64 "
-           r"labels only; its naive baselines are the nearest-neighbour field and the scaled "
-           r"polynomial of \cref{sec:methods:networks}. The holdout evaluation's claims are in "
-           r"\cref{tab:holdout}. "
-           "Supplementary Section~\\SuppPrereg{} lists every criterion of every "
-           "run with its notes, and the departures from the plans.",
-           "Noise guard: a comparison of a network A with a reference B over three seeds "
-           "each, with rel = mean(A)/mean(B) − 1 and SE_rel = $(s_A^2/3 + s_B^2/3)^{1/2}$ "
-           "divided by mean(B), where $s_A$ and $s_B$ are the sample standard deviations over "
-           "the seeds, finds A lower beyond the guard when rel is below minus the guard, "
-           "max(10%, 2 SE_rel), and higher beyond it when rel exceeds the guard; within it no "
-           "difference is shown, which is not equivalence. The three-dimensional energy-norm "
-           "run applies it to each seed's median over the instances. $\\mathcal{L}_D$ and "
-           r"$\mathcal{L}_K$ are the losses \eqref{eq:ld} and \eqref{eq:lk}."]
+    ncl = []
     hcm, rhy, ncm2 = cm2d_hypothesis_table(vcm, rcm)
-    ncr = ["Runs are named as in \\cref{tab:runs} and dated by their records; the pilot of "
-           "the amendment is the short run that the amendment required before the "
-           r"three-dimensional comparison (Section~\ref{app:prereg}). Labels are those of the "
-           "pre-registration documents, each of which numbers its own criteria. Gates (G1′, G2) decide whether "
-           "the study proceeds to its next stage. Kill conditions withdraw a claim, or abandon "
-           "a component, when triggered: in two dimensions K1–K6, C1-advantage (the claimed "
-           "advantage in relative energy gap), C5 (the pre-registered checks of "
-           r"Section~\ref{app:repro:checks}) and E6 (latent alignment); in three dimensions KP1–KP6, "
-           "with KP5 the counterpart of C5. The latent-regularisation and bottleneck runs "
-           "number their criteria afresh, with the meanings given here. A criterion reads the "
-           "trained networks of the tables it names; the energy-term sub-experiment of the "
-           "July run trained its own supervised networks with and without the energy term, "
-           "with the same configuration. K4, E6 and KP6 concern latent representations, which "
-           "this paper does not use. Standardised effective rank: the participation ratio of "
-           "the eigenvalues of the covariance of the latent vectors, each dimension "
-           "standardised. The 3D amendment, the deviations and the joint-embedding term are "
-           r"described below, the latent regularisation and the token bottleneck in "
-           r"Section~\ref{app:e1}, the July run in Section~\ref{app:july}.",
-           "Noise guard: a comparison of a network A with a reference B over three seeds "
-           "each, with rel = mean(A)/mean(B) − 1 and SE_rel = $(s_A^2/3 + s_B^2/3)^{1/2}$ "
-           "divided by mean(B), where $s_A$ and $s_B$ are the sample standard deviations over "
-           "the seeds, finds A lower beyond the guard when rel is below minus the guard, "
-           "max(10%, 2 SE_rel), and higher beyond it when rel exceeds the guard; within it no "
-           "difference is shown, which is not equivalence. The hypotheses H1–H3 of the 2D "
-           r"comparison use it (\cref{tab:cm2d}), and so do the latent-regularisation and "
-           "bottleneck runs, with the label-free network as B (their pre-registrations call "
-           "it the resolution), the holdout evaluation, and the three-dimensional "
-           r"energy-norm run, which applies it to each seed's median over the instances "
-           r"(\cref{tab:k3d}). $\mathcal{L}_D$ and $\mathcal{L}_K$ are the losses "
-           r"\eqref{eq:ld} and \eqref{eq:lk}."]
+    ncr = []
     h_amp, r_amp = W.amp_rows(ampw)
     h_rem, r_rem = W.remesh_rows(ampw, e2)
     h_e2, r_e2 = W.e2_rows(e2)
     h_e1, r_e1 = W.e1_rows(e1, probe)
+    readings = side_readings(ampw, e2, e1)
     files = {
         "table_2d.tex": table(HEAD_METRICS, rowscm, CAP_2D, "tab:2d", notescm,
                               rules=(4, 6, 8)),
@@ -4250,17 +4258,21 @@ def build() -> dict:
                                         + "@{}",
                                         rules=rules_cr),
         "table_amplitude.tex": table(*relabel("amp", h_amp, r_amp, W.amp_notes(ampw, e2))[:2],
-                                     CAP_AMP, "tab:amplitude",
-                                     relabel("amp", h_amp, r_amp, W.amp_notes(ampw, e2))[2]),
+                                     CAP_AMP, "tab:amplitude", []),
         "table_remesh.tex": table(*relabel("remesh", h_rem, r_rem,
                                            W.remesh_notes(ampw, e2))[:2], CAP_REM, "tab:remesh",
-                                  relabel("remesh", h_rem, r_rem, W.remesh_notes(ampw, e2))[2]),
+                                  []),
         "table_e2.tex": table(*relabel("e2", h_e2, r_e2, W.e2_notes(e2))[:2], CAP_E2, "tab:e2",
-                              relabel("e2", h_e2, r_e2, W.e2_notes(e2))[2]),
-        "table_e1.tex": table(*relabel("e1", h_e1, r_e1, W.e1_notes(e1, probe))[:2], CAP_E1,
-                              "tab:e1", relabel("e1", h_e1, r_e1, W.e1_notes(e1, probe))[2]),
+                              []),
+        "table_e1.tex": table(*relabel("e1", h_e1, r_e1, W.e1_notes(e1, probe))[:2],
+                              CAP_E1.replace("CHANCE", W._chance(e1["arms"]["base"]["bins"])),
+                              "tab:e1", E1_NOTES),
+        "amplitude_readings.tex": readings["amp"],
+        "remesh_readings.tex": readings["remesh"],
+        "e2_readings.tex": readings["e2"],
         "table_cost.tex": table(h_cost, r_cost, CAP_COST, "tab:cost", n_cost, align="lccc",
-                                rules=(2, 4, 9, 11, 12), note_size="scriptsize"),
+                                rules=(2, 4, 9, 11, 12)),
+        "cost_protocol.tex": p_cost,
         "numbers.tex": numbers_tex(N),
         "hashes.tex": hashes_tex(used),
     }

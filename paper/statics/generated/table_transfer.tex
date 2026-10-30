@@ -3,7 +3,7 @@
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\caption{Three-dimensional solids on the finer mesh ($l_c$ = 0.0374), never trained on. Zero-shot rows use the networks trained in-band; few-shot rows train, with labels, on the first 16 or on all of the 64 fine-mesh instances reserved for few-shot training.}
+\caption{Three-dimensional solids on the finer mesh ($l_c$ = 0.0374): every metric on the 256 fine-mesh evaluation instances, never trained on; trained networks: mean $\pm$ sample standard deviation over three seeds. Zero-shot rows use the networks trained in-band; few-shot rows train, with labels, on the first 16 or on all of the 64 fine-mesh instances reserved for few-shot training.}
 \label{tab:transfer}
 \resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
 \begin{tabular}{lccccc}
@@ -31,8 +31,6 @@ Supervised from scratch, 64 fine-mesh labels & 0.193 $\pm$ 0.076 & 13.2 $\pm$ 5.
 
 \smallskip
 \begin{minipage}{\linewidth}\footnotesize\raggedright
-256 fine-mesh evaluation instances (median 36,216 nodes), disjoint from the 64 instances reserved for few-shot training. Mean $\pm$ sample standard deviation over 3 seeds; the naive baselines are deterministic and built from the 1,024 in-band labelled instances.\par
-In-band, the label-free network's displacement error is 0.0300; the zero-shot ratio is therefore 8.62.\par
-Few-shot training minimises the relative displacement error $\mathcal{L}_D$ \eqref{eq:ld}, without the energy term, for 50 epochs at learning rate 1.5 $\times$ 10$^{-3}$, from the trained label-free network of the same seed or from random initialisation (scratch); the few-shot comparison was pre-registered as reported only. Ritz projection: \cref{sec:methods:ritz}, added after the pre-registered runs, deterministic, on the fine meshes themselves, with nothing trained.
+The Ritz projection, added after the pre-registered runs and computed on the fine meshes themselves, and the naive baselines, built from the 1,024 in-band labelled instances, are deterministic.
 \end{minipage}
 \end{table}

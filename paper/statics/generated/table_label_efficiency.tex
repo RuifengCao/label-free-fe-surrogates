@@ -3,7 +3,7 @@
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\caption{Label efficiency: relative displacement error / relative energy gap against the number of labelled training instances (seed means).}
+\caption{Relative displacement error / relative energy gap against the number of labelled training instances, seed means over three seeds, in the three- and two-dimensional comparisons (\cref{tab:3d,tab:2d}); the nearest-neighbour field is deterministic. A dash marks a budget at which a network was not trained; the label-free row repeats its single value, which uses the same 1,024 instances without labels.}
 \label{tab:labeleff}
 \resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
 \begin{tabular}{llcccc}
@@ -23,9 +23,4 @@ Run & Model & 16 & 64 & 256 & 1,024 \\
 2D & Label-free (no labels) & 0.0634 / 0.0383 & 0.0634 / 0.0383 & 0.0634 / 0.0383 & 0.0634 / 0.0383 \\
 \bottomrule
 \end{tabular}}
-
-\smallskip
-\begin{minipage}{\linewidth}\footnotesize\raggedright
-Seed means over 3 seeds; the nearest-neighbour field is deterministic. A dash marks a budget at which the model was not trained (the graph network was trained at 64 and 1,024 labels only). 3D: the three-dimensional comparison (\cref{tab:3d}); 2D: the two-dimensional comparison (\cref{tab:2d}). The label-free row repeats its single value, which uses the same 1,024 instances without labels.
-\end{minipage}
 \end{table}

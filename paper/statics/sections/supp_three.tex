@@ -43,7 +43,12 @@ Section~\ref{app:july}.
 
 \paragraph{The three-dimensional energy-norm run}
 \Cref{tab:k3d} gives the pre-registered hypotheses of the run with their per-seed values and
-the readings that its pre-registration required beside each verdict. \Cref{tab:kmedians}
+the readings that its pre-registration required beside each verdict. The readings are those
+of the two-dimensional comparison (Section~\ref{app:prereg}), taken on each seed's median
+over the instances, the pre-registered statistic, unless a row says seed means; for the
+resampling interval each seed's value is the median of its resampled values, and the rows of
+the held-out instances give the same readings on the \numHoldThreeN{} held-out instances of
+\cref{sec:holdout}, without a verdict. \Cref{tab:kmedians}
 gives every metric of the three transformers on the 256 validation instances, as the seeds'
 medians over the instances, the statistic that the verdicts read, and as the seeds' means.
 \Cref{tab:kcomparisons} gives the \numKdSecondary{} secondary comparisons that the

@@ -88,15 +88,13 @@ transformer and \numSpecRqMgn{} for the graph network.
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=\linewidth]{generated/fig_spectra.pdf}
-\caption{Two dimensions, networks trained on 1,024 instances, measured after the run: where
-the errors lie in the spectrum of the stiffness matrix. Left: for each of the
-\numSpecLoads{} triples of seed, validation instance and load case (one point per triple and
-network), the normalised Rayleigh quotient $\rho$ of the error against the relative
-displacement error $\delta$ (\cref{rem:factor}); large markers are the medians of the two
-coordinates, and the dashed lines are lines of equal relative energy gap $g=\rho\,\delta^2$.
-Right: for each value of $\lambda_m/R(\Ustar)$ on the abscissa, the median over the triples
-of the share of the error's squared energy norm in the eigenmodes at or above it; the dashed
-curve is the same share of the solution's squared energy norm.}
+\caption{Where the errors lie in the spectrum of the stiffness matrix (two dimensions,
+networks trained on 1,024 instances; post hoc). Left: normalised Rayleigh quotient $\rho$ of
+the error against the relative displacement error $\delta$, one point per seed, validation
+instance and load case; large markers: medians; dashed lines: equal relative energy gap
+$g=\rho\,\delta^2$. Right: median share of the error's squared energy norm in the
+eigenmodes with $\lambda_m/R(\Ustar)$ at or above the abscissa; dashed curve: the
+solution's share.}
 \label{fig:spectra}
 \end{figure}
 

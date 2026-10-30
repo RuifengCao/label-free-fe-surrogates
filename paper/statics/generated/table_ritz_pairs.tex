@@ -1,12 +1,12 @@
 % generated from the committed records; do not edit
 \begingroup\small\setlength{\LTcapwidth}{\linewidth}
 \begin{longtable}{@{}llcccccc@{}}
-\caption{The Ritz projection paired with the networks and baselines: the share of the instances on which the projection was the more accurate, per set and degree $p$.}\label{tab:ritzpairs}\\
+\caption{The Ritz projection paired with the networks and baselines: the share of the instances on which the projection was strictly the more accurate, per set and degree $p$; for a trained network the lowest and the highest over the three seeds, one value when they agree.}\label{tab:ritzpairs}\\
 \toprule
 Set & Model & $p$ & \shortstack{Displacement \\ error} & \shortstack{Relative \\ energy gap} & \shortstack{von Mises \\ error} & \shortstack{Peak stress \\ error} & \shortstack{Critical-region \\ recall} \\
 \midrule
 \endfirsthead
-\caption[]{The Ritz projection paired with the networks and baselines: the share of the instances on which the projection was the more accurate, per set and degree $p$. (continued)}\\
+\caption[]{The Ritz projection paired with the networks and baselines: the share of the instances on which the projection was strictly the more accurate, per set and degree $p$; for a trained network the lowest and the highest over the three seeds, one value when they agree. (continued)}\\
 \toprule
 Set & Model & $p$ & \shortstack{Displacement \\ error} & \shortstack{Relative \\ energy gap} & \shortstack{von Mises \\ error} & \shortstack{Peak stress \\ error} & \shortstack{Critical-region \\ recall} \\
 \midrule
@@ -141,8 +141,4 @@ Set & Model & $p$ & \shortstack{Displacement \\ error} & \shortstack{Relative \\
  &  & 8 & 71\%--72\% & 100\% & 100\% & 37\%--42\% & 99.98\%--100\% \\
 \end{longtable}
 \endgroup
-\vspace{-\smallskipamount}
-\noindent\begin{minipage}{\linewidth}\footnotesize\raggedright
-The share of the instances on which the Ritz projection was strictly the more accurate than the model, for each seed of a trained network (the lowest and the highest over the three seeds; one value when they agree), and for the deterministic baselines. Higher is better in critical-region recall, lower in every other metric; ties, which occur only in critical-region recall, are counted with neither. A share strictly between 0\% and 100\% is never shown as either. Networks at 1,024 labelled instances; on the finer mesh the networks trained in-band are applied zero-shot and the few-shot networks are those of the transfer comparison. The shares for every other network and budget of the summaries are in the records.
-\end{minipage}
 \par\medskip

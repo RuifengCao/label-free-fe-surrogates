@@ -20,8 +20,10 @@ invariance reported for operators trained on the energy
 point cloud, not by refining the mesh as here.
 
 Training on a few labelled fine-mesh instances, starting from the trained label-free
-network, was pre-registered as a reported comparison without a criterion; it minimised the
-relative displacement error \eqref{eq:ld}, without the energy term. With 64 such instances
+network of the same seed, was pre-registered as a reported comparison without a criterion;
+it minimised the relative displacement error \eqref{eq:ld}, without the energy term, for 50
+epochs at learning rate $1.5\times10^{-3}$, and for comparison the same network was trained
+in the same way from random initialisation (from scratch). With 64 such instances
 the displacement error returned to the in-band level, \numFewSixtyFourDisp{}, and with 16 it
 was \numFewSixteenDisp{}, against \numFewSixtyFourScratchDisp{} and
 \numFewSixteenScratchDisp{} when the same network was trained from scratch on the same
@@ -65,6 +67,8 @@ fine-mesh to in-band displacement error fell from \numFineRatio{} to \numAmpRati
 with $\cstar$ applied on the finer mesh only it was \numAmpRatioFineOnly{}. Rescaling
 removed most of the error but not the failure to transfer.
 
+\input{generated/amplitude_readings}
+
 \input{generated/table_remesh}
 
 Why the amplitude is wrong on the finer mesh is suggested by \cref{tab:remesh}, also
@@ -84,18 +88,20 @@ multiply the output by $F_{\max}$: networks trained on meshes \numCoarsenLow{} a
 (Section~\ref{app:july}). But the errors of those networks were probably dominated by the
 missing load amplitude, so the contrast is suggestive only. Whether an output scale that
 does not depend on the mesh removes the failure is the subject of separate work.
-\Cref{fig:field-fine} shows a typical fine-mesh prediction before and after the rescaling:
-the prediction has the shape of the solution and too small an amplitude.
+\Cref{fig:field-fine} shows a typical fine-mesh prediction before and after the rescaling,
+on the instance with the median displacement error of the label-free transformer (selection
+rules in Section~\ref{app:repro:plots}): the prediction has the shape of the solution and
+too small an amplitude.
+
+\input{generated/remesh_readings}
 
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=\linewidth]{generated/fig_field_fine.pdf}
-\caption{A typical fine-mesh instance, the one with the median displacement error of the
-label-free transformer, seed 0, under the \numFigFineLoad{} (selection rules in
-Section~\ref{app:repro:plots}). Magnitude of the displacement of the reference solution, of
-the label-free prediction and of that prediction rescaled by $\cstar$ \eqref{eq:cstar}, on
-one colour scale set by the reference and displayed as in \cref{fig:field-worst}; above each
-prediction, its relative displacement error $\delta$ on this load case and, for the rescaled
-one, $\cstar$.}
+\caption{A typical fine-mesh instance, seed 0, under the \numFigFineLoad{}: displacement
+magnitude of the reference solution, of the label-free prediction and of that prediction
+rescaled by $\cstar$ \eqref{eq:cstar}, on one colour scale set by the reference (values
+above its maximum saturate) and displayed as in \cref{fig:field-worst}; above each
+prediction, $\delta$ on this load case and, for the rescaled one, $\cstar$.}
 \label{fig:field-fine}
 \end{figure}

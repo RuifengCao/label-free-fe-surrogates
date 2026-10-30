@@ -125,8 +125,9 @@ The supplementary material reads the paper's section, table and equation numbers
 
 The script writes the tables (`table_*.tex`), the figures (`fig_*.pdf`), the numbers that
 the text quotes, one macro each (`numbers.tex`), the list of the runs with the hashes of
-their configurations (`hashes.tex`), a summary (`material.md`) and the list of every file it
-read with its SHA-256 (`sources.json`). `tests/test_statics_material.py` regenerates the
+their configurations (`hashes.tex`), four paragraphs of the supplementary material that quote
+numbers (`cost_protocol.tex` and `*_readings.tex`), a summary (`material.md`) and the list of
+every file it read with its SHA-256 (`sources.json`). `tests/test_statics_material.py` regenerates the
 material and compares it with the committed files byte for byte, recomputes the quoted
 numbers from the records independently of the script, checks the design constants against
 the configurations and the code and builds both documents;

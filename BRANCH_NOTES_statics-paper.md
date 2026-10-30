@@ -2324,3 +2324,56 @@ generator, and no record, configuration, pre-registration or source file changed
   now; `tests/test_statics_runbook.py` finds the tests that Sections A to G deselect under
   their new names and checks that the runbook's opening says how to read them. The
   runbook's suite lines read the current count. Suite 826 (825 + 1).
+
+## Stage 19 (30 Oct 2026) -- figure captions and table notes shortened; the paper checked against the Guide for Authors
+
+- At the PI's request of 30 October 2026. The journal's Guide for Authors asks for a caption
+  of "a brief title" and "a description of the image", with "the amount of text" kept "to a
+  minimum", and places table notes below the table body. In seven papers that the journal
+  published between 2019 and 2025 (their versions on arXiv), the figure captions have a
+  median of about 25 to 60 words and no table has more than a caption above it; here the
+  main text's six figure captions had 64 to 152 words (median 101, words counted as the
+  test below counts them), and its five tables 113 to 315 words of notes below them. They
+  now have 24 to 80 words (median 57), and the tables 0 to 60.
+- Figures: each caption gives a title, what is plotted and the symbols. What the captions
+  said beyond that is in the text: that removing the solutions also changes the weighting
+  of the load cases and the learning rate, and the factors on the means over the instances
+  (Section 1); which networks Fig. 3 shows at which budgets (Section 6.3); where the
+  networks lie in Fig. 4 and which instance is at its top right, and the rule that chose the
+  instance of Fig. 5 (Section 7.1); the selection rules of Figs. S2 and S3 (Sections S3 and
+  S4). The field plots' captions state that values above the reference's maximum saturate.
+- Tables: each caption says what the table holds and which statistic; the notes keep only
+  what concerns a row or a column. The definitions of the metrics are those of Section 4.4;
+  the noise guard, now Eq. (A.1), and the gates and kill conditions are in Appendix A; the
+  protocol of the cost table is a paragraph of Section S10 (`cost_protocol.tex`); the
+  conventions of the criteria and the definitions of the Welch and resampling intervals are
+  in the text of Section S1; the readings beside Tables S10, S11 and S13 are paragraphs of
+  Sections S4 and S6 (`amplitude_readings.tex`, `remesh_readings.tex`, `e2_readings.tex`);
+  the pairing rules of Table S16 are in Section S9, and the few-shot settings in Section S4.
+  No number changed, and no figure was regenerated.
+- The Guide checked sentence by sentence: Section 3's inline fraction uses the solidus, the
+  display of Appendix A is numbered, captions refer to sections rather than to "the text",
+  Table 3 is first cited after Tables 1 and 2 (Section 4.6 now cites Section 8), and Prager
+  and Synge (1947) carry their DOI, read from the MaRDI record of the article. Larson et al.
+  are cited in their version of record, SIAM Journal on Scientific Computing 48(5), pages
+  C1192 to C1219, checked against the article that the PI supplied; what the text states of
+  it holds for that version.
+- An independent reading of the change against the Stage 18 text found what the shortening
+  had lost or blurred; each is restored from the same records. Section S6.1 and Table S2
+  give the accuracy criterion of the latent-regularisation run again, its two relative
+  changes and their guard; Section S6.1, the caption of Table S12 and Section S8 say that
+  its untrained networks were measured after the runs, and how they were built. The caption
+  of Table 3 and Section 4.6 say that Table 3 holds the claims that the holdout evaluation,
+  itself pre-registered, read again, not the comparisons' pre-registered claims. The caption
+  of Table 4 defines CG and says which rows are medians over the load cases; its note and
+  Section 9.2 say that the fine-mesh direct solve had one budget for all its instances. The
+  raw-token variant of Table S12, the holdout rows of Table S6 and the deterministic rows of
+  Tables 1 and 2 are named; three paragraphs of Sections S4 and S6 are reworded; Tables S4
+  and S14, Fig. S3 and the statements of Tables A.1 and S2 point again to what they use.
+- Tests: `tests/test_statics_material.py` gains two: figure captions at most 90 words,
+  table captions at most 80, notes at most 60 words below a table of the paper and 40 in
+  the supplementary material; and the accuracy criterion of the latent-regularisation run
+  recomputed from the per-seed values of its two reports, with the noise guard of Eq.
+  (A.1). It regenerates the four paragraphs byte for byte with the tables, and checks the
+  cost table's two notes and its protocol's statements. The runbook's suite lines read the
+  current count. Suite 828 (826 + 2).

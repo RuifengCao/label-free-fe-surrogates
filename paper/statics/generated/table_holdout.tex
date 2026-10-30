@@ -3,7 +3,7 @@
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\caption{The claims of the three- and two-dimensional comparisons read again on held-out instances, as the adjudicator of the holdout evaluation recorded them, beside their values on the validation instances.}
+\caption{The claims of the comparisons that the pre-registered holdout evaluation read again on the held-out instances (\cref{sec:holdout}), with the same stored networks and as its adjudicator recorded them, beside their values on the validation instances. T1 and D2: comparisons that hold, five metrics in each seed and in the seed mean; T2: the range of the shares over the seeds, then the share of the instance-seed pairs; H1 to H3: the relative difference rel and its noise guard (\ref{app:claims}).}
 \label{tab:holdout}
 \resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
 \begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.07\linewidth}>{\raggedright\arraybackslash}p{0.455\linewidth}>{\raggedright\arraybackslash}p{0.14\linewidth}>{\raggedright\arraybackslash}p{0.14\linewidth}>{\raggedright\arraybackslash}p{0.155\linewidth}@{}}
@@ -24,9 +24,4 @@ H3 (2D) & A reading: energy-norm-supervised against label-free transformer, rela
 V & Per-instance values alike on the holdout and validation instances, 35 quantities & -- & none rejected & \hspace{0pt}representative \\
 \bottomrule
 \end{tabular}}
-
-\smallskip
-\begin{minipage}{\linewidth}\scriptsize\raggedright
-Validation: the values of \cref{sec:norm,sec:labelfree,sec:checks} on the validation instances (T3 per load case). Holdout: the same stored networks on 686 (3D) and 4,111 (2D) held-out instances. T1 and D2: the comparisons that hold, five metrics in three seeds and the seed mean; T2: the lowest and highest share over the seeds, and the share of the instance-seed pairs; H1 to H3: rel and the noise guard of the note to \cref{tab:claims}; H2c: the rel of H2b, against $-$50\%. V: per network and metric, a two-sided Mann--Whitney test of the holdout against the validation instances, the 35 p-values taken together by Holm's procedure at a family-wise level of 5\% (supplementary Section~\SuppPrereg).
-\end{minipage}
 \end{table}

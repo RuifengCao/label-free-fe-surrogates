@@ -41,10 +41,12 @@ the energy norm.
 systems on the same instances, with the sparse direct solver that produced the labels and
 with conjugate gradients; the network ran on the GPU and the solvers on the CPU of the same
 machine, and the assembly of the stiffness matrix, which the solvers and the Ritz projection
-need and the surrogate does not, is listed apart. In three dimensions the direct solve took
+need and the surrogate does not, is listed apart (supplementary Section~\SuppTiming{} gives
+the protocol). In three dimensions the direct solve took
 a median \numCostThreeValDirectRatio{} times as long as the surrogate's first call on the
 validation instances, per instance, and \numCostThreeFineDirectRatio{} times on the
-\numCostFineDirectSolved{} fine-mesh instances that it solved within its time budget, where
+\numCostFineDirectSolved{} fine-mesh instances that it solved before its time budget ran
+out, where
 the surrogate's median relative energy gap was \numCostThreeFineGap{} against
 \numCostThreeValGap{} on the validation instances; in two dimensions it took
 \numCostTwoDirectRatio{} times as long, and its solution is exact. Conjugate gradients from

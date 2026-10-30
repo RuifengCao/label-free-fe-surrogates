@@ -3,7 +3,7 @@
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\caption{The pre-registered hypotheses of the three-dimensional energy-norm run, with 1,024 labelled instances, as its adjudicator recorded them, and the readings its pre-registration required beside each.}
+\caption{The pre-registered hypotheses of the three-dimensional energy-norm run, with 1,024 labelled instances, as its adjudicator recorded them, and the readings its pre-registration required beside each: each seed's median over the 256 validation instances, or in the holdout rows, which carry no verdict, over the \numHoldThreeN{} held-out instances, unless a row says seed means; the readings are those of \cref{tab:cm2d}.}
 \label{tab:k3d}
 \resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
 \begin{tabular}{lccc}
@@ -35,7 +35,6 @@ Holdout, seed means: rel (guard) & $-$99.997\% (guard 199.6\%) & $-$89.0\% (guar
 
 \smallskip
 \begin{minipage}{\linewidth}\footnotesize\raggedright
-Every reading is of the seeds' values, each seed's median over the 256 validation instances (the pre-registered statistic) unless the row says seed means; rel, SE$_\mathrm{rel}$ and the noise guard as defined in the note to \cref{tab:criteria}. Welch: rel $\pm$ t $\times$ SE$_\mathrm{rel}$ at the Welch--Satterthwaite degrees of freedom, a symmetric interval that can extend below $-$100\%. Instance resampling: the 2.5\% and 97.5\% percentiles of rel over 2,000 resamplings of the 256 instances, the same instances for both networks and every seed, the seeds kept, each seed's value the median of its resampled values. Holdout: the same readings on the 686 held-out instances of \cref{sec:holdout}, without a verdict.\par
 H3-3D is a reading without a criterion. With the roles of A and B exchanged, rel was +69.5\% against a guard of 45.8\%.
 \end{minipage}
 \end{table}

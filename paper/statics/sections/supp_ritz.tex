@@ -10,7 +10,12 @@ highest over the three seeds of a trained network. The sets are the validation i
 the three- and two-dimensional comparisons, their held-out instances, and the finer
 three-dimensional mesh, on which the networks trained in-band were applied zero-shot. The
 projection has \numRitzThreeK{} unknowns at $p=6$, 7, 8 and 9 in three dimensions and
-\numRitzTwoK{} at $p=6$ and 8 in two.
+\numRitzTwoK{} at $p=6$ and 8 in two. It counts as the more accurate where its error is
+lower, or its critical-region recall higher; a tie, which occurs only in critical-region
+recall, counts for neither side, and a share strictly between none and all of the instances
+is never rounded to either. The networks are those trained with 1,024 labelled instances;
+on the finer mesh the few-shot networks are those of \cref{tab:transfer}. The shares for the
+other networks and label budgets are in the records.
 
 \begin{landscape}
 \input{generated/table_ritz_pairs}

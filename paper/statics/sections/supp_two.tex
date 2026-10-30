@@ -30,7 +30,9 @@ relative energy gap on \numPairCmMgnLabGap{} and the lower von Mises error on
 
 \paragraph{One instance}
 \Cref{fig:field2d} shows one instance, chosen by a rule fixed before the run's spectra were
-exported, in the load case that the same rule picks among its four. On that load case, the
+exported, in the load case that the same rule picks among its four: the instance with the
+median relative energy gap of the displacement-supervised transformer in seed 0 (selection
+rules in Section~\ref{app:repro:plots}). On that load case, the
 four networks' displacement errors lay between \numFigTwoDDispMin{} and \numFigTwoDDispMax{}
 and their relative energy gaps between \numFigTwoDGapMin{} and \numFigTwoDGapMax{}; the
 stress fields of the two networks trained on the displacement error are visibly rougher.
@@ -38,15 +40,12 @@ stress fields of the two networks trained on the displacement error are visibly 
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=\linewidth]{generated/fig_field2d.pdf}
-\caption{Two dimensions, validation instance No.~\numSpecFigIndex{}, the one with the median
-relative energy gap of the displacement-supervised transformer, seed 0, under the
-\numFigTwoDLoad{} (selection rules in Section~\ref{app:repro:plots}). Von Mises stress of
-the reference solution and of the four networks trained on 1,024 instances, on one colour
-scale set by the reference. First row: the reference, then the two networks trained in the
-energy norm (the label-free and the energy-norm-supervised transformers); second row: the
-two trained on the displacement error (the displacement-supervised transformer and the graph
-network). Above each network, its relative displacement error $\delta$ and relative energy
-gap $g$ on this load case and the sign of $\Pi_h(u)$.}
+\caption{Two dimensions, validation instance No.~\numSpecFigIndex{}, seed 0, under the
+\numFigTwoDLoad{}: von Mises stress of the reference solution and of the four networks
+trained on 1,024 instances, on one colour scale set by the reference (values above its
+maximum saturate). Top row: the reference
+and the two networks trained in the energy norm; bottom row: the two trained on the
+displacement error. Annotations as in \cref{fig:field-worst}.}
 \label{fig:field2d}
 \end{figure}
 

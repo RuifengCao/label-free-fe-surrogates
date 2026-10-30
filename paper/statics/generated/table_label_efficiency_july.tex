@@ -3,7 +3,7 @@
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\caption{The July run (two dimensions, earlier code): relative displacement error / relative energy gap against the number of labelled training instances (seed means).}
+\caption{The July run (two dimensions, earlier code): relative displacement error / relative energy gap against the number of labelled training instances, seed means over three seeds. The nearest-neighbour field is that of \cref{tab:labeleff}, the graph network was trained at every budget, and the label-free row repeats its single value (1,024 instances, no labels).}
 \label{tab:labeleffjuly}
 \resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
 \begin{tabular}{lcccc}
@@ -18,9 +18,4 @@ Nearest-neighbour field & 0.687 / 6.50 & 0.466 / 1.65 & 0.408 / 1.03 & 0.404 / 0
 Label-free (no labels) & 0.166 / 0.0817 & 0.166 / 0.0817 & 0.166 / 0.0817 & 0.166 / 0.0817 \\
 \bottomrule
 \end{tabular}}
-
-\smallskip
-\begin{minipage}{\linewidth}\footnotesize\raggedright
-Seed means over 3 seeds; the nearest-neighbour field is deterministic, and the same as in \cref{tab:labeleff}. The graph network was trained at every budget in this run. The label-free row repeats its single value, which uses the same 1,024 instances without labels.
-\end{minipage}
 \end{table}

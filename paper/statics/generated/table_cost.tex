@@ -3,7 +3,7 @@
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\caption{Time of the label-free transformer's inference against solves of the same systems, on the same instances, with the surrogate's accuracy there.}
+\caption{Wall time per instance of the label-free transformer's inference, on one GPU, and of solves of the same systems on the same machine's CPU, all load cases together and without the assembly, with the surrogate's accuracy on the same instances. CG: unpreconditioned conjugate gradients; its iterations (from the zero field / to the prediction's accuracy) and its displacement error are medians over the load cases, the other times and errors medians over the instances. Protocol in supplementary Section~\SuppTiming{}.}
 \label{tab:cost}
 \resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
 \begin{tabular}{lccc}
@@ -36,10 +36,8 @@ CG's displacement error at that accuracy & 0.049 & 0.017 & 0.16 \\
 \end{tabular}}
 
 \smallskip
-\begin{minipage}{\linewidth}\scriptsize\raggedright
-Medians over the instances (CG iterations, from the zero field / to the prediction's accuracy, and CG's displacement error: over the load cases). 2D: the first 32 validation instances of the two-dimensional comparison; 3D: the first 32 validation and 8 fine-mesh instances of the three-dimensional comparison; the label-free transformers of seed 0. Wall times per instance, all load cases together, without the assembly, which the surrogate does not need.\par
-Surrogate: one NVIDIA GeForce RTX 5090 with TF32, preparing the inputs and copying the prediction back included; first call after an untimed warm-up on 4 validation instances, repeated call the median of 2 further passes. Solvers: the CPU of the same machine (Xeon Platinum 8470Q, 25 CPUs, the thread environment set to 25): SuperLU, which produced the labels, and unpreconditioned conjugate gradients (CG) to a relative residual of $10^{-10}$, from the zero field or from the prediction. CG to the prediction's accuracy stops, on each load case, at the first iterate whose relative energy error is at most the prediction's: it reads the reference solution, a lower bound. The fine-mesh direct solve used up its budget of 900 s after seven of the eight instances; its median, and the ratios that use it, are over those seven.\par
-Ritz projection (\cref{sec:methods:ritz}), from the lowest to the highest degree ($p = 6$ to 9 in 3D, 6 and 8 in 2D), with the machine's 25 BLAS threads: the time after the assembly of $K$, which is listed apart (in 2D the assembler also builds the four load vectors), for the free block, the basis, $\Phi^{\top}K\Phi$ and $\Phi^{\top}F$, the small solve and the reconstruction.\par
-On the fine mesh, three of the 32 load cases had a relative energy gap above 1 (4.76, 4.77 and 22.0) and three of the eight instances a mean above 1; CG matches such a load case with no iteration. Threads: \cref{sec:cost:inference} and the supplementary material.
+\begin{minipage}{\linewidth}\footnotesize\raggedright
+Fine mesh, direct solve: the median over the seven of the eight instances that it solved before its budget of 900 s ran out.\par
+CG to the prediction's accuracy reads the reference solution, so it is a lower bound; on the fine mesh it needs no iteration on the three load cases whose relative energy gap exceeds 1.
 \end{minipage}
 \end{table}

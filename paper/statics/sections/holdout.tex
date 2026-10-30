@@ -45,9 +45,10 @@ again showed no difference beyond the guard, and the label-free transformer's se
 relative energy gap was now the lower, \numHoldTwoFreeGap{} against \numHoldTwoKnormGap{}.
 
 Beside the claims, the per-instance values of every network and metric were compared between
-the two sets: of the \numHoldVQuantities{} quantities none was rejected by a rank test at a
-family-wise level of \numHoldVAlpha{}, and the validation instances were read as
-representative. That verdict does not show that the means are unchanged: a mean that a few
+the two sets: of the \numHoldVQuantities{} quantities none was rejected by two-sided
+Mann--Whitney tests of the held-out against the validation values, taken together by Holm's
+procedure at a family-wise level of \numHoldVAlpha{}, and the validation instances were read
+as representative. That verdict does not show that the means are unchanged: a mean that a few
 instances carry can move without a rejection, as the energy-norm-supervised transformer's
 relative energy gap did. Supplementary Section~\SuppPrereg{} gives the means and medians on
 both sets and the evaluation's two departures from its plan.

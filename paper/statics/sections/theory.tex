@@ -81,7 +81,7 @@ The label-free objective satisfies
 + \Pi^{\ast},
 \label{eq:training}
 \end{equation}
-where $\Pi^{\ast}=\frac{1}{NL}\sum_{i,j}\Pi_{ij}(\Ustar_{ij})$ does not depend on $\theta$.
+where $\Pi^{\ast}=(NL)^{-1}\sum_{i,j}\Pi_{ij}(\Ustar_{ij})$ does not depend on $\theta$.
 Minimising $\mathcal{L}_\Pi$ is therefore supervised regression in the energy norm: the
 two objectives have the same minimisers and the same gradient with respect to $\theta$ at
 every $\theta$, yet $\mathcal{L}_\Pi$ is evaluated without any $\Ustar_{ij}$.

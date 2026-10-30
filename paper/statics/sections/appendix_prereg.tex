@@ -63,6 +63,32 @@ joint-embedding term (K3); the scope of the paper & \ref{app:prereg} \\
 \end{longtable}
 \endgroup
 
+\paragraph{The criteria}
+\Cref{tab:criteria} names the runs as \cref{tab:runs} does and dates them by their records;
+the pilot of the amendment is the short run that the amendment required before the
+three-dimensional comparison. Labels are those of the pre-registration documents, each of
+which numbers its own criteria. Gates (G1$'$, G2) decide whether the study proceeds to its
+next stage. Kill conditions withdraw a claim, or abandon a component, when triggered: in two
+dimensions K1--K6, C1-advantage (the claimed advantage in relative energy gap), C5 (the
+pre-registered checks of Section~\ref{app:repro:checks}) and E6 (latent alignment); in three
+dimensions KP1--KP6, with KP5 the counterpart of C5. The latent-regularisation and
+bottleneck runs number their criteria afresh, with the meanings given in the table. In the
+statements, $\mathcal{L}_D$ and $\mathcal{L}_K$ are the paper's losses \eqref{eq:ld} and
+\eqref{eq:lk}. A criterion reads the trained networks of the tables it names; the energy-term sub-experiment
+of the July run trained its own supervised networks with and without the energy term, with
+the same configuration. K4, E6 and KP6 concern latent representations, which the paper does
+not use; the standardised effective rank is the participation ratio of the eigenvalues of
+the covariance of the latent vectors, each dimension standardised. The noise guard is that
+of the paper's \ref{app:claims}. The hypotheses H1--H3 of the two-dimensional comparison use
+it (\cref{tab:cm2d}), and so do the latent-regularisation and bottleneck runs, with the
+label-free network as the reference (their pre-registrations call the guard the resolution),
+the holdout evaluation, and the three-dimensional energy-norm run, which applies it to each
+seed's median over the instances (\cref{tab:k3d}). The amendment of the three-dimensional
+gate, the deviations and the joint-embedding term are described in the rest of this
+section, the latent
+regularisation and the token bottleneck in Section~\ref{app:e1}, and the July run in
+Section~\ref{app:july}.
+
 \input{generated/table_criteria}
 
 \paragraph{Deviation D14}
@@ -175,6 +201,16 @@ comparison of H1, with the energy-norm loss and the label-free objective ranked 
 in its two seeds, the comparison of H3. The registration disclosed the check. The readings
 of \cref{sec:norm:spectrum}, and the rule that chose the instance of \cref{fig:field2d},
 were specified after the verdict and bear on no criterion.
+
+In \cref{tab:cm2d} the hypotheses are read with the noise guard of the paper's
+\ref{app:claims} on the three seeds' values, each the mean over the 256 validation
+instances and their four load cases; the rows of medians give the same reading on each
+seed's median over the instances. The Welch interval is
+$\mathrm{rel}\pm t\,\mathrm{SE}_{\mathrm{rel}}$, with $t$ the quantile of Student's
+distribution for a two-sided 95\% interval at the Welch--Satterthwaite degrees of freedom;
+it is symmetric and can extend below $\mathrm{rel}=-1$. The resampling interval is the 95\%
+percentile interval of $\mathrm{rel}$ over 2,000 resamplings of the 256 validation
+instances, the same instances drawn for both networks and every seed, the seeds kept.
 
 \input{generated/table_cm2d}
 

@@ -10,14 +10,9 @@ which need no solution.
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=0.72\linewidth]{generated/fig_disp_vs_stress.pdf}
-\caption{Three dimensions, networks trained on 1,024 instances: relative von Mises error against
-relative displacement error for every validation instance and seed (\numThreePairs{} points
-per network). The two networks trained in the energy norm, with and without the solutions,
-lie at the bottom; the two trained on the displacement error lie higher, whatever their
-displacement error. The graph network's points lie to the left of the label-free
-transformer's, at lower displacement error, and above them, at higher von Mises error. The
-point at the top right is instance No.~\numWorstIndex{} in seed \numThreeLabWorstSeed{}
-(\cref{sec:norm:three}).}
+\caption{Relative von Mises error against relative displacement error for every validation
+instance and seed (\numThreePairs{} points per network): three dimensions, networks trained
+on 1,024 instances.}
 \label{fig:reverse}
 \end{figure}
 
@@ -25,7 +20,12 @@ The graph network, trained on the solutions with the displacement error, had the
 displacement error of the three-dimensional networks, \numThreeMgnDisp{},
 \numThreeFreeOverMgnDisp{} times lower than the label-free transformer's (\cref{tab:3d}),
 and the label-free transformer was the more accurate on every other metric. The reversal
-held on most instances individually (\cref{fig:reverse}). Compared within each seed, the
+held on most instances individually (\cref{fig:reverse}): the two networks trained in the
+energy norm, with and without the solutions, lie at the bottom of the figure and the two
+trained on the displacement error higher, whatever their displacement error, and the graph
+network's points lie to the left of the label-free transformer's and above them; the point
+at the top right is instance No.~\numWorstIndex{} in seed \numThreeLabWorstSeed{}
+(\cref{sec:norm:three}). Compared within each seed, the
 graph network's displacement error was the lower on \numMgnDispLowerMin{} to
 \numMgnDispLowerMax{} of the instances, but its von Mises error was the higher on
 \numMgnVmHigher{} of the \numThreePairs{} instance-seed pairs, with a mean
@@ -50,18 +50,17 @@ exactly as the relative energy gap does, without a solution (\cref{cor:rank}).
 \centering
 \includegraphics[width=\linewidth]{generated/fig_field_worst.pdf}
 \caption{Validation instance No.~\numWorstIndex{}, seed 0, under the \numFigWorstLoad{}:
-magnitude of the displacement (top) and von Mises stress (bottom) of the reference solution
-and of three networks trained on 1,024 instances, on the three visible faces of the box;
-each row has one colour scale, set by the reference, and darker values saturate. Above each
-network, its relative displacement error $\delta$ and relative energy gap $g$ on this load
-case and the sign of $\Pi_h(u)$, positive when the prediction is further from the solution,
-in the energy norm, than the zero field. The instance is the one with the largest relative
-energy gap of the displacement-supervised transformer; the selection rules are in
-supplementary Section~\SuppRepro{}.}
+displacement magnitude (top) and von Mises stress (bottom) of the reference solution and of
+three networks trained on 1,024 instances, on the three visible faces of the box; one colour
+scale per row, set by the reference (values above its maximum saturate). Above each network: $\delta$,
+$g$ and the sign of $\Pi_h(u)$ on this load case (positive: worse than the zero field,
+\cref{cor:zero}).}
 \label{fig:field-worst}
 \end{figure}
 
-\Cref{fig:field-worst} shows the pattern on one instance, No.~\numWorstIndex{} in seed 0.
+\Cref{fig:field-worst} shows the pattern on one instance, No.~\numWorstIndex{} in seed 0,
+the one with the largest relative energy gap of the displacement-supervised transformer
+(selection rules in supplementary Section~\SuppRepro{}).
 Averaged over its four load cases, the label-free transformer had the largest displacement
 error of the three networks, \numWorstFreeDisp{}, and the most accurate stresses, with a von
 Mises error of \numWorstFreeVm{} and a relative energy gap of \numWorstFreeGap{}. The
@@ -85,12 +84,10 @@ displacement errors rich in stiff modes are what \cref{sec:norm:spectrum} measur
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=\linewidth]{generated/fig_energy_gap.pdf}
-\caption{Distribution of the relative energy gap, averaged over each instance's four load
-cases, over the \numThreePairs{} validation instance-seed pairs, networks trained on 1,024
-instances, in three dimensions (left) and two (right). Markers show the medians over the
-pairs; predictions to the
-right of the dashed line are further from the solution, in the energy norm, than the zero
-field, on average over their load cases.}
+\caption{Distribution of the relative energy gap over the \numThreePairs{} validation
+instance-seed pairs, each the mean over the instance's four load cases: networks trained on
+1,024 instances, in three dimensions (left) and two (right). Markers: medians; right of the
+dashed line: worse than the zero field.}
 \label{fig:energygap}
 \end{figure}
 

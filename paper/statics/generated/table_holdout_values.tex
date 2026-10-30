@@ -1,12 +1,12 @@
 % generated from the committed records; do not edit
 \begingroup\footnotesize\setlength{\LTcapwidth}{\linewidth}\setlength{\tabcolsep}{3pt}
 \begin{longtable}{@{}llccc@{}}
-\caption{Holdout evaluation: the mean and the median of every network and metric on the validation and on the held-out instances.}\label{tab:holdoutvalues}\\
+\caption{Holdout evaluation: the mean and the median over the instances of every network and metric, each instance's value averaged over the seeds, on the validation instances, as the evaluation recomputed them, and on the held-out instances. Ratio: held-out mean over validation mean, with a 95\% percentile interval from 2,000 resamplings of the held-out instances.}\label{tab:holdoutvalues}\\
 \toprule
 Network & Metric & \shortstack{Validation: \\ mean / median} & \shortstack{Holdout: \\ mean / median} & \shortstack{Ratio of the \\ means (95\%)} \\
 \midrule
 \endfirsthead
-\caption[]{Holdout evaluation: the mean and the median of every network and metric on the validation and on the held-out instances. (continued)}\\
+\caption[]{Holdout evaluation: the mean and the median over the instances of every network and metric, each instance's value averaged over the seeds, on the validation instances, as the evaluation recomputed them, and on the held-out instances. Ratio: held-out mean over validation mean, with a 95\% percentile interval from 2,000 resamplings of the held-out instances. (continued)}\\
 \toprule
 Network & Metric & \shortstack{Validation: \\ mean / median} & \shortstack{Holdout: \\ mean / median} & \shortstack{Ratio of the \\ means (95\%)} \\
 \midrule
@@ -55,6 +55,6 @@ Graph network & Displacement & 0.0499 / 0.0392 & 0.0496 / 0.0383 & 1.00 (0.97--1
 \endgroup
 \vspace{-\smallskipamount}
 \noindent\begin{minipage}{\linewidth}\footnotesize\raggedright
-Per network and metric, the mean and the median over the instances of each instance's value averaged over the seeds; the validation values recomputed by the holdout evaluation, whose check of the reports' displacement errors and relative energy gaps they passed (the graph networks' to within $2 \times 10^{-4}$ in the median). Ratio: holdout mean over validation mean, with a 95\% percentile interval from 2,000 resamplings of the holdout instances. V's two-sided Mann--Whitney tests compare the per-instance values; Holm's procedure rejected none of their p-values, which the evaluation's verdict records, at a family-wise level of 5\%. The energy-norm-supervised transformer was evaluated in 2D only: its 3D counterpart was trained after this evaluation (\cref{sec:norm:three}).
+The energy-norm-supervised transformer was evaluated in 2D only: its 3D counterpart was trained after this evaluation (\cref{sec:norm:three}).
 \end{minipage}
 \par\medskip

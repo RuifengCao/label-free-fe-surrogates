@@ -33,30 +33,27 @@ norm they minimise.
 We test this by separating the norm from the labels (\cref{fig:normlabels}). The same
 network, on the same instances, is trained on the solutions in the Euclidean norm, on the
 solutions in the energy norm, and without solutions in the energy norm; the fourth
-combination does not exist, because a displacement loss needs the solutions. In three
-dimensions, changing the norm with the labels kept cut the median energy-norm error
-\numNlThreeNormE{}-fold and the median von Mises error \numNlThreeNormVm{}-fold; removing
-the labels with the energy norm kept raised them by factors of \numNlThreeLabelE{} and
-\numNlThreeLabelVm{}. In two dimensions the energy norm more than halved the von Mises error
-of supervision. The comparisons were pre-registered, and their claims were read again on
-held-out instances.
+combination does not exist, because a displacement loss needs the solutions. Removing the
+solutions also changes the weighting of the load cases and the learning rate
+(\cref{sec:labelfree}). In three dimensions, changing the norm with the labels kept cut the
+median energy-norm error \numNlThreeNormE{}-fold and the median von Mises error
+\numNlThreeNormVm{}-fold; removing the labels with the energy norm kept raised them by
+factors of \numNlThreeLabelE{} and \numNlThreeLabelVm{}. In two dimensions the energy norm
+more than halved the von Mises error of supervision. On the means over the instances,
+changing the norm divided the energy-norm and von Mises errors by \numNlThreeNormEMean{} and
+\numNlThreeNormVmMean{} in three dimensions and by \numNlCmNormEMean{} and
+\numNlCmNormVmMean{} in two. The comparisons were pre-registered (\cref{tab:claims}), and
+their claims were read again on held-out instances.
 
 \begin{figure}[tbp]
 \centering
 \includegraphics[width=\linewidth]{generated/fig_norm_labels.pdf}
 \caption{The norm of the loss against the labels, in three dimensions (left) and two (right).
-In each panel the same transformer is trained on the solutions of 1,024 instances with the
-relative displacement error (top left) or with the relative energy-norm error (bottom left),
-and on the energy of the same instances without their solutions (bottom right); a
-displacement loss cannot be evaluated without the solutions (top right). E: relative
-energy-norm error, the square root of the relative energy gap; vM: relative von Mises
-error; each the median over the 256 validation instances, averaged over three seeds.
-Changing the norm moves both errors far more than removing the solutions, which also
-changes the weighting of the load cases and the learning rate (\cref{sec:labelfree}). On
-the means over the instances, changing the norm divides the two errors by
-\numNlThreeNormEMean{} and \numNlThreeNormVmMean{} in three dimensions and by
-\numNlCmNormEMean{} and \numNlCmNormVmMean{} in two. The pre-registered verdicts are in
-\cref{tab:claims}.}
+The same transformer is trained on the solutions of 1,024 instances with the relative
+displacement error (top left) or the relative energy-norm error (bottom left), and on the
+energy of the same instances without their solutions (bottom right); a displacement loss
+needs the solutions (top right). E: relative energy-norm error; vM: relative von Mises
+error; medians over the 256 validation instances, averaged over three seeds.}
 \label{fig:normlabels}
 \end{figure}
 

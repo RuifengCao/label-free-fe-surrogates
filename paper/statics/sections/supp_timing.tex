@@ -1,4 +1,8 @@
-\section{Timing: threads and an earlier measurement}\label{supp:timing}
+\section{Timing: protocol, threads and an earlier measurement}\label{supp:timing}
+
+\input{generated/cost_protocol}
+
+\paragraph{Threads}
 
 The solvers of \cref{tab:cost} ran with the machine's \numCostThreads{} threads. The effect
 of the number of threads was measured on another host of the same type, with
@@ -10,6 +14,7 @@ the first measurement to within \numThreadsDrift{}. In two dimensions (\numThrea
 instances, without a repeat), one thread was \numThreadsTwoDirect{} faster for the direct
 solve and \numThreadsTwoCg{} for conjugate gradients.
 
+\paragraph{An earlier measurement}
 The timings of \cref{tab:cost} were measured on 28 October 2026, on the machine
 that computed the Ritz projection, so that every row of the table comes from one machine.
 The same instances and networks had been timed on 8 October 2026 on another machine

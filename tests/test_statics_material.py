@@ -29,7 +29,8 @@ TEXT = ("table_2d.tex", "table_2djuly.tex", "table_3d.tex", "table_label_efficie
         "table_e1.tex", "table_cost.tex", "table_k3d.tex", "table_holdout.tex",
         "table_holdout_values.tex", "table_ritz_pairs.tex", "table_k3d_medians.tex",
         "table_k3d_comparisons.tex", "table_claims.tex", "numbers.tex", "hashes.tex",
-        "material.md", "sources.json")
+        "material.md", "sources.json", "cost_protocol.tex", "amplitude_readings.tex",
+        "remesh_readings.tex", "e2_readings.tex")
 FIGS = ("fig_disp_vs_stress.pdf", "fig_energy_gap.pdf", "fig_label_efficiency.pdf",
         "fig_e2_cost_accuracy.pdf", "fig_spectra.pdf", "fig_field2d.pdf", "fig_field_worst.pdf",
         "fig_field_median.pdf", "fig_field_fine.pdf", "fig_norm_labels.pdf")
@@ -955,18 +956,26 @@ def test_the_cost_table_follows_from_the_timing_records(built):
     worse = sorted(x for r in fine for x in r["cg_match_targets"] if x > 1)
     assert all(it == 0 for r in fine for x, it in zip(r["cg_match_targets"], r["cg_match_iters"])
                if x > 1)
-    note = " ".join(tab.split())
+    # Stage 19: the table keeps two notes; the protocol is a paragraph of supplementary
+    # Section S10 (generated/cost_protocol.tex)
+    note = " ".join(tab.split(r"\end{tabular}", 1)[1].split())
+    proto = " ".join(built["files"]["cost_protocol.tex"].split())
     n_inst = sum(1 for r in fine if r["energy_gap_rel"] > 1)
     words = ("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
     assert (f"On the fine mesh, {words[len(worse)]} of the {4 * len(fine)} load cases had a "
-            "relative energy gap above 1") in note
-    assert f"and {words[n_inst]} of the {words[len(fine)]} instances a mean above 1" in note
-    assert "2D: the first 32 validation instances" in note
-    assert ("(Xeon Platinum 8470Q, 25 CPUs, the thread environment set to 25)" in note
-            and "with the machine's 25 BLAS threads" in note)
+            "relative energy gap above 1") in proto
+    assert f"and {words[n_inst]} of the {words[len(fine)]} instances a mean above 1" in proto
+    assert ("The two-dimensional column times the first 32 validation instances of the "
+            "two-dimensional comparison") in proto
+    assert ("(Xeon Platinum 8470Q, 25 CPUs, the thread environment set to 25)" in proto
+            and "with the machine's 25 BLAS threads" in proto)
     assert ("The fine-mesh direct solve used up its budget of 900 s after seven of the eight "
-            "instances; its median, and the ratios that use it, are over those seven.") in note
-    assert r"Threads: \cref{sec:cost:inference} and the supplementary material." in note
+            "instances; its median, and the ratios that use it, are over those seven.") in proto
+    assert ("Fine mesh, direct solve: the median over the seven of the eight instances that it "
+            "solved before its budget of 900 s ran out.") in note
+    assert (f"on the fine mesh it needs no iteration on the {words[len(worse)]} load cases "
+            "whose relative energy gap exceeds 1.") in note
+    assert note.count(r"\par") == 1                      # two notes, no more
     # the threads, on another host of the same type: one thread against the environment's,
     # and the repeat (supplementary material, S3)
     hm = (H / "machine.txt").read_text()
@@ -1457,6 +1466,83 @@ def test_no_earlier_journal_is_named(built):
             assert re.match(r"\s*journal\s*=", line), line
         if line.lstrip().startswith("%"):
             assert not earlier.search(line), line
+
+
+def _words(tex: str) -> int:
+    """Words of a caption or note: commands, references and inline math count as one word
+    each, or as none."""
+    s = re.sub(r"(?<!\\)%.*", "", tex)
+    s = re.sub(r"\\(cref|Cref|eqref|ref|cite|label)\{[^}]*\}", " X ", s)
+    s = re.sub(r"\$[^$]*\$", " M ", s)
+    s = re.sub(r"\\[A-Za-z]+\*?", " ", s)
+    s = re.sub(r"[{}~\\]", " ", s)
+    return len([w for w in s.split() if re.search(r"[A-Za-z0-9]", w)])
+
+
+def _caption(text: str, start: int) -> str:
+    i, depth = text.index("{", start), 0
+    for j in range(i, len(text)):
+        if text[j] == "{" and text[j - 1] != "\\":
+            depth += 1
+        elif text[j] == "}" and text[j - 1] != "\\":
+            depth -= 1
+            if depth == 0:
+                return text[i + 1:j]
+    raise AssertionError("unbalanced caption")
+
+
+def test_latent_regularisation_accuracy_follows_from_its_two_reports(built):
+    """Section S6.1 and Table S2: the accuracy criterion of the latent-regularisation run,
+    recomputed from the per-seed values of its two reports with the noise guard of the
+    paper's equation (A.1), and not triggered, as its verdict records."""
+    N = built["numbers"]
+    e1 = ROOT / "records" / "wp8" / "e1"
+    cells = {}
+    for arm in ("base", "shaped"):
+        c = json.loads((e1 / f"e1_2d_{arm}" / "report.json").read_text())
+        c = c["results"]["e8"]["metrics"]["cells"]["ar"]
+        cells[arm] = c[max(c, key=int)]
+    guards = set()
+    for key, macro in (("disp_rel_l2", "numEOneAccDisp"), ("energy_gap_rel", "numEOneAccGap")):
+        a, b = cells["shaped"][key]["per_seed"], cells["base"][key]["per_seed"]
+        assert len(a) == len(b) == 3
+        mb = statistics.fmean(b)
+        rel = statistics.fmean(a) / mb - 1
+        guard = max(0.1, 2 * (statistics.variance(a) / 3 + statistics.variance(b) / 3) ** 0.5 / mb)
+        assert abs(rel) < guard
+        assert _f(N[macro]) == pytest.approx(rel * 100, abs=0.05)
+        guards.add(round(guard * 100, 1))
+    assert guards == {_f(N["numEOneAccGuard"])}
+    assert json.loads((e1 / "e1_verdict.json").read_text())["K1_parity"] is False
+    crit = " ".join(built["files"]["table_criteria.tex"].split())
+    cell = {k: N[k].replace("\u2212", "$-$").replace("%", r"\%")
+            for k in ("numEOneAccDisp", "numEOneAccGap", "numEOneAccGuard")}
+    assert (f"{cell['numEOneAccDisp']} (guard {cell['numEOneAccGuard']}), "
+            f"{cell['numEOneAccGap']} (guard {cell['numEOneAccGuard']})") in crit
+
+
+def test_captions_and_table_notes_are_short(built):
+    """Stage 19, the Guide for Authors: a caption is a brief title and a description, with
+    the amount of text kept to a minimum, and table notes go below the table body. Every
+    figure caption has at most 90 words and every table caption at most 80; the notes below
+    a table of the paper have at most 60 words, those of the supplementary material at most
+    40. What the captions and notes used to explain is in the sections."""
+    main = {"table_3d.tex", "table_2d.tex", "table_holdout.tex", "table_cost.tex",
+            "table_claims.tex"}
+    for name, text in built["files"].items():
+        if not name.startswith("table_"):
+            continue
+        cap = _caption(text, text.index(r"\caption{"))
+        assert _words(cap) <= 80, (name, _words(cap))
+        tail = text.split(r"\end{tabular}")[-1].split(r"\end{longtable}")[-1]
+        notes = "".join(re.findall(r"\\begin\{minipage\}.*?\\end\{minipage\}", tail, re.S))
+        assert _words(notes) <= (60 if name in main else 40), (name, _words(notes))
+    for f in sorted((PAPER / "sections").glob("*.tex")):
+        text = f.read_text(encoding="utf-8")
+        for m in re.finditer(r"\\begin\{figure\}", text):
+            env = text[m.start():text.index(r"\end{figure}", m.start())]
+            cap = _caption(env, env.index(r"\caption{"))
+            assert _words(cap) <= 90, (f.name, _words(cap))
 
 
 def test_names_follow_the_branch():

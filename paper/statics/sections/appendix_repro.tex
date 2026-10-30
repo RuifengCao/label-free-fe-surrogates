@@ -27,7 +27,9 @@ comparison (\path{scripts/cm2d_spectra.py}; \cref{sec:norm:spectrum}) and of the
 per-load-case energies, error norms and fields of the three-dimensional networks
 (\path{scripts/export_fields.py}; \cref{sec:checks}); each was run on the training
 machine on the stored networks, whose hashes it records, and is committed with the record of
-its run. No result of this study is typed by hand. The design constants stated in the text,
+its run. The untrained networks of Section~\ref{app:e1:latent} were also measured after the
+runs, on the training machine; that reading is committed with the records of the side
+experiments. No result of this study is typed by hand. The design constants stated in the text,
 and the values quoted from other studies with their citations, are typed; the tests check
 the design constants against the configurations and the code. The tests of the generation
 script regenerate the material and compare it with the committed files byte for byte; check
@@ -42,7 +44,7 @@ disagrees. The mean and standard deviation over seeds in the tables are the mean
 sample standard deviation of the per-seed values, which differs from the population standard
 deviation stored in the run reports. The code was written with the assistance of Claude
 Fable 5, Claude Fable 5.1 and Claude Opus 5.5 (Anthropic), as declared at the end of the
-paper; the tests described above check it. The graphical abstract is drawn by TikZ code
+paper; these tests check it. The graphical abstract is drawn by TikZ code
 written with the assistance of Claude. Every other
 figure is drawn by the generation script from the committed records; no image was produced
 or altered by a generative AI tool.

@@ -27,12 +27,17 @@ separated the geometries better in latent space (\cref{tab:e1}). The separation 
 by the silhouette $S\in[-1,1]$ of the instance-mean latent vectors of the 256 validation
 instances, grouped into four bins by the quartiles of the first principal component of the
 geometry descriptor; $S$ is near zero when the bins overlap and near one when they are well
-separated. The accuracy was unchanged within the pre-registered noise guard. The separation
-rose in every seed, by \numEOneDeltaMin{} to \numEOneDeltaMax{}, but by less than the
-\numEOneFloor{} required in every seed, and the experiment read NO-GO. Untrained networks
-that received the geometry descriptor as input separated the bins better than trained
-ones, and a linear probe read the descriptor from them perfectly; without that input, or
-with its input weights set to zero, untrained networks did not separate the bins at all.
+separated. The accuracy was unchanged within the pre-registered noise guard: the
+regulariser changed the seed means of the displacement error and of the relative energy gap
+by \numEOneAccDisp{} and \numEOneAccGap{}, against a guard of \numEOneAccGuard{} for each.
+The separation rose in every seed, by \numEOneDeltaMin{} to \numEOneDeltaMax{}, but by less
+than the \numEOneFloor{} required in every seed, and the experiment read NO-GO. After the
+runs, untrained networks were measured on the same instances: networks built from the
+label-free network's configuration at initialisation, with the geometry descriptor as input;
+the same networks with the descriptor's input weights set to zero; and networks built
+without that input. With the input they separated the bins better than trained ones, and a
+linear probe read the descriptor from them perfectly; with its weights set to zero, or
+without it, they did not separate the bins at all.
 The descriptor is an input feature of every node, so these readings measure the input
 rather than anything learned. The unregularised networks of this run are the label-free
 networks of the two-dimensional comparison, which reuses them without retraining
@@ -99,6 +104,8 @@ amplitudes on the finer mesh, measured after the runs, are in
 \cref{tab:amplitude,tab:remesh}.
 
 \input{generated/table_e2}
+
+\input{generated/e2_readings}
 
 \begin{figure}[tbp]
 \centering
