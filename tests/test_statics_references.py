@@ -8,7 +8,9 @@ the version described is a data reference, rendered with "[dataset]" before it a
 journal's guide asks, with the title and author of CITATION.cff and the tag of the version
 described, and cited in the Data availability statement; its DOI is added, here, in the
 statement and in CITATION.cff, when it is reserved (until then a pending box in the
-statement says so, and CITATION.cff names the repository's first archive). Where the text
+statement says so, and CITATION.cff names the repository's first archive). Stage 21: the
+archive of the trained networks is a data reference in the same way, cited with its
+licence, and Li et al. (2024) carry their volume, issue and article number. Where the text
 gives the
 iteration bound of a warm start for conjugate gradients, it credits the estimate of Sun et al.
 in the relative residual and the bound of Wang et al. for fixed-point iterations; it states their solvers, their observation on
@@ -92,6 +94,7 @@ def test_the_bibliography_renders_the_data_reference_and_the_chapter(tmp_path):
     shutil.copy(BIB, tmp_path / "references.bib")
     (tmp_path / "t.aux").write_text(
         "\\citation{Cao2026Zenodo}\n\\citation{LeCun2007EBM}\n\\citation{Saad2003}\n"
+        "\\citation{Cao2026Networks}\n\\citation{Li2024PINO}\n"
         "\\bibstyle{elsarticle-num}\n\\bibdata{references}\n", encoding="ascii")
     res = subprocess.run([bibtex, "t"], cwd=tmp_path, capture_output=True, text=True)
     assert res.returncode == 0, res.stdout + res.stderr
@@ -106,7 +109,11 @@ def test_the_bibliography_renders_the_data_reference_and_the_chapter(tmp_path):
               r"{https://doi.org/10.7551/mitpress/7443.003.0014}",
               r"\bibitem{Saad2003} Y.~Saad, Iterative Methods for Sparse Linear Systems, 2nd "
               r"Edition, SIAM, Philadelphia, 2003. \newblock \href "
-              r"{https://doi.org/10.1137/1.9780898718003}"):
+              r"{https://doi.org/10.1137/1.9780898718003}",
+              r"\bibitem{Cao2026Networks} {\relax [dataset] R}.~Cao, label-free-fe-surrogates: "
+              rf"trained networks, Zenodo, version {TAG} (2026). \bibitem{{Li2024PINO}}",
+              r"Physics-informed neural operator for learning partial differential equations, "
+              r"ACM/IMS Journal of Data Science 1~(3) (2024) 9."):
         assert s in bbl, s
 
 
@@ -135,7 +142,7 @@ def test_the_references_checked_on_11_october_say_so():
     assert {k for k, (_, comment, _) in entries.items() if not comment} == batch
     assert all(re.match(r"% (verified|checked)\b", comment)
                for k, (_, comment, _) in entries.items()
-               if comment and k != "Cao2026Zenodo")
+               if comment and k not in ("Cao2026Zenodo", "Cao2026Networks"))
     lecun = entries["LeCun2007EBM"][2]
     assert (_field(lecun, "title"), _field(lecun, "booktitle"), _field(lecun, "publisher"),
             _field(lecun, "address"), _field(lecun, "year"), _field(lecun, "pages"),
@@ -276,3 +283,46 @@ def test_the_break_even_of_the_cost_section_is_recomputed_from_the_records():
               r"reference solution",
               r"Label-free training pays for itself where a solve is expensive enough"):
         assert s in text, s
+
+
+def test_the_networks_are_archived_as_a_data_reference_under_their_licence():
+    """Stage 21: the trained networks whose states the records name with their SHA-256 hashes
+    are archived at Zenodo under CC BY-NC 4.0, a data reference like the archive of the code,
+    with the same author and version; its DOI is added when it is reserved (until then a
+    pending box says so), and the statement says how what is not archived is regenerated."""
+    kind, comment, body = _entries(BIB.read_text(encoding="utf-8"))["Cao2026Networks"]
+    assert kind == "misc"
+    assert _field(body, "author") == r"Cao, {\relax [dataset] R}uifeng"
+    assert (_field(body, "title"), _field(body, "howpublished"), _field(body, "year")) == (
+        "label-free-fe-surrogates: trained networks", f"Zenodo, version {TAG}", "2026")
+    assert not re.search(r"^\s*doi\s*=", body, re.M)
+    assert "Its DOI is reserved, and added here, before the paper is submitted" in \
+        _flat(comment.replace("% ", ""))
+    statement = _flat(_sections()["declarations.tex"]
+                      .split(r"\section*{Data availability}", 1)[1].split(r"\section*", 1)[0])
+    assert (r"The trained networks whose states the records name with their SHA-256 hashes are "
+            r"archived at Zenodo \cite{Cao2026Networks} under CC BY-NC 4.0, and licences for "
+            r"their commercial use are also available from the first author. \pending{The DOI "
+            r"of this archive, reserved before submission and given here and in the "
+            r"reference.}") in statement
+    assert statement.count(r"\pending{The DOI of this archive") == 2      # code, networks
+    for s in ("The other networks are not archived and can be retrained from the "
+              "configurations and seeds that the records give, with the code of the versions "
+              "that the records name",
+              "the meshes and reference solutions are not archived either and are regenerated "
+              "by the same code, up to rounding differences between machines"):
+        assert s in statement, s
+    assert "the archive of the stored networks are given in the Data availability statement" \
+        in _sections()["appendix_repro.tex"]
+
+
+def test_the_physics_informed_neural_operator_carries_its_volume_issue_and_article():
+    """Stage 21: Li et al. (2024), checked on 30 October 2026 against the published article,
+    whose PDF the PI supplied: volume 1, issue 3, article 9 (May 2024)."""
+    kind, comment, body = _entries(BIB.read_text(encoding="utf-8"))["Li2024PINO"]
+    assert kind == "article"
+    assert (_field(body, "journal"), _field(body, "volume"), _field(body, "number"),
+            _field(body, "pages"), _field(body, "year"), _field(body, "doi")) == (
+        "ACM/IMS Journal of Data Science", "1", "3", "9", "2024", "10.1145/3648506")
+    assert ("checked 30 October 2026 against the published article (its PDF): volume 1, "
+            "issue 3, article 9") in _flat(comment.replace("% ", ""))

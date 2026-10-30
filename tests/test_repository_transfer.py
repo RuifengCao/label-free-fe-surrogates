@@ -7,8 +7,9 @@ the list of branches and tags gives, by Software Heritage's snapshot hash, the s
 the manuscript, the records' README, the provenance note and CITATION.cff quote, and the
 README states what the records show; the Data availability statement gives the address,
 the tag of the version described, its archive at Zenodo, whose DOI a pending box awaits
-until it is reserved (statics-paper Stage 16), and that snapshot, and no other pending box
-is left in the manuscript; the provenance note, the README and CITATION.cff agree with the
+until it is reserved (statics-paper Stage 16), and that snapshot; the only other pending
+box left in the manuscript awaits the DOI of the archive of the trained networks
+(statics-paper Stage 21); the provenance note, the README and CITATION.cff agree with the
 manuscript."""
 
 from __future__ import annotations
@@ -224,8 +225,8 @@ def test_the_manuscript_gives_the_address_tag_doi_and_snapshot():
     for f, text in texts.items():
         assert "owner account" not in text, f.name
         assert "HymnOfLight" not in text and "FE-JEPA" not in text, f.name
-        if f.parent == SECTIONS:                        # the archive's DOI's box only
-            assert text.count(r"\pending") == (f.name == "declarations.tex"), f.name
+        if f.parent == SECTIONS:     # the boxes of the two archives' DOIs (code, networks)
+            assert text.count(r"\pending") == 2 * (f.name == "declarations.tex"), f.name
     assert texts[PAPER / "main.tex"].count(r"\pending") <= 1   # the macro's definition at most
     repro = _flat((SECTIONS / "appendix_repro.tex").read_text(encoding="utf-8"))
     for s in ("Beside it are the entries that name the repository in the security log of the "

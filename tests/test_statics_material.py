@@ -1705,9 +1705,9 @@ ALLOWED_PERCENT = {"5", "10", "20", "30", "40", "95"}
 # names that contain version numbers, not results: the AI models named in the
 # generative-AI declaration, in Section 4.6 and in supplementary Section S8, the tag of the
 # version described, and the licences and the archive's DOI named in the Data availability
-# statement
+# statement and the declaration of competing interest
 NAMES_WITH_VERSIONS = ("Claude Fable 5.1", "Claude Opus 5.5", "statics-paper-1.0",
-                       "PolyForm Noncommercial License 1.0.0", "CC BY 4.0",
+                       "PolyForm Noncommercial License 1.0.0", "CC BY 4.0", "CC BY-NC 4.0",
                        "10.5281/zenodo.23298799")
 
 
@@ -2020,3 +2020,25 @@ def test_manuscript_compiles(tmp_path):
     assert res.returncode == 0, slog[-3000:]
     assert not re.search(r"(Reference|Citation) .* undefined", slog)
     assert "Overfull" not in slog and "Float too large" not in slog
+
+
+def test_the_competing_interest_declares_the_commercial_licences():
+    """Stage 21: the Data availability statement offers licences for commercial use of the code
+    and of the trained networks, which are licensed for non-commercial use only; the
+    declaration of competing interest declares that interest, in the wording of the journal's
+    declarations tool, instead of declaring none."""
+    decl = " ".join((PAPER / "sections" / "declarations.tex").read_text(encoding="utf-8").split())
+    ci = decl.split(r"\section*{Declaration of competing interest}", 1)[1]
+    ci = ci.split(r"\section*", 1)[0].strip()
+    assert ci == ("The authors declare the following financial interests/personal relationships "
+                  "which may be considered as potential competing interests: Ruifeng Cao holds "
+                  "the copyright in the code released with this article and offers licences for "
+                  "commercial use of the code and of the trained networks, both of which are "
+                  "licensed for non-commercial use only.")
+    data = decl.split(r"\section*{Data availability}", 1)[1].split(r"\section*", 1)[0]
+    for s in ("PolyForm Noncommercial License 1.0.0",
+              "licences for commercial use are available from the first author",
+              "CC BY-NC 4.0", "licences for their commercial use are also available from the "
+              "first author"):
+        assert s in data, s
+    assert "no known competing" not in decl

@@ -2415,3 +2415,29 @@ generator, and no record, configuration, pre-registration or source file changed
   a line of their own; Section 4.6 names the models of the generative-AI declaration), and
   its filter of the prose skips `\figfull`. The runbook's suite lines read the current
   count. Suite 831 (828 + 3).
+
+## Stage 21 (30 Oct 2026) -- the declaration of competing interest, the archive of the trained networks, the volume of PINO
+
+- At the PI's decisions of 30 October 2026 the declaration of competing interest declares
+  the first author's commercial licences, in the wording of the journal's declarations
+  tool: he holds the copyright in the code and offers licences for commercial use of the
+  code and of the trained networks, both licensed for non-commercial use only. It declared
+  none before, while the Data availability statement offered commercial licences.
+- The trained networks whose states the records name with their SHA-256 hashes, 34 files,
+  were collected from the training machine on 30 October 2026 after a check there against
+  those hashes, and are to be archived at Zenodo under CC BY-NC 4.0 (`Cao2026Networks`, a
+  data reference like the archive of the code, with the same author and version; its DOI is
+  reserved before submission, and until then a pending box in the Data availability
+  statement says so). The statement says that the other networks, the meshes and the
+  reference solutions are not archived, and how they are regenerated; supplementary
+  Section S8 points to it.
+- Li et al. (2024) carry their volume, issue and article number (1, 3 and 9), checked
+  against the published article.
+- Tests: `tests/test_statics_references.py` gains two (the networks' archive is a data
+  reference cited with its licence and its pending DOI; the volume, issue and article
+  number of Li et al.), and its rendering test renders both entries;
+  `tests/test_statics_material.py` gains one (the declaration of competing interest
+  declares the commercial licences that the Data availability statement offers), and the
+  licence's name joins the names with versions; `tests/test_repository_transfer.py`
+  expects the second pending box. The runbook's suite lines read the current count.
+  Suite 834 (831 + 3).
