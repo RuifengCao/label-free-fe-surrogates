@@ -50,7 +50,7 @@ def _export(path: Path) -> dict:
 
 
 def _macros() -> dict:
-    text = (ROOT / "paper/cmame/generated/numbers.tex").read_text(encoding="utf-8")
+    text = (ROOT / "paper/statics/generated/numbers.tex").read_text(encoding="utf-8")
     return dict(re.findall(r"\\newcommand\{\\(\w+)\}\{([^}]*)\}", text))
 
 
@@ -74,7 +74,7 @@ def test_rules_read_replicated_on_the_manuscripts_own_arrays(manuscript):
     assert {c: v["verdict"] for c, v in res["claims"].items()} == {c: REPLICATED for c in CLAIMS}
     assert res["tally"] == {REPLICATED: 8, NOT_REPLICATED: 0, NOT_EVALUATED: 0}
     c = res["claims"]
-    # the values the manuscript quotes (paper/cmame/generated/numbers.tex)
+    # the values the manuscript quotes (paper/statics/generated/numbers.tex)
     shares = c["T2"]["disp_lower_share_per_seed"]
     assert round(min(shares) * 100, 1) == 84.4 and round(max(shares) * 100, 1) == 92.6
     assert round(c["T2"]["vm_higher_share_pooled"] * 768) == 767 and c["T2"]["pairs"] == 768

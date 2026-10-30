@@ -52,7 +52,7 @@ def test_readme_states_what_each_licence_covers():
 
 
 def test_data_availability_names_both_licences():
-    tex = (ROOT / "paper" / "cmame" / "sections" / "declarations.tex").read_text(
+    tex = (ROOT / "paper" / "statics" / "sections" / "declarations.tex").read_text(
         encoding="utf-8")
     statement = _flat(tex.split(r"\section*{Data availability}", 1)[1].split(r"\section*", 1)[0])
     assert "The code is licensed under the PolyForm Noncommercial License 1.0.0" in statement

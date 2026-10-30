@@ -1,4 +1,4 @@
-"""cmame-paper: RUNBOOK_CMAME.md names only scripts that exist and options
+"""RUNBOOK_STATICS.md (RUNBOOK_CMAME.md until Stage 18) names only scripts that exist and options
 they accept; Sec. A runs exactly the commands of RUNBOOK_W9.md Sec. 4 apart
 from the F5 timing and writes only under runs/cmame/timing/; Sec. B runs
 CM2D's stamped configuration on the tag and writes only under runs/cm2d/
@@ -28,16 +28,23 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNBOOK = ROOT / "RUNBOOK_CMAME.md"
+RUNBOOK = ROOT / "RUNBOOK_STATICS.md"
 LATEX = ("tests/test_cmame_material.py::test_manuscript_compiles",
          "tests/test_w9_session2.py::test_paper_material_compiles",
          "tests/test_cmame_references.py::"
          "test_the_bibliography_renders_the_data_reference_and_the_chapter")
-"""The tests that need a TeX installation, which the box does not have."""
+"""The tests that need a TeX installation, which the box does not have, as Sections A to G
+deselect them: under the names they had when the sections ran (`_now` gives the current
+ones, BRANCH_NOTES_statics-paper.md, Stage 18)."""
+
+
+def _now(test: str) -> str:
+    """A deselected test under its current name."""
+    return test.replace("tests/test_cmame_", "tests/test_statics_")
 E0C_STATES = ("python -c \"from fejepa.analysis.holdout import load_spec, check_states; "
               "s = load_spec('configs/holdout_v1.json'); [check_states(v, s['seeds']) for v in "
               "s['sets'].values()]; print('21 states verified')\"   # 21 states verified")
-"""RUNBOOK_CMAME E0c's check of the 21 states."""
+"""RUNBOOK_STATICS E0c's check of the 21 states."""
 SCRIPTS = {"A": {"scripts/time_inference_vs_solve.py", "scripts/export_fields.py"},
            "B": {"scripts/cm2d_precheck.py"},
            "C": {"scripts/adjudicate_cm2d.py"},
@@ -225,7 +232,13 @@ def test_the_runbook_states_the_suite_count():
     assert m, res.stdout[-2000:]
     n = int(m.group(1))
     for t in LATEX:                                         # the deselected tests exist
-        assert t in res.stdout, t
+        assert _now(t) in res.stdout, t
+    # Sections A, D and G run again on this commit with the new names read for the old
+    opening = " ".join(RUNBOOK.read_text(encoding="utf-8").split("\n## A. ", 1)[0].split())
+    assert ("its tests `tests/test_cmame_*.py` were renamed after the branch, with "
+            "`statics` in place of `cmame`") in opening
+    assert "to run Sec. A, D or G again on a later commit, read the new names for the old" \
+        in opening
     for letter in "ADG":                                    # A0c, D0c, G0c: this commit
         sec = _section(letter)
         assert sec.count(f"`{n - len(LATEX)} passed, {len(LATEX)} deselected`") == 1, letter
@@ -281,7 +294,7 @@ def test_a_test_that_meshes_with_gmsh_in_the_test_process():
 def test_every_test_starts_with_sigpipe_ignored():
     """A failed worker pool after a gmsh test (tests/test_w9_parallel_kill.py
     after tests/test_w9_ood2d.py) could otherwise end the whole run by
-    SIGPIPE, without the summary line RUNBOOK_CMAME A0c and B1c read."""
+    SIGPIPE, without the summary line RUNBOOK_STATICS A0c and B1c read."""
     pytest = __import__("pytest")
     if not sys.platform.startswith("linux"):
         pytest.skip("reads /proc")

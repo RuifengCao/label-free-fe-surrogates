@@ -1,5 +1,12 @@
 # records/cmame -- cmame-paper records
 
+The directory keeps the name it had when these records were made: the stamped
+pre-registrations, the configurations and the adjudicators name its paths. On 29 October
+2026 the runbook that this file names, `RUNBOOK_CMAME.md`, was renamed
+`RUNBOOK_STATICS.md`, and the generator and the tests that it names,
+`scripts/make_cmame_material.py` and `tests/test_cmame_*.py`, were renamed with `statics`
+in place of `cmame` (BRANCH_NOTES_statics-paper.md, Stage 18).
+
 ## Default path against wp8-lejepa (Stage 2, run again at Stages 9, 11, 12 and 14)
 
 Stage 2 changed `src` (opt-in additions only: the stiffness-norm loss of the

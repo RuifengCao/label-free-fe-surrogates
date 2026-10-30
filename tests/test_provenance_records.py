@@ -65,7 +65,7 @@ def test_the_export_logs_what_the_text_states():
     for s in ("103 events", "96 pushes", "5 branch creations", "1 force push", "1 deletion",
               "It logs no tag creations"):
         assert s in readme, s
-    app = _flat(ROOT / "paper" / "cmame" / "sections" / "appendix_prereg.tex")
+    app = _flat(ROOT / "paper" / "statics" / "sections" / "appendix_prereg.tex")
     for s in ("at 03:25 UTC that day", "(\\texttt{b365af5})", "2 August 2026 at 17:29 UTC",
               "(\\texttt{a548825}, tagged \\texttt{v2.1.5})", "dated 17:26 UTC",
               f"\\texttt{{{TAG}}}", "logs the creation of the branch at that commit on 14 July"):
@@ -151,7 +151,7 @@ def test_the_security_log_entries_support_the_text():
                    (1783999397268, "repo.destroy", NAMESAKE),      # 2026-07-14T03:23:17.268Z
                    (1783999410468, "repo.create", PRESENT)]        # 2026-07-14T03:23:30.468Z
     assert round((key[2][0] - key[1][0]) / 1000) == 13
-    app = _flat(ROOT / "paper" / "cmame" / "sections" / "appendix_prereg.tex")
+    app = _flat(ROOT / "paper" / "statics" / "sections" / "appendix_prereg.tex")
     assert "created, public, on 14 July 2026 at 03:23 UTC" in app
     note = _flat(ROOT / "PROVENANCE_NOTE.md")
     for s in ("created, public, on 14 July 2026 at 03:23 UTC", "created on 13 June 2026",

@@ -1,16 +1,18 @@
-# BRANCH NOTES -- cmame-paper
+# BRANCH NOTES -- statics-paper
 
-Renamed `statics-paper` on GitHub on 29 October 2026 (Stage 16); this file keeps its name.
+Called `cmame-paper` until 29 October 2026, when it was renamed `statics-paper` on GitHub
+(Stage 16). This file, the runbook, the manuscript's directory, its generator and its tests
+were renamed after it in Stage 18; the entries before Stage 18 use their old names.
 Branched 3 Oct 2026 from `wp9-pool` at `414a372` (Stage 0e). Purpose: the
-CMAME manuscript (`paper/cmame/`) and the box sessions it needs. `wp9-pool`
+manuscript (`paper/statics/`) and the box sessions it needs. `wp9-pool`
 stays at its pre-stamp head for PREREG_W9; nothing here touches PREREG_W9,
 its configurations or any other stamped configuration.
 
 ## Governance
 
 - The manuscript's numbers are generated from committed records only
-  (`scripts/make_cmame_material.py`, checked by `tests/test_cmame_material.py`).
-- Box sessions follow `RUNBOOK_CMAME.md`. A session's return is committed
+  (`scripts/make_statics_material.py`, checked by `tests/test_statics_material.py`).
+- Box sessions follow `RUNBOOK_STATICS.md`. A session's return is committed
   under `records/cmame/` before the manuscript reads it.
 - Code changes leave every default training and evaluation path unchanged;
   new behaviour is opt-in, with tests.
@@ -2281,3 +2283,44 @@ generator, and no record, configuration, pre-registration or source file changed
   against the networks at the top of its ladder and the Welch interval; the quotes of
   `tests/test_cmame_references.py` follow the text to the supplementary material.
   RUNBOOK_CMAME's suite lines read the current count. Suite 825 (824 + 1).
+
+## Stage 18 (29 Oct 2026) -- the manuscript's directory, its generator and tests, the runbook and these notes renamed after the branch
+
+- At the PI's request of 29 October 2026, the files named after the branch's old name are
+  renamed after its new one, with `statics` in place of `cmame`: `paper/cmame/` is
+  `paper/statics/`, `RUNBOOK_CMAME.md` is
+  `RUNBOOK_STATICS.md`, `BRANCH_NOTES_cmame-paper.md` is `BRANCH_NOTES_statics-paper.md`,
+  `scripts/make_cmame_material.py` is `scripts/make_statics_material.py`, and
+  `tests/test_cmame_material.py`, `tests/test_cmame_references.py`,
+  `tests/test_cmame_runbook.py` and `tests/test_cmame_timing_records.py` are
+  `tests/test_statics_material.py`, `tests/test_statics_references.py`,
+  `tests/test_statics_runbook.py` and `tests/test_statics_timing_records.py`.
+- Not renamed: `records/cmame/`, whose paths the stamped pre-registrations (PREREG_CM2D,
+  PREREG_HOLDOUT, PREREG_K3D), the configurations `configs/holdout_v1.json` and
+  `configs/ritz_v1.json` and the adjudicators, whose SHA-256 the verdicts record, name, and
+  by which the records list their inputs; and the tag `cmame-submission`, which
+  PREREG_HOLDOUT and `records/cmame/holdout/pool_depths.json` name. The stamped documents,
+  the configurations, the scripts and `src`, the records, the entries of these notes before
+  this stage, Sections A to G of the runbook and the docstrings of the tests not renamed keep
+  the old names as they were written; the runbook's opening says how to read its commands
+  on a later commit, and `records/cmame/README.md` opens with the new names of the files it
+  names.
+- Updated to the new names: the README's section on the paper, which now also names the
+  runbook and these notes and says that documents written before 29 October 2026 use the
+  old names; the openings of the runbook and of these notes; `records/phase1/README.md`;
+  the generator (its output directory, its docstrings and the name that `sources.json`
+  records); and the tests that read the renamed files.
+- The list of hashes in Section S8 of the supplementary material says that the records of
+  the runs of October 2026 are kept in one subdirectory of `records/`, without printing its
+  name. No other text or number of the manuscript changed, and no figure was regenerated.
+- Stage 17 as pushed (`6640672`) lacked two of its changes: `sections/results2d.tex` and
+  `sections/results3d.tex`, no longer read, were still there, and the runbook was Stage
+  16's, whose suite lines read 821, so that `test_the_runbook_states_the_suite_count`
+  failed there (824 passed and 1 failed on a fresh clone). This stage removes the two files
+  and states the current count.
+- Tests: `tests/test_statics_material.py` gains one (no file or directory at the top of the
+  repository or in `paper/`, `scripts/` and `tests/` carries the old name, and in `records/`
+  only `records/cmame/` does), and its test of the manuscript's sources allows no exception
+  now; `tests/test_statics_runbook.py` finds the tests that Sections A to G deselect under
+  their new names and checks that the runbook's opening says how to read them. The
+  runbook's suite lines read the current count. Suite 826 (825 + 1).

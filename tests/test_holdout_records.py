@@ -26,7 +26,7 @@ CM = ROOT / "records" / "cmame"
 RET = CM / "holdout" / "return"
 VERDICT = CM / "holdout" / "verdict.json"
 README = CM / "README.md"
-NOTES = ROOT / "BRANCH_NOTES_cmame-paper.md"
+NOTES = ROOT / "BRANCH_NOTES_statics-paper.md"
 PREREG = ROOT / "PREREG_HOLDOUT.md"
 CONFIG = ROOT / "configs" / "holdout_v1.json"
 TAG = "prereg-holdout"
@@ -531,7 +531,7 @@ def test_the_readme_quotes_the_records():
     assert utc == ["10:02:11Z", "10:15:45Z"]
     assert (datetime.strptime("20261021-180704", "%Y%m%d-%H%M%S") - timedelta(hours=8)
             ).strftime("%H:%M:%SZ") == "10:07:04Z"
-    runbook = (ROOT / "RUNBOOK_CMAME.md").read_text(encoding="utf-8")
+    runbook = (ROOT / "RUNBOOK_STATICS.md").read_text(encoding="utf-8")
     assert "git describe --tags --match prereg-holdout   # must print exactly: prereg-holdout" \
         in runbook
     _has(" ".join(first.split()), "`python: can't open file "

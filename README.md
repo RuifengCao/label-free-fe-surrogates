@@ -111,13 +111,13 @@ instances bought vs. the unlabeled pool AR consumed), derived from the solve led
 
 ## The paper's tables, figures and numbers
 
-The manuscript's sources are in `paper/cmame/`: `main.tex`, its supplementary material
+The manuscript's sources are in `paper/statics/`: `main.tex`, its supplementary material
 `supplementary.tex`, the graphical abstract and the highlights. Every table but the list of
 runs, every figure, and every number in the text that reports a result are generated from
 the committed records by
 
-    python scripts/make_cmame_material.py      # writes paper/cmame/generated/
-    cd paper/cmame && latexmk -pdf main.tex && latexmk -pdf supplementary.tex
+    python scripts/make_statics_material.py    # writes paper/statics/generated/
+    cd paper/statics && latexmk -pdf main.tex && latexmk -pdf supplementary.tex
 
 The supplementary material reads the paper's section, table and equation numbers from
 `main.aux`, so it is built after the paper; the paper cites its sections by the numbers in
@@ -126,11 +126,18 @@ The supplementary material reads the paper's section, table and equation numbers
 The script writes the tables (`table_*.tex`), the figures (`fig_*.pdf`), the numbers that
 the text quotes, one macro each (`numbers.tex`), the list of the runs with the hashes of
 their configurations (`hashes.tex`), a summary (`material.md`) and the list of every file it
-read with its SHA-256 (`sources.json`). `tests/test_cmame_material.py` regenerates the
+read with its SHA-256 (`sources.json`). `tests/test_statics_material.py` regenerates the
 material and compares it with the committed files byte for byte, recomputes the quoted
 numbers from the records independently of the script, checks the design constants against
-the configurations and the code and builds both documents; `tests/test_cmame_references.py`
-checks the references.
+the configurations and the code and builds both documents;
+`tests/test_statics_references.py` checks the references.
+
+The commands of the box sessions that the paper's runs needed are in `RUNBOOK_STATICS.md`,
+and the branch's notes in `BRANCH_NOTES_statics-paper.md`. These two files, the
+manuscript's directory, the script and its tests were renamed after the branch,
+`statics-paper`, on 29 October 2026; documents written before then, the stamped
+pre-registrations among them, use their earlier names, which the branch notes list
+(Stage 18).
 
 ## Layout
 

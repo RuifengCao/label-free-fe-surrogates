@@ -1,9 +1,9 @@
-# records/phase1 -- the two-dimensional runs the CMAME manuscript reports
+# records/phase1 -- the two-dimensional runs the manuscript reports
 
 Copies of three reports that until now were only in the authors' archives
 (PROVENANCE_NOTE.md records their bundles). Committed unchanged so that the
 manuscript's two-dimensional numbers are generated from the repository
-(`scripts/make_cmame_material.py`); `tests/test_cmame_material.py` checks
+(`scripts/make_statics_material.py`); `tests/test_statics_material.py` checks
 the three hashes.
 
 | File | SHA-256 | Source |

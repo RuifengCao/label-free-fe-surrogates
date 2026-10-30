@@ -25,7 +25,7 @@ CM = ROOT / "records" / "cmame"
 RET = CM / "k3d" / "return"
 VERDICT = CM / "k3d" / "verdict.json"
 README = CM / "README.md"
-NOTES = ROOT / "BRANCH_NOTES_cmame-paper.md"
+NOTES = ROOT / "BRANCH_NOTES_statics-paper.md"
 PREREG = ROOT / "PREREG_K3D.md"
 CONFIG = ROOT / "configs" / "k3d_v1.json"
 SOURCE = ROOT / "records" / "wp8" / "e2" / "baseline" / "report_phase2b.json"
@@ -412,7 +412,7 @@ def test_the_readme_quotes_the_records():
     k3d = " ".join(PREREG.read_text(encoding="utf-8").split())
     assert "(92 GiB on the box)" in k3d and "memory limit is at least 64 GB" in k3d
     assert "# 98784247808 (92 GiB) or max; a number under 64000000000: stop" in \
-        (ROOT / "RUNBOOK_CMAME.md").read_text(encoding="utf-8")
+        (ROOT / "RUNBOOK_STATICS.md").read_text(encoding="utf-8")
     s = v["secondary"]
     cmp = {m: s["comparisons"][m]["labels_knorm_vs_ar"]["medians"] for m in METRICS}
     _has(_unit_with(sec, "- L_K against the label-free transformer, the five metrics:"),

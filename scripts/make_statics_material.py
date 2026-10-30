@@ -24,11 +24,11 @@ Inputs (their SHA-256 values are written to sources.json):
   field figures of the three-dimensional networks (scripts/export_fields.py;
   post hoc);
 * records/cmame/timing/timing_2d.json, timing_3d.json, machine.txt -- the
-  surrogate's inference against exact solves (RUNBOOK_CMAME Sec. A);
+  surrogate's inference against exact solves (RUNBOOK_STATICS Sec. A);
 * records/cmame/threads/ -- the threads of those solvers, timed again on
   another host (RUNBOOK_W9 Sec. 4).
 
-Outputs (paper/cmame/generated/):
+Outputs (paper/statics/generated/):
 
 * table_2d.tex, table_3d.tex -- every metric at the largest label budget (2D:
   CM2D); table_2djuly.tex -- the same for the 2D run of 16 July 2026;
@@ -57,9 +57,9 @@ four load cases, as the evaluation records it; for a single load case it is
 equivalent to Pi_h(u) > 0 (Corollary 4 of the manuscript).
 
 The text outputs are deterministic: regenerating from the records reproduces
-the committed files byte for byte (tests/test_cmame_material.py).
+the committed files byte for byte (tests/test_statics_material.py).
 
-    python scripts/make_cmame_material.py
+    python scripts/make_statics_material.py
 """
 from __future__ import annotations
 
@@ -75,7 +75,7 @@ from pathlib import Path
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "paper" / "cmame" / "generated"
+OUT = ROOT / "paper" / "statics" / "generated"
 REC8 = ROOT / "records" / "wp8"
 R2D = ROOT / "records" / "phase1" / "report_rec8_v2.json"
 RDIAG = ROOT / "records" / "phase1" / "report_diag.json"
@@ -547,8 +547,8 @@ def hashes_tex(used: dict) -> str:
                  r"its summaries and timings are committed unpacked beside it, in "
                  r"\path{ritz/return/}.")
     out += [r"\end{itemize}",
-            r"The records of the runs of October 2026 are in \path{records/cmame/}; their "
-            r"paths are given relative to it.",
+            r"The records of the runs of October 2026 are kept in one subdirectory of "
+            r"\path{records/}; their paths are given relative to it.",
             r"\begin{itemize}"] + later
     out += [r"\end{itemize}", r"\par\endgroup", ""]
     return "\n".join(out)
@@ -1822,7 +1822,7 @@ def _gm(x) -> float:
 
 
 def spectra_numbers(N: Numbers, sj: dict, z: dict, rc: dict) -> None:
-    """The error spectra of CM2D's networks at 1,024 labels (post hoc; RUNBOOK_CMAME
+    """The error spectra of CM2D's networks at 1,024 labels (post hoc; RUNBOOK_STATICS
     Sec. D): every reading the text quotes is recomputed here from the per-load
     arrays and checked against the export's summary."""
     if not np.array_equal(z["log_edges"], SPEC_EDGES):
@@ -2007,7 +2007,7 @@ def spectra_numbers(N: Numbers, sj: dict, z: dict, rc: dict) -> None:
 
 # ---------------------------------------------------------------- 3D field export (post hoc)
 def field_numbers(N: Numbers, fj: dict, ez: dict) -> None:
-    """Readings of the three-dimensional field export (RUNBOOK_CMAME Sec. A; Phase-2b's
+    """Readings of the three-dimensional field export (RUNBOOK_STATICS Sec. A; Phase-2b's
     networks at 1,024 labels): per load case, the errors' normalised Rayleigh
     quotients, the predictions worse than the zero field before and after the
     rescaling by c*, the two von Mises errors and the stress bound; recomputed here
@@ -2225,7 +2225,7 @@ def _med_solved(rows: list, key: str) -> float:
 
 
 def cost_material(N: Numbers, used: dict) -> tuple:
-    """The cost table and its numbers, from the per-instance records of RUNBOOK_CMAME
+    """The cost table and its numbers, from the per-instance records of RUNBOOK_STATICS
     Sec. G1 (28 October 2026: the timings of Sec. A run again on the machine of the Ritz
     baseline, beside the Ritz projection's own; medians over the instances, computed here)
     and the thread readings of RUNBOOK_W9 Sec. 4 (another host of the same type). Refuses
@@ -2496,7 +2496,7 @@ def cost_material(N: Numbers, used: dict) -> tuple:
 
 
 def timing_rerun_numbers(N: Numbers, used: dict) -> None:
-    """The earlier timing of the same instances and networks on another machine (RUNBOOK_CMAME
+    """The earlier timing of the same instances and networks on another machine (RUNBOOK_STATICS
     Sec. A, 8 October 2026), against the cost table's (28 October 2026): the surrogate's
     accuracy the same to round-off, and the conjugate-gradient iterations within a few."""
     worst, iters = 0.0, 0
@@ -3354,7 +3354,7 @@ def _h3_free(h3: dict) -> str:
 
 def _params_transformer(f: int, sd: int, D: int = 256, depth: int = 8) -> tuple:
     """Parameters of models/fejepa.py: (encoder + decoder, auxiliary heads), by formula
-    (checked against the torch modules in tests/test_cmame_material.py)."""
+    (checked against the torch modules in tests/test_statics_material.py)."""
     enc = f * D + D + depth * (12 * D * D + 13 * D) + 2 * D
     dec = (4 * D * D + 2 * D) + (2 * D * D + D) + (D * sd + sd)
     aux = (f * D + 7 * D * D + 10 * D) + (2 * D * D + 2 * D)
@@ -3900,7 +3900,7 @@ def _draw_box(ax, nodes, vis, values, per: str, cmap, norm) -> None:
 
 
 def fig_fields3d(figs: dict, out: Path) -> list:
-    """The three-dimensional field plots (RUNBOOK_CMAME Sec. A's figure files), each on
+    """The three-dimensional field plots (RUNBOOK_STATICS Sec. A's figure files), each on
     the load case FIELD_LOADS selects within its instance."""
     import matplotlib
 
@@ -4280,7 +4280,7 @@ def build() -> dict:
         + "\n" + md(h_kmed, r_kmed, CAP_KMED, []) + "\n" + md(h_kcmp, r_kcmp, CAP_KCMP, [])
         + "\n## In-text numbers\n\n"
         + "\n".join(f"- `{k}`: {N[k]}" for k in sorted(N)) + "\n")
-    files["sources.json"] = json.dumps({"generator": "scripts/make_cmame_material.py",
+    files["sources.json"] = json.dumps({"generator": "scripts/make_statics_material.py",
                                         "inputs_sha256": dict(sorted(used.items()))},
                                        indent=1) + "\n"
     return {"files": files, "r2": r2, "rcm": rcm, "r3": r3, "e2": e2, "numbers": N,

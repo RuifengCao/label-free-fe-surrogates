@@ -1,4 +1,4 @@
-"""The manuscript (paper/cmame): its tables, figures and in-text numbers are
+"""The manuscript (paper/statics): its tables, figures and in-text numbers are
 generated from the committed records only and reproduce byte for byte; the
 numbers agree with the records when recomputed independently; the text carries
 no hand-typed result; the design constants it states match the configurations
@@ -21,7 +21,7 @@ import numpy as np
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-PAPER = ROOT / "paper" / "cmame"
+PAPER = ROOT / "paper" / "statics"
 OUT = PAPER / "generated"
 TEXT = ("table_2d.tex", "table_2djuly.tex", "table_3d.tex", "table_label_efficiency.tex",
         "table_label_efficiency_july.tex", "table_transfer.tex", "table_criteria.tex",
@@ -50,7 +50,7 @@ TAGS = {"ar": "Free", "labels": "Lab", "labels_knorm": "Knorm", "mgn": "Mgn"}
 
 def _mod():
     spec = importlib.util.spec_from_file_location(
-        "make_cmame_material", ROOT / "scripts" / "make_cmame_material.py")
+        "make_statics_material", ROOT / "scripts" / "make_statics_material.py")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
@@ -722,7 +722,7 @@ def test_field_plots_annotate_and_scale_as_stated(tmp_path, monkeypatch):
 
     class Rec(mc.Normalize):
         def __init__(self, vmin=None, vmax=None, clip=False):
-            if sys._getframe(1).f_code.co_filename.endswith("make_cmame_material.py"):
+            if sys._getframe(1).f_code.co_filename.endswith("make_statics_material.py"):
                 seen.append((vmin, vmax))                  # the generator's own scales
             super().__init__(vmin, vmax, clip)
 
@@ -1435,11 +1435,10 @@ def test_ritz_numbers_follow_from_the_summaries(built):
 
 def test_no_earlier_journal_is_named(built):
     """The manuscript, its supplementary material, the graphical abstract, the highlights and
-    the comments of its sources name no journal to which the paper was submitted before, no
-    tag or file named after one, and nothing that speaks of an earlier submission or version
-    (a revision, a resubmission, a new version of an archive), but for the one directory of
-    the October records that the list of hashes prints; the references name journals only in
-    their journal fields."""
+    the comments of its sources name no journal but the one that `\\journal` names, no tag,
+    file or directory named after another, and nothing that speaks of another submission or
+    version (a revision, a resubmission, a new version of an archive); the references name
+    journals only in their journal fields."""
     bad = re.compile(r"cmame|CMAME|Computer Methods in Applied|Comput\. Methods Appl")
     earlier = re.compile(r"\brevision|\brevised\b|resubmi|re-submi|previous(ly)? submi|"
                          r"earlier submi|first submi|declined|desk[- ]reject|"
@@ -1449,10 +1448,7 @@ def test_no_earlier_journal_is_named(built):
     for f in files:
         text = f.read_text(encoding="utf-8")
         hits = bad.findall(text)
-        if f.name == "hashes.tex":
-            assert text.count(r"\path{records/cmame/}") == 1 and hits == ["cmame"], hits
-        else:
-            assert not hits, (f.name, hits)
+        assert not hits, (f.name, hits)
         assert not earlier.search(text), (f.name, earlier.search(text).group(0))
     assert r"\journal{Journal of Computational Physics}" in (PAPER / "main.tex").read_text()
     bib = (PAPER / "references.bib").read_text(encoding="utf-8")
@@ -1461,6 +1457,21 @@ def test_no_earlier_journal_is_named(built):
             assert re.match(r"\s*journal\s*=", line), line
         if line.lstrip().startswith("%"):
             assert not earlier.search(line), line
+
+
+def test_names_follow_the_branch():
+    """Stage 18: no file or directory at the top of the repository or in `paper/`, `scripts/`
+    and `tests/` carries the branch's earlier name, and in `records/` only the directory of
+    the records of October 2026 does, whose paths the stamped pre-registrations, the
+    configurations and the recorded adjudicators name (BRANCH_NOTES_statics-paper.md,
+    Stage 18)."""
+    names = [p.relative_to(ROOT).as_posix()
+             for d in (ROOT, ROOT / "paper", ROOT / "scripts", ROOT / "tests")
+             for p in d.iterdir()]
+    assert not [n for n in names if "cmame" in n.lower()]
+    assert [p.name for p in (ROOT / "records").iterdir() if "cmame" in p.name.lower()] \
+        == ["cmame"]
+    assert PAPER.name == "statics" and (PAPER / "main.tex").is_file()
 
 
 def test_highlights_match_the_numbers(built):
@@ -1832,7 +1843,7 @@ def test_manuscript_compiles(tmp_path):
     if kpse is None or not subprocess.run([kpse, "elsarticle.cls"], capture_output=True,
                                           text=True).stdout.strip():
         pytest.skip("elsarticle not installed")
-    work = tmp_path / "cmame"
+    work = tmp_path / "statics"
     shutil.copytree(PAPER, work, ignore=shutil.ignore_patterns(
         "*.aux", "*.log", "*.fls", "*.fdb_latexmk", "*.out", "*.bbl", "*.blg", "*.pdf.tmp"))
     for f in (*work.glob("main.pdf"), *work.glob("graphical_abstract.pdf")):

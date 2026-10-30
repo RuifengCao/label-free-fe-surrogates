@@ -388,7 +388,7 @@ def test_the_runbooks_state_check_before_the_labels(box, tmp_path):
     is the configuration's, and names a state that is not."""
     import re
 
-    line = next(x for x in (ROOT / "RUNBOOK_CMAME.md").read_text().splitlines()
+    line = next(x for x in (ROOT / "RUNBOOK_STATICS.md").read_text().splitlines()
                 if x.startswith('python -c "from fejepa.analysis.holdout import load_spec, '
                                 'check_states'))
     code = re.fullmatch(r'python -c "(.*)"   # 21 states verified', line).group(1)

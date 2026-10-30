@@ -25,7 +25,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-PAPER = ROOT / "paper" / "cmame"
+PAPER = ROOT / "paper" / "statics"
 SECTIONS = PAPER / "sections"
 BIB = PAPER / "references.bib"
 TAG = "statics-paper-1.0"               # the version that the manuscript describes

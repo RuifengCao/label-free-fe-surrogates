@@ -1,5 +1,5 @@
 {
- "generator": "scripts/make_cmame_material.py",
+ "generator": "scripts/make_statics_material.py",
  "inputs_sha256": {
   "DEVIATIONS_PHASE2.md": "f9c649e839504055f644a30da0e220be987b3c3caedff68deea026d1619800ae",
   "configs/cm2d_v1.json": "26a332c7936ef9654c9448af8fcd94250685ba9c6713915920e3fbb9d23caef9",

@@ -1,4 +1,4 @@
-"""cmame-paper Stage 4b: the return of RUNBOOK_CMAME Sec. A (inference timing
+"""cmame-paper Stage 4b: the return of RUNBOOK_STATICS Sec. A (inference timing
 and field export, run on the box on 8 October 2026 and copied byte for byte
 into records/cmame/timing/) and the B0 readiness log (records/cmame/
 cm2d_ready.log) are complete and tied to what they read: every step exited 0
@@ -44,7 +44,7 @@ def _json(p) -> dict:
 
 
 def _number(name: str) -> int:
-    tex = (ROOT / "paper" / "cmame" / "generated" / "numbers.tex").read_text()
+    tex = (ROOT / "paper" / "statics" / "generated" / "numbers.tex").read_text()
     m = re.search(r"\\newcommand\{\\" + name + r"\}\{([0-9,]+)\}", tex)
     assert m, name
     return int(m.group(1).replace(",", ""))
