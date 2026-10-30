@@ -1704,11 +1704,11 @@ ALLOWED_DECIMALS = {"0.05", "0.5", "1.5", "0.25", "0.38", "0.8", "0.06", "0.16",
 ALLOWED_PERCENT = {"5", "10", "20", "30", "40", "95"}
 # names that contain version numbers, not results: the AI models named in the
 # generative-AI declaration, in Section 4.6 and in supplementary Section S8, the tag of the
-# version described, and the licences and the archive's DOI named in the Data availability
-# statement and the declaration of competing interest
+# version described, and the licences and the two archives' DOIs named in the Data
+# availability statement and the declaration of competing interest
 NAMES_WITH_VERSIONS = ("Claude Fable 5.1", "Claude Opus 5.5", "statics-paper-1.0",
                        "PolyForm Noncommercial License 1.0.0", "CC BY 4.0", "CC BY-NC 4.0",
-                       "10.5281/zenodo.23298799")
+                       "10.5281/zenodo.23815187", "10.5281/zenodo.23815225")
 
 
 def test_the_text_carries_no_hand_typed_result():

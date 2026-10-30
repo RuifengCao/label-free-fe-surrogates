@@ -6,11 +6,12 @@ saying so: the chapter of LeCun et al. is cited as published (2007), with its si
 its pages, instead of the authors' version, and Saad (2003) has its DOI. The Zenodo archive of
 the version described is a data reference, rendered with "[dataset]" before it as the
 journal's guide asks, with the title and author of CITATION.cff and the tag of the version
-described, and cited in the Data availability statement; its DOI is added, here, in the
-statement and in CITATION.cff, when it is reserved (until then a pending box in the
-statement says so, and CITATION.cff names the repository's first archive). Stage 21: the
-archive of the trained networks is a data reference in the same way, cited with its
-licence, and Li et al. (2024) carry their volume, issue and article number. Where the text
+described, and cited in the Data availability statement; its DOI, reserved on 30 October
+2026, is given here, in the statement and in CITATION.cff (Stage 22; until then a pending
+box in the statement said so, and CITATION.cff named the repository's first archive).
+Stage 21: the archive of the trained networks is a data reference in the same way, cited
+with its licence and, from Stage 22, its DOI, and Li et al. (2024) carry their volume,
+issue and article number. Where the text
 gives the
 iteration bound of a warm start for conjugate gradients, it credits the estimate of Sun et al.
 in the relative residual and the bound of Wang et al. for fixed-point iterations; it states their solvers, their observation on
@@ -19,6 +20,7 @@ of incremental potentials as the published texts report them."""
 
 from __future__ import annotations
 
+import json
 import re
 import shutil
 import subprocess
@@ -31,6 +33,8 @@ PAPER = ROOT / "paper" / "statics"
 SECTIONS = PAPER / "sections"
 BIB = PAPER / "references.bib"
 TAG = "statics-paper-1.0"               # the version that the manuscript describes
+CODE_DOI = "10.5281/zenodo.23815187"     # the archive of the version described
+NETWORKS_DOI = "10.5281/zenodo.23815225" # the archive of its trained networks
 FIRST_DOI = "10.5281/zenodo.23298799"    # the repository's first archive at Zenodo
 # the entries checked on 11 October 2026 against the PDFs of their published versions, and
 # the preprint of Sun et al.
@@ -62,28 +66,45 @@ def _sections() -> dict[str, str]:
     return {f.name: _flat(f.read_text(encoding="utf-8")) for f in SECTIONS.glob("*.tex")}
 
 
+def _state_hashes(o, where: str, keyed: bool, out: dict[str, set[str]]) -> None:
+    """The SHA-256 hashes that a record gives under a key naming a state, or a .pt file."""
+    if isinstance(o, dict):
+        for k, v in o.items():
+            inner = keyed or "state" in str(k).lower() or str(k).endswith(".pt")
+            if isinstance(v, str) and inner and re.fullmatch(r"[0-9a-f]{64}", v):
+                out.setdefault(v, set()).add(where)
+            else:
+                _state_hashes(v, where, inner, out)
+    elif isinstance(o, list):
+        for v in o:
+            if isinstance(v, str) and keyed and re.fullmatch(r"[0-9a-f]{64}", v):
+                out.setdefault(v, set()).add(where)
+            else:
+                _state_hashes(v, where, keyed, out)
+
+
 def test_the_archive_is_a_data_reference_with_the_metadata_of_the_citation_file():
     kind, comment, body = _entries(BIB.read_text(encoding="utf-8"))["Cao2026Zenodo"]
     assert kind == "misc"
     assert _field(body, "author") == r"Cao, {\relax [dataset] R}uifeng"
     assert (_field(body, "title"), _field(body, "howpublished"), _field(body, "year")) == (
         "label-free-fe-surrogates", f"Zenodo, version {TAG}", "2026")
-    # a new version of the record: its DOI is not yet reserved, and no other DOI stands in
-    assert not re.search(r"^\s*doi\s*=", body, re.M)
-    assert "Its DOI is reserved, and added here, before the paper is submitted" in \
+    # a new record, independent of the first archive: its DOI, reserved on 30 October 2026
+    assert _field(body, "doi") == CODE_DOI
+    assert "The DOI was reserved on 30 October 2026; the record is published, with this " \
+        "title, author and version, before the paper is submitted." in \
         _flat(comment.replace("% ", ""))
-    # the record carries the title and author of CITATION.cff, which names the record's
-    # first version until the new one's DOI is reserved
+    # the record carries the title, author, version and DOI of CITATION.cff
     cff = (ROOT / "CITATION.cff").read_text(encoding="utf-8")
-    for s in ('title: "label-free-fe-surrogates"\n', f"doi: {FIRST_DOI}\n",
+    for s in ('title: "label-free-fe-surrogates"\n', f'version: "{TAG}"\n',
+              f"doi: {CODE_DOI}\n",
               "authors:\n  - family-names: Cao\n    given-names: Ruifeng\n"):
         assert s in cff, s
     statement = _flat(_sections()["declarations.tex"]
                       .split(r"\section*{Data availability}", 1)[1].split(r"\section*", 1)[0])
-    assert (rf"tagged \texttt{{{TAG}}} and archived at Zenodo \cite{{Cao2026Zenodo}}. "
-            r"\pending{The DOI of this archive, reserved before submission and given here and "
-            r"in the reference.}") in statement
-    assert FIRST_DOI not in statement and "doi.org" not in statement
+    assert (rf"tagged \texttt{{{TAG}}} and archived at Zenodo \cite{{Cao2026Zenodo}}, "
+            rf"\url{{https://doi.org/{CODE_DOI}}}. The repository as it stood") in statement
+    assert FIRST_DOI not in statement and r"\pending" not in statement
 
 
 def test_the_bibliography_renders_the_data_reference_and_the_chapter(tmp_path):
@@ -101,7 +122,8 @@ def test_the_bibliography_renders_the_data_reference_and_the_chapter(tmp_path):
     assert "Warning--" not in res.stdout, res.stdout     # bibtex exits 0 on warnings too
     bbl = _flat((tmp_path / "t.bbl").read_text(encoding="utf-8"))
     for s in (r"\bibitem{Cao2026Zenodo} {\relax [dataset] R}.~Cao, label-free-fe-surrogates, "
-              rf"Zenodo, version {TAG} (2026). \bibitem{{LeCun2007EBM}}",
+              rf"Zenodo, version {TAG} (2026). \newblock \href {{https://doi.org/{CODE_DOI}}} "
+              rf"{{\path{{doi:{CODE_DOI}}}}}. \bibitem{{LeCun2007EBM}}",
               r"\bibitem{LeCun2007EBM} Y.~LeCun, S.~Chopra, R.~Hadsell, M.~Ranzato, F.~J. Huang, "
               r"Energy-based models, in: G.~Bak{\i}r, T.~Hofmann, B.~Sch{\"o}lkopf, A.~J. "
               r"Smola, B.~Taskar, S.~V.~N. Vishwanathan (Eds.), Predicting Structured Data, "
@@ -111,7 +133,9 @@ def test_the_bibliography_renders_the_data_reference_and_the_chapter(tmp_path):
               r"Edition, SIAM, Philadelphia, 2003. \newblock \href "
               r"{https://doi.org/10.1137/1.9780898718003}",
               r"\bibitem{Cao2026Networks} {\relax [dataset] R}.~Cao, label-free-fe-surrogates: "
-              rf"trained networks, Zenodo, version {TAG} (2026). \bibitem{{Li2024PINO}}",
+              rf"trained networks, Zenodo, version {TAG} (2026). \newblock \href "
+              rf"{{https://doi.org/{NETWORKS_DOI}}} {{\path{{doi:{NETWORKS_DOI}}}}}. "
+              r"\bibitem{Li2024PINO}",
               r"Physics-informed neural operator for learning partial differential equations, "
               r"ACM/IMS Journal of Data Science 1~(3) (2024) 9."):
         assert s in bbl, s
@@ -288,30 +312,65 @@ def test_the_break_even_of_the_cost_section_is_recomputed_from_the_records():
 def test_the_networks_are_archived_as_a_data_reference_under_their_licence():
     """Stage 21: the trained networks whose states the records name with their SHA-256 hashes
     are archived at Zenodo under CC BY-NC 4.0, a data reference like the archive of the code,
-    with the same author and version; its DOI is added when it is reserved (until then a
-    pending box says so), and the statement says how what is not archived is regenerated."""
+    with the same author and version, and the statement says how what is not archived is
+    regenerated. Stage 22: the archive also holds the three networks of the July run, whose
+    hashes the repository's provenance note gives, and its DOI, reserved on 30 October 2026,
+    replaces the pending box; the statement says that the networks archived are those trained
+    in the runs reported here, since the Ritz baseline's records also name the states of six
+    label-free networks of a separate study, that the code versions are those that the
+    repository records, and that the corpora are regenerated not necessarily bit for bit."""
     kind, comment, body = _entries(BIB.read_text(encoding="utf-8"))["Cao2026Networks"]
     assert kind == "misc"
     assert _field(body, "author") == r"Cao, {\relax [dataset] R}uifeng"
     assert (_field(body, "title"), _field(body, "howpublished"), _field(body, "year")) == (
         "label-free-fe-surrogates: trained networks", f"Zenodo, version {TAG}", "2026")
-    assert not re.search(r"^\s*doi\s*=", body, re.M)
-    assert "Its DOI is reserved, and added here, before the paper is submitted" in \
+    assert _field(body, "doi") == NETWORKS_DOI
+    assert "The DOI was reserved on 30 October 2026; the record is published, with this " \
+        "title, author and version, before the paper is submitted." in \
         _flat(comment.replace("% ", ""))
     statement = _flat(_sections()["declarations.tex"]
                       .split(r"\section*{Data availability}", 1)[1].split(r"\section*", 1)[0])
-    assert (r"The trained networks whose states the records name with their SHA-256 hashes are "
-            r"archived at Zenodo \cite{Cao2026Networks} under CC BY-NC 4.0, and licences for "
-            r"their commercial use are also available from the first author. \pending{The DOI "
-            r"of this archive, reserved before submission and given here and in the "
-            r"reference.}") in statement
-    assert statement.count(r"\pending{The DOI of this archive") == 2      # code, networks
-    for s in ("The other networks are not archived and can be retrained from the "
-              "configurations and seeds that the records give, with the code of the versions "
-              "that the records name",
-              "the meshes and reference solutions are not archived either and are regenerated "
-              "by the same code, up to rounding differences between machines"):
-        assert s in statement, s
+    assert (r"Of the networks trained in the runs reported here, those whose states the records "
+            r"and the repository's provenance note name with their SHA-256 hashes are archived "
+            rf"at Zenodo \cite{{Cao2026Networks}}, \url{{https://doi.org/{NETWORKS_DOI}}}, "
+            r"under CC BY-NC 4.0, and licences for their commercial use are also available "
+            r"from the first author. The others are not archived and can be retrained from the "
+            r"configurations, seeds and versions of the code that the repository records. The "
+            r"meshes and reference solutions are not archived either; the same code regenerates "
+            r"them, though not necessarily bit for bit, since a mesh can differ slightly between "
+            r"machines and between versions of the mesh generator.") in statement
+    assert r"\pending" not in statement
+    # the provenance note names the three networks of the July run with their hashes
+    note = _flat((ROOT / "PROVENANCE_NOTE.md").read_text(encoding="utf-8"))
+    assert ("e8_states ar_p1024_s0/1/2 "
+            "d49405f21a86ffc360241dc477a9d46f4c2e1af12b068181916b116d0f77b464 / "
+            "cb70bcf142ec7c6c13e316e0cc5e9a5e22376446aa1af0e933da126c5fba38ea / "
+            "eed8f3c4bc65fa825846de4e869f7d8b90abd12eaa5c82f1febffd8ba4978dca.") in note
+    # the records name the states of 40 networks with their hashes: 34 trained in the runs
+    # reported here, and six label-free networks of a separate study, which the Ritz
+    # baseline paired with its projections in readings that the paper does not report
+    named: dict[str, set[str]] = {}
+    for f in sorted((ROOT / "records").rglob("*.json")):
+        _state_hashes(json.loads(f.read_text(encoding="utf-8")), f.relative_to(ROOT).as_posix(),
+                      False, named)
+    separate = {h for h, fs in named.items()
+                if all(re.search(r"/ritz/return/enriched/[bs]_n1024/", f) for f in fs)}
+    assert (len(named), len(separate)) == (40, 6)
+    ritz = json.loads((ROOT / "configs" / "ritz_v1.json").read_text(encoding="utf-8"))
+    for arm in ("b_n1024", "s_n1024"):
+        a = ritz["enriched"]["arms"][arm]
+        assert a["appendix"] is True and a["states"]["dir"] == f"runs/w9/{arm}/e8_states"
+    # the reports of the July run record no version of the code, which the provenance note
+    # names; a fine mesh regenerated on another machine differed in 6 of its tetrahedra, and
+    # gmsh's sizing depends on its version
+    assert '"git": "unavailable"' in (ROOT / "records" / "phase1" / "report_rec8_v2.json"
+                                       ).read_text(encoding="utf-8")
+    assert "v2.1.4: deployed for the 2026-07-16 deciding run" in note
+    wp7 = _flat((ROOT / "BRANCH_NOTES_wp7-3d.md").read_text(encoding="utf-8"))
+    for s in ("differing by 6 tets in 97,790 (0.006%): node-level cross-machine determinism "
+              "held, connectivity is not guaranteed bit-stable at fine resolution",
+              "gmsh sizing is version-dependent"):
+        assert s in wp7, s
     assert "the archive of the stored networks are given in the Data availability statement" \
         in _sections()["appendix_repro.tex"]
 

@@ -2441,3 +2441,44 @@ generator, and no record, configuration, pre-registration or source file changed
   licence's name joins the names with versions; `tests/test_repository_transfer.py`
   expects the second pending box. The runbook's suite lines read the current count.
   Suite 834 (831 + 3).
+
+## Stage 22 (30 Oct 2026) -- the DOIs of the two archives
+
+- The DOIs of the archive of the version described and of the archive of its trained
+  networks were reserved at Zenodo on 30 October 2026: 10.5281/zenodo.23815187 for the code
+  (`Cao2026Zenodo`) and 10.5281/zenodo.23815225 for the networks (`Cao2026Networks`). Both
+  are new records, independent of the repository's first archive (10.5281/zenodo.23298799),
+  filled by hand and published before the paper is submitted. The Data availability
+  statement gives each DOI after the citation of its archive, in place of the two pending
+  boxes, and the references carry them; no pending box is left in the manuscript.
+- The archive of the networks also holds the three label-free networks of the July run,
+  whose SHA-256 hashes the provenance note gives (Run 1), 37 networks in all; they were
+  checked against those hashes on the PI's computer on 30 October 2026.
+- An independent check of the archive's README against the repository found that the
+  records name the states of 40 networks with their hashes, not 34: the Ritz baseline's
+  records also name six label-free networks of a separate study (`configs/ritz_v1.json`,
+  the arms `b_n1024` and `s_n1024`, read in its appendix readings), which the paper does not
+  report and the archive does not hold. The statement of Stage 21 said that the networks
+  whose states the records name are archived; it now says that, of the networks trained in
+  the runs reported here, those whose states the records and the repository's provenance
+  note name are archived. It said that the other networks can be retrained with the code of
+  the versions that the records name, while the reports of the July runs record no version
+  (the provenance note names them) and the initial three-dimensional run has no committed
+  report (the list of deviations names its code); it now says the configurations, seeds and
+  versions of the code that the repository records. It also said that the meshes are
+  regenerated up to rounding differences between machines, while a fine mesh regenerated on
+  another machine in August 2026 differed in 6 of its 97,790 tetrahedra and gmsh's sizing is
+  version-dependent (`BRANCH_NOTES_wp7-3d.md`, G1.1 and G1.2); it now says that they are
+  regenerated not necessarily bit for bit, since a mesh can differ slightly between machines
+  and between versions of the mesh generator. A corpus manifest's hash would not show such a
+  difference: the manifest lists each instance's numbers of nodes and holes, not its mesh.
+- CITATION.cff gives the version described, the DOI of its archive and the archive of its
+  networks; it no longer names the first archive, whose description named the tag of that
+  earlier version.
+- Tests: `tests/test_statics_references.py` and `tests/test_repository_transfer.py` check
+  the two DOIs in the references, the statement and CITATION.cff, that no pending box is
+  left, and that the provenance note gives the three hashes; the networks' test also walks
+  the records for the hashes they give under a state's name (40, six of them those of the
+  separate study) and checks the evidence of the two other corrections; the rendering test
+  renders both DOIs; the two DOIs join the names with versions in
+  `tests/test_statics_material.py`. Suite 834 (831 + 3), unchanged.

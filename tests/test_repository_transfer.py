@@ -6,11 +6,12 @@ after the transfer keeps the id of the repository whose creation the security lo
 the list of branches and tags gives, by Software Heritage's snapshot hash, the snapshot that
 the manuscript, the records' README, the provenance note and CITATION.cff quote, and the
 README states what the records show; the Data availability statement gives the address,
-the tag of the version described, its archive at Zenodo, whose DOI a pending box awaits
-until it is reserved (statics-paper Stage 16), and that snapshot; the only other pending
-box left in the manuscript awaits the DOI of the archive of the trained networks
-(statics-paper Stage 21); the provenance note, the README and CITATION.cff agree with the
-manuscript."""
+the tag of the version described, its archive at Zenodo with the DOI reserved on 30
+October 2026 (statics-paper Stage 22; a pending box awaited it from Stage 16), and that
+snapshot, and no pending box is left in the manuscript (the last one, Stage 21's, awaited
+the DOI of the archive of the trained networks); the provenance note, the README and
+CITATION.cff agree with the manuscript, and CITATION.cff names the archives of the version
+described and of its trained networks, not the repository's first archive."""
 
 from __future__ import annotations
 
@@ -34,9 +35,10 @@ SECTIONS = PAPER / "sections"
 URL = "https://github.com/RuifengCao/label-free-fe-surrogates"
 OLD_URL = "https://github.com/HymnOfLight/FE-JEPA"
 MID_URL = "https://github.com/RuifengCao/FE-JEPA"
-DOI = "10.5281/zenodo.23298799"
+CODE_DOI = "10.5281/zenodo.23815187"     # the archive of the version that the manuscript describes
+NETWORKS_DOI = "10.5281/zenodo.23815225" # the archive of its trained networks
+FIRST_DOI = "10.5281/zenodo.23298799"    # the repository's first archive, of an earlier version
 SNAPSHOT = "swh:1:snp:79f91af6d07e45a45933743bda38253b49c82bb6"
-TAG = "cmame-submission"                 # the version that the record's first version archives
 PAPER_TAG = "statics-paper-1.0"          # the version that the manuscript describes
 REPO_ID = 1299960094
 RAW_SHA256 = "f771989fa4077487d6e9d41d9601f0976bdb498665508cb634e440573aaabbab"
@@ -211,8 +213,8 @@ def test_the_manuscript_gives_the_address_tag_doi_and_snapshot():
     tex = (SECTIONS / "declarations.tex").read_text(encoding="utf-8")
     statement = _flat(tex.split(r"\section*{Data availability}", 1)[1].split(r"\section*", 1)[0])
     for s in (rf"are available at \url{{{URL}}}. The version described here is tagged "
-              rf"\texttt{{{PAPER_TAG}}} and archived at Zenodo \cite{{Cao2026Zenodo}}. "
-              r"\pending{The DOI of this archive, reserved before submission",
+              rf"\texttt{{{PAPER_TAG}}} and archived at Zenodo \cite{{Cao2026Zenodo}}, "
+              rf"\url{{https://doi.org/{CODE_DOI}}}. The repository as it stood",
               "The repository as it stood on 11 October 2026, when it moved to its present "
               "address, is archived with its full history by Software Heritage as the snapshot",
               rf"\href{{https://archive.softwareheritage.org/{SNAPSHOT}}}"
@@ -225,8 +227,8 @@ def test_the_manuscript_gives_the_address_tag_doi_and_snapshot():
     for f, text in texts.items():
         assert "owner account" not in text, f.name
         assert "HymnOfLight" not in text and "FE-JEPA" not in text, f.name
-        if f.parent == SECTIONS:     # the boxes of the two archives' DOIs (code, networks)
-            assert text.count(r"\pending") == 2 * (f.name == "declarations.tex"), f.name
+        if f.parent == SECTIONS:     # no pending box is left (statics-paper Stage 22)
+            assert r"\pending" not in text, f.name
     assert texts[PAPER / "main.tex"].count(r"\pending") <= 1   # the macro's definition at most
     repro = _flat((SECTIONS / "appendix_repro.tex").read_text(encoding="utf-8"))
     for s in ("Beside it are the entries that name the repository in the security log of the "
@@ -276,13 +278,20 @@ def test_the_note_the_readme_and_the_citation_file_agree():
               '    affiliation: "School of Engineering, The University of Manchester"\n'
               '    orcid: "https://orcid.org/0000-0001-9077-9561"\nrepository-code: ',
               f'repository-code: "{URL}"\n', "license: PolyForm-Noncommercial-1.0.0\n",
-              f"doi: {DOI}\n",
-              f"  - type: doi\n    value: {DOI}\n"
-              f'    description: "Zenodo archive of the version tagged {TAG}"\n',
+              f'version: "{PAPER_TAG}"\n', f"doi: {CODE_DOI}\n",
+              f"  - type: doi\n    value: {CODE_DOI}\n"
+              f'    description: "Zenodo archive of the version tagged {PAPER_TAG}"\n',
+              f"  - type: doi\n    value: {NETWORKS_DOI}\n"
+              f'    description: "Zenodo archive of the trained networks, version '
+              f'{PAPER_TAG}"\n',
               f'  - type: swh\n    value: "{SNAPSHOT}"\n'
               '    description: "Software Heritage snapshot of the repository as it stood on '
               '11 October 2026, when it moved to this address"\n'):
         assert s in cff, s
+    # the archives of the version described and of its networks, not the first archive,
+    # whose only description in this file named the tag of that earlier version
+    assert FIRST_DOI not in cff and "cmame" not in cff.lower()
+    assert cff.count("  - type: doi\n") == 2
     # the code's author alone: one entry in the list of authors
     block = cff.split("\nauthors:\n", 1)[1].split("\nrepository-code:", 1)[0]
     assert [line for line in block.splitlines() if line.startswith("  - ")] == \
