@@ -14,7 +14,7 @@
 | Ritz projection, $p = 8$ | 0.0424 | 0.0333 | 0.109 | 0.208 | 0.852 | 0/256 |
 | Zero field | 1.00 | 1.00 | 1.00 | 1.00 | – | – |
 
-- The Ritz projection (\cref{sec:methods:ritz}) was added after the pre-registered runs. It, the nearest-neighbour field and the scaled polynomial are deterministic, so their last column counts instances.
+- The Ritz projection of degree $p$ (\cref{sec:methods:ritz}) was added after the pre-registered runs. It, the nearest-neighbour field and the scaled polynomial are deterministic, so their last column counts instances.
 
 ### Two-dimensional plates, the July run with the earlier code: every metric on the validation instances of \cref{tab:2d}, for the networks trained on 1,024 instances and the baselines; trained networks: mean ± sample standard deviation over three seeds. Metrics as in \cref{sec:methods:metrics}; lower is better except in critical-region recall.
 
@@ -48,7 +48,7 @@
 | Ritz projection, $p = 9$ | 0.00798 | 0.00654 | 0.0449 | 0.223 | 0.896 | 0/256 |
 | Zero field | 1.00 | 1.00 | 1.00 | 1.00 | – | – |
 
-- The Ritz projection (\cref{sec:methods:ritz}) was added after the pre-registered runs. It, the nearest-neighbour field and the scaled polynomial are deterministic, so their last column counts instances.
+- The Ritz projection of degree $p$ (\cref{sec:methods:ritz}) was added after the pre-registered runs. It, the nearest-neighbour field and the scaled polynomial are deterministic, so their last column counts instances.
 
 ### Relative displacement error / relative energy gap against the number of labelled training instances, seed means over three seeds, in the three- and two-dimensional comparisons (\cref{tab:3d,tab:2d}); the nearest-neighbour field is deterministic. A dash marks a budget at which a network was not trained; the label-free row repeats its single value, which uses the same 1,024 instances without labels.
 
@@ -198,7 +198,7 @@
 
 - H3 is a reading without a criterion. With the roles of A and B exchanged, rel was +31.9% against a guard of 50.2%.
 
-### Wall time per instance of the label-free transformer's inference, on one GPU, and of solves of the same systems on the same machine's CPU, all load cases together and without the assembly, with the surrogate's accuracy on the same instances. CG: unpreconditioned conjugate gradients; its iterations (from the zero field / to the prediction's accuracy) and its displacement error are medians over the load cases, the other times and errors medians over the instances. Protocol in supplementary Section~\SuppTiming{}.
+### Wall time per instance of the label-free transformer's inference, on one GPU, and of solves of the same systems on the same machine's CPU, all load cases together and without the assembly, with the surrogate's accuracy. CG: unpreconditioned conjugate gradients; its iterations (from the zero field / to the prediction's accuracy) and its displacement error are medians over the load cases, the other times and errors medians over the instances. c*: energy-optimal amplitude \eqref{eq:cstar}. Protocol in supplementary Section~\SuppTiming{}.
 
 |  | 2D | 3D | 3D, fine mesh |
 |---|---|---|---|

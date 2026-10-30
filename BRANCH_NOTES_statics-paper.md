@@ -2377,3 +2377,41 @@ generator, and no record, configuration, pre-registration or source file changed
   (A.1). It regenerates the four paragraphs byte for byte with the tables, and checks the
   cost table's two notes and its protocol's statements. The runbook's suite lines read the
   current count. Suite 828 (826 + 2).
+
+## Stage 20 (30 Oct 2026) -- the paper checked again against every sentence of the Guide for Authors
+
+- At the PI's request of 30 October 2026 the paper was checked again against the journal's
+  Guide for Authors, split into its 497 sentences and list items, in two passes made
+  independently of each other; what follows is what the manuscript could change.
+- Formulae: the eleven inline formulae of Section 3 that still set a small fraction with a
+  horizontal line use the solidus; the displays keep theirs.
+- Headings: the paragraph headings of Sections 2, 4.1, 4.2 and 10 become numbered
+  subsections (2.1 to 2.5, 4.1.1 to 4.1.3, 4.2.1 to 4.2.3, 10.1 to 10.6); those of the
+  supplementary material stand on a line of their own.
+- Captions explain every symbol they show: delta, g and Pi_h(u) in Fig. 5, lambda_m and
+  R(U*) in Fig. 2, delta and c* in Fig. S3, M in Fig. S4; c* in Table 4, p in Tables 1 and
+  2, M in Table S13.
+- Cross-references: four pointers "above" or "below" without a number are replaced by
+  numbers or by what they pointed to (Sections 2, S1, S5 and S8); Table S1's caption no
+  longer says "the text"; Section S1 no longer cites Fig. S2 before Fig. S1.
+- Generative AI: Section 4.6 names the models with which the generation script and the
+  code of the experiments were written, as Elsevier's policy asks of data visualisations
+  made with AI tools; the declaration says that the tools also reviewed the code and that
+  no image was generated or altered by them; Section S1 says that the review of 20 October
+  2026 was made with them.
+- Section 4.3 names PyTorch and says that each run's report records the versions of
+  Python, PyTorch, NumPy and SciPy it ran with; Section 4.6 cites Eq. (A.1) where it
+  introduces the noise guard; "sanity" in the paper's own words becomes "plausibility"
+  (the pre-registrations keep their term); the abstract says "averaged over the seeds".
+- The main figures are set at the width they are drawn at, 17.8 cm, centred into the
+  margins, so that their lettering prints at its drawn size rather than at 77 per cent of
+  it (`\figfull` in `main.tex`).
+- References: the five conference papers given with an OpenReview or proceedings address
+  carry the date on which it was added, 10 October 2026, as the date it was last
+  accessed; Ainsworth and Oden (2000) carry the DOI of the book's online edition, read from
+  the Technical University of Munich's library catalogue.
+- Tests: `tests/test_statics_material.py` gains three (inline formulae use the solidus;
+  the manuscript's headings are numbered and those of the supplementary material stand on
+  a line of their own; Section 4.6 names the models of the generative-AI declaration), and
+  its filter of the prose skips `\figfull`. The runbook's suite lines read the current
+  count. Suite 831 (828 + 3).

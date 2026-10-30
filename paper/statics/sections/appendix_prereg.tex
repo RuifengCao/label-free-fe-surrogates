@@ -20,7 +20,7 @@ is recorded with those runs' pre-registrations and records.
 >{\raggedright\arraybackslash}p{0.17\linewidth}
 >{\raggedright\arraybackslash}p{0.275\linewidth}
 >{\raggedright\arraybackslash}p{0.135\linewidth}@{}}
-\caption{The runs reported in the paper, by the names used in the text. The runs of July
+\caption{The runs reported in the paper, by the names the paper uses. The runs of July
 2026 used the earlier code, the others the later code, which multiplies the decoded field by
 $F_{\max}$ (\cref{sec:methods:networks}). Section~\ref{app:repro} lists the configurations
 and records with their hashes.}\label{tab:runs}\\
@@ -117,7 +117,7 @@ day, before any run, because the audit of its execution path had not been comple
 second version was registered after the audit. The amended run, the three-dimensional
 comparison (22 to 28 September 2026), was executed once, without interruption.
 
-\paragraph{The sanity condition of the three-dimensional gate}
+\paragraph{The plausibility condition of the three-dimensional gate}
 Condition (a) of the three-dimensional gate required the supervised transformer with the
 energy term to be at least three times more accurate in displacement than the zero field,
 and better than both naive baselines, at every budget. In the initial run it failed at 16
@@ -199,8 +199,8 @@ smaller scale the check had shown both reductions that H2a and H2b test, and a l
 relative energy gap below that of supervised training on the displacement error, the
 comparison of H1, with the energy-norm loss and the label-free objective ranked differently
 in its two seeds, the comparison of H3. The registration disclosed the check. The readings
-of \cref{sec:norm:spectrum}, and the rule that chose the instance of \cref{fig:field2d},
-were specified after the verdict and bear on no criterion.
+of \cref{sec:norm:spectrum}, and the rule that chose the instance of the two-dimensional
+field plot of Section~\SuppTwo{}, were specified after the verdict and bear on no criterion.
 
 In \cref{tab:cm2d} the hypotheses are read with the noise guard of the paper's
 \ref{app:claims} on the three seeds' values, each the mean over the 256 validation
@@ -241,7 +241,8 @@ attempts ran on a checkout of an earlier commit that did not contain the steps' 
 each stopped at once without writing anything; the steps were then run on the stamped
 commit. And between the search of the sandbox for other sets drawn from the corpora, on
 which the definition of the holdout sets rests, and the run, an independent review of the
-code of the three-dimensional energy-norm run, on 20 October 2026, meshed three validation
+code of the three-dimensional energy-norm run on 20 October 2026, made with the AI tools
+named in the paper's declaration, meshed three validation
 instances of the three-dimensional corpus to compare their node counts with the records, and
 meshed the 1,024 instances of its training pool at their own mesh sizes, beyond the bound of
 80 such instances that the pre-registration set; it rebuilt and solved two of them and ran
@@ -255,7 +256,8 @@ evaluation or a criterion.
 \paragraph{The three-dimensional energy-norm run}
 The three-dimensional energy-norm run was registered and stamped on 21 October 2026, after
 the holdout evaluation had returned and before any network had been trained with the
-energy-norm loss in three dimensions (the review above had run one training step with either
+energy-norm loss in three dimensions (the independent review of 20 October 2026 had run one
+training step with either
 loss on each of its two instances, on a CPU, to check the code), and run once, from 22 to 25
 October 2026, without a deviation; its adjudicator recorded the verdicts and readings of
 \cref{tab:k3d}. Its pre-registration fixed the statistic, each seed's median over the

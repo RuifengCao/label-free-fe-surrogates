@@ -1545,6 +1545,55 @@ def test_captions_and_table_notes_are_short(built):
             assert _words(cap) <= 90, (f.name, _words(cap))
 
 
+def _inline_math(tex: str) -> list:
+    """The inline formulae of a LaTeX text, displays and comments removed."""
+    tex = re.sub(r"(?<!\\)%.*", "", tex)
+    tex = re.sub(r"\\begin\{(equation|align|gather|multline|eqnarray|displaymath)\*?\}.*?"
+                 r"\\end\{\1\*?\}|\\\[.*?\\\]|\$\$.*?\$\$", " ", tex, flags=re.S)
+    return re.findall(r"(?<!\\)\$(.+?)(?<!\\)\$", tex, flags=re.S)
+
+
+def test_inline_fractions_use_the_solidus():
+    """Stage 20, the Guide for Authors: "Use the solidus (/) instead of a horizontal line for
+    small fractional terms"; displayed equations keep their fractions."""
+    bad = [f"{f.name}: ${m.strip()[:60]}$"
+           for f in [*sorted((PAPER / "sections").glob("*.tex")),
+                     *sorted(OUT.glob("*.tex"))]
+           for m in _inline_math(f.read_text(encoding="utf-8"))
+           if re.search(r"\\[dt]?frac|\\over\b", m)]
+    assert not bad, bad
+
+
+def test_headings_are_numbered_and_stand_on_a_line_of_their_own():
+    """Stage 20, the Guide for Authors: "Number subsections 1.1 (then 1.1.1, 1.1.2, ...)" and
+    "Headings should appear on a separate line." The manuscript's headings are numbered
+    sections, subsections and subsubsections, none run-in; the supplementary material, which
+    appears as received, keeps unnumbered paragraph headings and sets them on a line of their
+    own (the article class sets them run-in)."""
+    main = (PAPER / "main.tex").read_text(encoding="utf-8")
+    parts = re.findall(r"\\input\{sections/([a-z_]+)\}", main)
+    assert parts and "appendix_claims" in parts
+    for name in parts:
+        text = (PAPER / "sections" / f"{name}.tex").read_text(encoding="utf-8")
+        assert "\\paragraph" not in text and "\\subparagraph" not in text, name
+    supp = (PAPER / "supplementary.tex").read_text(encoding="utf-8")
+    assert ("\\renewcommand\\paragraph{\\@startsection{paragraph}{4}{\\z@}%\n"
+            "  {3.25ex \\@plus 1ex \\@minus .2ex}{0.75ex \\@plus .2ex}"
+            "{\\normalfont\\normalsize\\bfseries}}") in supp
+
+
+def test_methods_name_the_generative_ai_models_of_the_declaration():
+    """Stage 20, Elsevier's policy on generative AI and figures: data visualisations made with
+    the help of AI tools are reported in the Methods section, with the tools' names, versions
+    and developer; Section 4.6 names the models that the declaration names."""
+    models = "Claude Fable 5, Claude Fable 5.1 and Claude Opus 5.5 (Anthropic)"
+    decl = " ".join((PAPER / "sections" / "declarations.tex").read_text(encoding="utf-8").split())
+    meth = " ".join((PAPER / "sections" / "methods.tex").read_text(encoding="utf-8").split())
+    assert models in decl and models in meth
+    i = meth.index("\\label{sec:methods:prereg}")
+    assert meth.index("generation script", i) < meth.index(models, i)
+
+
 def test_names_follow_the_branch():
     """Stage 18: no file or directory at the top of the repository or in `paper/`, `scripts/`
     and `tests/` carries the branch's earlier name, and in `records/` only the directory of
@@ -1643,7 +1692,7 @@ def _prose(tex: str) -> str:
                     for line in tex.replace("\\%", "PCT").splitlines())
     tex = re.sub(r"\\begin\{tikzpicture\}.*?\\end\{tikzpicture\}", "", tex, flags=re.S)
     tex = re.sub(r"\{[0-9.]+\\(?:line|text)width\}", "", tex)    # column widths of a table
-    tex = re.sub(r"\\(ref|cref|Cref|label|eqref|cite|input|includegraphics|path)"
+    tex = re.sub(r"\\(ref|cref|Cref|label|eqref|cite|input|includegraphics|figfull|path)"
                  r"(\[[^\]]*\])?\{[^}]*\}", "", tex)
     return re.sub(r"\\[A-Za-z]+", " ", tex)
 
@@ -1654,9 +1703,9 @@ ALLOWED_DECIMALS = {"0.05", "0.5", "1.5", "0.25", "0.38", "0.8", "0.06", "0.16",
                     "1.2", "0.08", "0.0579", "0.0906", "0.0374", "1.8", "2.5"}
 ALLOWED_PERCENT = {"5", "10", "20", "30", "40", "95"}
 # names that contain version numbers, not results: the AI models named in the
-# generative-AI declaration and in supplementary Section S8, the tag of the version described, and the
-# licences and the archive's DOI
-# named in the Data availability statement
+# generative-AI declaration, in Section 4.6 and in supplementary Section S8, the tag of the
+# version described, and the licences and the archive's DOI named in the Data availability
+# statement
 NAMES_WITH_VERSIONS = ("Claude Fable 5.1", "Claude Opus 5.5", "statics-paper-1.0",
                        "PolyForm Noncommercial License 1.0.0", "CC BY 4.0",
                        "10.5281/zenodo.23298799")

@@ -1,6 +1,6 @@
 \section{Related work}\label{sec:related}
 
-\paragraph{Energy and variational training of neural solvers}
+\subsection{Energy and variational training of neural solvers}
 The deep Ritz method \cite{EYu2018} minimises the continuous energy of a variational problem
 over neural trial functions, and the deep energy method \cite{Samaniego2020} brought the idea
 to computational mechanics; later work treated essential boundary conditions
@@ -10,14 +10,14 @@ to computational mechanics; later work treated essential boundary conditions
 \cite{Raissi2019} minimise instead a Euclidean residual of the differential equation. Robust
 variational physics-informed networks \cite{Rojas2024} and the deep Fourier residual method
 \cite{Taylor2023DFR,Taylor2024} construct losses equivalent to the energy norm of the error,
-whose discrete form is the energy norm used below, by measuring the residual in a dual norm;
-\cref{lem:exact} and \cref{rem:norms} below are the exact algebraic counterpart of that
+whose discrete form is the energy norm of \cref{sec:theory}, by measuring the residual in a
+dual norm; \cref{lem:exact} and \cref{rem:norms} are the exact algebraic counterpart of that
 equivalence on the assembled system, without quadrature error or equivalence constants,
 because the inverse in the dual norm cancels. Energy natural gradient descent trains
 physics-informed networks in the geometry that the energy induces on the parameters
 \cite{MullerZeinhofer2023}.
 
-\paragraph{Training without solutions, and its comparison with supervision}
+\subsection{Training without solutions, and its comparison with supervision}
 Surrogates trained on a physical objective instead of solutions have a history in this
 journal: on a variational objective for elliptic problems with random inputs \cite{Zhu2019},
 on the residual of autoregressive dynamics \cite{GenevaZabaras2020} and on irregular domains
@@ -56,7 +56,7 @@ aware of a comparison that changes the norm of a supervised loss while keeping i
 nor of a comparison with and without labels repeated over several seeds under criteria fixed
 in advance.
 
-\paragraph{The norm of the loss}
+\subsection{The norm of the loss}
 Supervised mesh surrogates, from message-passing networks \cite{Pfaff2021,Dalton2022} to
 operator networks \cite{Lu2021DeepONet,Li2021FNO} and geometry-aware operators
 \cite{He2024GeomDeepONet,Zeng2025PCNO,Liu2026GINOT}, are typically trained and evaluated
@@ -70,7 +70,7 @@ energy supplies it without solutions. \Cref{rem:rank} and \cref{sec:checks:ranki
 that the displacement error can rank surrogates in the opposite order to their stress
 errors.
 
-\paragraph{Error estimation without the solution}
+\subsection{Error estimation without the solution}
 A posteriori error estimation bounds the energy-norm error of a finite-element approximation
 without the exact solution \cite{AinsworthOden2000}: from a statically admissible stress
 field through the hypercircle of Prager and Synge \cite{PragerSynge1947}, or through the
@@ -85,7 +85,7 @@ whether a warm-started solve is needed \cite{Wang2026PretrainFEM} and an energet
 bound on the effective stiffness computed from predicted fields
 \cite{MonteiroFernandes2025}.
 
-\paragraph{Solvers and reduced bases}
+\subsection{Solvers and reduced bases}
 Neural predictions have been used as initial iterates of iterative solvers
 \cite{Wang2026PretrainFEM,Eshaghi2026NOWS,Sun2026FEVessel} (supplementary
 Section~\SuppWarm{}), inside hybrid iterative schemes \cite{Lee2025MetaSolver}, and to enrich

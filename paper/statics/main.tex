@@ -53,6 +53,11 @@
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\pending}[1]{\par\smallskip\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{\small\textbf{Pending.} #1}}\par\smallskip}
 
+% the figures at the width they are drawn at (17.8 cm), centred and into the margins, so that
+% their lettering prints at its drawn size; \figfull{} sets one
+\newcommand{\figfull}[1]{\makebox[\linewidth][c]{%
+  \includegraphics[width=\dimexpr\paperwidth-4cm\relax]{#1}}}
+
 \input{generated/numbers}
 \input{suppsections}
 

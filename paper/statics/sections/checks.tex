@@ -9,7 +9,7 @@ which need no solution.
 
 \begin{figure}[tbp]
 \centering
-\includegraphics[width=0.72\linewidth]{generated/fig_disp_vs_stress.pdf}
+\includegraphics{generated/fig_disp_vs_stress.pdf}
 \caption{Relative von Mises error against relative displacement error for every validation
 instance and seed (\numThreePairs{} points per network): three dimensions, networks trained
 on 1,024 instances.}
@@ -48,12 +48,13 @@ exactly as the relative energy gap does, without a solution (\cref{cor:rank}).
 
 \begin{figure}[tbp]
 \centering
-\includegraphics[width=\linewidth]{generated/fig_field_worst.pdf}
+\figfull{generated/fig_field_worst.pdf}
 \caption{Validation instance No.~\numWorstIndex{}, seed 0, under the \numFigWorstLoad{}:
 displacement magnitude (top) and von Mises stress (bottom) of the reference solution and of
 three networks trained on 1,024 instances, on the three visible faces of the box; one colour
-scale per row, set by the reference (values above its maximum saturate). Above each network: $\delta$,
-$g$ and the sign of $\Pi_h(u)$ on this load case (positive: worse than the zero field,
+scale per row, set by the reference (values above its maximum saturate). Above each
+network: its relative displacement error $\delta$, its relative energy gap $g$ and the sign
+of its potential energy $\Pi_h(u)$ on this load case (positive: worse than the zero field,
 \cref{cor:zero}).}
 \label{fig:field-worst}
 \end{figure}
@@ -83,7 +84,7 @@ displacement errors rich in stiff modes are what \cref{sec:norm:spectrum} measur
 
 \begin{figure}[tbp]
 \centering
-\includegraphics[width=\linewidth]{generated/fig_energy_gap.pdf}
+\figfull{generated/fig_energy_gap.pdf}
 \caption{Distribution of the relative energy gap over the \numThreePairs{} validation
 instance-seed pairs, each the mean over the instance's four load cases: networks trained on
 1,024 instances, in three dimensions (left) and two (right). Markers: medians; right of the

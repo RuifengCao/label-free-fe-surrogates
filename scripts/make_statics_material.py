@@ -4060,18 +4060,18 @@ CAP_REM = ("Post hoc, three-dimensional: the energy-optimal amplitude c_b of the
            "each meshed at four mesh sizes lc with the same loads, so that only the mesh "
            "changes; median over the geometries, then seed mean ± sample standard deviation. "
            "Training range: lc = 0.0579–0.0906.")
-CAP_E2 = ("Token bottleneck against the label-free transformer, which has one token per "
-          "node, both trained on the energy alone with the same corpus, split, seeds and "
-          "schedule (three dimensions): seed mean ± sample standard deviation over three "
+CAP_E2 = ("Token bottleneck with M tokens against the label-free transformer, which has one "
+          "token per node, both trained on the energy alone with the same corpus, split, seeds "
+          "and schedule (three dimensions): seed mean ± sample standard deviation over three "
           "seeds of the errors, in-band and on the finer mesh (zero-shot), and the time of one "
           r"training step. Criteria and outcomes: \cref{tab:criteria}.")
 CAP_COST = ("Wall time per instance of the label-free transformer's inference, on one GPU, "
             "and of solves of the same systems on the same machine's CPU, all load cases "
-            "together and without the assembly, with the surrogate's accuracy on the same "
-            "instances. CG: unpreconditioned conjugate gradients; its iterations (from the "
-            "zero field / to the prediction's accuracy) and its displacement error are medians "
-            "over the load cases, the other times and errors medians over the instances. "
-            r"Protocol in supplementary Section~\SuppTiming{}.")
+            "together and without the assembly, with the surrogate's accuracy. CG: "
+            "unpreconditioned conjugate gradients; its iterations (from the zero field / to the "
+            "prediction's accuracy) and its displacement error are medians over the load "
+            "cases, the other times and errors medians over the instances. c*: energy-optimal "
+            r"amplitude \eqref{eq:cstar}. Protocol in supplementary Section~\SuppTiming{}.")
 CAP_E1 = ("Sketched isotropic Gaussian regularisation (SIGReg) of the latent vectors added "
           "to the label-free objective, two dimensions, with the later code of "
           r"\cref{sec:methods:networks}: seed mean ± sample standard deviation on the 256 "
@@ -4172,8 +4172,8 @@ def build() -> dict:
                                 "scale_aware_poly")) + rz["val2d"] + metric_rows(rcm, ("zero",)))
     if not (ncm == n3 == n2 == 256):
         raise SystemExit("the captions of Tables 2, 3 and S8 say 256 validation instances")
-    det_note = (r"The Ritz projection (\cref{sec:methods:ritz}) was added after the "
-                "pre-registered runs. It, the nearest-neighbour field and the scaled "
+    det_note = (r"The Ritz projection of degree $p$ (\cref{sec:methods:ritz}) was added after "
+                "the pre-registered runs. It, the nearest-neighbour field and the scaled "
                 "polynomial are deterministic, so their last column counts instances.")
     notescm = [det_note]
     notes2 = [

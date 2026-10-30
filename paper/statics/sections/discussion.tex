@@ -1,6 +1,6 @@
 \section{Discussion}\label{sec:discussion}
 
-\paragraph{The norm, not the labels}
+\subsection{The norm, not the labels}
 Both comparisons changed the norm of the supervised loss and nothing else, and both lowered
 the stress error, on the validation and on the held-out instances: in three dimensions the
 median von Mises error by a factor of \numNlThreeNormVm{}, in two the mean by more than half
@@ -20,7 +20,7 @@ displacement-supervised transformer, which adds the energy to the displacement l
 step towards the energy norm; it removed most of the large failures, and the label-free
 transformer, which has only that term, was more accurate still (\cref{tab:3d}).
 
-\paragraph{In practice}
+\subsection{In practice}
 Given the assembled system, the energy norm of an error costs one sparse matrix-vector
 product per load case. A supervised loss can therefore be measured in it with the labels
 already computed, which it uses only through the compliance $F^{\top}\Ustar$ of each load
@@ -38,7 +38,7 @@ enrichments have been analysed \cite{Barucq2026Enrich}. Where the stiffness matr
 hand, as for solutions exported from another code, a loss on the strains or the stresses is
 the natural substitute; we did not test one.
 
-\paragraph{Earlier comparisons}
+\subsection{Earlier comparisons}
 The account is consistent with part of the earlier reports: in soft-tissue beams, adding the
 deformation gradient to the supervised loss, a step towards a norm of the strains, narrowed
 the gap between supervised and label-free training \cite{Dalton2023}. One comparison,
@@ -58,7 +58,7 @@ regresses towards a different target. Whether this explains the reversal is not 
 comparison shows that the advantage of label-free training over displacement supervision
 reported here is not universal.
 
-\paragraph{Transfer}
+\subsection{Transfer}
 No network transferred to the finer mesh. The readings of supplementary
 Section~\SuppTransfer{} point at the output scaling: the output is multiplied by the largest
 nodal load, which depends on the mesh while the solution does not, and the networks of the
@@ -71,7 +71,7 @@ operators trained on the energy \cite{Wang2026PretrainFEM,Sun2026FEVessel} was t
 varying the density of the input point cloud rather than by refining the mesh, and
 label-free fine-tuning on the finer mesh, which needs no solves, was not tested here.
 
-\paragraph{Limitations}
+\subsection{Limitations}
 The study is restricted to linear elastostatics, where \cref{lem:exact} is exact; one family
 of geometries and one set of four load cases per dimension; one model size; and three seeds
 per network, for which the noise guard is coarse. \Cref{prop:stress} assumes a homogeneous
@@ -92,7 +92,7 @@ the joint-embedding term that a pre-registered comparison kept, was chosen after
 comparison (supplementary Section~\SuppPrereg{}). Full self-attention grows with the square of
 the number of nodes, which limits the size of the meshes the transformer can take.
 
-\paragraph{Outlook}
+\subsection{Outlook}
 The construction extends wherever each step of a computation is a convex minimisation. In
 linear dynamics, every implicit step of a Newmark-type integrator solves a symmetric
 positive definite system whose effective stiffness combines the stiffness, mass and damping

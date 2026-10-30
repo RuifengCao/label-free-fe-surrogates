@@ -38,7 +38,7 @@ g(u) = \frac{\norm{u-\Ustar}_K^{2}}{\norm{\Ustar}_K^{2}}
 \label{eq:relgap}
 \end{equation}
 its relative energy gap. Substituting \eqref{eq:system} into \eqref{eq:energy} gives
-$\Pi_h(\Ustar)=-\tfrac12\norm{\Ustar}_K^2$, so the zero field has $g(0)=1$. The smallest and
+$\Pi_h(\Ustar)=-\norm{\Ustar}_K^2/2$, so the zero field has $g(0)=1$. The smallest and
 largest eigenvalues of $K$ are $\lambda_{\min}$ and $\lambda_{\max}$, and
 $\kappa=\lambda_{\max}/\lambda_{\min}$ is its spectral condition number. Evaluating
 $\Pi_h(u)$ requires $K$ and $F$, which every finite-element code assembles before solving,
@@ -59,9 +59,9 @@ For every $u\in\R^{n}$,
 \end{lemma}
 
 \begin{proof}
-Expanding $\tfrac12\norm{u-\Ustar}_K^2=\tfrac12u^{\top}Ku-u^{\top}K\Ustar
-+\tfrac12\Ustar{}^{\top}K\Ustar$ and using $K\Ustar=F$ gives
-$\tfrac12\norm{u-\Ustar}_K^2=\Pi_h(u)+\tfrac12\norm{\Ustar}_K^2=\Pi_h(u)-\Pi_h(\Ustar)$.
+Expanding $\norm{u-\Ustar}_K^2/2=u^{\top}Ku/2-u^{\top}K\Ustar
++\Ustar{}^{\top}K\Ustar/2$ and using $K\Ustar=F$ gives
+$\norm{u-\Ustar}_K^2/2=\Pi_h(u)+\norm{\Ustar}_K^2/2=\Pi_h(u)-\Pi_h(\Ustar)$.
 Differentiating \eqref{eq:energy} gives $\nabla\Pi_h(u)=Ku-F=K(u-\Ustar)$.
 \end{proof}
 
@@ -69,7 +69,7 @@ Hence $g(u)=\gap(u)/\lvert\Pi_h(\Ustar)\rvert$: the relative energy gap is the r
 strain energy of the error to that of the solution. A surrogate is trained on many
 instances. Let instance $i\in\{1,\dots,N\}$ have stiffness matrix $K_i$ and $L$ load
 vectors $F_{ij}$, $j\in\{1,\dots,L\}$, with solutions $\Ustar_{ij}=K_i^{-1}F_{ij}$ and
-energies $\Pi_{ij}(u)=\tfrac12u^{\top}K_iu-F_{ij}^{\top}u$, and let $u_{ij}(\theta)$ be the
+energies $\Pi_{ij}(u)=u^{\top}K_iu/2-F_{ij}^{\top}u$, and let $u_{ij}(\theta)$ be the
 prediction of a network with parameters $\theta$.
 
 \begin{corollary}[Training objective]\label{cor:training}
@@ -101,7 +101,7 @@ the label-free objective cannot do it.
 
 \begin{remark}[Three norms]\label{rem:norms}
 With the residual $r(u)=F-Ku=-Ke$, \cref{lem:exact} reads
-$\gap(u)=\tfrac12\,r(u)^{\top}K^{-1}r(u)$: the energy gap is half the squared residual
+$\gap(u)=r(u)^{\top}K^{-1}r(u)/2$: the energy gap is half the squared residual
 measured in the norm induced by $K^{-1}$, the norm in which a small residual means an
 accurate solution. The inverse cancels algebraically in $\Pi_h$, so the objective needs
 neither a solve nor a preconditioner. A Euclidean residual loss, by contrast, is
@@ -132,8 +132,8 @@ stress is the subject of \cref{prop:stress}.
 Let $v_h$ denote the finite-element displacement field of a vector $v\in\R^n$, extended by
 zero on the constrained degrees of freedom, $\varepsilon(v_h)$ its strain,
 $\sigma(v_h)=\mathbb{C}:\varepsilon(v_h)$ its stress for the fourth-order elasticity
-tensor $\mathbb{C}$, $s=\sigma-\tfrac13(\operatorname{tr}\sigma)I$ the deviatoric stress,
-$p=\tfrac13\operatorname{tr}\sigma$ the mean stress and $\vm(\sigma)=(\tfrac32\,s:s)^{1/2}$
+tensor $\mathbb{C}$, $s=\sigma-(\operatorname{tr}\sigma)I/3$ the deviatoric stress,
+$p=(\operatorname{tr}\sigma)/3$ the mean stress and $\vm(\sigma)=\bigl((3/2)\,s:s\bigr)^{1/2}$
 the von Mises stress of a stress tensor $\sigma$; we write $\vm(v_h)$ and $p(v_h)$ for the
 fields $\vm(\sigma(v_h))$ and $p(\sigma(v_h))$. For a homogeneous isotropic material with
 Young's modulus $E$ and Poisson's ratio $\nu$, $G=E/(2(1+\nu))$ is the shear modulus and
@@ -187,7 +187,7 @@ squaring, integrating and dropping the volumetric term of \eqref{eq:stressnorm} 
 gives \eqref{eq:vmbound}. With $v=\Ustar$, \eqref{eq:stressnorm} gives
 $\norm{\Ustar}_K^2=(1+\gamma^\ast)\lVert\vm(\Ustar_h)\rVert_{L^2}^2/(3G)$, and
 \eqref{eq:vmboundrel} follows. In plane stress, the energy density of the plane stress
-state equals $\tfrac12\sigma:\mathbb{C}^{-1}:\sigma$ with the three-dimensional compliance,
+state equals $\sigma:\mathbb{C}^{-1}:\sigma/2$ with the three-dimensional compliance,
 because the out-of-plane strain does no work, and the von Mises stress is the
 three-dimensional formula applied to that state.
 \end{proof}
@@ -248,7 +248,7 @@ same holds for it; for the von Mises error, \eqref{eq:vmbound} gives a one-sided
 \begin{corollary}[Ranking by energy]\label{cor:rank}
 For any two predictions $u_1,u_2$ of the same load case,
 $\Pi_h(u_1)-\Pi_h(u_2)=\gap(u_1)-\gap(u_2)
-=\tfrac12\bigl(\norm{u_1-\Ustar}_K^2-\norm{u_2-\Ustar}_K^2\bigr)$, so the energy ranks
+=\bigl(\norm{u_1-\Ustar}_K^2-\norm{u_2-\Ustar}_K^2\bigr)/2$, so the energy ranks
 any set of predictions of one load case exactly by their energy-norm errors. Over a
 fixed set of load cases, the mean energy of a surrogate's predictions differs from the mean
 of their energy gaps by a constant, the mean energy of the solutions, so the mean energy
@@ -303,10 +303,10 @@ $g(\cstar u)\le\min\{g(u),1\}$.
 \end{proposition}
 
 \begin{proof}
-$\Pi_h(cu)=\tfrac12c^2u^{\top}Ku-cF^{\top}u$ is a convex quadratic in $c$ with minimiser
+$\Pi_h(cu)=c^2u^{\top}Ku/2-cF^{\top}u$ is a convex quadratic in $c$ with minimiser
 $\cstar$ and minimum $-(F^{\top}u)^2/(2u^{\top}Ku)$; since $c=1$ and $c=0$ are admissible,
 the minimum is at most $\Pi_h(u)$ and $\Pi_h(0)=0$. By \cref{lem:exact} and
-$\Pi_h(\Ustar)=-\tfrac12\norm{\Ustar}_K^2$, $g(w)=1+2\Pi_h(w)/\norm{\Ustar}_K^2$ for every
+$\Pi_h(\Ustar)=-\norm{\Ustar}_K^2/2$, $g(w)=1+2\Pi_h(w)/\norm{\Ustar}_K^2$ for every
 $w$; with $F^{\top}u=\Ustar{}^{\top}Ku$ this gives $g(\cstar u)=1-\cos^2\psi$.
 \end{proof}
 

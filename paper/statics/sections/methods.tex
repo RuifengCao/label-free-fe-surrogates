@@ -11,7 +11,7 @@ Poisson's ratio is uniform on $[0.25,0.38]$ per instance; all quantities are dim
 Meshes were generated with Gmsh \cite{Geuzaine2009}, and reference solutions were computed
 by sparse direct factorisation.
 
-\paragraph{Two dimensions}
+\subsubsection{Two dimensions}
 Rectangular plates $[0,l_x]\times[0,l_y]$ in plane stress, with $l_x$ uniform on $[1.5,3]$,
 $l_y$ uniform on $[0.8,1.5]$ and zero to three non-overlapping circular holes of radius
 between $0.06$ and $0.16$ times $\min(l_x,l_y)$, are meshed with linear triangles of target
@@ -21,7 +21,7 @@ remainder the training pool. The last \numHoldTwoTail{} instances of the remaind
 beyond the deepest prefix of it that any recorded run read, and \numHoldTwoN{} of them form
 the holdout set of \cref{sec:holdout}.
 
-\paragraph{Three dimensions}
+\subsubsection{Three dimensions}
 Boxes $[0,l_x]\times[0,l_y]\times[0,l_z]$, with $l_x$ uniform on $[1.5,3]$, $l_y$ on
 $[0.8,1.5]$, $l_z$ on $[0.6,1.2]$ and zero to three non-overlapping spherical cavities of
 radius between $0.08$ and $0.16$ times $\min(l_x,l_y,l_z)$, are meshed with linear
@@ -36,7 +36,7 @@ from the same distribution is meshed at $l_c=0.0374$, about half the element siz
 \numNodesFineMedian{}), test transfer to a finer mesh, and the last 64 are reserved for
 few-shot training.
 
-\paragraph{Conditioning}
+\subsubsection{Conditioning}
 On sixteen assembled validation instances of each corpus, the spectral condition number
 $\kappa$ of the stiffness matrix ranged from \numKappaTwoLow{} to \numKappaTwoHigh{} in two
 dimensions and from \numKappaThreeLow{} to \numKappaThreeHigh{} in three, so that
@@ -44,7 +44,7 @@ $\kappa^{1/2}$ lies between about \numSqrtKappaMin{} and \numSqrtKappaMax{}.
 
 \subsection{Networks}\label{sec:methods:networks}
 
-\paragraph{Transformer}
+\subsubsection{Transformer}
 Every mesh node is a token. Its input features are the node's coordinates, centred and
 scaled to unit root-mean-square radius; its Dirichlet flags; and its consistent nodal load
 for the load case, divided by $F_{\max}$, the largest absolute nodal load component over the
@@ -64,14 +64,14 @@ so that the prediction is proportional to the load amplitude; since $F_{\max}$, 
 load, shrinks with the element size, this scaling makes the output depend on the mesh
 (\cref{sec:discussion}).
 
-\paragraph{Graph network}
+\subsubsection{Graph network}
 As a supervised baseline of a widely used kind we used a MeshGraphNets-style
 encode-process-decode network \cite{Pfaff2021} with node and edge encoders, 8
 message-passing layers of width 256 over the mesh edges (edge features: relative position
 and length), the same node features and the same output scaling as the transformer; it has
 \numParamsGraph{} million parameters.
 
-\paragraph{Baselines}
+\subsubsection{Baselines}
 The accuracy tables also report three deterministic baselines: the zero field; a
 nearest-neighbour field, the solution of the labelled training instance nearest in the
 geometry descriptor, interpolated to the new mesh in normalised coordinates; and a scaled
@@ -120,7 +120,9 @@ after a linear warm-up over the first 5\% of the steps, to a peak of $10^{-3}$ f
 label-free and $1.5\times10^{-3}$ for the supervised networks; these rates were fixed before
 the runs and not tuned on them, and the energy-norm-supervised transformer used the
 displacement-supervised settings unchanged. Training was in single precision with
-TensorFloat-32 (TF32) matrix products, with three seeds (0, 1, 2) per network. The
+TensorFloat-32 (TF32) matrix products, with three seeds (0, 1, 2) per network. The networks
+are implemented in PyTorch, and the report of each run records the versions of Python,
+PyTorch, NumPy and SciPy with which it ran (supplementary Section~\SuppRepro{}). The
 supervised networks were trained with 16, 64, 256 and 1,024 labelled instances, the first
 16, 64, 256 and 1,024 instances of the training pool, the graph network with 64 and 1,024
 only, a saving of machine time fixed in the pre-registrations of September and October 2026.
@@ -213,13 +215,17 @@ document that fixes the configuration, the metrics and the criteria, and that de
 outcomes publishable; the documents were committed to the project's public repository before
 their runs, and the code refused to start a run whose configuration did not match the
 registered hash. Where a comparison of two networks over three seeds carries a verdict, it
-uses a noise guard fixed in advance: a difference counts only beyond the larger of 10\% and
+uses a noise guard fixed in advance \eqref{eq:guard}: a difference counts only beyond the larger of 10\% and
 twice its standard error over the seeds, and within the guard no difference is shown, which
 is not equivalence. \Cref{tab:claims} lists the pre-registered claims with their outcomes,
 and \cref{sec:holdout} the claims that the holdout evaluation, also pre-registered, read
-again on held-out instances; departures from the plans that bear on a result are stated with it, and the
-readings taken after the runs, and the Ritz baseline, are marked as such where they are
-reported. Supplementary Section~\SuppPrereg{} gives the full record. Two earlier
+again on held-out instances; departures from the plans that bear on a result are stated
+with it, and the readings taken after the runs, and the Ritz baseline, are marked as such
+where they are reported. Supplementary Section~\SuppPrereg{} gives the full record. Every
+table, figure and quoted number is computed from the committed records by the repository's
+generation script and checked by its tests (supplementary Section~\SuppRepro{}); that
+script, like the code of the experiments, was written with the help of the generative AI
+models Claude Fable 5, Claude Fable 5.1 and Claude Opus 5.5 (Anthropic). Two earlier
 pre-registered runs in two dimensions, in July 2026, used an earlier version of the code,
 which did not multiply the decoded field by $F_{\max}$; the main one, the July run, is
 reported in supplementary Section~\SuppJuly{}, and only its test of a warm start
