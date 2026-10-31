@@ -34,6 +34,31 @@ seeds, its mean relative energy gap (\cref{tab:labeleff}), although it reduced t
 instance-seed predictions worse than the zero field from \numThreeLabWorseTwoFiveSix{} to
 \numThreeAncWorseTwoFiveSix{}.
 
+\paragraph{The largest errors}
+\Cref{tab:tails3d} gives the upper tail of the relative energy gap of the networks trained on
+1,024 instances, over the instance-seed pairs, each pair's value the mean over the four load
+cases, read after the runs. The two networks trained in the energy norm, with and without
+the solutions, had no pair with a mean relative energy gap above one on the validation or
+the held-out instances; load case by load case, \numTailThreeFreeLoad{} of the label-free
+transformer's load cases on the validation instances had a relative energy gap above one
+(\cref{sec:checks:zero}).
+The displacement-supervised transformer and the graph network had such pairs on a few
+instances, and for each of them more than half of these instances had one in two or three
+seeds (last column); \numTailThreeValShared{} of the validation instances,
+No.~\numWorstIndex{} among them, and \numTailThreeHoldShared{} of the held-out ones were
+failures of both. The variant with the energy term had \numTailThreeAncWorse{} such pairs,
+each in one seed, on instances on which the graph network failed in every seed; its
+networks were not stored (\cref{sec:holdout}), so it has no holdout row. The instances on
+which either network failed were harder for every
+network, whose median relative energy gaps on them exceeded their medians over all the
+instances, but on every one of them the label-free transformer's relative energy gap was at
+most \numTailThreeFreeMax{} and the energy-norm-supervised transformer's at most
+\numTailThreeKnormMax{}, far from one. A mean over the load cases above one has a load case
+above one, which has a positive energy, and which the test of \cref{cor:zero} flags without
+the solution.
+
+\input{generated/table_tails3d}
+
 \paragraph{Fewer labels}
 \Cref{tab:labeleff} gives the values that \cref{fig:labeleff} plots, in both dimensions,
 with the networks of the two-dimensional comparison; the values of the July run are in

@@ -184,6 +184,71 @@ def test_the_references_checked_on_11_october_say_so():
         assert re.search(rf"\\cite(\[[^\]]*\])?\{{([^}}]*,)?{key}[,}}]", text), key
 
 
+def test_the_comparisons_of_loss_norms_are_cited_as_they_read():
+    """Stage 23: a literature search of 31 October 2026 found comparisons that change the norm
+    of a supervised loss while keeping its labels, among them the soft-tissue experiment that
+    the paper already described; Section 2.2 no longer says that it knows of none, and says
+    instead that it knows of none that trains an elasticity surrogate on its labels in the
+    energy norm of the assembled stiffness matrix. Section 2.3 cites four of them, each
+    checked against the source that its comment names."""
+    entries = _entries(BIB.read_text(encoding="utf-8"))
+    expect = {"Haltmayer2026LOD": ("misc", "against the PDF of its preprint"),
+              "Liu2024Multiscale": ("article", "(arXiv:2210.10890v3, 9 June 2024)"),
+              "Storm2024MicroGNN": ("article", "against the published article"),
+              "Rudikov2024FCGNO": ("inproceedings", "against the proceedings page")}
+    for key, (kind, source) in expect.items():
+        assert entries[key][0] == kind, key
+        comment = _flat(entries[key][1].replace("% ", ""))
+        assert comment.startswith("verified 31 October 2026"), key
+        assert source in comment, key
+    halt = entries["Haltmayer2026LOD"][2]
+    assert (_field(halt, "note"), _field(halt, "doi")) == ("arXiv:2607.12570v1 [math.NA]",
+                                                         "10.48550/arXiv.2607.12570")
+    assert _field(halt, "author").split(" and ") == [
+        "Haltmayer, Marc", "Seo, Jaemin", "Lee, Yuseung", "Lee, Sungyeop", "Jeong, Jaehoon",
+        "Lee, Jae Yong"]
+    liu = entries["Liu2024Multiscale"][2]
+    assert (_field(liu, "journal"), _field(liu, "volume"), _field(liu, "pages"),
+            _field(liu, "doi")) == ("Journal of Computational Physics", "506", "112944",
+                                    "10.1016/j.jcp.2024.112944")
+    storm = entries["Storm2024MicroGNN"][2]
+    assert (_field(storm, "volume"), _field(storm, "pages"), _field(storm, "doi")) == (
+        "427", "117001", "10.1016/j.cma.2024.117001")
+    rud = entries["Rudikov2024FCGNO"][2]
+    assert (_field(rud, "volume"), _field(rud, "pages")) == ("235", "42766--42782")
+    # authors, titles and years as their sources give them
+    assert _field(liu, "author").split(" and ") == [
+        "Liu, Xinliang", "Xu, Bo", "Cao, Shuhao", "Zhang, Lei"]
+    assert (_field(liu, "title"), _field(liu, "year")) == (
+        "Mitigating spectral bias for the multiscale operator learning", "2024")
+    assert _field(storm, "author").split(" and ") == [
+        "Storm, J.", "Rocha, I. B. C. M.", "van der Meer, F. P."]
+    assert (_field(storm, "title"), _field(storm, "journal"), _field(storm, "year")) == (
+        "A microstructure-based graph neural network for accelerating multiscale simulations",
+        "Computer Methods in Applied Mechanics and Engineering", "2024")
+    assert _field(rud, "author").split(" and ") == [
+        "Rudikov, Alexander", "Fanaskov, Vladimir", "Muravleva, Ekaterina", "Laevsky, Yuri M.",
+        "Oseledets, Ivan"]
+    assert (_field(rud, "title"), _field(rud, "booktitle"), _field(rud, "year")) == (
+        "Neural operators meet conjugate gradients: the {FCG-NO} method for efficient {PDE} "
+        "solving", "Proceedings of the 41st International Conference on Machine Learning", "2024")
+    assert (_field(halt, "title"), _field(halt, "year")) == (
+        "Deep learning-based surrogate modelling of the {LOD} method for multiscale problems",
+        "2026")
+    rel = _sections()["related.tex"]
+    assert "we are not aware of a comparison that changes the norm" not in rel.lower()
+    for s in ("Adding the deformation gradient, as in the soft-tissue beams, is one way of "
+              "changing the norm of a supervised loss while keeping its labels",
+              "We are not aware of a comparison that trains an elasticity surrogate on its "
+              "labels in the energy norm of the assembled stiffness matrix",
+              r"\subsection{The norm of the loss}\label{sec:related:norm}",
+              r"reached lower relative $L^2$ errors of the solution than with $L^2$, relative "
+              r"$L^2$ and $L^1$ losses \cite{Haltmayer2026LOD}"):
+        assert s in rel, s
+    for key in expect:
+        assert re.search(rf"\\cite\{{{key}\}}", rel), key
+
+
 def test_the_text_states_the_published_versions_and_credits_the_bound():
     s = _sections()
     for name, quote in (

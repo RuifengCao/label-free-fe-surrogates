@@ -2482,3 +2482,107 @@ generator, and no record, configuration, pre-registration or source file changed
   separate study) and checks the evidence of the two other corrections; the rendering test
   renders both DOIs; the two DOIs join the names with versions in
   `tests/test_statics_material.py`. Suite 834 (831 + 3), unchanged.
+
+## Stage 23 (31 Oct 2026) -- a reading before submission: the prior comparison of loss norms, the finer mesh's energy-norm network, the largest errors, and five statements
+
+- Why. A reading of the Stage 22 manuscript before submission raised points that the
+  committed records answer without a new run. Every new number is generated from the
+  records and recomputed by the tests; nothing here changes a pre-registered verdict, and
+  the readings added are marked as taken after the runs.
+- The related work. Section 2.2 said that no comparison changing the norm of a supervised
+  loss while keeping its labels was known for finite-element surrogates. A preprint of 14
+  July 2026 (Haltmayer et al., arXiv:2607.12570) trains a surrogate of multiscale Darcy flow
+  on the energy norm of the error of its coefficients and compares, with the same labels,
+  L2, relative L2 and L1 losses (its Section 5.2.2); a literature search of 31 October 2026
+  found more such comparisons, among them the soft-tissue experiment of Dalton et al. that
+  Section 2.2 itself described (the deformation gradient added to the displacement loss).
+  Section 2.2 now says that adding the deformation gradient is one way of changing the norm
+  of a supervised loss while keeping its labels, and that no comparison is known that trains
+  an elasticity surrogate on its labels in the energy norm of the assembled stiffness
+  matrix. Section 2.3, labelled `sec:related:norm`, reviews four of the comparisons found:
+  H1 losses for three neural operators (Liu et al., JCP 2024), a stress term evaluated
+  through the material model (Storm et al., CMAME 2024), the energy-norm loss of Haltmayer
+  et al., and an energy-norm loss for a neural preconditioner (Rudikov et al., ICML 2024).
+  Each reference was checked against the sources that its comment names.
+- Fig. 1's caption and the graphical abstract now say that removing the solutions also
+  changes the weighting of the load cases and the learning rate, as the introduction and
+  Section 6 said; the graphical abstract's lower row moved up 1.2 mm and its foot down
+  0.8 mm to make room for the line, and its build test reads the line in the PDF.
+- The finer mesh. The three-dimensional energy-norm-supervised transformer, trained after
+  the transfer comparison, was not in the transfer table (`tab:transfer`). The reading
+  beside the Ritz baseline (Stage 14, `scripts/enriched_cstar.py`, arm `k3d_labels_knorm`,
+  marked `"appendix": false`) evaluated its three stored states on the 256 fine-mesh
+  instances on 28 October 2026, with the code that reproduced the other three networks'
+  recorded fine-mesh values and this network's recorded in-band values (the content checks
+  of those arms). Its row now stands in the table, as zero-shot and evaluated after the runs
+  (the caption says so), from the per-instance rows of the return as received, checked
+  against that arm's summary and the run's states. The generator pairs it with the Ritz
+  ladder of the baseline's rows of the same instances, as the baseline pairs the other
+  networks, and adds the pairs to the table of the shares (`tab:ritzpairs`) and to the
+  text's readings: the projection's relative energy gap was lower than each network's on at
+  least 98.4% of the fine-mesh instances (99.6% without it), and in the peak stress error
+  the energy-norm-supervised transformer was the more accurate on 42% to 95% of them. The
+  text says that it did not transfer either (displacement error 0.0227 in-band, 0.260 on the
+  finer mesh) and that its relative energy gap and von Mises error there, like the
+  label-free transformer's, were lower than those of the two networks trained on the
+  displacement error; "the lowest" of the label-free transformer became "lower than these
+  two". The rows of the displacement-supervised transformer and the graph network name their
+  loss, as in the other tables.
+- The largest errors. Two supplementary tables (`tab:tails3d`, `tab:tails2d`, each with a
+  paragraph "The largest errors" in Sections S2 and S3) give, for every network trained on
+  1,024 instances, the median, the 90th and
+  99th percentiles and the largest value of the relative energy gap over the instance-seed
+  pairs of the validation and held-out instances, the pairs worse than the zero field and
+  the instances with such a pair, with those that have one in two or three seeds. The
+  held-out arrays of the holdout evaluation and of the three-dimensional energy-norm run
+  hold the same instances and, for the two networks that both evaluated, identical values.
+  Read after the runs: the networks trained in the energy norm had no pair worse than the
+  zero field but the energy-norm-supervised transformer's nine on the two-dimensional
+  held-out instances, each one seed's on an instance of its own, which its other two seeds
+  predicted with relative energy gaps of at most 0.304 and the label-free transformer of at
+  most 0.363; for the displacement-supervised transformer and the graph network, more than
+  half of the instances concerned had such a pair in two or three seeds. The checks section
+  and the holdout section say so in a sentence each; every held-out pair counted has a load
+  case of positive energy, as the arrays' per-load energies show (the generator checks it).
+- Five statements. Section 4.3 states how the code computes L_K (from the difference, a
+  negative value set to zero, 1e-30 under the square root; the methods test reads the two
+  lines of `src/fejepa/train/supervised.py`). Section 4.6 says that the noise guard is a
+  rule of decision, not a test at a stated level of significance. Section 4.4 says that
+  every error is relative to the finite-element solution on the same mesh and that, where
+  the peak stress lies where the clamped boundary meets the rest of the boundary, at which
+  the continuous stresses are in general singular, the peak stress error measures agreement
+  with the discrete peak, not a converged value. Section 7.2 says that the cost of the check
+  and of the rescaling by c*, where a surrogate is used without K and F, is their assembly,
+  which here took longer than the surrogate's inference (the generator checks it in every
+  column of the cost table).
+  Section 10.2 says that the gain is in the accuracy of the stresses, not in speed.
+- An independent check of the stage recomputed every new cell and number from the records
+  and found none wrong; it found six things in the text and the guards, all corrected. (1)
+  "Worse than the zero field" meant an instance-seed pair's mean over the load cases in the
+  new sentences but single load cases in the checks section, where one of the label-free
+  transformer's three-dimensional load cases is above one; the new sentences now say "a
+  mean relative energy gap above one", and S2 states the load case. (2) "Which the networks
+  trained in the energy norm predicted well" overstated: the instances on which a network
+  trained on the displacement error failed were harder for every network (its median on
+  them above its median over all instances, checked for each network and set); S2 now says
+  so and gives the bounds as far from one. (3) The finer-mesh row had no stated provenance
+  and its two cross-references pointed at each other; S4 now says that the run of the Ritz
+  baseline evaluated it with code that reproduced its in-band and the other networks'
+  fine-mesh records (the generator checks the four content checks and the configuration's
+  hash), and the list of runs names the evaluation. (4) The discussion and the introduction
+  now say that the stop of conjugate gradients reads the solution. (5) S2 names the variant
+  with the energy term (two pairs, each one seed's, on instances that the graph network
+  failed in every seed; no holdout row, its networks not being stored); the tails' captions
+  say "read after the runs" and their sets "holdout", as the Ritz table. (6) The cost of
+  the check is compared with the larger of the surrogate's two calls; the graph network's
+  failures are guarded in every set; S3's statement on the mean and median is now numbers
+  (0.0781 to 0.0305 without the nine pairs; median 0.0188 either way) and guarded; Section
+  4.3 and the discussion say "depends only through" beside the code's use of the
+  difference. The related work was checked against the sources as well, and the discussion
+  now notes that the energy-norm loss of Haltmayer et al. agrees with the paper's account.
+- Tests: `tests/test_statics_material.py` recomputes the finer-mesh row, its numbers and
+  its pairs from the rows of the Ritz return (`_fine_knorm`), the two tables of the tails
+  and their readings from the reports and the holdout arrays, names the new inputs among
+  the sources and the two tables among the outputs; `tests/test_statics_references.py`
+  checks the four references, their comments, Section 2.2's new sentence and the absence of
+  the old one. The runbook's suite lines read the new count. Suite 837 (834 + 3).

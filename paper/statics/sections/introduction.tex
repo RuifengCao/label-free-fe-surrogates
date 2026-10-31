@@ -50,10 +50,11 @@ their claims were read again on held-out instances.
 \figfull{generated/fig_norm_labels.pdf}
 \caption{The norm of the loss against the labels, in three dimensions (left) and two (right).
 The same transformer is trained on the solutions of 1,024 instances with the relative
-displacement error (top left) or the relative energy-norm error (bottom left), and on the
-energy of the same instances without their solutions (bottom right); a displacement loss
-needs the solutions (top right). E: relative energy-norm error; vM: relative von Mises
-error; medians over the 256 validation instances, averaged over three seeds.}
+displacement error (top left) or the relative energy-norm error (bottom left), and on their
+energy without the solutions (bottom right), which also changes the weighting of the load
+cases and the learning rate (\cref{sec:labelfree}); a displacement loss needs the solutions
+(top right). E, vM: relative energy-norm and von Mises errors, medians over the 256
+validation instances averaged over three seeds.}
 \label{fig:normlabels}
 \end{figure}
 
@@ -69,8 +70,9 @@ field or a few Krylov iterations (\cref{sec:related}); these two checks need nei
 We do not claim that the networks beat classical methods on these problems. Given the
 stiffness matrix, a polynomial Ritz projection with \numRitzThreeKMax{} unknowns was more
 accurate than the label-free transformer, in the seed means, on every metric but peak
-stress, and conjugate gradients reached a network's accuracy within a few times its
-inference time (\cref{sec:cost}). Linear elastostatics is the setting in which the identity
+stress, and conjugate gradients, stopped by a test that reads the solution, reached a
+network's accuracy within a few times its inference time (\cref{sec:cost}). Linear
+elastostatics is the setting in which the identity
 is exact and the comparison can be kept narrow. Its lesson, the choice of norm, should
 matter wherever surrogates are trained and compared; training without solutions pays most
 where solves are expensive.

@@ -28,7 +28,8 @@ TEXT = ("table_2d.tex", "table_2djuly.tex", "table_3d.tex", "table_label_efficie
         "table_cm2d.tex", "table_amplitude.tex", "table_remesh.tex", "table_e2.tex",
         "table_e1.tex", "table_cost.tex", "table_k3d.tex", "table_holdout.tex",
         "table_holdout_values.tex", "table_ritz_pairs.tex", "table_k3d_medians.tex",
-        "table_k3d_comparisons.tex", "table_claims.tex", "numbers.tex", "hashes.tex",
+        "table_k3d_comparisons.tex", "table_claims.tex", "table_tails3d.tex",
+        "table_tails2d.tex", "numbers.tex", "hashes.tex",
         "material.md", "sources.json", "cost_protocol.tex", "amplitude_readings.tex",
         "remesh_readings.tex", "e2_readings.tex")
 FIGS = ("fig_disp_vs_stress.pdf", "fig_energy_gap.pdf", "fig_label_efficiency.pdf",
@@ -46,6 +47,8 @@ RK3 = ROOT / "records" / "cmame" / "k3d" / "return" / "report.json"
 VK3 = ROOT / "records" / "cmame" / "k3d" / "verdict.json"
 HOLD = ROOT / "records" / "cmame" / "holdout"
 RITZ = ROOT / "records" / "cmame" / "ritz" / "return"
+RITZ_TGZ = ROOT / "records" / "cmame" / "ritz" / "ritz_return_20261029-1150.tgz"
+HK3 = ROOT / "records" / "cmame" / "k3d" / "return" / "holdout_arrays.npz"
 TAGS = {"ar": "Free", "labels": "Lab", "labels_knorm": "Knorm", "mgn": "Mgn"}
 
 
@@ -107,6 +110,10 @@ def test_sources_name_every_record_read(built):
                 for f in ("eval.json", "eval_arrays.npz", "manifest.json")),
               HOLD / "return" / "status.txt", RITZ / "status.txt", RITZ / "machine.txt",
               ROOT / "records" / "cmame" / "ritz" / "ritz_return_20261029-1150.tgz",
+              *(RITZ / "enriched" / "k3d_labels_knorm" / s / "summary.json"
+                for s in ("val3d", "fine3d")),
+              *(RITZ / "enriched" / a / "fine3d" / "summary.json"
+                for a in ("phase2b", "phase2b_labels", "phase2b_mgn")), HK3,
               *(RITZ / "baseline" / s / "summary.json"
                 for s in ("val3d", "fine3d", "h3d", "val2d", "h2d")),
               *(RITZ / "timing" / f for f in ("timing_2d.json", "timing_3d.json",
@@ -1403,8 +1410,24 @@ def test_ritz_numbers_follow_from_the_summaries(built):
                 if m.split(":")[1].split("@")[0].split(" ")[0]
                 not in ("zero", "scale_aware_poly", "knn_field")]
     assert "phase2b:finetune@64" in ftrained and "phase2b:mgn@max (zero-shot)" in ftrained
-    bound("numRitzFineGapAll", min(s for m in ftrained for p in (6, 7, 8, 9)
-                                   for s in ritz("fine3d", m, p, "energy_gap_rel")))
+    # and the energy-norm-supervised transformer, which no pre-registered run evaluated
+    # there, paired from the rows of its evaluation beside the projection (Stage 23)
+    kn, kz = _fine_knorm()
+
+    def kn_shares(p, m):
+        """Per seed: (the projection strictly the better, the network strictly the better)."""
+        hi = m == "crit_recall"
+        return [(float(np.mean(kz[p][m] > kn[m][s] if hi else kz[p][m] < kn[m][s])),
+                 float(np.mean(kn[m][s] > kz[p][m] if hi else kn[m][s] < kz[p][m])))
+                for s in range(3)]
+
+    bound("numRitzFineGapAll", min([s for m in ftrained for p in (6, 7, 8, 9)
+                                    for s in ritz("fine3d", m, p, "energy_gap_rel")]
+                                   + [r for p in (6, 7, 8, 9)
+                                      for r, _ in kn_shares(p, "energy_gap_rel")]))
+    kp = [n_ for p in (6, 7, 8, 9) for _, n_ in kn_shares(p, "peak_vm_rel_err")]
+    unit("numRitzFineKnormPeakMin", min(kp))
+    unit("numRitzFineKnormPeakMax", max(kp))
 
     def fine_peak(models):
         x = [s for m in models for p in (6, 7, 8, 9)
@@ -1439,7 +1462,217 @@ def test_ritz_numbers_follow_from_the_summaries(built):
         *((s, R[s]["ladder"][str(R[s]["ladder_p"][0])]["paired"]) for s in ("fine3d", "h3d",
                                                                              "h2d"))))
     body = [ln for ln in pairs.splitlines() if ln.count(" & ") == 7 and not ln.startswith("Set")]
-    assert len(body) == n_rows
+    assert len(body) == n_rows + 4               # the energy-norm-supervised transformer, fine
+    at = [i for i, ln in enumerate(body)
+          if ln.split(" & ")[1] == "Supervised, energy norm, zero-shot"]
+    assert len(at) == 1 and body[at[0] - 4].split(" & ")[1] == "Supervised, displacement, zero-shot"
+    for j, p in enumerate((6, 7, 8, 9)):
+        cells = [c.strip() for c in body[at[0] + j].rstrip("\\ ").split(" & ")]
+        assert cells[2] == str(p)
+        for cell, m in zip(cells[3:], METRICS5, strict=True):
+            sh = [r for r, _ in kn_shares(p, m)]
+            for part, x in zip(cell.replace("--", "–").split("–"), (min(sh), max(sh))):
+                v, half = _shown(part.replace("\\", ""))
+                assert abs(v - 100 * x) <= half * 1.0001, (p, m, cell)
+
+
+def _fine_knorm() -> tuple:
+    """The energy-norm-supervised transformer's per-instance values on the 256 fine-mesh
+    instances, (seeds, instances) per metric, and the Ritz ladder's on the same instances,
+    per p: each instance's mean over its load cases, from the rows of the Ritz baseline's
+    return as received (the baseline's and those of the network's evaluation beside it)."""
+    import tarfile
+
+    with tarfile.open(RITZ_TGZ, "r:gz") as t:
+        rows = {n: [json.loads(x) for x in t.extractfile(f"ritz_return/{n}/fine3d/rows.jsonl")
+                    .read().decode("utf-8").splitlines()]
+                for n in ("baseline", "enriched/k3d_labels_knorm")}
+    base, arm = rows["baseline"], rows["enriched/k3d_labels_knorm"]
+    assert [r["file"] for r in base] == [r["file"] for r in arm] and len(base) == 256
+    assert all(r["identity"]["ok"] for r in base + arm)
+    # the evaluation's projection is the baseline's at its p = 8
+    for a, b in zip(arm, base, strict=True):
+        for m in METRICS5:
+            assert abs(a["ritz"]["mean"][m] - b["ritz"]["8"]["mean"][m]) <= 1e-9 * abs(
+                b["ritz"]["8"]["mean"][m])
+    net = {m: np.array([[r["seeds"][s]["net"]["mean"][m] for r in arm] for s in "012"])
+           for m in METRICS5}
+    rz = {p: {m: np.array([r["ritz"][str(p)]["mean"][m] for r in base]) for m in METRICS5}
+          for p in (6, 7, 8, 9)}
+    return net, rz
+
+
+def test_the_energy_norm_network_on_the_finer_mesh_follows_from_the_ritz_return(built):
+    """Stage 23: the energy-norm-supervised transformer on the 256 fine-mesh instances, which
+    no pre-registered run evaluated there, from the rows of its evaluation beside the Ritz
+    projection: the states are those of the three-dimensional energy-norm run, the per-seed
+    means those of that evaluation's summary, which checked the same code against the
+    network's recorded in-band values; its row of the transfer table, which the table's note
+    marks as evaluated after the runs, and the numbers that the text quotes. It did not
+    transfer (its displacement error rose by more than KP4's factor), and it and the
+    label-free transformer had lower relative energy gaps and von Mises errors on the finer
+    mesh than the two networks trained on the displacement error."""
+    N = built["numbers"]
+    enr = RITZ / "enriched" / "k3d_labels_knorm"
+    s, sv = (json.loads((enr / x / "summary.json").read_text()) for x in ("fine3d", "val3d"))
+    k = json.loads(RK3.read_bytes())
+    states = {str(i): k["per_seed"][f"s{i}"]["state"]["sha256"] for i in range(3)}
+    assert s["state_sha256"] == sv["state_sha256"] == states
+    assert (s["n"], s["n_identity_ok"], s["identity_failed"], s["complete"]) == (256, 256, [],
+                                                                                  True)
+    assert sv["content"]["passed"] and sv["content"]["tolerance"] == 1e-3
+    # the same code reproduced the other three networks' recorded fine-mesh values
+    for other in ("phase2b", "phase2b_labels", "phase2b_mgn"):
+        o = json.loads((RITZ / "enriched" / other / "fine3d" / "summary.json").read_text())
+        assert o["content"]["passed"] and o["content"]["tolerance"] == 1e-3, other
+    cfg = hashlib.sha256((ROOT / "configs" / "ritz_v1.json").read_bytes()).hexdigest()
+    assert s["config_sha256"] == sv["config_sha256"] == cfg
+    kn, _ = _fine_knorm()
+    means = {m: kn[m].mean(axis=1) for m in METRICS5}
+    for i in range(3):
+        for m in METRICS5:
+            ref = s["seeds"][str(i)]["net"][m]["mean"]
+            assert abs(means[m][i] - ref) <= 1e-12 * max(1.0, abs(ref)), (i, m)
+    tab = built["files"]["table_transfer.tex"]
+    cells = _row_cells(tab, "Supervised, energy norm, zero-shot")
+    for cell, m in zip(cells, METRICS5, strict=True):
+        mean_txt, sd_txt = cell.split(r" $\pm$ ")
+        v, half = _shown(mean_txt)
+        assert abs(v - means[m].mean()) <= half * 1.0001, m
+        v, half = _shown(sd_txt)
+        assert abs(v - statistics.stdev(means[m])) <= half * 1.0001, m
+    assert "The energy-norm-supervised transformer, trained after this comparison, was " \
+           "evaluated after the runs.}" in " ".join(tab.split())
+    for m, tag in (("disp_rel_l2", "Disp"), ("energy_gap_rel", "Gap"), ("vm_rel_l2", "Vm")):
+        _close(N, f"numFineKnorm{tag}", float(means[m].mean()))
+    r3 = json.loads(R3D.read_bytes())
+    p3 = r3["results"]["p3_transfer"]["metrics"]
+    for m in ("energy_gap_rel", "vm_rel_l2"):
+        lower = max(float(means[m].mean()), statistics.fmean(p3["ar"]["fine"][m]["per_seed"]))
+        assert lower < min(statistics.fmean(p3["zero_shot_reported"][x]["fine"][m]["per_seed"])
+                           for x in ("labels@max", "mgn@max")), m
+    inband = float(_k3d(k, "labels_knorm", "disp_rel_l2").mean(axis=1).mean())
+    _close(N, "numThreeKnormDisp", inband)
+    assert means["disp_rel_l2"].mean() / inband > r3["gate_g2"]["thresholds"]["kills"][
+        "KP4_transfer_ratio"]
+
+
+def _hold(z, row: str) -> np.ndarray:
+    """(seeds, instances) relative energy gaps of a row of a holdout arrays record."""
+    return z["values"][[str(x) for x in z["rows"]].index(row), :, :,
+                       [str(x) for x in z["metrics"]].index("energy_gap_rel")]
+
+
+def test_the_upper_tails_follow_from_the_records(built):
+    """Stage 23, supplementary Sections S2 and S3: the upper tail of the relative energy gap of
+    every network trained on 1,024 instances, over the instance-seed pairs of the validation
+    and held-out instances, recomputed from the reports' per-instance values and the holdout
+    arrays; and the readings of the text: the networks trained in the energy norm had no
+    prediction worse than the zero field but the energy-norm-supervised transformer's few on
+    the two-dimensional held-out instances, each one seed's on an instance of its own; those
+    of the networks trained on the displacement error fell on instances more than half of
+    which had one in two or three seeds; every such held-out prediction has a load case of
+    positive energy."""
+    N = built["numbers"]
+    r3, rc, k = (json.loads(p.read_bytes()) for p in (R3D, RCM, RK3))
+
+    def arrays(p):
+        with np.load(p, allow_pickle=False) as z:
+            return {n: z[n] for n in z.files}
+
+    h3, h2 = (arrays(HOLD / "return" / s / "eval_arrays.npz") for s in ("h3d", "h2d"))
+    hk = arrays(HK3)
+    assert [str(f) for f in hk["files"]] == [str(f) for f in h3["files"]]
+    for a in ("ar", "labels"):
+        assert np.array_equal(_hold(hk, a), _hold(h3, a)), a
+    sets = {"3D, validation": {a: _k3d(k, a, "energy_gap_rel") if a == "labels_knorm"
+                               else _inst(r3, a, "energy_gap_rel")
+                               for a in ("ar", "labels", "labels_anchor", "labels_knorm", "mgn")},
+            "3D, holdout": {a: _hold(hk if a == "labels_knorm" else h3, a)
+                            for a in ("ar", "labels", "labels_knorm", "mgn")},
+            "2D, validation": {a: _inst(rc, a, "energy_gap_rel")
+                               for a in ("ar", "labels", "labels_knorm", "mgn")},
+            "2D, holdout": {a: _hold(h2, a) for a in ("ar", "labels", "labels_knorm", "mgn")}}
+    names = {"ar": "Label-free", "labels": "Supervised, displacement",
+             "labels_anchor": "Supervised, displacement + energy term",
+             "labels_knorm": "Supervised, energy norm", "mgn": "Graph network, displacement"}
+    for dim in ("3D", "2D"):
+        tab = built["files"][f"table_tails{dim.lower()}.tex"]
+        body = [ln for ln in tab.splitlines() if ln.count(" & ") == 7 and not ln.startswith("Set")]
+        expect = [(s, a) for s in sets if s.startswith(dim) for a in sets[s]]
+        assert len(body) == len(expect)
+        for ln, (s, a) in zip(body, expect, strict=True):
+            cells = [c.strip() for c in ln.rstrip("\\ ").split(" & ")]
+            g = sets[s][a]
+            assert g.shape[0] == 3 and cells[1] == names[a]
+            for cell, x in zip(cells[2:6], (np.median(g), np.percentile(g, 90),
+                                            np.percentile(g, 99), g.max()), strict=True):
+                v, half = _shown(cell)
+                assert abs(v - x) <= half * 1.0001, (s, a, cell, x)
+            above = g > 1.0
+            assert cells[6] == f"{int(above.sum()):,}/{g.size:,}"
+            assert cells[7] == (f"{int(above.any(axis=0).sum()):,} "
+                                f"({int((above.sum(axis=0) >= 2).sum()):,})")
+    for s, d in sets.items():
+        for a, g in d.items():
+            inst = (g > 1.0).any(axis=0)
+            if a in ("ar", "labels_knorm") and (s, a) != ("2D, holdout", "labels_knorm"):
+                assert not inst.any(), (s, a)
+            if a in ("labels", "mgn") and inst.any():
+                assert ((g > 1.0).sum(axis=0) >= 2).sum() > inst.sum() / 2, (s, a)
+    assert not (sets["2D, validation"]["labels"] > 1).any()
+    words_ = ("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+              "ten")
+
+    def word(n):
+        return words_[n] if n <= 10 else f"{n:,}"
+
+    fails = {s: {a: set(np.flatnonzero((g > 1.0).any(axis=0))) for a, g in d.items()}
+             for s, d in sets.items()}
+    for s, tag in (("3D, validation", "Val"), ("3D, holdout", "Hold")):
+        both = fails[s]["labels"] & fails[s]["mgn"]
+        assert N[f"numTailThree{tag}Shared"] == word(len(both))
+    assert int(N["numWorstIndex"]) in fails["3D, validation"]["labels"] & fails[
+        "3D, validation"]["mgn"]
+    for a, macro in (("ar", "numTailThreeFreeMax"), ("labels_knorm", "numTailThreeKnormMax")):
+        _close(N, macro, max(float(sets[s][a][:, sorted(fails[s]["labels"] | fails[s]["mgn"])]
+                                   .max()) for s in ("3D, validation", "3D, holdout")))
+    # the instances on which either failed were harder for every network
+    for s in ("3D, validation", "3D, holdout"):
+        u = sorted(fails[s]["labels"] | fails[s]["mgn"])
+        assert fails[s]["mgn"] and fails[s]["labels"], s
+        for a, g in sets[s].items():
+            assert np.median(g[:, u]) > np.median(g), (s, a)
+    # the variant with the energy term: one seed each, on instances on which the graph
+    # network failed in every seed
+    anc = sets["3D, validation"]["labels_anchor"]
+    ia = sorted(fails["3D, validation"]["labels_anchor"])
+    assert ia and (anc[:, ia] > 1).sum() == len(ia)
+    assert (sets["3D, validation"]["mgn"][:, ia] > 1).all()
+    assert N["numTailThreeAncWorse"] == word(len(ia))
+    assert N["numTailThreeFreeLoad"] == word(int(N["numThreeFreeLoadWorse"].replace(",", "")))
+    g = sets["2D, holdout"]["labels_knorm"]
+    bad = g > 1.0
+    inst = sorted(fails["2D, holdout"]["labels_knorm"])
+    assert bad.sum() == len(inst) == int(N["numHoldTwoWorseInstKnorm"])
+    assert bad.sum(axis=0).max() == 1
+    _close(N, "numTailTwoKnormOther", float(g[:, inst][~bad[:, inst]].max()))
+    _close(N, "numTailTwoKnormFree", float(sets["2D, holdout"]["ar"][:, inst].max()))
+    assert N["numTailTwoKnormShared"] == word(len(set(inst) & fails["2D, holdout"]["labels"]))
+    assert N["numTailTwoKnormWorse"] == word(int(bad.sum()))
+    # without its nine pairs the mean falls by more than half and the median, as shown, stays
+    _close(N, "numTailTwoKnormMean", float(g.mean()))
+    _close(N, "numTailTwoKnormMeanWithout", float(g[~bad].mean()))
+    assert g[~bad].mean() < g.mean() / 2
+    _close(N, "numTailTwoKnormMedian", float(np.median(g)))
+    _close(N, "numTailTwoKnormMedian", float(np.median(g[~bad])))
+    # a mean over the load cases above one has a load case above one, that is, of positive
+    # energy (the zero-field test), as the held-out arrays' per-load energies show
+    for z, rows in ((h3, ("labels", "mgn")), (h2, ("labels", "labels_knorm", "mgn"))):
+        for a in rows:
+            ri = [str(x) for x in z["rows"]].index(a)
+            sel = _hold(z, a) > 1.0
+            assert (z["pi_load"][ri].max(axis=-1) > 0)[sel].all(), a
 
 
 def test_no_earlier_journal_is_named(built):
@@ -1788,6 +2021,10 @@ def test_design_constants_match_the_configurations_and_code():
     for n in ("train/pretrain.py", "train/supervised.py"):
         assert "weight_decay: float = 1e-4" in src[n] and "clip: float = 1.0" in src[n]
     assert "POLICY_BALANCED_FROM = 64" in src["experiments/e8_regimes.py"]
+    # the energy-norm loss as Section 4.3 states its implementation (Stage 23): from the
+    # difference, a negative value set to zero, 1e-30 under the square root
+    assert "q = anchor.quad(u - u_star)" in src["train/supervised.py"]
+    assert "torch.sqrt(q.clamp_min(0.0) + 1e-30) / ustar_k" in src["train/supervised.py"]
     # stated thresholds of the pre-registered kills
     kills = {k["condition"] for e in r_kills() for k in e}
     assert any("> 30% worse" in k for k in kills) and any("< 40%" in k for k in kills)
@@ -2012,6 +2249,9 @@ def test_manuscript_compiles(tmp_path):
         shown = " ".join(subprocess.run([pdftotext, str(work / "graphical_abstract.pdf"), "-"],
                                         capture_output=True, text=True).stdout.split())
         assert "Held out: seven of eight claims replicated." in shown
+        # removing the solutions changes the weighting of the load cases and the learning
+        # rate as well (Stage 23)
+        assert "also changes the load-case weights and learning rate" in shown
     # the supplementary material, a separate file at submission
     res = subprocess.run(["latexmk", "-pdf", "-interaction=nonstopmode", "-halt-on-error",
                           "supplementary.tex"], cwd=work, capture_output=True, text=True,

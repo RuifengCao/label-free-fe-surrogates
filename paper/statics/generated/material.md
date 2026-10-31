@@ -78,13 +78,14 @@
 | Label-free (no labels) | 0.166 / 0.0817 | 0.166 / 0.0817 | 0.166 / 0.0817 | 0.166 / 0.0817 |
 
 
-### Three-dimensional solids on the finer mesh (lc = 0.0374): every metric on the 256 fine-mesh evaluation instances, never trained on; trained networks: mean ± sample standard deviation over three seeds. Zero-shot rows use the networks trained in-band; few-shot rows train, with labels, on the first 16 or on all of the 64 fine-mesh instances reserved for few-shot training.
+### Three-dimensional solids on the finer mesh (lc = 0.0374): every metric on the 256 fine-mesh evaluation instances, never trained on; trained networks: mean ± sample standard deviation over three seeds. Zero-shot rows use the networks trained in-band, the supervised ones with 1,024 labelled instances; few-shot rows train, with labels, on the first 16 or on all of the 64 fine-mesh instances reserved for few-shot training. The energy-norm-supervised transformer, trained after this comparison, was evaluated after the runs.
 
 | Model | Displacement error | Relative energy gap | von Mises error | Peak stress error | Critical-region recall |
 |---|---|---|---|---|---|
 | Label-free, zero-shot | 0.258 ± 0.045 | 0.306 ± 0.220 | 0.305 ± 0.063 | 0.769 ± 0.667 | 0.721 ± 0.006 |
-| Supervised (1,024 labels), zero-shot | 0.257 ± 0.048 | 0.985 ± 0.267 | 0.537 ± 0.040 | 2.56 ± 1.39 | 0.462 ± 0.028 |
-| Graph network (1,024 labels), zero-shot | 0.459 ± 0.010 | 16.3 ± 9.6 | 2.40 ± 0.84 | 11.6 ± 7.8 | 0.0610 ± 0.0083 |
+| Supervised, displacement, zero-shot | 0.257 ± 0.048 | 0.985 ± 0.267 | 0.537 ± 0.040 | 2.56 ± 1.39 | 0.462 ± 0.028 |
+| Supervised, energy norm, zero-shot | 0.260 ± 0.055 | 0.217 ± 0.135 | 0.310 ± 0.051 | 0.845 ± 0.916 | 0.763 ± 0.017 |
+| Graph network, displacement, zero-shot | 0.459 ± 0.010 | 16.3 ± 9.6 | 2.40 ± 0.84 | 11.6 ± 7.8 | 0.0610 ± 0.0083 |
 | Nearest-neighbour field | 0.401 | 4.98 | 1.55 | 3.61 | 0.232 |
 | Scaled polynomial | 1.95 | 540 | 18.7 | 134 | 0.102 |
 | Ritz projection, $p = 6$ | 0.0225 | 0.0199 | 0.0906 | 0.460 | 0.807 |
@@ -97,6 +98,37 @@
 | Supervised from scratch, 64 fine-mesh labels | 0.193 ± 0.076 | 13.2 ± 5.3 | 2.57 ± 0.47 | 8.94 ± 4.65 | 0.128 ± 0.043 |
 
 - The Ritz projection, added after the pre-registered runs and computed on the fine meshes themselves, and the naive baselines, built from the 1,024 in-band labelled instances, are deterministic.
+
+### Three dimensions: the upper tail of the relative energy gap of the networks trained on 1,024 instances, over the instance-seed pairs of the 256 validation and the 686 held-out instances, each pair's value the mean over the four load cases; read after the runs.
+
+| Set | Model | Median | 90th percentile | 99th percentile | Largest | Worse than zero field | Instances |
+|---|---|---|---|---|---|---|---|
+| 3D, validation | Label-free | 0.00763 | 0.0129 | 0.0267 | 0.362 | 0/768 | 0 (0) |
+|  | Supervised, displacement | 0.252 | 0.607 | 1.25 | 23,727 | 18/768 | 10 (6) |
+|  | Supervised, displacement + energy term | 0.108 | 0.180 | 0.228 | 4.02 | 2/768 | 2 (0) |
+|  | Supervised, energy norm | 0.00444 | 0.00792 | 0.0122 | 0.0728 | 0/768 | 0 (0) |
+|  | Graph network, displacement | 0.208 | 0.551 | 3.09 | 55.1 | 28/768 | 10 (10) |
+| 3D, holdout | Label-free | 0.00728 | 0.0124 | 0.0197 | 0.0655 | 0/2,058 | 0 (0) |
+|  | Supervised, displacement | 0.230 | 0.576 | 1.53 | 352,929 | 63/2,058 | 30 (22) |
+|  | Supervised, energy norm | 0.00455 | 0.00821 | 0.0134 | 0.109 | 0/2,058 | 0 (0) |
+|  | Graph network, displacement | 0.194 | 0.513 | 1.76 | 39.3 | 50/2,058 | 20 (16) |
+
+- Percentiles by linear interpolation. Worse than zero field: pairs above 1. Instances: those with such a pair, in parentheses those with one in two or three seeds.
+
+### Two dimensions: the upper tail of the relative energy gap of the networks trained on 1,024 instances, over the instance-seed pairs of the 256 validation and the 4,111 held-out instances, each pair's value the mean over the four load cases; read after the runs.
+
+| Set | Model | Median | 90th percentile | 99th percentile | Largest | Worse than zero field | Instances |
+|---|---|---|---|---|---|---|---|
+| 2D, validation | Label-free | 0.0251 | 0.101 | 0.163 | 0.760 | 0/768 | 0 (0) |
+|  | Supervised, displacement | 0.117 | 0.225 | 0.373 | 0.654 | 0/768 | 0 (0) |
+|  | Supervised, energy norm | 0.0172 | 0.0745 | 0.147 | 0.184 | 0/768 | 0 (0) |
+|  | Graph network, displacement | 0.521 | 1.81 | 4.38 | 9.87 | 187/768 | 73 (61) |
+| 2D, holdout | Label-free | 0.0283 | 0.0939 | 0.168 | 0.867 | 0/12,333 | 0 (0) |
+|  | Supervised, displacement | 0.118 | 0.224 | 0.395 | 26.5 | 16/12,333 | 9 (5) |
+|  | Supervised, energy norm | 0.0188 | 0.0776 | 0.160 | 254 | 9/12,333 | 9 (0) |
+|  | Graph network, displacement | 0.548 | 1.58 | 4.23 | 103 | 2,904/12,333 | 1,126 (947) |
+
+- Percentiles by linear interpolation. Worse than zero field: pairs above 1. Instances: those with such a pair, in parentheses those with one in two or three seeds.
 
 ### The pre-registered claims of the comparisons reported in this paper, with the outcomes that the code recorded at the time.
 
@@ -357,6 +389,10 @@
 |  |  | 7 | 100% | 100% | 100% | 87%–98% | 100% |
 |  |  | 8 | 100% | 100% | 100% | 91%–99% | 100% |
 |  |  | 9 | 100% | 100% | 100% | 96%–99% | 100% |
+|  | Supervised, energy norm, zero-shot | 6 | 100% | 98%–99.6% | 99.6%–100% | 5%–56% | 70%–84% |
+|  |  | 7 | 100% | 99%–100% | 100% | 5%–56% | 92%–95% |
+|  |  | 8 | 100% | 100% | 100% | 6%–57% | 98%–99.6% |
+|  |  | 9 | 100% | 100% | 100% | 6%–58% | 100% |
 |  | Graph network, displacement, zero-shot | 6 | 100% | 100% | 100% | 100% | 100% |
 |  |  | 7 | 100% | 100% | 100% | 100% | 100% |
 |  |  | 8 | 100% | 100% | 100% | 100% | 100% |
@@ -661,6 +697,9 @@
 - `numFineFreeVm`: 0.305
 - `numFineKill`: 1.5
 - `numFineKnnDisp`: 0.401
+- `numFineKnormDisp`: 0.260
+- `numFineKnormGap`: 0.217
+- `numFineKnormVm`: 0.310
 - `numFineLabDisp`: 0.257
 - `numFineLabGap`: 0.985
 - `numFineLabVm`: 0.537
@@ -909,9 +948,11 @@
 - `numRitzFineFreePeakMin`: 79%
 - `numRitzFineFtPeakMax`: 98%
 - `numRitzFineFtPeakMin`: 62%
-- `numRitzFineGapAll`: 99.6%
+- `numRitzFineGapAll`: 98.4%
 - `numRitzFineGapNine`: 0.0070
 - `numRitzFineGapSix`: 0.019
+- `numRitzFineKnormPeakMax`: 95%
+- `numRitzFineKnormPeakMin`: 42%
 - `numRitzFineLabPeakMax`: 17.6%
 - `numRitzHoldFreeDispNineMax`: 100%
 - `numRitzHoldFreeDispNineMin`: 99.6%
@@ -1016,6 +1057,19 @@
 - `numSpecVmElemRatio`: 2.22
 - `numSqrtKappaMax`: 723
 - `numSqrtKappaMin`: 69
+- `numTailThreeAncWorse`: two
+- `numTailThreeFreeLoad`: one
+- `numTailThreeFreeMax`: 0.0869
+- `numTailThreeHoldShared`: 13
+- `numTailThreeKnormMax`: 0.0254
+- `numTailThreeValShared`: three
+- `numTailTwoKnormFree`: 0.363
+- `numTailTwoKnormMean`: 0.0781
+- `numTailTwoKnormMeanWithout`: 0.0305
+- `numTailTwoKnormMedian`: 0.0188
+- `numTailTwoKnormOther`: 0.304
+- `numTailTwoKnormShared`: two
+- `numTailTwoKnormWorse`: nine
 - `numTauSqKappaTwo`: $6 \times 10^{-18}$
 - `numTauSquared`: $10^{-12}$
 - `numThreadsCgGainMax`: 29%

@@ -35,6 +35,8 @@ Outputs (paper/statics/generated/):
 * table_label_efficiency.tex -- displacement error and energy gap per budget (3D and
   CM2D); table_label_efficiency_july.tex -- the same for the 2D run of 16 July 2026;
 * table_transfer.tex -- the finer three-dimensional mesh, zero-shot and few-shot;
+* table_tails3d.tex, table_tails2d.tex -- the upper tail of the relative energy gap
+  (post hoc);
 * table_criteria.tex -- every pre-registered criterion with its outcome;
   table_cm2d.tex -- CM2D's comparisons with the readings required beside them;
 * table_cost.tex -- the surrogate's inference against exact solves (Section 8.4);
@@ -99,6 +101,7 @@ VK3 = ROOT / "records" / "cmame" / "k3d" / "verdict.json"
 HOLD = ROOT / "records" / "cmame" / "holdout"
 RITZ = ROOT / "records" / "cmame" / "ritz" / "return"
 RITZ_TGZ = ROOT / "records" / "cmame" / "ritz" / "ritz_return_20261029-1150.tgz"
+HK3 = ROOT / "records" / "cmame" / "k3d" / "return" / "holdout_arrays.npz"
 TIM2 = RITZ / "timing"
 MINUS = "−"
 HEADER = "% generated from the committed records; do not edit"
@@ -425,7 +428,9 @@ def label_efficiency_rows(blocks) -> tuple:
     return rows, tuple(rules)
 
 
-def transfer_rows(r3: dict) -> list:
+def transfer_rows(r3: dict, kn: dict) -> list:
+    """The rows of the transfer table; `kn` holds the energy-norm-supervised transformer's
+    per-instance values on the fine set, (seeds, instances) per metric (fine_knorm)."""
     p3 = r3["results"]["p3_transfer"]["metrics"]
     rows = []
 
@@ -433,8 +438,10 @@ def transfer_rows(r3: dict) -> list:
         rows.append([name] + [ms(blk[m]["per_seed"]) for m in METRICS])
 
     row("Label-free, zero-shot", p3["ar"]["fine"])
-    row("Supervised (1,024 labels), zero-shot", p3["zero_shot_reported"]["labels@max"]["fine"])
-    row("Graph network (1,024 labels), zero-shot", p3["zero_shot_reported"]["mgn@max"]["fine"])
+    row("Supervised, displacement, zero-shot", p3["zero_shot_reported"]["labels@max"]["fine"])
+    rows.append(["Supervised, energy norm, zero-shot"]
+                + [ms(kn[m].mean(axis=1)) for m in METRICS])
+    row("Graph network, displacement, zero-shot", p3["zero_shot_reported"]["mgn@max"]["fine"])
     for nm, key in (("Nearest-neighbour field", "knn_field"),
                     ("Scaled polynomial", "scale_aware_poly")):
         row(nm, p3["naive_rows"][key])
@@ -2575,6 +2582,10 @@ def cost_material(N: Numbers, used: dict) -> tuple:
     if not (rv[0] < cols["3D"]["surrogate_cold_s"] < rv[-1]
             and rf_[-1] < cols["3D, fine mesh"]["surrogate_cold_s"]):
         raise SystemExit("the Ritz projection against the surrogate is not as the text says")
+    if not all(c["assembly_s"] > max(c["surrogate_cold_s"], c["surrogate_warm_s"])
+               for c in C):
+        raise SystemExit("the text says the assembly took longer than the surrogate's "
+                         "inference")
     return head, rows, notes, protocol
 
 
@@ -3169,6 +3180,115 @@ def ritz_summaries(used: dict) -> dict:
     return out
 
 
+FINE_KNORM = "k3d:labels_knorm (zero-shot)"
+RITZ_ROWS_FINE = "ritz_return/baseline/fine3d/rows.jsonl"
+RITZ_ROWS_KNORM = "ritz_return/enriched/k3d_labels_knorm/fine3d/rows.jsonl"
+
+
+def fine_knorm(R: dict, rk: dict, used: dict) -> dict:
+    """The energy-norm-supervised transformer on the 256 fine-mesh instances, post hoc.
+    Its run evaluated it in-band and on the held-out instances only; the reading beside the
+    Ritz baseline evaluated its three stored states on the fine set as well
+    (scripts/enriched_cstar.py, arm k3d_labels_knorm, marked "appendix": false), with the
+    code that reproduced the other networks' recorded fine-mesh values and this network's
+    recorded in-band values (the content checks of those arms). Its per-instance values,
+    each the mean over the load cases as the records hold them, are read from the rows of
+    the return as received and checked against that arm's summary and the run's states;
+    they are paired with the Ritz ladder of the baseline's rows of the same instances as
+    the baseline pairs the other networks (the projection strictly the better, ties counted
+    apart), and the pairs are added to the fine set's ladder, after the
+    displacement-supervised transformer's. Returns (seeds, instances) arrays per metric."""
+    import io
+    import tarfile
+
+    data = RITZ_TGZ.read_bytes()
+    used[_rel(RITZ_TGZ)] = hashlib.sha256(data).hexdigest()
+    with tarfile.open(fileobj=io.BytesIO(data), mode="r:gz") as t:
+        raw = {n: t.extractfile(n).read() for n in (RITZ_ROWS_FINE, RITZ_ROWS_KNORM)}
+    base, arm = ([json.loads(x) for x in raw[n].decode("utf-8").splitlines()]
+                 for n in (RITZ_ROWS_FINE, RITZ_ROWS_KNORM))
+    enr = RITZ / "enriched" / "k3d_labels_knorm"
+    s, sv = (load(enr / x / "summary.json", used) for x in ("fine3d", "val3d"))
+    f3 = R["fine3d"]
+    states = {str(i): rk["per_seed"][f"s{i}"]["state"]["sha256"] for i in range(3)}
+    if not (s["arm"] == sv["arm"] == "k3d_labels_knorm" and s["set"] == "fine3d"
+            and s["row"] == "labels_knorm" and s["complete"] and s["seeds_order"] == [0, 1, 2]
+            and s["n"] == s["n_identity_ok"] == f3["n"] == len(base) == len(arm) == 256
+            and not s["identity_failed"] and s["state_sha256"] == sv["state_sha256"] == states
+            and s["rows_sha256"] == hashlib.sha256(raw[RITZ_ROWS_KNORM]).hexdigest()
+            and f3["rows_sha256"] == hashlib.sha256(raw[RITZ_ROWS_FINE]).hexdigest()
+            and sv["content"]["passed"] and sv["content"]["tolerance"] == 1e-3
+            and s["config_sha256"] == sv["config_sha256"] == _config("ritz_v1", used)[2]):
+        raise SystemExit("fine set: the evaluation of the energy-norm-supervised "
+                         "transformer is not that of the run's states on the set's "
+                         "instances")
+    if [r["file"] for r in base] != [r["file"] for r in arm] or not all(
+            r["identity"]["ok"] for r in base + arm):
+        raise SystemExit("fine set: the two returns do not hold the same instances")
+    # the text: the same code reproduced the other networks' recorded fine-mesh values
+    for other in ("phase2b", "phase2b_labels", "phase2b_mgn"):
+        o = load(RITZ / "enriched" / other / "fine3d" / "summary.json", used)
+        if not (o["content"]["passed"] and o["content"]["tolerance"] == 1e-3
+                and o["config_sha256"] == s["config_sha256"]):
+            raise SystemExit(f"fine set: the evaluation of {other} did not reproduce its "
+                             "recorded fine-mesh values")
+    worst = max(abs(a["ritz"]["mean"][m] - b["ritz"]["8"]["mean"][m])
+                / max(abs(b["ritz"]["8"]["mean"][m]), 1e-300)
+                for a, b in zip(arm, base, strict=True) for m in METRICS)
+    if worst > 1e-9:
+        raise SystemExit(f"fine set: the two returns' Ritz projections differ ({worst:.1e})")
+    net = {m: np.array([[r["seeds"][str(i)]["net"]["mean"][m] for r in arm]
+                        for i in range(3)], dtype=float) for m in METRICS}
+    for i in range(3):
+        for m in METRICS:
+            ref = s["seeds"][str(i)]["net"][m]["mean"]
+            if abs(float(np.mean(net[m][i])) - ref) > 1e-12 * max(1.0, abs(ref)):
+                raise SystemExit(f"fine set: seed {i} {m} differs from the arm's summary")
+    for p in f3["ladder_p"]:
+        lad = f3["ladder"][str(p)]
+        per = []
+        for i in range(3):
+            q = {"seed": f"s{i}"}
+            for m in METRICS:
+                rz_ = np.array([r["ritz"][str(p)]["mean"][m] for r in base], dtype=float)
+                ref_ = lad["mean"][m]
+                if abs(float(np.mean(rz_)) - ref_) > 1e-12 * max(1.0, abs(ref_)):
+                    raise SystemExit(f"fine set p = {p}: the rows are not the summary's")
+                mine, ref = rz_, net[m][i]
+                better = mine > ref if m == "crit_recall" else mine < ref
+                q[m] = {"ritz_better_share": float(np.mean(better)),
+                        "ties": int(np.sum(mine == ref)),
+                        "model_median": float(np.median(ref)), "n": int(ref.size)}
+            per.append(q)
+        items = list(lad["paired"].items())
+        at = [k_ for k_, _ in items].index("phase2b:labels@max (zero-shot)") + 1
+        lad["paired"] = dict(items[:at] + [(FINE_KNORM, per)] + items[at:])
+    return net
+
+
+def fine_knorm_numbers(N: Numbers, kn: dict, r3: dict, k: dict) -> None:
+    """The text's reading of the energy-norm-supervised transformer on the finer mesh: it
+    did not transfer (its displacement error rose by more than the factor at which KP4
+    withdrew the label-free transformer's transfer claim), and it and the label-free
+    transformer had lower relative energy gaps and von Mises errors there than the two
+    networks trained on the displacement error."""
+    p3 = r3["results"]["p3_transfer"]["metrics"]
+    kp4 = r3["gate_g2"]["thresholds"]["kills"]["KP4_transfer_ratio"]
+    mean = {m: float(np.mean(kn[m].mean(axis=1))) for m in METRICS}
+    for m, T in (("disp_rel_l2", "Disp"), ("energy_gap_rel", "Gap"), ("vm_rel_l2", "Vm")):
+        N.put(f"numFineKnorm{T}", num(mean[m]))
+    if not mean["disp_rel_l2"] / seed_mean(k, "labels_knorm", "disp_rel_l2") > kp4:
+        raise SystemExit("transfer: the text says the energy-norm-supervised transformer "
+                         "did not transfer either")
+    disp_nets = [p3["zero_shot_reported"][x]["fine"] for x in ("labels@max", "mgn@max")]
+    for m in ("energy_gap_rel", "vm_rel_l2"):
+        if not max(mean[m], p3["ar"]["fine"][m]["mean"]) < min(b[m]["mean"]
+                                                              for b in disp_nets):
+            raise SystemExit("transfer: the text says the two networks trained in the energy "
+                             "norm had the lower relative energy gaps and von Mises errors "
+                             "on the finer mesh")
+
+
 def _ritz_better(d: dict, model: str, p: int, metric: str) -> list:
     return [float(e[metric]["ritz_better_share"]) for e in d["ladder"][str(p)]["paired"][model]]
 
@@ -3335,6 +3455,9 @@ def ritz_material(N: Numbers, R: dict) -> tuple:
     N.put("numRitzFineBnPeakMax", upct(hi))
     lo, hi = peak_range(["phase2b:labels@max (zero-shot)"])
     N.put("numRitzFineLabPeakMax", at_most(hi))
+    lo, hi = peak_range([FINE_KNORM])
+    N.put("numRitzFineKnormPeakMin", upct(lo))
+    N.put("numRitzFineKnormPeakMax", upct(hi))
     lo, hi = peak_range(["phase2b:mgn@max (zero-shot)"])
     if hi != 0:
         raise SystemExit("Ritz: the text says the graph network had the lower peak error on "
@@ -3365,6 +3488,163 @@ def ritz_material(N: Numbers, R: dict) -> tuple:
     notes = []
     return {"val3d": ritz_rows(v3), "val2d": ritz_rows(v2), "fine3d": ritz_rows(f3, worse=False),
             "pairs": (head, rows, notes, tuple(rules))}
+
+
+TAILS = {"3D, validation": ("ar", "labels", "labels_anchor", "labels_knorm", "mgn"),
+         "3D, holdout": ("ar", "labels", "labels_knorm", "mgn"),
+         "2D, validation": ("ar", "labels", "labels_knorm", "mgn"),
+         "2D, holdout": ("ar", "labels", "labels_knorm", "mgn")}
+TAILS_PAIRS = {"3D, validation": 768, "3D, holdout": 2058, "2D, validation": 768,
+               "2D, holdout": 12333}
+
+
+def _hold_values(z: dict, row: str, metric: str = "energy_gap_rel") -> np.ndarray:
+    """(seeds, instances) values of one row and metric of a holdout arrays record."""
+    rows = [str(x) for x in z["rows"]]
+    mi = [str(x) for x in z["metrics"]].index(metric)
+    return np.asarray(z["values"][rows.index(row), :, :, mi], dtype=float)
+
+
+def tails_material(N: Numbers, r3: dict, k: dict, rcm: dict, used: dict) -> tuple:
+    """The upper tail of the relative energy gap, post hoc: for each network trained on
+    1,024 instances, over the instance-seed pairs of the validation and held-out instances,
+    each pair's value the mean over the instance's load cases as the records hold it, the
+    median, the 90th and 99th percentiles (numpy's linear interpolation) and the largest
+    value; the pairs worse than the zero field; and the instances with such a pair, with
+    those that have one in two or three seeds. The held-out arrays of the holdout
+    evaluation and of the three-dimensional energy-norm run hold the same instances and,
+    for the two networks that both evaluated, the same values. Also the text's readings of
+    where the pairs worse than the zero field lie, each checked here."""
+    h3, h2 = (load_npz(HOLD / "return" / s / "eval_arrays.npz", used) for s in ("h3d", "h2d"))
+    hk = load_npz(HK3, used)
+    if not ([str(f) for f in hk["files"]] == [str(f) for f in h3["files"]]
+            and [int(x) for x in hk["seeds"]] == [int(x) for x in h3["seeds"]] == [0, 1, 2]
+            and [int(x) for x in h2["seeds"]] == [0, 1, 2]
+            and all(np.array_equal(_hold_values(hk, a), _hold_values(h3, a))
+                    for a in ("ar", "labels"))):
+        raise SystemExit("tails: the energy-norm run's held-out values are not the holdout "
+                         "evaluation's")
+    sets = {"3D, validation": {a: per_instance(k if a == "labels_knorm" else r3, a,
+                                              "energy_gap_rel")
+                               for a in TAILS["3D, validation"]},
+            "3D, holdout": {a: _hold_values(hk if a == "labels_knorm" else h3, a)
+                            for a in TAILS["3D, holdout"]},
+            "2D, validation": {a: per_instance(rcm, a, "energy_gap_rel")
+                               for a in TAILS["2D, validation"]},
+            "2D, holdout": {a: _hold_values(h2, a) for a in TAILS["2D, holdout"]}}
+    head = ["Set", "Model", "Median", "90th\npercentile", "99th\npercentile", "Largest",
+            "Worse than\nzero field", "Instances"]
+    out = {}
+    for dim in ("3D", "2D"):
+        rows, rules = [], []
+        for s in (f"{dim}, validation", f"{dim}, holdout"):
+            if rows:
+                rules.append(len(rows))
+            for i, (a, g) in enumerate(sets[s].items()):
+                if g.shape[0] != 3 or g.size != TAILS_PAIRS[s] or not np.isfinite(g).all():
+                    raise SystemExit(f"tails {s} {a}: not the captions' instance-seed pairs")
+                above = g > 1.0
+                rep = int(np.sum(above.sum(axis=0) >= 2))
+                rows.append([s if i == 0 else "", NAMES[a], num(float(np.median(g))),
+                             num(float(np.percentile(g, 90))),
+                             num(float(np.percentile(g, 99))), num(float(g.max())),
+                             f"{int(above.sum()):,}/{g.size:,}",
+                             f"{int(above.any(axis=0).sum()):,} ({rep:,})"])
+        out[dim] = (rows, tuple(rules))
+    # the text: in both dimensions the networks trained in the energy norm had no pair worse
+    # than the zero field but the energy-norm-supervised transformer's few held out in two;
+    # those of the networks trained on the displacement error fell on instances more than
+    # half of which had one in two or three seeds
+    fails = {s: {a: np.flatnonzero((g > 1.0).any(axis=0)) for a, g in d.items()}
+             for s, d in sets.items()}
+    for s, d in sets.items():
+        for a, g in d.items():
+            n_inst = fails[s][a].size
+            rep = int(np.sum((g > 1.0).sum(axis=0) >= 2))
+            if a in ("ar", "labels_knorm") and n_inst and (s, a) != ("2D, holdout",
+                                                                "labels_knorm"):
+                raise SystemExit(f"tails {s} {a}: a pair worse than the zero field")
+            if a in ("labels", "mgn") and n_inst and not rep > n_inst / 2:
+                raise SystemExit(f"tails {s} {a}: the text says most of the instances "
+                                 "recur")
+    for s in ("3D, validation", "3D, holdout", "2D, holdout"):
+        if not fails[s]["labels"].size:
+            raise SystemExit(f"tails {s}: the text names the displacement-supervised "
+                             "transformer's pairs worse than the zero field")
+    for s in ("3D, validation", "3D, holdout", "2D, validation", "2D, holdout"):
+        if not fails[s]["mgn"].size:
+            raise SystemExit(f"tails {s}: the text names the graph network's pairs worse "
+                             "than the zero field")
+    if fails["2D, validation"]["labels"].size or not fails["2D, validation"]["mgn"].size:
+        raise SystemExit("tails 2D: the text says only the graph network had validation "
+                         "pairs worse than the zero field")
+    # 3D: the instances of both networks trained on the displacement error, and the largest
+    # relative energy gaps of the two trained in the energy norm on all of them
+    worst = int(N["numWorstIndex"])
+    for s, S_ in (("3D, validation", "Val"), ("3D, holdout", "Hold")):
+        both = np.intersect1d(fails[s]["labels"], fails[s]["mgn"])
+        N.put(f"numTailThree{S_}Shared", words(int(both.size)))
+        if s == "3D, validation" and worst not in both:
+            raise SystemExit("tails: the text names instance No. "
+                             f"{worst} among those of both networks")
+    union = {s: np.union1d(fails[s]["labels"], fails[s]["mgn"])
+             for s in ("3D, validation", "3D, holdout")}
+    # those instances were harder for every network: its median over them, the seeds
+    # pooled, above its median over all the instances
+    for s, u in union.items():
+        for a, g in sets[s].items():
+            if not float(np.median(g[:, u])) > float(np.median(g)):
+                raise SystemExit(f"tails {s} {a}: the text says the failure instances were "
+                                 "harder for every network")
+    # the variant with the energy term: its pairs, one seed each, on instances on which the
+    # graph network failed in every seed
+    anc, mg = sets["3D, validation"]["labels_anchor"], sets["3D, validation"]["mgn"]
+    ia = fails["3D, validation"]["labels_anchor"]
+    if not (ia.size and int((anc[:, ia] > 1.0).sum()) == ia.size
+            and bool((mg[:, ia] > 1.0).all())):
+        raise SystemExit("tails: the text says each of the energy-term variant's pairs worse "
+                         "than the zero field is one seed's, on an instance that the graph "
+                         "network failed in every seed")
+    N.put("numTailThreeAncWorse", words(int(ia.size)))
+    N.put("numTailThreeFreeLoad", words(int(N["numThreeFreeLoadWorse"].replace(",", ""))))
+    N.put("numTailThreeFreeMax", num(max(float(sets[s]["ar"][:, u].max())
+                                          for s, u in union.items())))
+    N.put("numTailThreeKnormMax", num(max(float(sets[s]["labels_knorm"][:, u].max())
+                                           for s, u in union.items())))
+    # 2D held out: the energy-norm-supervised transformer's pairs, one seed each
+    g = sets["2D, holdout"]["labels_knorm"]
+    bad = g > 1.0
+    inst = fails["2D, holdout"]["labels_knorm"]
+    if not (int(bad.sum()) == inst.size == int(N["numHoldTwoWorseInstKnorm"])
+            and int(bad.sum(axis=0).max()) == 1):
+        raise SystemExit("tails: the text says each of the energy-norm-supervised "
+                         "transformer's held-out failures is one seed's, on its own instance")
+    other = g[:, inst][~bad[:, inst]]
+    N.put("numTailTwoKnormOther", num(float(other.max())))
+    N.put("numTailTwoKnormFree", num(float(sets["2D, holdout"]["ar"][:, inst].max())))
+    shared = np.intersect1d(inst, fails["2D, holdout"]["labels"])
+    N.put("numTailTwoKnormShared", words(int(shared.size)))
+    N.put("numTailTwoKnormWorse", words(int(bad.sum())))
+    # without them its mean over the pairs falls, by more than half, and its median does not
+    # change at the precision shown
+    mean, mean_wo = float(g.mean()), float(g[~bad].mean())
+    med, med_wo = num(float(np.median(g))), num(float(np.median(g[~bad])))
+    if not (mean_wo < mean / 2 and med == med_wo):
+        raise SystemExit("tails: the text says the nine pairs carry the mean, not the median")
+    N.put("numTailTwoKnormMean", num(mean))
+    N.put("numTailTwoKnormMeanWithout", num(mean_wo))
+    N.put("numTailTwoKnormMedian", med)
+    # every pair worse than the zero field has a load case with a positive energy (the
+    # zero-field test of the paper's Section 3), as the held-out arrays' per-load energies show
+    for z, rows_ in ((h3, ("labels", "mgn")), (h2, ("labels", "labels_knorm", "mgn"))):
+        names = [str(x) for x in z["rows"]]
+        for a in rows_:
+            ri = names.index(a)
+            sel = _hold_values(z, a) > 1.0
+            if not bool((z["pi_load"][ri].max(axis=-1) > 0)[sel].all()):
+                raise SystemExit(f"tails: a held-out pair of {a} worse than the zero field "
+                                 "without a load case of positive energy")
+    return head, out["3D"], out["2D"]
 
 
 def ritz_versus_networks(R: dict, r3: dict, rcm: dict, k: dict) -> None:
@@ -4043,8 +4323,18 @@ CAP_LEJULY = ("The July run (two dimensions, earlier code): relative displacemen
 CAP_TR = ("Three-dimensional solids on the finer mesh (lc = 0.0374): every metric on the 256 "
           "fine-mesh evaluation instances, never trained on; trained networks: mean ± sample "
           "standard deviation over three seeds. Zero-shot rows use the networks trained "
-          "in-band; few-shot rows train, with labels, on the first 16 or on all of the 64 "
-          "fine-mesh instances reserved for few-shot training.")
+          "in-band, the supervised ones with 1,024 labelled instances; few-shot rows train, "
+          "with labels, on the first 16 or on all of the 64 fine-mesh instances reserved for "
+          "few-shot training. The energy-norm-supervised transformer, trained after this "
+          "comparison, was evaluated after the runs.")
+CAP_TAILS3 = ("Three dimensions: the upper tail of the relative energy gap of the networks "
+              "trained on 1,024 instances, over the instance-seed pairs of the 256 validation "
+              "and the 686 held-out instances, each pair's value the mean over the four load "
+              "cases; read after the runs.")
+CAP_TAILS2 = ("Two dimensions: the upper tail of the relative energy gap of the networks "
+              "trained on 1,024 instances, over the instance-seed pairs of the 256 validation "
+              "and the 4,111 held-out instances, each pair's value the mean over the four load "
+              "cases; read after the runs.")
 CAP_CR = "Every pre-registered criterion of the runs reported here, with its outcome."
 CAP_CL = ("The pre-registered claims of the comparisons reported in this paper, with the "
           "outcomes that the code recorded at the time.")
@@ -4146,6 +4436,8 @@ def build() -> dict:
     (h_ho, r_ho, n_ho), (h_hv, r_hv, n_hv, rules_hv) = holdout_material(N, vho, used, r3, rcm,
                                                                         vcm)
     R = ritz_summaries(used)
+    kn = fine_knorm(R, rk, used)
+    fine_knorm_numbers(N, kn, r3, k)
     rz = ritz_material(N, R)
     ritz_versus_networks(R, r3, rcm, k)
     dates = {"holdout": day_text(_starts(HOLD / "return" / "status.txt", used)[-1]),
@@ -4193,14 +4485,18 @@ def build() -> dict:
     nlj = []
     htr = ["Model", "Displacement\nerror", "Relative\nenergy gap", "von Mises\nerror",
            "Peak stress\nerror", "Critical-region\nrecall"]
-    rtr = transfer_rows(r3)
-    rtr = rtr[:5] + rz["fine3d"] + rtr[5:]
+    rtr = transfer_rows(r3, kn)
+    rtr = rtr[:6] + rz["fine3d"] + rtr[6:]
     p3 = r3["results"]["p3_transfer"]["metrics"]
     if per_instance(r3, "ar", "disp_rel_l2").shape[1] != 256:
-        raise SystemExit("the caption of Table S7 says 256 fine-mesh instances")
+        raise SystemExit("the caption of the transfer table says 256 fine-mesh instances")
     ntr = ["The Ritz projection, added after the pre-registered runs and computed on the fine "
            "meshes themselves, and the naive baselines, built from the 1,024 in-band labelled "
            "instances, are deterministic."]
+    h_tl, (r_t3, rules_t3), (r_t2, rules_t2) = tails_material(N, r3, k, rcm, used)
+    n_tl = ["Percentiles by linear interpolation. Worse than zero field: pairs above 1. "
+            "Instances: those with such a pair, in parentheses those with one in two or three "
+            "seeds."]
     hcr = ["Run", "Criterion", "Measured", "Outcome"]
     pilot = (N["numPilotDisp"], N["numPilotLimit"])
     repro_max = adjudicator_constant(vcm, used, "REPRO_MAX")
@@ -4225,7 +4521,11 @@ def build() -> dict:
                                             align="llcccc", rules=rules_le),
         "table_label_efficiency_july.tex": table(hlj, rlj, CAP_LEJULY, "tab:labeleffjuly",
                                                  nlj, align="lcccc"),
-        "table_transfer.tex": table(htr, rtr, CAP_TR, "tab:transfer", ntr, rules=(3, 5, 9)),
+        "table_transfer.tex": table(htr, rtr, CAP_TR, "tab:transfer", ntr, rules=(4, 6, 10)),
+        "table_tails3d.tex": table(h_tl, r_t3, CAP_TAILS3, "tab:tails3d", n_tl,
+                                   align="llcccccc", rules=rules_t3),
+        "table_tails2d.tex": table(h_tl, r_t2, CAP_TAILS2, "tab:tails2d", n_tl,
+                                   align="llcccccc", rules=rules_t2),
         "table_k3d.tex": table(h_k3d, r_k3d, CAP_K3D, "tab:k3d", n_k3d, align="lccc",
                                rules=(3, 5, 9, 11, 13)),
         "table_holdout.tex": table(h_ho, r_ho, CAP_HOLD, "tab:holdout", n_ho,
@@ -4283,6 +4583,7 @@ def build() -> dict:
         + md(HEAD_METRICS, rows3, CAP_3D, notes3)
         + "\n" + md(hle, rle, CAP_LE, nle) + "\n" + md(hlj, rlj, CAP_LEJULY, nlj) + "\n"
         + md(htr, rtr, CAP_TR, ntr) + "\n"
+        + md(h_tl, r_t3, CAP_TAILS3, n_tl) + "\n" + md(h_tl, r_t2, CAP_TAILS2, n_tl) + "\n"
         + md(hcr, rcl, CAP_CL, ncl) + "\n"
         + md(hcr, rcr, CAP_CR, ncr) + "\n" + md(hcm, rhy, CAP_CM2D, ncm2)
         + "\n" + md(h_cost, r_cost, CAP_COST, n_cost)

@@ -112,9 +112,14 @@ the same test was a pre-registered claim, and it found \numHoldTThreeLab{} and
 displacement error in three dimensions, each with a positive energy and no other
 (\cref{tab:holdout}). After the rescaling by $\cstar$, none of the three-dimensional
 predictions flagged was worse than the zero field, and the rescaling never increased a
-relative energy gap.
+relative energy gap. The failures of the displacement-supervised transformer and of the
+graph network recurred: more than half of the instances on which either had a mean relative
+energy gap above one had it in two or three of its seeds (supplementary
+Sections~\SuppThree{} and~\SuppTwo{}).
 
-The check needs only the assembled $K$ and $F$ and applies to any network, however it was
+The check needs only the assembled $K$ and $F$; where a surrogate is used without them,
+their assembly, which here took longer than its inference (\cref{tab:cost}), is the cost of
+the check and of the rescaling by $\cstar$. It applies to any network, however it was
 trained, and the rescaling repairs what it flags without a solution (\cref{prop:amp}). It
 catches gross failures only: the displacement-supervised transformer's median prediction in
 three dimensions, with a relative energy gap of \numThreeLabGapMedian{}, passed it.

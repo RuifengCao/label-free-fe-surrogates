@@ -23,9 +23,16 @@ transformer, which has only that term, was more accurate still (\cref{tab:3d}).
 \subsection{In practice}
 Given the assembled system, the energy norm of an error costs one sparse matrix-vector
 product per load case. A supervised loss can therefore be measured in it with the labels
-already computed, which it uses only through the compliance $F^{\top}\Ustar$ of each load
-case (\cref{sec:methods:training}), and an evaluation can report it beside the displacement
-error. Surrogates compared by displacement error alone can be ranked opposite to their
+already computed, on which it depends only through the compliance $F^{\top}\Ustar$ of each
+load case (\cref{sec:methods:training}), and an evaluation can report it beside the
+displacement
+error. The gain is in the accuracy of the stresses, not in speed: training in the energy
+norm leaves the cost of a prediction unchanged, conjugate gradients given the stiffness
+matrix, stopped by a test that reads the solution, reached the label-free transformer's
+accuracy within a few times its inference time (\cref{sec:cost:inference}), and training
+without labels saves only their solves, which
+pays where those are expensive (\cref{sec:cost:labels}). Surrogates compared by
+displacement error alone can be ranked opposite to their
 stresses (\cref{sec:checks:ranking}), and the sign of the energy screens predictions for
 gross failures without a solution (\cref{sec:checks:zero}). As in an energy-based model
 \cite{LeCun2007EBM}, which uses one scalar energy to find the most compatible output, to rank
@@ -41,7 +48,9 @@ the natural substitute; we did not test one.
 \subsection{Earlier comparisons}
 The account is consistent with part of the earlier reports: in soft-tissue beams, adding the
 deformation gradient to the supervised loss, a step towards a norm of the strains, narrowed
-the gap between supervised and label-free training \cite{Dalton2023}. One comparison,
+the gap between supervised and label-free training \cite{Dalton2023}, and for a scalar
+multiscale problem an energy-norm loss gave lower errors of the solution than $L^2$,
+relative $L^2$ and $L^1$ losses on the same labels \cite{Haltmayer2026LOD}. One comparison,
 reported in a preprint, points the other way. In the pressure vessels of Sun
 et~al.~\cite{Sun2026FEVessel}, the same point-cloud transformer trained on the relative
 error of the displacement labels instead of the energy, with every other setting unchanged,

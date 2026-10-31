@@ -51,12 +51,14 @@ gradient to the supervised loss narrowed but did not close \cite{Dalton2023}; in
 polycrystals the label-free network was more accurate in stress than the supervised one,
 which was trained on the reference stresses \cite{MonteiroFernandes2025}; and in pressure
 vessels the supervised one was more accurate in displacement and in the $H^1$ seminorm
-\cite{Sun2026FEVessel} (\cref{sec:discussion}). For finite-element surrogates we are not
-aware of a comparison that changes the norm of a supervised loss while keeping its labels,
-nor of a comparison with and without labels repeated over several seeds under criteria fixed
-in advance.
+\cite{Sun2026FEVessel} (\cref{sec:discussion}). Adding the deformation gradient, as in the
+soft-tissue beams, is one way of changing the norm of a supervised loss while keeping its
+labels; others are reviewed in \cref{sec:related:norm}. We are not aware of a comparison
+that trains an elasticity surrogate on its labels in the energy norm of the assembled
+stiffness matrix, nor of a comparison with and without labels repeated over several seeds
+under criteria fixed in advance.
 
-\subsection{The norm of the loss}
+\subsection{The norm of the loss}\label{sec:related:norm}
 Supervised mesh surrogates, from message-passing networks \cite{Pfaff2021,Dalton2022} to
 operator networks \cite{Lu2021DeepONet,Li2021FNO} and geometry-aware operators
 \cite{He2024GeomDeepONet,Zeng2025PCNO,Liu2026GINOT}, are typically trained and evaluated
@@ -64,7 +66,19 @@ with relative $L^2$ errors of the predicted fields. That the norm of a loss shap
 network learns is known in machine learning: training on derivatives as well as values,
 Sobolev training, improves the accuracy of the derivatives \cite{Czarnecki2017}, and for
 physics-informed networks the $L^2$ residual loss can fail to control the solution where
-another norm does \cite{WangL2NeurIPS2022}. For finite-element surrogates of linear
+another norm does \cite{WangL2NeurIPS2022}. For surrogates of partial differential
+equations, losses in other norms have been compared with plain ones on the same data: an
+$H^1$ loss lowered both the relative $L^2$ and the relative $H^1$ errors of three neural
+operators on Darcy flow and on a multiscale elliptic problem \cite{Liu2024Multiscale}, and
+adding a stress term, computed by passing the predicted strains through the material model,
+lowered the stress errors of a graph network for elastoplastic microstructures
+\cite{Storm2024MicroGNN}. Energy-norm losses have been compared with others on the same
+labels for scalar problems: a surrogate for multiscale Darcy flow, which predicts the
+coefficients of a localised orthogonal decomposition and was trained on the energy norm of
+their error, reached lower relative $L^2$ errors of the solution than with $L^2$, relative
+$L^2$ and $L^1$ losses \cite{Haltmayer2026LOD}, and a neural preconditioner for flexible
+conjugate gradients trained in the energy norm needed fewer iterations than one trained in
+the Euclidean norm \cite{Rudikov2024FCGNO}. For finite-element surrogates of linear
 elasticity the right norm is fixed by the problem itself, it is the energy norm, and the
 energy supplies it without solutions. \Cref{rem:rank} and \cref{sec:checks:ranking} show
 that the displacement error can rank surrogates in the opposite order to their stress

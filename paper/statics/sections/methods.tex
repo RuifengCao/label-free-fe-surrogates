@@ -100,7 +100,7 @@ network, minimises the relative energy-norm error,
 \end{equation}
 which replaces the norm of \eqref{eq:ld} and nothing else. Since
 $\norm{u_j-\Ustar_j}_K^2=u_j^{\top}Ku_j-2F_j^{\top}u_j+F_j^{\top}\Ustar_j$, the loss
-$\mathcal{L}_K$ uses each reference solution only through the number
+$\mathcal{L}_K$ depends on each reference solution only through the number
 $\norm{\Ustar_j}_K^2=F_j^{\top}\Ustar_j$, and its gradient with respect to $u_j$,
 \begin{equation}
 \nabla_{u_j}\mathcal{L}_K=\frac{Ku_j-F_j}{L\,\norm{u_j-\Ustar_j}_K\,\norm{\Ustar_j}_K},
@@ -108,7 +108,11 @@ $\norm{\Ustar_j}_K^2=F_j^{\top}\Ustar_j$, and its gradient with respect to $u_j$
 \end{equation}
 is that of the label-free objective of one instance, $(Ku_j-F_j)/L$, weighted per load case.
 The two energy-norm losses thus differ in the weighting of the load cases and in the labels,
-not in the norm. In three dimensions a fourth variant, the displacement-supervised
+not in the norm. In the code the squared norm is computed from the difference
+$u_j-\Ustar_j$, not from the expansion above, which cancels where the error is small; a
+negative value from rounding is set to zero, and $10^{-30}$ is added under the square root,
+so that the gradient stays defined where the error vanishes. In three dimensions a fourth
+variant, the displacement-supervised
 transformer with an energy term, adds the mean energy of the four load cases to
 $\mathcal{L}_D$, with its gradient scaled to at most the norm of the gradient of
 $\mathcal{L}_D$, or with a fixed weight with 16 labelled instances (supplementary
@@ -156,7 +160,12 @@ element values; the peak stress error is
 $\lvert\max\vm(u)-\max\vm(\Ustar)\rvert/\max\vm(\Ustar)$; and the critical-region recall is
 the share of the $n_c$ elements with the largest $\vm(\Ustar)$ that are also among the $n_c$
 elements with the largest $\vm(u)$, with $n_c$ the nearest integer to a tenth of the number
-of elements. Each metric is averaged over the four load cases of an instance and then over
+of elements. Every error is relative to the finite-element solution on the same mesh. Where
+the clamped boundary meets the rest of the boundary, the stresses of the continuous problem
+are in general singular, and the largest element stress there grows as the mesh is refined;
+where the peak lies there, the peak stress error measures the agreement with the peak of the
+discrete solution, not with a converged value. Each metric is averaged over the four load
+cases of an instance and then over
 the 256 validation instances; tables give the mean and the sample standard deviation over
 the three seeds. The relative energy gap is the primary metric, as pre-registered: by
 \cref{prop:stress} it is the strain energy of the stress error relative to that of the
@@ -216,8 +225,9 @@ outcomes publishable; the documents were committed to the project's public repos
 their runs, and the code refused to start a run whose configuration did not match the
 registered hash. Where a comparison of two networks over three seeds carries a verdict, it
 uses a noise guard fixed in advance \eqref{eq:guard}: a difference counts only beyond the larger of 10\% and
-twice its standard error over the seeds, and within the guard no difference is shown, which
-is not equivalence. \Cref{tab:claims} lists the pre-registered claims with their outcomes,
+twice its standard error over the seeds; it is a rule of decision, not a test at a stated
+level of significance, and within the guard no difference is shown, which is not
+equivalence. \Cref{tab:claims} lists the pre-registered claims with their outcomes,
 and \cref{sec:holdout} the claims that the holdout evaluation, also pre-registered, read
 again on held-out instances; departures from the plans that bear on a result are stated
 with it, and the readings taken after the runs, and the Ritz baseline, are marked as such

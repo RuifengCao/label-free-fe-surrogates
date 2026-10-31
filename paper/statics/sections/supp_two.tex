@@ -28,6 +28,23 @@ the lower displacement error on \numPairCmMgnLabDisp{} of the instance-seed pair
 relative energy gap on \numPairCmMgnLabGap{} and the lower von Mises error on
 \numPairCmMgnLabVm{}.
 
+\paragraph{The largest errors}
+\Cref{tab:tails2d} gives the same tail in two dimensions. On the validation instances only
+the graph network had pairs with a mean relative energy gap above one; on the held-out
+instances the displacement-supervised transformer had some too, and for both networks more
+than half of the instances concerned had one in two or three seeds. The
+energy-norm-supervised transformer's \numTailTwoKnormWorse{} such pairs on the held-out
+instances (\cref{sec:holdout}) lay on as many instances, each in one seed only: on those
+instances its other two seeds had relative energy gaps of at most \numTailTwoKnormOther{},
+and the label-free transformer, in every seed, of at most \numTailTwoKnormFree{}. On
+\numTailTwoKnormShared{} of them the displacement-supervised transformer's mean relative
+energy gap exceeded one as well. These failures are rare and specific to a seed: without
+them this network's mean relative energy gap on the held-out instances falls from
+\numTailTwoKnormMean{} to \numTailTwoKnormMeanWithout{}, and its median,
+\numTailTwoKnormMedian{}, does not change at this precision.
+
+\input{generated/table_tails2d}
+
 \paragraph{One instance}
 \Cref{fig:field2d} shows one instance, chosen by a rule fixed before the run's spectra were
 exported, in the load case that the same rule picks among its four: the instance with the

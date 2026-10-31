@@ -1,0 +1,30 @@
+% generated from the committed records; do not edit
+\begin{table}[tbp]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\caption{Three dimensions: the upper tail of the relative energy gap of the networks trained on 1,024 instances, over the instance-seed pairs of the 256 validation and the 686 held-out instances, each pair's value the mean over the four load cases; read after the runs.}
+\label{tab:tails3d}
+\resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
+\begin{tabular}{llcccccc}
+\toprule
+Set & Model & Median & \shortstack{90th \\ percentile} & \shortstack{99th \\ percentile} & Largest & \shortstack{Worse than \\ zero field} & Instances \\
+\midrule
+3D, validation & Label-free & 0.00763 & 0.0129 & 0.0267 & 0.362 & 0/768 & 0 (0) \\
+ & Supervised, displacement & 0.252 & 0.607 & 1.25 & 23,727 & 18/768 & 10 (6) \\
+ & Supervised, displacement + energy term & 0.108 & 0.180 & 0.228 & 4.02 & 2/768 & 2 (0) \\
+ & Supervised, energy norm & 0.00444 & 0.00792 & 0.0122 & 0.0728 & 0/768 & 0 (0) \\
+ & Graph network, displacement & 0.208 & 0.551 & 3.09 & 55.1 & 28/768 & 10 (10) \\
+\midrule
+3D, holdout & Label-free & 0.00728 & 0.0124 & 0.0197 & 0.0655 & 0/2,058 & 0 (0) \\
+ & Supervised, displacement & 0.230 & 0.576 & 1.53 & 352,929 & 63/2,058 & 30 (22) \\
+ & Supervised, energy norm & 0.00455 & 0.00821 & 0.0134 & 0.109 & 0/2,058 & 0 (0) \\
+ & Graph network, displacement & 0.194 & 0.513 & 1.76 & 39.3 & 50/2,058 & 20 (16) \\
+\bottomrule
+\end{tabular}}
+
+\smallskip
+\begin{minipage}{\linewidth}\footnotesize\raggedright
+Percentiles by linear interpolation. Worse than zero field: pairs above 1. Instances: those with such a pair, in parentheses those with one in two or three seeds.
+\end{minipage}
+\end{table}

@@ -38,7 +38,10 @@ predictions on the held-out instances, \numHoldTwoWorseInstKnorm{} had a mean re
 energy gap above one, against \numHoldTwoWorseInstLab{} of the displacement-supervised
 transformer's and \numHoldTwoWorseInstFree{} of the label-free transformer's, where on the
 validation instances none of the three had any; read after the evaluation, the largest
-relative energy gaps of its three seeds were \numHoldHTwoATopSeeds{}. On the seeds' medians
+relative energy gaps of its three seeds were \numHoldHTwoATopSeeds{}. Its predictions above
+one lay on as many instances, each in one seed only, and its other two seeds predicted those
+instances with relative energy gaps of at most \numTailTwoKnormOther{} (supplementary
+Section~\SuppTwo{}). On the seeds' medians
 the reduction was \numHoldHTwoAMedRel{}, beyond a guard of \numHoldHTwoAMedTau{}: the claim
 holds for the typical instance, not for the mean, which a few held-out instances carry. H3
 again showed no difference beyond the guard, and the label-free transformer's seed-mean

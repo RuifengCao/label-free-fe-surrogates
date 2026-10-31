@@ -3,7 +3,7 @@
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\caption{Three-dimensional solids on the finer mesh ($l_c$ = 0.0374): every metric on the 256 fine-mesh evaluation instances, never trained on; trained networks: mean $\pm$ sample standard deviation over three seeds. Zero-shot rows use the networks trained in-band; few-shot rows train, with labels, on the first 16 or on all of the 64 fine-mesh instances reserved for few-shot training.}
+\caption{Three-dimensional solids on the finer mesh ($l_c$ = 0.0374): every metric on the 256 fine-mesh evaluation instances, never trained on; trained networks: mean $\pm$ sample standard deviation over three seeds. Zero-shot rows use the networks trained in-band, the supervised ones with 1,024 labelled instances; few-shot rows train, with labels, on the first 16 or on all of the 64 fine-mesh instances reserved for few-shot training. The energy-norm-supervised transformer, trained after this comparison, was evaluated after the runs.}
 \label{tab:transfer}
 \resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
 \begin{tabular}{lccccc}
@@ -11,8 +11,9 @@
 Model & \shortstack{Displacement \\ error} & \shortstack{Relative \\ energy gap} & \shortstack{von Mises \\ error} & \shortstack{Peak stress \\ error} & \shortstack{Critical-region \\ recall} \\
 \midrule
 Label-free, zero-shot & 0.258 $\pm$ 0.045 & 0.306 $\pm$ 0.220 & 0.305 $\pm$ 0.063 & 0.769 $\pm$ 0.667 & 0.721 $\pm$ 0.006 \\
-Supervised (1,024 labels), zero-shot & 0.257 $\pm$ 0.048 & 0.985 $\pm$ 0.267 & 0.537 $\pm$ 0.040 & 2.56 $\pm$ 1.39 & 0.462 $\pm$ 0.028 \\
-Graph network (1,024 labels), zero-shot & 0.459 $\pm$ 0.010 & 16.3 $\pm$ 9.6 & 2.40 $\pm$ 0.84 & 11.6 $\pm$ 7.8 & 0.0610 $\pm$ 0.0083 \\
+Supervised, displacement, zero-shot & 0.257 $\pm$ 0.048 & 0.985 $\pm$ 0.267 & 0.537 $\pm$ 0.040 & 2.56 $\pm$ 1.39 & 0.462 $\pm$ 0.028 \\
+Supervised, energy norm, zero-shot & 0.260 $\pm$ 0.055 & 0.217 $\pm$ 0.135 & 0.310 $\pm$ 0.051 & 0.845 $\pm$ 0.916 & 0.763 $\pm$ 0.017 \\
+Graph network, displacement, zero-shot & 0.459 $\pm$ 0.010 & 16.3 $\pm$ 9.6 & 2.40 $\pm$ 0.84 & 11.6 $\pm$ 7.8 & 0.0610 $\pm$ 0.0083 \\
 \midrule
 Nearest-neighbour field & 0.401 & 4.98 & 1.55 & 3.61 & 0.232 \\
 Scaled polynomial & 1.95 & 540 & 18.7 & 134 & 0.102 \\

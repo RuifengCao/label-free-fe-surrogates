@@ -12,9 +12,17 @@ pre-registered criterion for transfer allowed \numFineWin{} and the kill conditi
 triggered above \numFineKill{}, so the transfer claim was withdrawn. The
 displacement-supervised transformer had almost the same displacement error,
 \numFineLabDisp{}, and the graph network \numFineMgnDisp{}, worse than the nearest-neighbour
-field's \numFineKnnDisp{}. The label-free transformer kept the lowest relative energy gap
-(\numFineFreeGap{} against \numFineLabGap{} and \numFineMgnGap{}) and the lowest von Mises
-error (\numFineFreeVm{} against \numFineLabVm{} and \numFineMgnVm{}). The discretisation
+field's \numFineKnnDisp{}. The label-free transformer kept a lower relative energy gap than
+these two (\numFineFreeGap{} against \numFineLabGap{} and \numFineMgnGap{}) and a lower von
+Mises error (\numFineFreeVm{} against \numFineLabVm{} and \numFineMgnVm{}). The
+energy-norm-supervised transformer, trained after this comparison (\cref{sec:norm:three}),
+was evaluated on the same instances after the runs, in the run of the Ritz baseline
+(Section~\ref{app:prereg}), with the code that reproduced its recorded in-band values and
+the other networks' recorded fine-mesh values. It did not transfer either, its
+displacement error rising from
+\numThreeKnormDisp{} in-band to \numFineKnormDisp{}, and its relative energy gap,
+\numFineKnormGap{}, and von Mises error, \numFineKnormVm{}, were also lower than those of
+the two networks trained on the displacement error. The discretisation
 invariance reported for operators trained on the energy
 \cite{Wang2026PretrainFEM,Sun2026FEVessel} was tested by varying the density of the input
 point cloud, not by refining the mesh as here.
@@ -42,8 +50,10 @@ on at least \numRitzFineGapAll{} of the instances, the networks trained with fin
 labels included. In the peak stress error the label-free transformer, applied without
 retraining, remained the more accurate on \numRitzFineFreePeakMin{} to
 \numRitzFineFreePeakMax{} of the instances, the two token bottlenecks on
-\numRitzFineBnPeakMin{} to \numRitzFineBnPeakMax{}, the displacement-supervised transformer
-on at most \numRitzFineLabPeakMax{} and the graph network on none; fine-tuned with the 64
+\numRitzFineBnPeakMin{} to \numRitzFineBnPeakMax{}, the energy-norm-supervised transformer
+on \numRitzFineKnormPeakMin{} to \numRitzFineKnormPeakMax{}, the displacement-supervised
+transformer on at most \numRitzFineLabPeakMax{} and the graph network on none; fine-tuned
+with the 64
 fine-mesh labels, the label-free transformer was the more accurate on
 \numRitzFineFtPeakMin{} to \numRitzFineFtPeakMax{}.
 
