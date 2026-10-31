@@ -1,82 +1,114 @@
-% Graphical abstract of the manuscript (Elsevier: 531 x 1328 pixels, h x w, or
-% proportionally more; readable at 5 x 13 cm). The quoted results come from
-% generated/numbers.tex, like the manuscript's. Build from the manuscript's directory with
+% Graphical abstract of the manuscript. The Guide for Authors asks for at least 1328 x 531
+% pixels (w x h); ScienceDirect shows it in a window of 500 x 200 pixels and the table of
+% contents 200 pixels high, so on this 13 x 5.2 cm canvas no text is smaller than 8 pt. It
+% reads from left to right: the identity of Lemma 1, the errors of the same transformer
+% trained three ways (Fig. 1, three dimensions), and the stresses of a typical validation
+% solid. The numbers come from generated/numbers.tex and the three stress fields from
+% generated/ga_field_*.pdf, which scripts/make_statics_material.py draws from the records
+% (the instance and load case of the median field plot), like the manuscript's. Build from
+% the manuscript's directory with
 %   pdflatex graphical_abstract.tex
 \documentclass[border=0pt]{standalone}
 \usepackage{amsmath,amssymb}
 \usepackage[scaled=0.95]{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage{xcolor}
+\usepackage{graphicx}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning,calc,patterns}
+\usetikzlibrary{arrows.meta}
 \input{generated/numbers}
 
-% Okabe-Ito colours, which stay distinct under the common colour-vision deficiencies
-\definecolor{cen}{HTML}{0072B2}     % the energy norm
-\definecolor{cdi}{HTML}{D55E00}     % the displacement loss
-\definecolor{ink}{HTML}{222222}
-\definecolor{muted}{HTML}{555555}
-\definecolor{rule}{HTML}{BBBBBB}
+% the figures' colours: text, and the colours and markers of Fig. 1's three trainings
+\definecolor{ink}{HTML}{0B0B0B}
+\definecolor{muted}{HTML}{52514E}
+\definecolor{rule}{HTML}{C9C8C3}
+\definecolor{tint}{HTML}{F3F2EE}
+\definecolor{cdi}{HTML}{E87BA4}     % supervised, displacement loss: square
+\definecolor{ckn}{HTML}{008300}     % supervised, energy-norm loss: cross
+\definecolor{cfr}{HTML}{2A78D6}     % label-free, energy: circle
 
 \newcommand{\norm}[1]{\lVert #1\rVert}
+\newcommand{\fs}[1]{\fontsize{#1}{1.2\dimexpr #1pt\relax}\selectfont}
+\newcommand{\msq}[1]{\tikz[baseline=-0.6ex]\fill[#1] (-0.075,-0.075) rectangle
+  (0.075,0.075);}
+\newcommand{\mx}[1]{\tikz[baseline=-0.6ex]\draw[#1, line width=1.3pt]
+  (-0.07,-0.07) -- (0.07,0.07) (-0.07,0.07) -- (0.07,-0.07);}
+\newcommand{\mci}[1]{\tikz[baseline=-0.6ex]\fill[#1] (0,0) circle (0.085);}
+% the boundary between the two panels, in cm; the build test checks that no text crosses it
+\newcommand{\gasplit}{9.2}
+% writes to the log the rectangle between two coordinates (pt, from the lower left corner):
+% the build test checks that no text overlaps a bar or a field
+\newcommand{\gamark}[2]{\pgfpointanchor{#1}{center}\pgfgetlastxy{\gaxa}{\gaya}%
+  \pgfpointanchor{#2}{center}\pgfgetlastxy{\gaxb}{\gayb}%
+  \typeout{GA mark: \gaxa, \gaya, \gaxb, \gayb}}
 
 \begin{document}
 \hyphenpenalty=10000\exhyphenpenalty=10000
-\begin{tikzpicture}[x=1cm, y=1cm, font=\fontsize{7}{8.4}\selectfont, text=ink,
-  arr/.style={-{Stealth[length=1.6mm]}, semithick, draw=muted},
-  cell/.style={draw=#1, line width=0.6pt, fill=#1!7, rounded corners=1.5pt, align=center,
-               minimum width=2.55cm, minimum height=1.12cm, inner sep=2pt},
-  note/.style={align=left, inner sep=0pt, text width=4.75cm}]
-
-% canvas: 13 cm x 5.2 cm
+\begin{tikzpicture}[x=1cm, y=1cm, font=\fs{8.5}, text=ink,
+  steparrow/.style={-{Stealth[length=1.5mm, width=1.3mm]}, line width=0.7pt, draw=muted}]
+\fill[white] (0,0) rectangle (13,5.2);
 \path[use as bounding box] (0,0) rectangle (13,5.2);
 
-% left: the same transformer, trained in two norms, with and without the solutions
-\node[anchor=north west, inner sep=0pt, align=left] at (0.2,5.05)
-  {\textbf{Same transformer, same 1,024 instances (3D)}\\
-   {\color{muted}medians of E, the energy-norm error, and vM, the von Mises error}};
-\node[text=muted] at (3.05,4.2) {with solutions};
-\node[text=muted] at (6.1,4.2) {without solutions};
-\node[align=right, anchor=east, inner sep=0pt] at (1.68,3.35)
-  {displacement\\loss};
-\node[align=right, anchor=east, inner sep=0pt] at (1.68,1.87)
-  {energy-norm\\loss};
-\node[cell=cdi] (lab) at (3.05,3.35)
-  {\textbf{\color{cdi}supervised}\\[1pt] E {\numNlThreeELab}\quad vM {\numNlThreeVmLab}};
-\node[draw=rule, rounded corners=1.5pt, pattern=north east lines, pattern color=rule,
-      minimum width=2.55cm, minimum height=1.12cm] (none) at (6.1,3.35) {};
-\node[fill=white, inner sep=1.5pt, align=center, text=muted] at (none)
-  {not possible: a displacement\\loss needs the solutions};
-\node[cell=cen] (kn) at (3.05,1.87)
-  {\textbf{\color{cen}supervised}\\[1pt] E {\numNlThreeEKnorm}\quad vM {\numNlThreeVmKnorm}};
-\node[cell=cen] (free) at (6.1,1.87)
-  {\textbf{\color{cen}label-free}\\[1pt] E {\numNlThreeEFree}\quad vM {\numNlThreeVmFree}};
-\draw[arr] (lab.south) -- (kn.north)
-  node[midway, right=1pt, align=left, text=ink]
-  {\textbf{change the norm:} E $\div$\,{\numNlThreeNormE}, vM $\div$\,{\numNlThreeNormVm}};
-\draw[arr] (kn.east) -- (free.west);
-\node[anchor=north, align=center] at (4.58,1.22)
-  {\textbf{remove the solutions:} E $\times$\,{\numNlThreeLabelE}, vM $\times$\,{\numNlThreeLabelVm}\\
-   {\color{muted}also changes the load-case weights and learning rate}};
+% left, top: Lemma 1, and the energy needs no solution
+\node[anchor=north west, inner sep=0pt, font=\fs{9}\bfseries] at (0.2,5.02)
+  {Minimising the energy is regression in the energy norm};
+\node[anchor=north west, inner sep=4pt, fill=tint, rounded corners=2pt, font=\fs{10}]
+  (identity) at (0.2,4.58) {$\Pi_h(u)-\Pi_h(U^{\ast})=\norm{u-U^{\ast}}_K^{2}/2$};
+\node[anchor=west, inner sep=0pt, align=left, font=\fs{8}, text=muted]
+  at ([xshift=0.25cm]identity.east)
+  {$\Pi_h$ needs only $K$ and $F$,\\not the solution $U^{\ast}$};
 
-% right: why
-\draw[rule, line width=0.4pt] (7.75,0.77) -- (7.75,5.0);
-\node[draw=ink, line width=0.7pt, rounded corners=2pt, fill=white, align=center,
-      inner sep=3pt, text width=4.75cm, anchor=north west] (id) at (8.0,5.0)
-  {\textbf{The energy is regression in the energy norm}\\[2pt]
-   $\Pi_h(u)-\Pi_h(U^{\ast})=\tfrac12\norm{u-U^{\ast}}_K^2$\\[2pt]
-   {\color{muted}the strain energy of the stress error; no solve}};
-\node[note, anchor=north west] at (8.0,3.05)
-  {\textbf{\color{cdi}Displacement loss:} Euclidean norm, which under-weights the stiff modes
-   that carry the strains.\\[3pt]
-   \textbf{Evaluation:} displacement errors can rank surrogates opposite to their stress
-   errors.\\[3pt]
-   \textbf{Check:} $\Pi_h(u)>0$ flags a prediction worse than the zero field.};
+% left, below: the same transformer trained on the same instances three ways, the medians
+% over the validation instances averaged over the seeds (Fig. 1, three dimensions); the
+% bars to scale, the longest 3.75 cm; each step drawn from the row it starts from
+\node[anchor=north west, inner sep=0pt, align=left] at (0.2,3.6)
+  {\textbf{Median relative von Mises error}\enspace
+   {\fs{8}\color{muted}256 validation solids, 3 seeds}\\
+   {\fs{8}\color{muted}same 3D transformer, trained on the same 1,024 solids}};
+\pgfmathsetmacro{\barscale}{3.75/\numNlThreeVmLab}
+\foreach \y/\mark/\name/\val/\col in {
+    2.62/\msq{cdi}/{Supervised, displacement}/\numNlThreeVmLab/cdi,
+    1.72/\mx{ckn}/{Supervised, energy norm}/\numNlThreeVmKnorm/ckn,
+    0.82/\mci{cfr}/{Label-free, energy}/\numNlThreeVmFree/cfr}{
+  \node[anchor=west, inner sep=0pt] at (0.25,\y) {\mark\hspace{0.9mm}\name};
+  \pgfmathsetmacro{\len}{\val*\barscale}
+  \coordinate (b0) at (3.95,\y-0.15);
+  \coordinate (b1) at (3.95+\len,\y+0.15);
+  \fill[\col, rounded corners=1.2pt] (b0) rectangle (b1);
+  \gamark{b0}{b1}
+  \node[anchor=west, inner sep=0pt, font=\fs{9.5}\bfseries] at (3.95+\len+0.08,\y) {\val};
+}
+\draw[muted, line width=0.6pt] (3.95,0.5) -- (3.95,2.95);
+\pgfmathsetmacro{\stepx}{3.95+0.5*min(\numNlThreeVmKnorm,\numNlThreeVmFree)*\barscale}
+\draw[steparrow] (\stepx,2.45) -- (\stepx,1.89);
+\node[anchor=west, inner sep=0pt] at (\stepx+0.17,2.17)
+  {{\fs{10.5}\bfseries \textdiv\,\numNlThreeNormVm}\enspace
+   {\fs{8}\color{muted}change the norm}};
+\draw[steparrow] (\stepx,1.55) -- (\stepx,0.99);
+\node[anchor=west, inner sep=0pt] at (\stepx+0.17,1.27)
+  {{\fs{10.5}\bfseries \texttimes\,\numNlThreeLabelVm}\enspace
+   {\fs{8}\color{muted}remove the solutions\,\textdagger}};
+\node[anchor=south west, inner sep=0pt, font=\fs{8}, text=muted] at (0.2,0.12)
+  {\textdagger\ also changes the load-case weighting and the learning rate};
 
-% bottom: the record
-\draw[rule, line width=0.4pt] (0.15,0.56) -- (12.85,0.56);
-\node[anchor=west, inner sep=0pt] at (0.2,0.28)
-  {\textbf{Pre-registered.}\enspace In 2D the energy norm cut the von Mises error by
-   {\numHTwoBRel}.\enspace \textbf{Held out:} seven of eight claims replicated.};
+\draw[rule, line width=0.5pt] (\gasplit,0.2) -- (\gasplit,5.0);
+
+% right: the von Mises stress of a typical validation solid (the median field plot's
+% instance and load case), on the colour scale of the reference
+\node[anchor=north west, inner sep=0pt, font=\fs{9}\bfseries] at (\gasplit+0.2,5.02)
+  {von Mises stress};
+\node[anchor=north west, inner sep=0pt, align=left, font=\fs{8}, text=muted]
+  at (\gasplit+0.2,4.62) {a typical validation solid,\\one colour scale};
+\foreach \y/\file/\name in {
+    3.39/reference/Reference,
+    2.1/labelfree/{\mci{cfr}\hspace{0.9mm}Label-free,\\energy},
+    0.81/displacement/{\msq{cdi}\hspace{0.9mm}Supervised,\\displacement}}{
+  \node[anchor=east, inner sep=0pt] (f) at (12.85,\y)
+    {\includegraphics[height=1.12cm]{generated/ga_field_\file}};
+  \node[anchor=east, align=right, inner sep=0pt] at ([xshift=-0.1cm]f.west) {\name};
+  \coordinate (f0) at (f.south west);
+  \coordinate (f1) at (f.north east);
+  \gamark{f0}{f1}
+}
 \end{tikzpicture}
 \end{document}

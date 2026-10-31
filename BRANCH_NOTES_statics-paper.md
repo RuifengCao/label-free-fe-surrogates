@@ -2586,3 +2586,61 @@ generator, and no record, configuration, pre-registration or source file changed
   the sources and the two tables among the outputs; `tests/test_statics_references.py`
   checks the four references, their comments, Section 2.2's new sentence and the absence of
   the old one. The runbook's suite lines read the new count. Suite 837 (834 + 3).
+
+## Stage 24 (31 Oct 2026) -- the graphical abstract redrawn
+
+- Why. The co-author's reading: in the cell "not possible: a displacement loss needs the
+  solutions" the text ran out of its hatched frame, and the drawing was hard to read. At
+  the journal's sizes it was: the Guide for Authors asks for at least 1328 x 531 pixels,
+  ScienceDirect shows a graphical abstract in a window of 500 x 200 pixels and the table
+  of contents 200 pixels high, where the drawing's 7 pt text was about 9 pixels high; and
+  it held about 150 words and numbers in three blocks, where the guide asks for a clear
+  start and end and little clutter.
+- The new drawing (13 x 5.2 cm, as before; no text below 8 pt, about 90 words and
+  numbers) reads from left to right. Left, top: "Minimising the energy is regression in
+  the energy norm" (the first highlight), the identity of Lemma 1 written with /2, and
+  beside it that the energy needs only K and F, not the solution. Left, below: the median
+  relative von Mises errors of the same three-dimensional transformer trained with the
+  displacement loss, with the energy-norm loss and on the energy alone (Fig. 1's medians
+  over the 256 validation solids averaged over the three seeds, its colours and markers),
+  as bars to scale; an arrow from each bar to the next carries the step: changing the
+  norm (6.1-fold) and removing the solutions (1.24-fold, with the caveat of Stage 23 as a
+  footnote marked by a dagger). Right: the von Mises stress of a typical validation solid
+  (as the caption of the median field plot calls it), for the reference, the label-free
+  transformer and the displacement-supervised one, on one colour scale. The hatched
+  cell, the side notes and the foot are gone: the ranking by displacement error and the
+  sign of the energy are in the highlights, the pre-registered verdicts and the held-out
+  replication in the paper.
+- The stress fields are those of the median field plot (`fig_field_median.pdf`: the
+  validation instance at the median of the label-free transformer's relative energy gaps,
+  seed 0, and its load case at the median), drawn from the records by the generator's new
+  `fig_ga_fields`: `generated/ga_field_reference.pdf`, `ga_field_labelfree.pdf` and
+  `ga_field_displacement.pdf`, each box alone at the height at which the graphical
+  abstract places it (1.12 cm), on that plot's colour scale, rasterised at 600 dpi
+  (`_save` takes the resolution, 300 dpi by default). They regenerate byte for byte, also
+  through the generator's full run. On that instance the displacement-supervised
+  transformer's von Mises error in seed 0 is below its median over the 256 instances (103
+  of them have a lower one), so the choice does not favour the label-free one. No other
+  figure was regenerated: the three files were written by calling the new function alone.
+- The bars' lengths, the values and the two factors are Fig. 1's macros in
+  `generated/numbers.tex`, which the generator already checks against the records.
+- An independent check of a first draft of the drawing against the paper found no wrong
+  number and seven points, all taken: its headline ("the energy is an energy-norm loss
+  that needs no solutions") read as if the identity, which holds U* on both sides, needed
+  none; the metric did not say relative, over which solids or seeds; the asterisk of the
+  footnote was about 3 pixels high at 500 x 200 and echoed U*; "a validation solid" did
+  not say that it was a typical one; each factor stood beside one row rather than between
+  the two that it compares; the label-free network had two names; and the 1/2 of the
+  identity was about 6 pixels high.
+- The declaration of generative AI and S8 now say that the graphical abstract's stress
+  fields are drawn from the records by the generation script, and the rest of it by the
+  TikZ code.
+- Tests: `test_manuscript_compiles` reads the graphical abstract's text in content order
+  (`pdftotext -raw`): the statements, each training's value, the two steps and the
+  caveat, with the numbers those of `numbers.tex`, which the source names only by their
+  macros; and its words' boxes (`pdftotext -bbox`): each on the page at least 1 mm from
+  its edges, no two overlapping, none across the boundary of the two panels (`\gasplit`),
+  and none on a bar or a field, whose rectangles the build writes to its log (`\gamark`).
+  Each of these checks failed when the drawing was deliberately broken in its way. The
+  three field files join the figures whose presence the regeneration test checks. Suite
+  837 (834 + 3), unchanged.

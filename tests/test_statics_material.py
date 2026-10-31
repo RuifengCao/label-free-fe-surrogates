@@ -34,7 +34,8 @@ TEXT = ("table_2d.tex", "table_2djuly.tex", "table_3d.tex", "table_label_efficie
         "remesh_readings.tex", "e2_readings.tex")
 FIGS = ("fig_disp_vs_stress.pdf", "fig_energy_gap.pdf", "fig_label_efficiency.pdf",
         "fig_e2_cost_accuracy.pdf", "fig_spectra.pdf", "fig_field2d.pdf", "fig_field_worst.pdf",
-        "fig_field_median.pdf", "fig_field_fine.pdf", "fig_norm_labels.pdf")
+        "fig_field_median.pdf", "fig_field_fine.pdf", "fig_norm_labels.pdf",
+        "ga_field_reference.pdf", "ga_field_labelfree.pdf", "ga_field_displacement.pdf")
 R2D = ROOT / "records" / "phase1" / "report_rec8_v2.json"
 RDIAG = ROOT / "records" / "phase1" / "report_diag.json"
 RWP2 = ROOT / "records" / "phase1" / "report_wp2_e2.json"
@@ -2242,16 +2243,66 @@ def test_manuscript_compiles(tmp_path):
         w, h = (float(x) for x in re.search(r"Page size:\s+([\d.]+) x ([\d.]+) pts",
                                             info).groups())
         assert w / h == pytest.approx(2.5, abs=0.01)
-    # the text at its foot ends on the page: text that a box pushes off the page is clipped
-    # without a warning, and pdftotext leaves it out
+    # its text (Stage 24): every word on the page at least 1 mm from its edges, since text
+    # that a box pushes off the page is clipped without a warning and pdftotext leaves it
+    # out; no two words overlapping, as text that runs out of its frame overlaps the next,
+    # and no word on a bar or a field; no word across the boundary of the two panels; the
+    # quoted numbers those of numbers.tex, which the source names only by their macros;
+    # and the caveat that removing the solutions also changes the weighting of the load
+    # cases and the learning rate (Stage 23)
     pdftotext = shutil.which("pdftotext")
     if pdftotext:
-        shown = " ".join(subprocess.run([pdftotext, str(work / "graphical_abstract.pdf"), "-"],
-                                        capture_output=True, text=True).stdout.split())
-        assert "Held out: seven of eight claims replicated." in shown
-        # removing the solutions changes the weighting of the load cases and the learning
-        # rate as well (Stage 23)
-        assert "also changes the load-case weights and learning rate" in shown
+        pdf = str(work / "graphical_abstract.pdf")
+        src = (work / "graphical_abstract.tex").read_text(encoding="utf-8")
+        shown = " ".join(subprocess.run([pdftotext, "-raw", pdf, "-"], capture_output=True,
+                                        encoding="utf-8").stdout.split())
+        nums = dict(re.findall(r"\\newcommand\{\\(\w+)\}\{([^{}]*)\}",
+                               (work / "generated" / "numbers.tex").read_text(encoding="utf-8")))
+        v = {k: nums[k] for k in ("numNlThreeVmLab", "numNlThreeVmKnorm", "numNlThreeVmFree",
+                                  "numNlThreeNormVm", "numNlThreeLabelVm")}
+        for k, x in v.items():
+            assert "\\" + k in src, k
+            assert not re.search(rf"(?<![\d.]){re.escape(x)}(?!\d)", src), k
+        for s in ("Minimising the energy is regression in the energy norm",
+                  "needs only K and F, not the solution",
+                  "Median relative von Mises error 256 validation solids, 3 seeds same 3D "
+                  "transformer, trained on the same 1,024 solids",
+                  f"Supervised, displacement {v['numNlThreeVmLab']}",
+                  f"Supervised, energy norm {v['numNlThreeVmKnorm']}",
+                  f"Label-free, energy {v['numNlThreeVmFree']}",
+                  f"\u00f7 {v['numNlThreeNormVm']} change the norm",
+                  f"\u00d7 {v['numNlThreeLabelVm']} remove the solutions \u2020",
+                  "\u2020 also changes the load-case weighting and the learning rate",
+                  "von Mises stress a typical validation solid, one colour scale Reference "
+                  "Label-free, energy Supervised, displacement"):
+            assert s in shown, s
+        box = subprocess.run([pdftotext, "-bbox", pdf, "-"], capture_output=True,
+                             encoding="utf-8").stdout
+        pw, ph = (float(x) for x in re.search(r'<page width="([\d.]+)" height="([\d.]+)"',
+                                               box).groups())
+        words = [(*(float(c) for c in m[:4]), m[4]) for m in re.findall(
+            r'<word xMin="([\d.]+)" yMin="([\d.]+)" xMax="([\d.]+)" yMax="([\d.]+)">([^<]*)<',
+            box)]
+        assert len(words) > 60
+        mm = 72 / 25.4
+        split = 10 * mm * float(re.search(r"\\newcommand\{\\gasplit\}\{([\d.]+)\}",
+                                          src).group(1))
+        for x0, y0, x1, y1, t in words:
+            assert mm <= x0 and x1 <= pw - mm and mm <= y0 and y1 <= ph - mm, t
+            assert x1 <= split or x0 >= split, t
+        for i, (ax0, ay0, ax1, ay1, at) in enumerate(words):
+            for bx0, by0, bx1, by1, bt in words[i + 1:]:
+                assert (min(ax1, bx1) - max(ax0, bx0) <= 0.5
+                        or min(ay1, by1) - max(ay0, by0) <= 0.5), (at, bt)
+        # nor a bar or a field, whose rectangles the build writes to its log (TeX points from
+        # the lower left corner; pdftotext's boxes are in PDF points from the upper left)
+        marks = [tuple(float(c) * 72 / 72.27 for c in m) for m in re.findall(
+            r"GA mark: ([\d.]+)pt, ([\d.]+)pt, ([\d.]+)pt, ([\d.]+)pt", glog)]
+        assert len(marks) == 6
+        for mx0, my0, mx1, my1 in marks:
+            for x0, y0, x1, y1, t in words:
+                assert (min(x1, mx1) - max(x0, mx0) <= 0.5
+                        or min(y1, ph - my0) - max(y0, ph - my1) <= 0.5), t
     # the supplementary material, a separate file at submission
     res = subprocess.run(["latexmk", "-pdf", "-interaction=nonstopmode", "-halt-on-error",
                           "supplementary.tex"], cwd=work, capture_output=True, text=True,

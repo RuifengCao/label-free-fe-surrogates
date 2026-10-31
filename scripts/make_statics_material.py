@@ -49,6 +49,9 @@ Outputs (paper/statics/generated/):
 * fig_disp_vs_stress.pdf, fig_energy_gap.pdf, fig_label_efficiency.pdf;
 * fig_spectra.pdf, fig_field2d.pdf (2D, post hoc) and fig_field_worst.pdf,
   fig_field_median.pdf, fig_field_fine.pdf (3D, post hoc);
+* ga_field_reference.pdf, ga_field_labelfree.pdf, ga_field_displacement.pdf -- the
+  graphical abstract's three von Mises fields: fig_field_median.pdf's reference,
+  label-free and displacement-supervised panels, each box alone;
 * material.md (the tables and numbers in Markdown) and sources.json.
 
 Field plots show one load case of the instance a rule selected: within the
@@ -3769,9 +3772,9 @@ def _axes(ax):
         ax.spines[side].set_visible(False)
 
 
-def _save(fig, out: Path, name: str) -> Path:
+def _save(fig, out: Path, name: str, dpi: int = 300) -> Path:
     p = out / f"{name}.pdf"
-    fig.savefig(p, dpi=300, metadata={"CreationDate": None})
+    fig.savefig(p, dpi=dpi, metadata={"CreationDate": None})
     return p
 
 
@@ -4294,6 +4297,50 @@ def fig_fields3d(figs: dict, out: Path) -> list:
     return written
 
 
+GA_FIELDS = (("reference", None), ("labelfree", "ar"), ("displacement", "labels"))
+"""The graphical abstract's von Mises fields (file suffix, arm): the median field plot's
+reference, label-free and displacement-supervised panels."""
+GA_FIELD_HEIGHT_CM = 1.12
+"""The height at which graphical_abstract.tex places each field."""
+
+
+def fig_ga_fields(figs: dict, out: Path) -> list:
+    """The graphical abstract's three von Mises fields (ga_field_*.pdf): the instance and
+    load case of the median field plot (fig_field_median.pdf), each box alone and without
+    labels, at the height at which the graphical abstract places it, on that plot's colour
+    scale (zero to the reference's largest value); graphical_abstract.tex sets the labels.
+    Rasterised at 600 dpi, since the graphical abstract may be shown enlarged."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    from matplotlib.colors import Normalize
+
+    z = figs["fig6"]
+    j = field_load("fig6", z)
+    vis = _visible_faces(z["nodes"], z["tets"])
+    lo, hi = vis["lo"], vis["hi"]
+    corners = _cabinet(np.array([(x, y, w) for x in (lo[0], hi[0]) for y in (lo[1], hi[1])
+                                 for w in (lo[2], hi[2])], dtype=float))
+    (x0, y0), (x1, y1) = corners.min(axis=0), corners.max(axis=0)
+    pad = 0.012 * (x1 - x0)          # a margin for the outline
+    h = GA_FIELD_HEIGHT_CM / 2.54
+    w = h * (x1 - x0 + 2 * pad) / (y1 - y0 + 2 * pad)
+    vm = {r: z["vm_ref" if r is None else f"vm_{r}"][j] for _, r in GA_FIELDS}
+    norm = Normalize(0.0, float(vm[None].max()))
+    written = []
+    with plt.rc_context(_style()):
+        for suffix, r in GA_FIELDS:
+            fig = plt.figure(figsize=(w, h))
+            ax = fig.add_axes((0.0, 0.0, 1.0, 1.0))
+            _draw_box(ax, z["nodes"], vis, vm[r], "elem", _sequential(RAMP_VM), norm)
+            ax.set_xlim(x0 - pad, x1 + pad)
+            ax.set_ylim(y0 - pad, y1 + pad)
+            written.append(_save(fig, out, f"ga_field_{suffix}", dpi=600))
+            plt.close(fig)
+    return written
+
+
 # ---------------------------------------------------------------- main
 CAP_2D = ("Two-dimensional plates: every metric on the 256 validation instances, four load "
           "cases each, for the networks trained on 1,024 instances (the label-free transformer "
@@ -4618,6 +4665,7 @@ def main() -> None:
         written.append(fig_spectra(b["spectra"], out))
         written.append(fig_field2d(b["figs"]["fig2d"], out))
         written += fig_fields3d(b["figs"], out)
+        written += fig_ga_fields(b["figs"], out)
     print("\n".join(str(p) for p in written))
 
 
