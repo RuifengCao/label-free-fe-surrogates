@@ -79,8 +79,8 @@ their error, reached lower relative $L^2$ errors of the solution than with $L^2$
 $L^2$ and $L^1$ losses \cite{Haltmayer2026LOD}, and a neural preconditioner for flexible
 conjugate gradients trained in the energy norm needed fewer iterations than one trained in
 the Euclidean norm \cite{Rudikov2024FCGNO}. For finite-element surrogates of linear
-elasticity the right norm is fixed by the problem itself, it is the energy norm, and the
-energy supplies it without solutions. \Cref{rem:rank} and \cref{sec:checks:ranking} show
+elasticity the right norm is fixed by the problem itself: it is the energy norm, which the
+energy supplies without solutions. \Cref{rem:rank} and \cref{sec:checks:ranking} show
 that the displacement error can rank surrogates in the opposite order to their stress
 errors.
 
@@ -92,8 +92,8 @@ error in the constitutive relation \cite{LadevezeLeguillon1983}, which has been 
 the solutions of physics-informed networks in elasticity, with the admissible pair of
 displacement and stress given by a network of mixed form \cite{GuoHaghighat2022}. Krylov
 methods estimate the energy-norm error of an iterate by Gauss quadrature
-\cite{GolubMeurant1997,StrakosTichy2002}. The checks of \cref{sec:theory:detector} are
-weaker: they rank predictions and detect gross failures, but need nothing beyond the
+\cite{GolubMeurant1997,StrakosTichy2002}. The checks of
+\cref{sec:theory:metrics,sec:theory:detector} are weaker: they rank predictions and detect gross failures, but need nothing beyond the
 assembled $K$ and $F$. The nearest uses we found are a residual-norm test that decides
 whether a warm-started solve is needed \cite{Wang2026PretrainFEM} and an energetic upper
 bound on the effective stiffness computed from predicted fields

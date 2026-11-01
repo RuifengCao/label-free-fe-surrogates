@@ -876,7 +876,7 @@ def test_the_cost_table_follows_from_the_timing_records(built):
                         f"{per_load(res, 'cg_match_iters'):,.0f}")
     for key, label in (("energy_gap_rel", "Surrogate's relative energy gap"),
                        ("disp_rel_l2", "Surrogate's displacement error"),
-                       ("energy_gap_rel_cstar", "Energy gap after rescaling by $c^*$"),
+                       ("energy_gap_rel_cstar", "Relative energy gap after rescaling by $c^*$"),
                        ("disp_rel_l2_cstar", "Displacement error after rescaling by $c^*$")):
         for cell, res in zip(row(label), sets.values(), strict=True):
             v, half = _shown(cell)

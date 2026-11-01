@@ -2644,3 +2644,59 @@ generator, and no record, configuration, pre-registration or source file changed
   Each of these checks failed when the drawing was deliberately broken in its way. The
   three field files join the figures whose presence the regeneration test checks. Suite
   837 (834 + 3), unchanged.
+
+## Stage 25 (1 Nov 2026) -- corrections from the final reading before submission
+
+- Why. Before the tag, two independent readings, one of the manuscript and one of the
+  supplementary material, looked for errors of language, reference and consistency (the
+  numbers being checked by the tests). They found no wrong number; the points below were
+  checked against the sources and corrected. No number, table value or figure changed.
+- The manuscript:
+  - Section 1 counted four studies as "one ... two others ... a third"; the last is now "a
+    fourth". Its last sentence said that the identity, the conditioning bounds of Section 3
+    and their checks were "first stated" in the companion note, against Section 3, which
+    says that Lemma 1, Remark 1 and two statements of S8 are restated from it and that the
+    identity is classical; it now says what Section 3 says. The claim that did not replicate
+    is "the mean relative energy gap", as Section 8 has it.
+  - Sections 2.4 and 7 cited Section 3.6 for the two checks, of which the ranking
+    (Corollary 2) is in Section 3.5; both cite Sections 3.5 and 3.6. A comma splice in
+    Section 2.3 is mended.
+  - Section 4.1 names the in-band range, which the text and the supplementary material use;
+    Section 4.3 says that the three-dimensional energy-norm-supervised transformer, like the
+    graph network, was trained at one budget only (1,024), and writes N, not n, for the
+    number of labelled instances, n being the number of unknowns.
+  - Section 3.4 writes the mean stress sigma_m instead of p, which names the Ritz degree.
+  - Section 9.2 says that its ratios of times are medians of the per-instance ratios, not
+    ratios of the medians in Table 4 (27 against 25, for example); Table 4's row is
+    "Relative energy gap after rescaling by c*".
+  - Section 10.5 glosses the joint-embedding term, which the manuscript did not define.
+  - The first paragraph of Data availability is set ragged right: justified, its URLs were
+    stretched into gaps that a copy from the PDF kept (its four underfull lines are gone).
+- The supplementary material:
+  - S8 cited "Corollaries S1 to 3 and Remarks S1 and 3", cleveref having merged a
+    supplementary and two main-text labels into a range; it now lists them one by one.
+  - S1 said that the two-dimensional holdout instances lie beyond the deepest prefix "of its
+    training pool", which Section 4.1 defines as the first 1,024 of the non-validation
+    instances; it now says "of its non-validation instances", as Section 4.1 does, and its
+    first "in-band" points to Section 4.1.
+  - S3's "This geometric mean" referred, as written, to that of the ratio of the squared
+    displacement errors; it now names the geometric-mean ratio of the relative energy gaps,
+    9.85 (Section 5.3).
+  - S2's "its median" named the instance; it now names the transformer's median over the
+    instance-seed pairs (Table S5). S7.1's "the supervised transformer" is the
+    displacement-supervised one, the table having three. S4 glosses the token bottlenecks at
+    their first mention.
+  - Generated text: the remesh readings say "every network" (the table has three) and the
+    timing protocol "relative energy gap" for the stop of conjugate gradients, as the
+    timing script computes it.
+  - Floats: placeins puts each section's floats before the next section, and a barrier
+    before S6.2 keeps Table S14 in S6.1; the supplementary material has 37 pages (35).
+  - The bullets of the list of runs in S8 were drawn from a bitmap (Type 3) font wherever
+    the cm-super fonts are not installed; they are now the bullet of the maths fonts.
+- Not changed: E and B, which name Young's and the bulk modulus in Section 3.4 and, as
+  defined where they appear, the energy-norm error in Fig. 1 and the reference network of
+  the noise guard; the version suffixes of two arXiv references, which name the versions
+  checked; the subdirectory of the records of October 2026, which S8 does not name.
+- Tests: the sentences that `tests/test_statics_references.py` quotes and the row of Table 4
+  that `tests/test_statics_material.py` reads follow the text. Suite 837 (834 + 3),
+  unchanged.

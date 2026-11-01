@@ -133,9 +133,9 @@ Let $v_h$ denote the finite-element displacement field of a vector $v\in\R^n$, e
 zero on the constrained degrees of freedom, $\varepsilon(v_h)$ its strain,
 $\sigma(v_h)=\mathbb{C}:\varepsilon(v_h)$ its stress for the fourth-order elasticity
 tensor $\mathbb{C}$, $s=\sigma-(\operatorname{tr}\sigma)I/3$ the deviatoric stress,
-$p=(\operatorname{tr}\sigma)/3$ the mean stress and $\vm(\sigma)=\bigl((3/2)\,s:s\bigr)^{1/2}$
-the von Mises stress of a stress tensor $\sigma$; we write $\vm(v_h)$ and $p(v_h)$ for the
-fields $\vm(\sigma(v_h))$ and $p(\sigma(v_h))$. For a homogeneous isotropic material with
+$\sigma_{\mathrm{m}}=(\operatorname{tr}\sigma)/3$ the mean stress and $\vm(\sigma)=\bigl((3/2)\,s:s\bigr)^{1/2}$
+the von Mises stress of a stress tensor $\sigma$; we write $\vm(v_h)$ and $\sigma_{\mathrm{m}}(v_h)$
+for the fields $\vm(\sigma(v_h))$ and $\sigma_{\mathrm{m}}(\sigma(v_h))$. For a homogeneous isotropic material with
 Young's modulus $E$ and Poisson's ratio $\nu$, $G=E/(2(1+\nu))$ is the shear modulus and
 $B=E/(3(1-2\nu))$ the bulk modulus.
 
@@ -144,7 +144,7 @@ Let the material be homogeneous and isotropic and the stiffness matrix be integr
 exactly, as it is for linear elements. For every $v\in\R^{n}$,
 \begin{equation}
 \norm{v}_K^{2} = \int_{\Omega}\sigma(v_h):\mathbb{C}^{-1}:\sigma(v_h)\,\mathrm{d}\Omega
-= \int_{\Omega}\Bigl(\frac{\vm(v_h)^{2}}{3G}+\frac{p(v_h)^{2}}{B}\Bigr)\mathrm{d}\Omega .
+= \int_{\Omega}\Bigl(\frac{\vm(v_h)^{2}}{3G}+\frac{\sigma_{\mathrm{m}}(v_h)^{2}}{B}\Bigr)\mathrm{d}\Omega .
 \label{eq:stressnorm}
 \end{equation}
 Consequently, for a prediction $u$ with error $e=u-\Ustar$,
@@ -161,7 +161,7 @@ and the von Mises fields of $u$ and $\Ustar$ satisfy
 \le (1+\gamma^{\ast})\,g(u),
 \label{eq:vmboundrel}
 \end{gather}
-where $\gamma^{\ast}=3G\lVert p(\Ustar_h)\rVert_{L^2(\Omega)}^2/
+where $\gamma^{\ast}=3G\lVert \sigma_{\mathrm{m}}(\Ustar_h)\rVert_{L^2(\Omega)}^2/
 (B\lVert\vm(\Ustar_h)\rVert_{L^2(\Omega)}^2)$, defined when $\vm(\Ustar_h)\neq0$, is the
 ratio of the volumetric to the deviatoric strain energy of the solution. In plane stress
 the same statements hold for the plane stress state, with the three-dimensional moduli $G$
@@ -178,7 +178,7 @@ v^{\top}Kv=\int_\Omega\varepsilon(v_h):\mathbb{C}:\varepsilon(v_h)\,\mathrm{d}\O
 For an isotropic
 material $\mathbb{C}^{-1}:\sigma=s/(2G)+\operatorname{tr}\sigma\,I/(9B)$, so
 $\sigma:\mathbb{C}^{-1}:\sigma=s:s/(2G)+(\operatorname{tr}\sigma)^2/(9B)
-=\vm^2/(3G)+p^2/B$, which is \eqref{eq:stressnorm}. Equation \eqref{eq:gapstress}
+=\vm^2/(3G)+\sigma_{\mathrm{m}}^2/B$, which is \eqref{eq:stressnorm}. Equation \eqref{eq:gapstress}
 follows from \cref{lem:exact} with $v=e$ and the linearity of $\sigma$. As a function of
 the stress tensor, $\vm$ is $(3/2)^{1/2}$ times the Frobenius norm of the deviatoric part,
 a seminorm, so that pointwise

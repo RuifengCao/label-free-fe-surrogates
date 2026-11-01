@@ -49,7 +49,8 @@ error larger (\cref{tab:transfer,tab:3d}): its median relative energy gap was
 on at least \numRitzFineGapAll{} of the instances, the networks trained with fine-mesh
 labels included. In the peak stress error the label-free transformer, applied without
 retraining, remained the more accurate on \numRitzFineFreePeakMin{} to
-\numRitzFineFreePeakMax{} of the instances, the two token bottlenecks on
+\numRitzFineFreePeakMax{} of the instances, the two token bottlenecks, which pool the nodes
+into $M=512$ or $M=1{,}024$ tokens (Section~\ref{app:e1:bottleneck}), on
 \numRitzFineBnPeakMin{} to \numRitzFineBnPeakMax{}, the energy-norm-supervised transformer
 on \numRitzFineKnormPeakMin{} to \numRitzFineKnormPeakMax{}, the displacement-supervised
 transformer on at most \numRitzFineLabPeakMax{} and the graph network on none; fine-tuned

@@ -44,9 +44,10 @@ machine, and the assembly of the stiffness matrix, which the solvers and the Rit
 need and the surrogate does not, is listed apart (supplementary Section~\SuppTiming{} gives
 the protocol). In three dimensions the direct solve took
 a median \numCostThreeValDirectRatio{} times as long as the surrogate's first call on the
-validation instances, per instance, and \numCostThreeFineDirectRatio{} times on the
+validation instances and \numCostThreeFineDirectRatio{} times on the
 \numCostFineDirectSolved{} fine-mesh instances that it solved before its time budget ran
-out, where
+out (here and below, medians of the per-instance ratios, not ratios of the medians in
+\cref{tab:cost}), where
 the surrogate's median relative energy gap was \numCostThreeFineGap{} against
 \numCostThreeValGap{} on the validation instances; in two dimensions it took
 \numCostTwoDirectRatio{} times as long, and its solution is exact. Conjugate gradients from

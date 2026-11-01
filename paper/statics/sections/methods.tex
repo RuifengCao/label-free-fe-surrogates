@@ -26,7 +26,7 @@ Boxes $[0,l_x]\times[0,l_y]\times[0,l_z]$, with $l_x$ uniform on $[1.5,3]$, $l_y
 $[0.8,1.5]$, $l_z$ on $[0.6,1.2]$ and zero to three non-overlapping spherical cavities of
 radius between $0.08$ and $0.16$ times $\min(l_x,l_y,l_z)$, are meshed with linear
 tetrahedra at a characteristic length $l_c$ drawn uniformly from $[0.0579,0.0906]$ per
-instance. The corpus has 2,000 instances: 256 form the validation set, the first 1,024 of
+instance, the in-band range. The corpus has 2,000 instances: 256 form the validation set, the first 1,024 of
 the remainder the training pool, and the other \numHoldThreeTail{} were not used for
 training or validation; \numHoldThreeN{} of them form the holdout set of \cref{sec:holdout}.
 The validation meshes have between \numNodesInMin{} and \numNodesInMax{} nodes (median
@@ -128,10 +128,11 @@ TensorFloat-32 (TF32) matrix products, with three seeds (0, 1, 2) per network. T
 are implemented in PyTorch, and the report of each run records the versions of Python,
 PyTorch, NumPy and SciPy with which it ran (supplementary Section~\SuppRepro{}). The
 supervised networks were trained with 16, 64, 256 and 1,024 labelled instances, the first
-16, 64, 256 and 1,024 instances of the training pool, the graph network with 64 and 1,024
-only, a saving of machine time fixed in the pre-registrations of September and October 2026.
-Every network ran 200 epochs, so that a supervised network with $n$ labelled instances took
-$200n$ steps, 3,200 with 16, and the comparisons at the smaller budgets differ in the number
+16, 64, 256 and 1,024 instances of the training pool, but the graph network with 64 and
+1,024 only and the three-dimensional energy-norm-supervised transformer with 1,024 only,
+savings of machine time fixed in the pre-registrations of September and October 2026.
+Every network ran 200 epochs, so that a supervised network with $N$ labelled instances took
+$200N$ steps, 3,200 with 16, and the comparisons at the smaller budgets differ in the number
 of steps as well as in the labels. The label-free transformer was trained on the same 1,024
 instances without their solutions, for 204,800 steps; its training set is thus the
 supervised networks' largest one with the labels removed. Each network is evaluated as it

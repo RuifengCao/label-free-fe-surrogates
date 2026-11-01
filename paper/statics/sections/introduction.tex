@@ -18,7 +18,7 @@ solutions of the same instances, some of whose predictions were worse than the z
 Reported comparisons of energy-trained and supervised networks disagree: the two were about
 as accurate in one study \cite{Zhu2019}, the energy-trained network was the more accurate in
 energy, strain or stress in two others \cite{Dalton2023,MonteiroFernandes2025}, and the less
-accurate in a third \cite{Sun2026FEVessel}.
+accurate in a fourth \cite{Sun2026FEVessel}.
 
 The explanation is a classical identity. The energy of a prediction exceeds that of the
 solution by half its squared error in the energy norm \cite{Ciarlet1978}, which is the
@@ -85,9 +85,10 @@ spectral factor relates the energy-norm and the displacement errors and shows wh
 predictions in opposite orders. Second, a controlled separation of the norm of the loss from
 the labels in two and three dimensions (\cref{sec:norm,sec:labelfree}), with criteria fixed
 before the runs and read again on held-out instances (\cref{sec:holdout}), where seven of
-eight claims replicated and one, the two-dimensional reduction of the mean energy gap, did
-not. Third, evidence that displacement errors misrank surrogates by stress, and two checks
+eight claims replicated and one, the two-dimensional reduction of the mean relative energy
+gap, did not. Third, evidence that displacement errors misrank surrogates by stress, and two checks
 that need no solution, with a closed-form rescaling for predictions that fail them
 (\cref{sec:checks}). A classical baseline and the cost of each step (\cref{sec:cost}) bound
-these claims. The identity, the conditioning bounds of \cref{sec:theory} and their
-executable checks were first stated in a companion note \cite{CaoSong2026}.
+these claims. \Cref{lem:exact}, \cref{rem:norms} and two statements on conditioning and
+on gradient descent, which supplementary Section~\SuppRepro{} gives with their checks, are
+restated from a companion note \cite{CaoSong2026}.

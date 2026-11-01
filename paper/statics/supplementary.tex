@@ -13,7 +13,12 @@
 \usepackage{longtable}
 \usepackage{pdflscape}
 \usepackage{flafter}
+% each section's floats before the next section starts
+\usepackage[section]{placeins}
 \usepackage{microtype}
+% list bullets from the maths fonts: the text bullet is drawn from a bitmap font wherever the
+% cm-super fonts are not installed
+\renewcommand{\labelitemi}{$\bullet$}
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage{url}
 \usepackage{xr}

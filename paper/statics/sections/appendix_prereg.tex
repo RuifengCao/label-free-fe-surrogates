@@ -139,7 +139,8 @@ reported in this paper.
 
 \paragraph{Deviation D16}
 The text of the three-dimensional pre-registration states that the label-free network
-trains on the 1,744 in-band instances outside the validation set. The registered
+trains on the 1,744 in-band instances (\cref{sec:methods:data}) outside the validation
+set. The registered
 configuration, which is what ran, trained it on the first 1,024 of them, the same instances
 on which the supervised networks were trained with labels. Every three-dimensional run
 executed this way. The discrepancy was found after the amended run and is recorded with the
@@ -222,7 +223,7 @@ it. In three dimensions the corpus has \numHoldThreeTail{} instances beyond the 
 set and the training pool (\cref{sec:methods:data}); the holdout set is \numHoldThreeN{} of
 them, without the \numHoldThreeExcl{} that other recorded sets had drawn again. In two
 dimensions the corpus has \numHoldTwoTail{} instances beyond the deepest prefix of its
-training pool that any recorded run read; the holdout set is \numHoldTwoN{} of them, without
+non-validation instances that any recorded run read (\cref{sec:methods:data}); the holdout set is \numHoldTwoN{} of them, without
 the \numHoldTwoExcl{} that another recorded tool had rebuilt or whose own files were held
 outside the training machine. The evaluation labelled them with the sparse direct solver, in
 \numHoldThreeSolves{} solves in three dimensions and \numHoldTwoSolves{} in two, and

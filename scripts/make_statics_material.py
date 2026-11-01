@@ -599,7 +599,7 @@ RELABEL = {
                 "relative to"),
                ("fscale, the battery's largest nodal load (both architectures multiply their "
                 "output by it), relative", "The largest nodal load over the four load cases, "
-                "by which both networks multiply their output, relative"),
+                "by which every network multiplies its output, relative"),
                ("Post-hoc reading 4e (E-series runbook, Sec. 4): reported only.",
                 "Measured after the runs."),
                ("c_b: the battery-level energy-optimal amplitude (label-free)",
@@ -699,8 +699,8 @@ def side_readings(amp: dict, e2: dict, e1: dict) -> dict:
              + f" for {name[k]}" for k in keys]
     unorm = "; ".join(parts[:-1]) + "; and " + parts[-1]
     rem_tex = (
-        r"In \cref{tab:remesh}, the largest nodal load over the four load cases, by which both "
-        f"networks multiply their output, was at $l_c$ = {lcl} a factor of {fsc} of its value at "
+        r"In \cref{tab:remesh}, the largest nodal load over the four load cases, by which every "
+        f"network multiplies its output, was at $l_c$ = {lcl} a factor of {fsc} of its value at "
         f"$l_c = {lc0}$, against $(l_c/{lc0})^2$ = {sq}. At the same three values of $l_c$, "
         f"the energy norm of the label-free prediction, relative to its value at $l_c = {lc0}$ "
         f"and averaged over the seeds, was {unorm}.\n")
@@ -2436,7 +2436,7 @@ def cost_material(N: Numbers, used: dict) -> tuple:
              *(f"{c['cg_per_load']:,.0f} / {c['cg_match_per_load']:,.0f}" for c in C)],
             ["Surrogate's relative energy gap", *(num(c["energy_gap_rel"], 2) for c in C)],
             ["Surrogate's displacement error", *(num(c["disp_rel_l2"], 2) for c in C)],
-            ["Energy gap after rescaling by c*",
+            ["Relative energy gap after rescaling by c*",
              *(num(c["energy_gap_rel_cstar"], 2) for c in C)],
             ["Displacement error after rescaling by c*",
              *(num(c["disp_rel_l2_cstar"], 2) for c in C)],
@@ -2508,7 +2508,7 @@ def cost_material(N: Numbers, used: dict) -> tuple:
         f"CPUs, the thread environment set to {env_threads}): SuperLU, which produced the "
         "labels, and unpreconditioned CG to a relative residual of $10^{-10}$, from the zero "
         "field or from the prediction. CG to the prediction's accuracy stops, on each load "
-        "case, at the first iterate whose relative energy error is at most the prediction's; "
+        "case, at the first iterate whose relative energy gap is at most the prediction's; "
         "it reads the reference solution, so that a practical run would take at least as long. "
         f"The fine-mesh direct solve used up its budget of {limit:.0f} s after "
         f"{words(solved)} of the {words(total)} instances; its median, and the ratios that use "

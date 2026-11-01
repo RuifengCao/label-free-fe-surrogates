@@ -248,7 +248,7 @@
 | CG iterations per load case | 290 / 85 | 746 / 134 | 1,456 / 241 |
 | Surrogate's relative energy gap | 0.029 | 0.0085 | 0.12 |
 | Surrogate's displacement error | 0.050 | 0.031 | 0.27 |
-| Energy gap after rescaling by c* | 0.028 | 0.0077 | 0.065 |
+| Relative energy gap after rescaling by c* | 0.028 | 0.0077 | 0.065 |
 | Displacement error after rescaling by c* | 0.040 | 0.014 | 0.076 |
 | CG's displacement error at that accuracy | 0.049 | 0.017 | 0.16 |
 

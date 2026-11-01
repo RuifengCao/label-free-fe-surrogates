@@ -297,10 +297,10 @@ def test_the_text_states_the_published_versions_and_credits_the_bound():
             ("introduction.tex", r"the energy-trained network was the more accurate in "
                                  r"energy, strain or stress in two others "
                                  r"\cite{Dalton2023,MonteiroFernandes2025}, and the less "
-                                 r"accurate in a third \cite{Sun2026FEVessel}"),
+                                 r"accurate in a fourth \cite{Sun2026FEVessel}"),
             ("methods.tex", r"the extents, each divided by the upper end of its sampling range, "
                             r"so that the absolute size is kept"),
-            ("methods.tex", r"a supervised network with $n$ labelled instances took $200n$ "
+            ("methods.tex", r"a supervised network with $N$ labelled instances took $200N$ "
                             r"steps, 3,200 with 16, and the comparisons at the smaller budgets "
                             r"differ in the number of steps as well as in the labels."),
             ("supp_warm.tex", WANG + r" report, for their linear problems, iteration counts "
