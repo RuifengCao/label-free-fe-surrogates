@@ -25,13 +25,13 @@ the holdout set of \cref{sec:holdout}.
 Boxes $[0,l_x]\times[0,l_y]\times[0,l_z]$, with $l_x$ uniform on $[1.5,3]$, $l_y$ on
 $[0.8,1.5]$, $l_z$ on $[0.6,1.2]$ and zero to three non-overlapping spherical cavities of
 radius between $0.08$ and $0.16$ times $\min(l_x,l_y,l_z)$, are meshed with linear
-tetrahedra at a characteristic length $l_c$ drawn uniformly from $[0.0579,0.0906]$ per
+tetrahedra at a characteristic length $l_{\mathrm{c}}$ drawn uniformly from $[0.0579,0.0906]$ per
 instance, the in-band range. The corpus has 2,000 instances: 256 form the validation set, the first 1,024 of
 the remainder the training pool, and the other \numHoldThreeTail{} were not used for
 training or validation; \numHoldThreeN{} of them form the holdout set of \cref{sec:holdout}.
 The validation meshes have between \numNodesInMin{} and \numNodesInMax{} nodes (median
 \numNodesInMedian{}), with three degrees of freedom per node. A finer set of 320 instances
-from the same distribution is meshed at $l_c=0.0374$, about half the element size; its first
+from the same distribution is meshed at $l_{\mathrm{c}}=0.0374$, about half the element size; its first
 256 instances, with between \numNodesFineMin{} and \numNodesFineMax{} nodes (median
 \numNodesFineMedian{}), test transfer to a finer mesh, and the last 64 are reserved for
 few-shot training.
@@ -81,21 +81,21 @@ instances as the supervised networks.
 
 \subsection{Losses and training}\label{sec:methods:training}
 
-The label-free transformer minimises \eqref{eq:training} with $L=4$: at each step one
+The label-free transformer minimises \eqref{eq:training} with $J=4$: at each step one
 training instance is drawn, without replacement within an epoch, its four load cases are
 predicted, and the mean of their energies is the loss; no reference solution is read. The
 displacement-supervised transformer, the same network, minimises on labelled instances the
 mean over the load cases of the relative displacement error,
 \begin{equation}
-\mathcal{L}_D=\frac{1}{L}\sum_{j=1}^{L}\frac{\norm{u_j-\Ustar_j}_2}{\norm{\Ustar_j}_2},
+\mathcal{L}_D=\frac{1}{J}\sum_{j=1}^{J}\frac{\norm{u_j-\Ustar_j}_2}{\norm{\Ustar_j}_2},
 \label{eq:ld}
 \end{equation}
 where $u_j$ is the prediction and $\Ustar_j$ the reference solution for load case $j$ of an
 instance, and $F_j$ its load vector. The energy-norm-supervised transformer, again the same
 network, minimises the relative energy-norm error,
 \begin{equation}
-\mathcal{L}_K=\frac{1}{L}\sum_{j=1}^{L}\frac{\norm{u_j-\Ustar_j}_K}{\norm{\Ustar_j}_K}
-=\frac{1}{L}\sum_{j=1}^{L}g(u_j)^{1/2},
+\mathcal{L}_K=\frac{1}{J}\sum_{j=1}^{J}\frac{\norm{u_j-\Ustar_j}_K}{\norm{\Ustar_j}_K}
+=\frac{1}{J}\sum_{j=1}^{J}g(u_j)^{1/2},
 \label{eq:lk}
 \end{equation}
 which replaces the norm of \eqref{eq:ld} and nothing else. Since
@@ -103,10 +103,10 @@ $\norm{u_j-\Ustar_j}_K^2=u_j^{\top}Ku_j-2F_j^{\top}u_j+F_j^{\top}\Ustar_j$, the 
 $\mathcal{L}_K$ depends on each reference solution only through the number
 $\norm{\Ustar_j}_K^2=F_j^{\top}\Ustar_j$, and its gradient with respect to $u_j$,
 \begin{equation}
-\nabla_{u_j}\mathcal{L}_K=\frac{Ku_j-F_j}{L\,\norm{u_j-\Ustar_j}_K\,\norm{\Ustar_j}_K},
+\nabla_{u_j}\mathcal{L}_K=\frac{Ku_j-F_j}{J\,\norm{u_j-\Ustar_j}_K\,\norm{\Ustar_j}_K},
 \label{eq:lkgrad}
 \end{equation}
-is that of the label-free objective of one instance, $(Ku_j-F_j)/L$, weighted per load case.
+is that of the label-free objective of one instance, $(Ku_j-F_j)/J$, weighted per load case.
 The two energy-norm losses thus differ in the weighting of the load cases and in the labels,
 not in the norm. In the code the squared norm is computed from the difference
 $u_j-\Ustar_j$, not from the expansion above, which cancels where the error is small; a
@@ -159,9 +159,9 @@ $\vm(u)$ and $\vm(\Ustar)$, which are constant on linear elements, the von Mises
 $\norm{\vm(u)-\vm(\Ustar)}_2/\norm{\vm(\Ustar)}_2$, the norms taken over the vector of
 element values; the peak stress error is
 $\lvert\max\vm(u)-\max\vm(\Ustar)\rvert/\max\vm(\Ustar)$; and the critical-region recall is
-the share of the $n_c$ elements with the largest $\vm(\Ustar)$ that are also among the $n_c$
-elements with the largest $\vm(u)$, with $n_c$ the nearest integer to a tenth of the number
-of elements. Every error is relative to the finite-element solution on the same mesh. Where
+the share of the elements with the largest $\vm(\Ustar)$, a tenth of all the elements
+rounded to the nearest integer, that are also among as many elements with the largest
+$\vm(u)$. Every error is relative to the finite-element solution on the same mesh. Where
 the clamped boundary meets the rest of the boundary, the stresses of the continuous problem
 are in general singular, and the largest element stress there grows as the mesh is refined;
 where the peak lies there, the peak stress error measures the agreement with the peak of the
@@ -182,21 +182,23 @@ predictions whose relative energy gap, averaged over the four load cases, exceed
 For each instance we also computed the Ritz-Galerkin projection of the finite-element
 problem onto a space of vector polynomials, from the instance's own stiffness matrix and
 load vectors, without labels or training. With the instance's box
-$[0,l_x]\times[0,l_y]\times[0,l_z]$ and $P_k$ the Legendre polynomial of degree $k$, each
-displacement component is spanned by the functions
+$[0,l_x]\times[0,l_y]\times[0,l_z]$ and the Legendre polynomials $P_{p_x}$, $P_{p_y}$ and
+$P_{p_z}$ of degrees $p_x$, $p_y$ and $p_z$, each displacement component is spanned by the
+functions
 \begin{equation}
-\phi_{abc}(x,y,z)=\frac{x}{l_x}\,P_a\Bigl(\frac{2x}{l_x}-1\Bigr)\,P_b\Bigl(\frac{2y}{l_y}-1\Bigr)\,
-P_c\Bigl(\frac{2z}{l_z}-1\Bigr),\qquad a+b+c\le p-1,
+\phi(x,y,z)=\frac{x}{l_x}\,P_{p_x}\Bigl(\frac{2x}{l_x}-1\Bigr)\,P_{p_y}\Bigl(\frac{2y}{l_y}-1\Bigr)\,
+P_{p_z}\Bigl(\frac{2z}{l_z}-1\Bigr),
 \label{eq:ritzbasis}
 \end{equation}
-evaluated at the nodes, and in two dimensions by the same functions without the factor in
-$z$; the factor $x/l_x$ makes every function vanish on the clamped face. With $\Phi$ the
-matrix whose columns are these functions on the free degrees of freedom, the projection of a
-load case is $u_p=\Phi\,(\Phi^{\top}K\Phi)^{+}\Phi^{\top}F$, the pseudo-inverse taken
+for $p_x+p_y+p_z\le p-1$, evaluated at the nodes, and in two dimensions by the same
+functions without the factor in $z$; the factor $x/l_x$ makes every function vanish on the
+clamped face. With $\Phi$ the matrix whose columns are these functions on the free degrees
+of freedom, the projection of a
+load case is $u_{\mathrm{Ritz}}=\Phi\,(\Phi^{\top}K\Phi)^{+}\Phi^{\top}F$, the pseudo-inverse taken
 through the eigendecomposition of $\Phi^{\top}K\Phi$ with the directions whose eigenvalue is
 at most $10^{-13}$ times the largest dropped; on no instance was a direction dropped. Like
 the rescaled prediction $\cstar u$, which is the projection onto the span of $u$
-(\cref{prop:amp}), $u_p$ minimises $\Pi_h$ over its space. We report every degree of the
+(\cref{prop:amp}), $u_{\mathrm{Ritz}}$ minimises $\Pi_h$ over its space. We report every degree of the
 ladder that the specification fixed, $p=6$, 7, 8 and 9 in three dimensions, with
 \numRitzThreeK{} unknowns, and $p=6$ and 8 in two, with \numRitzTwoK{}, and pair each
 instance's projection with every network's prediction of it. This comparison was added after

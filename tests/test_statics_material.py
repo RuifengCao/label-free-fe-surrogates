@@ -569,8 +569,8 @@ def test_hypothesis_table_is_recomputed_from_the_report(built):
                                         ("H2b", "labels_knorm", "labels", "vm_rel_l2"),
                                         ("H3", "labels_knorm", "ar", "energy_gap_rel"))):
         sa, sb = _seeds(rc, a, m), _seeds(rc, b, m)
-        assert _nums(hyp["A, seeds 0, 1, 2"][col]) == pytest.approx(sa, rel=5e-3), h
-        assert _nums(hyp["B, seeds 0, 1, 2"][col]) == pytest.approx(sb, rel=5e-3), h
+        assert _nums(hyp["Network, seeds 0, 1, 2"][col]) == pytest.approx(sa, rel=5e-3), h
+        assert _nums(hyp["Comparator, seeds 0, 1, 2"][col]) == pytest.approx(sb, rel=5e-3), h
         rel, se, guard = _guard(sa, sb)
         assert _signed(hyp["rel"][col]) == [pytest.approx(rel, abs=5e-4)], h
         assert _signed(hyp["SE$_\\mathrm{rel}$"][col]) == [pytest.approx(se, abs=5e-4)], h
@@ -598,8 +598,8 @@ def test_hypothesis_table_is_recomputed_from_the_report(built):
     # the note: H3 with the roles of the two networks exchanged
     rel, _, guard = _guard(_seeds(rc, "ar", "energy_gap_rel"),
                            _seeds(rc, "labels_knorm", "energy_gap_rel"))
-    note = re.search(r"With the roles of A and B exchanged, rel was (\S+) against a guard of "
-                     r"([\d.]+\\%)", tab)
+    note = re.search(r"With the network and the comparator exchanged, rel was (\S+) "
+                     r"against a guard of ([\d.]+\\%)", tab)
     assert _signed(note.group(1)) == [pytest.approx(rel, abs=5e-4)]
     assert _signed(note.group(2)) == [pytest.approx(guard, abs=5e-4)]
     assert abs(rel) <= guard
@@ -1117,7 +1117,7 @@ def test_k3d_numbers_and_table_follow_from_the_report(built):
             assert rel - half < 0 < rel + half
             _close(N, "numKdFreeWelchLow", rel - half, 100)
             _close(N, "numKdFreeWelchHigh", rel + half, 100)
-    assert _row_cells(tab, "Reading") == ["supported", "supported", "A lower"]
+    assert _row_cells(tab, "Reading") == ["supported", "supported", "network lower"]
     # the seed means: the von Mises error lower beyond the guard; the energy gap's guard
     # exceeds 100%, so that its seed means cannot show the reduction
     for tag, m in (("Vm", "vm_rel_l2"), ("Gap", "energy_gap_rel")):

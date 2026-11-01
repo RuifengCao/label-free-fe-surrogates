@@ -24,9 +24,10 @@ The latent-regularisation run (\cref{tab:runs}) added SIGReg, applied to a learn
 projection of the latent vectors (a projection head), to the label-free objective of the
 two-dimensional transformer, with the later code, and asked whether it kept the accuracy and
 separated the geometries better in latent space (\cref{tab:e1}). The separation was measured
-by the silhouette $S\in[-1,1]$ of the instance-mean latent vectors of the 256 validation
-instances, grouped into four bins by the quartiles of the first principal component of the
-geometry descriptor; $S$ is near zero when the bins overlap and near one when they are well
+by the silhouette, between $-1$ and 1, of the instance-mean latent vectors of the 256
+validation instances, grouped into four bins by the quartiles of the first principal
+component of the geometry descriptor; the silhouette is near zero when the bins overlap and
+near one when they are well
 separated. The accuracy was unchanged within the pre-registered noise guard: the
 regulariser changed the seed means of the displacement error and of the relative energy gap
 by \numEOneAccDisp{} and \numEOneAccGap{}, against a guard of \numEOneAccGuard{} for each.
@@ -52,26 +53,27 @@ raised it by more than the factor of 1.5 at or below which the criterion would h
 triggered.
 
 What accuracy does imply for the latent representation is limited to load cases on a
-shared stiffness matrix. Fix one instance, with load vectors $F_1,\dots,F_L$ and solutions
+shared stiffness matrix. Fix one instance, with load vectors $F_1,\dots,F_J$ and solutions
 $\Ustar_j=K^{-1}F_j$, and let $\gap(u;F_j)=\Pi_h(u;F_j)-\Pi_h(\Ustar_j;F_j)$ be the energy
 gap for the load $F_j$, where $\Pi_h(\cdot\,;F_j)$ is the energy \eqref{eq:energy} with that
-load. Let $z_j$ be the network's latent representation of load case $j$, the latent vectors
-of all nodes stacked, and let the decoder $D$ be Lipschitz from the latent space, with the
+load. Let $\xi_j$ be the network's latent representation of load case $j$, the latent vectors
+of all nodes stacked, and let the decoder $\mathcal{D}$ be Lipschitz from the latent space, with the
 Euclidean norm, to $(\R^{n},\norm{\cdot}_K)$, with constant $\Lambda$.
 
 \begin{proposition}[Separation on a shared operator \cite{CaoSong2026}]\label{prop:sep}
-If $\norm{D(z_j)-\Ustar_j}_K\le\beta$ for every $j$, that is, by \cref{lem:exact},
-$\gap(D(z_j);F_j)\le\beta^2/2$, then for all $i\neq j$
+If $\norm{\mathcal{D}(\xi_j)-\Ustar_j}_K\le\beta$ for every $j$, that is, by \cref{lem:exact},
+$\gap(\mathcal{D}(\xi_j);F_j)\le\beta^2/2$, then for all $j\neq j'$
 \begin{equation}
-\norm{z_i-z_j} \ge \frac{\norm{\Ustar_i-\Ustar_j}_K-2\beta}{\Lambda}.
+\norm{\xi_j-\xi_{j'}}_2 \ge \frac{\norm{\Ustar_j-\Ustar_{j'}}_K-2\beta}{\Lambda}.
 \label{eq:sep}
 \end{equation}
 \end{proposition}
 
 \begin{proof}
 By the triangle inequality,
-$\norm{\Ustar_i-\Ustar_j}_K\le\norm{\Ustar_i-D(z_i)}_K+\norm{D(z_i)-D(z_j)}_K
-+\norm{D(z_j)-\Ustar_j}_K\le2\beta+\Lambda\norm{z_i-z_j}$.
+$\norm{\Ustar_j-\Ustar_{j'}}_K\le\norm{\Ustar_j-\mathcal{D}(\xi_j)}_K
++\norm{\mathcal{D}(\xi_j)-\mathcal{D}(\xi_{j'})}_K
++\norm{\mathcal{D}(\xi_{j'})-\Ustar_{j'}}_K\le2\beta+\Lambda\norm{\xi_j-\xi_{j'}}_2$.
 \end{proof}
 
 The bound is informative when the solutions themselves are separated; on sixteen

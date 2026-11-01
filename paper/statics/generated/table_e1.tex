@@ -3,12 +3,12 @@
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\caption{Sketched isotropic Gaussian regularisation (SIGReg) of the latent vectors added to the label-free objective, two dimensions, with the later code of \cref{sec:methods:networks}: seed mean $\pm$ sample standard deviation on the 256 validation instances; untrained rows measured after the runs. S: silhouette of the instance-mean latent vectors over four geometry bins; probe R$^2$: linear probe of the geometry descriptor; 1-NN: leave-one-out accuracy of a nearest-neighbour classifier of the bin (chance 0.25 with 4 bins of 64).}
+\caption{Sketched isotropic Gaussian regularisation (SIGReg) of the latent vectors added to the label-free objective, two dimensions, with the later code of \cref{sec:methods:networks}: seed mean $\pm$ sample standard deviation on the 256 validation instances; untrained rows measured after the runs. Silhouette: of the instance-mean latent vectors over four geometry bins; linear probe: coefficient of determination of a linear probe of the geometry descriptor; 1-NN: leave-one-out accuracy of a nearest-neighbour classifier of the bin (chance 0.25 with 4 bins of 64).}
 \label{tab:e1}
 \resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
 \begin{tabular}{lccccccc}
 \toprule
-Network & Seeds & \shortstack{Displacement \\ error} & \shortstack{Relative \\ energy gap} & S & Probe R$^2$ & 1-NN & \shortstack{SIGReg statistic \\ (tokens)} \\
+Network & Seeds & \shortstack{Displacement \\ error} & \shortstack{Relative \\ energy gap} & Silhouette & \shortstack{Linear \\ probe} & 1-NN & \shortstack{SIGReg statistic \\ (tokens)} \\
 \midrule
 Label-free & 3 & 0.0634 $\pm$ 0.0031 & 0.0383 $\pm$ 0.0019 & $-$0.039 $\pm$ 0.003 & 0.957 $\pm$ 0.010 & 0.40 $\pm$ 0.05 & 0.18 $\pm$ 0.02 \\
 Label-free + SIGReg (head) & 3 & 0.0604 $\pm$ 0.0019 & 0.0365 $\pm$ 0.0008 & $-$0.031 $\pm$ 0.004 & 0.976 $\pm$ 0.002 & 0.44 $\pm$ 0.03 & 0.19 $\pm$ 0.01 \\

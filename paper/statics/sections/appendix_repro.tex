@@ -86,11 +86,11 @@ $\norm{\Ustar}_K^2\le\lambda_{\max}\norm{\Ustar}_2^2$ it gives the second.
 \end{proof}
 
 \begin{corollary}[Modewise contraction]\label{cor:modes}
-Let $u^{+}=u-\eta\nabla\Pi_h(u)$ be one gradient-descent step with step size $\eta>0$ on the
-energy of one instance. In the eigenbasis of \cref{rem:norms}, the error component in
-eigenmode $m$ evolves exactly as
+One gradient-descent step with step size $\eta>0$ on the energy of one instance replaces
+$u$ by $u-\eta\nabla\Pi_h(u)$. In the eigenbasis of \cref{rem:norms}, it changes the error
+component in eigenmode $m$ exactly as
 \begin{equation}
-\hat e_m^{+} = (1-\eta\lambda_m)\,\hat e_m .
+\hat e_m \mapsto (1-\eta\lambda_m)\,\hat e_m .
 \label{eq:modes}
 \end{equation}
 \end{corollary}
@@ -163,9 +163,9 @@ largest relative energy gap of the displacement-supervised transformer (the same
 all three seeds), the validation instance with the median relative energy gap of the
 label-free transformer, and the fine-mesh instance with the median displacement error of the
 label-free transformer; in two dimensions, the validation instance with the median relative
-energy gap of the displacement-supervised transformer; each in seed 0, the median of $n$
-values being the lower one, of rank $\lfloor(n-1)/2\rfloor$ counted from zero in ascending
-order. The first three-dimensional rule, and the two-dimensional rule, which was written
+energy gap of the displacement-supervised transformer; each in seed 0, the median of an even
+number of values being the lower of the two in the middle. The first three-dimensional rule,
+and the two-dimensional rule, which was written
 after the verdict of the two-dimensional comparison, were chosen after the per-instance
 records had been examined, but before any field had been plotted. Each plot shows one load
 case of its instance, chosen by the same rule applied to the instance's four load cases (the

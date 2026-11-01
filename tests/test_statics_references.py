@@ -262,7 +262,8 @@ def test_the_text_states_the_published_versions_and_credits_the_bound():
                            + WANG + r" from an asymptotic "
                            r"bound of the same form for fixed-point iterations; \cref{cor:warm} "
                            r"states it in the energy norm, without that offset, and "
-                           r"\cref{rem:residual} bounds the initial residual by the energy gap."),
+                           r"\cref{rem:residual} bounds the initial residual by the relative energy "
+                           r"gap."),
             ("supp_warm.tex", WANG + r" observed the same for Newton's method: the initial "
                            r"residual of their predictions could exceed that of the zero "
                            r"initial guess although their errors were much smaller."),

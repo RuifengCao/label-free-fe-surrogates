@@ -292,6 +292,9 @@ def at_most(x: float) -> str:
     return (f"{v:.0f}" if v == int(v) else f"{v:.1f}") + "%"
 
 
+LC = r"l_{\mathrm{c}}"          # the characteristic length; its subscript is a label
+
+
 def tex(s: str) -> str:
     """Text-mode LaTeX for a table cell, note or macro (wp8 escaping plus a few symbols)."""
     s = (s.replace("<", "$<$").replace(">", "$>$")
@@ -300,7 +303,9 @@ def tex(s: str) -> str:
     s = re.sub(r"\blc (?=[0-9])", "lc = ", s)           # "lc 0.0374" -> "lc = 0.0374"
     s = re.sub(r"\blc\b", "LCMARK", s)                 # the characteristic length l_c
     s = s.replace("~\\", "TIEMARK\\")                  # a tie before a command, not a tilde
-    return W._latex_escape(s).replace("LCMARK", "$l_c$").replace("TIEMARK", "~")
+    s = s.replace("c*_inst", "CINSTMARK")             # the amplitude of an instance
+    return (W._latex_escape(s).replace("LCMARK", f"${LC}$")
+            .replace("CINSTMARK", r"$c^{\ast}_{\mathrm{inst}}$").replace("TIEMARK", "~"))
 
 
 # ---------------------------------------------------------------- tables
@@ -603,7 +608,7 @@ RELABEL = {
                ("Post-hoc reading 4e (E-series runbook, Sec. 4): reported only.",
                 "Measured after the runs."),
                ("c_b: the battery-level energy-optimal amplitude (label-free)",
-                "c_b: the single energy-optimal amplitude of all four load cases of an "
+                "c*_inst: the single energy-optimal amplitude of all four load cases of an "
                 r"instance (label-free, \cref{sec:transfer:amplitude})")],
     "e2": [("Point-token transformer", "Label-free transformer"),
            ("(resolution ", "(noise guard "),
@@ -660,6 +665,8 @@ RELABEL = {
 }
 
 
+EXACT_HEAD = {"e1": {"S": "Silhouette", "Probe R\u00b2": "Linear\nprobe"}}
+
 E1_NOTES = [
     "SIGReg statistic (tokens): the regulariser's statistic on the latent vectors themselves "
     "rather than on the projection head's output (lower is closer to an isotropic Gaussian). "
@@ -700,9 +707,10 @@ def side_readings(amp: dict, e2: dict, e1: dict) -> dict:
     unorm = "; ".join(parts[:-1]) + "; and " + parts[-1]
     rem_tex = (
         r"In \cref{tab:remesh}, the largest nodal load over the four load cases, by which every "
-        f"network multiplies its output, was at $l_c$ = {lcl} a factor of {fsc} of its value at "
-        f"$l_c = {lc0}$, against $(l_c/{lc0})^2$ = {sq}. At the same three values of $l_c$, "
-        f"the energy norm of the label-free prediction, relative to its value at $l_c = {lc0}$ "
+        f"network multiplies its output, was at ${LC}$ = {lcl} a factor of {fsc} of its value "
+        f"at ${LC} = {lc0}$, against $({LC}/{lc0})^2$ = {sq}. At the same three values of "
+        f"${LC}$, the energy norm of the label-free prediction, relative to its value at "
+        f"${LC} = {lc0}$ "
         f"and averaged over the seeds, was {unorm}.\n")
     tr = e2["archs"]["transformer"]["step_ms_both"]
     c, n, mach, st = e2["corpus"], e2["nodes"], e2["machine"], e2["bench_steps"]
@@ -710,9 +718,9 @@ def side_readings(amp: dict, e2: dict, e1: dict) -> dict:
         raise SystemExit("the bottleneck benchmark ran without TF32, which the text says")
     e2_tex = (
         r"In \cref{tab:e2}, the in-band instances are the "
-        f"{c['n_val']} validation instances, with $l_c$ from {c['lc_range'][0]} to "
+        f"{c['n_val']} validation instances, with ${LC}$ from {c['lc_range'][0]} to "
         f"{c['lc_range'][1]}, and the fine-mesh instances {c['n_fine']} instances at "
-        f"$l_c = {c['lc_fine']}$, never trained on. A step time is that of one label-free "
+        f"${LC} = {c['lc_fine']}$, never trained on. A step time is that of one label-free "
         f"training step on one instance of the stated size, on an {mach['gpu']} with TF32, "
         "from a dedicated benchmark whose instances at the two ends of the in-band range have "
         f"{n['inband_0']:,} and {n['inband_2']:,} nodes and whose fine-mesh instance has "
@@ -738,6 +746,10 @@ def relabel(key: str, head: list, rows: list, notes: list) -> tuple:
 
     counts: dict = {}
     head = [sub(h, counts) for h in head]
+    for a, b in EXACT_HEAD.get(key, {}).items():
+        if head.count(a) != 1:
+            raise SystemExit(f"relabel {key}: heading {a!r} not found once")
+        head[head.index(a)] = b
     rows = [["Label-free" if c == "AR" else sub(c, counts) for c in r] for r in rows]
     notes = [sub(n, counts) for n in notes]
     missing = [RELABEL[key][i][0] for i in range(len(RELABEL[key])) if i not in counts]
@@ -1170,8 +1182,8 @@ def cm2d_hypothesis_table(v: dict, rc: dict) -> tuple:
     its Sec. 4 requires beside each (per-seed values, rel, SE_rel and guard; the guard
     on the seeds' medians; Welch's interval; the instance-resampling interval)."""
     head = ["", "H1", "H2a", "H2b", "H3"]
-    rows = {k: [k] for k in ("Network A", "Reference B", "Metric", "A, seeds 0, 1, 2",
-                             "B, seeds 0, 1, 2", "rel", "SE_rel", "Guard", "Reading",
+    rows = {k: [k] for k in ("Network", "Comparator", "Metric", "Network, seeds 0, 1, 2",
+                             "Comparator, seeds 0, 1, 2", "rel", "SE_rel", "Guard", "Reading",
                              "Medians: rel (guard)", "Welch 95% interval",
                              "Instance resampling 95%")}
     for h, a, b, m in CM2D_HYP:
@@ -1185,10 +1197,12 @@ def cm2d_hypothesis_table(v: dict, rc: dict) -> tuple:
                 and w["level"] == ir["level"] == 0.95 and ir["resamples"] == 2000):
             raise SystemExit(f"CM2D {h}: the robustness readings are not those of the table")
         reading = (x["verdict"].lower() if h != "H3" else "no difference shown")
-        for k, val in (("Network A", HYP_NAMES[a]), ("Reference B", HYP_NAMES[b]),
+        for k, val in (("Network", HYP_NAMES[a]), ("Comparator", HYP_NAMES[b]),
                        ("Metric", HYP_METRICS[m]),
-                       ("A, seeds 0, 1, 2", ", ".join(num(t) for t in x["new_per_seed"])),
-                       ("B, seeds 0, 1, 2", ", ".join(num(t) for t in x["base_per_seed"])),
+                       ("Network, seeds 0, 1, 2",
+                        ", ".join(num(t) for t in x["new_per_seed"])),
+                       ("Comparator, seeds 0, 1, 2",
+                        ", ".join(num(t) for t in x["base_per_seed"])),
                        ("rel", spct(x["rel_change"])), ("SE_rel", pct(x["se_rel"])),
                        ("Guard", pct(x["threshold"])), ("Reading", reading),
                        ("Medians: rel (guard)",
@@ -1198,7 +1212,8 @@ def cm2d_hypothesis_table(v: dict, rc: dict) -> tuple:
             rows[k].append(val)
     ex = v["H3"]["roles_exchanged"]
     notes = [
-        "H3 is a reading without a criterion. With the roles of A and B exchanged, rel was "
+        "H3 is a reading without a criterion. With the network and the comparator exchanged, "
+        "rel was "
         f"{spct(ex['rel_change'])} against a guard of {pct(ex['threshold'])}.",
     ]
     return head, list(rows.values()), notes
@@ -2782,7 +2797,8 @@ def k3d_material(N: Numbers, k: dict, vk: dict, r3: dict) -> tuple:
              "ar": NAMES["ar"]}
     head = ["", "H2a-3D", "H2b-3D", "H3-3D"]
     rows = {key: [key] for key in (
-        "Network A", "Reference B", "Metric", "A, seeds 0, 1, 2", "B, seeds 0, 1, 2", "rel",
+        "Network", "Comparator", "Metric", "Network, seeds 0, 1, 2",
+        "Comparator, seeds 0, 1, 2", "rel",
         "SE_rel", "Guard", "Reading", "Welch 95% interval", "Instance resampling 95%",
         "Seed means: rel (guard)", "Seed means: Welch 95%", "Holdout: rel (guard)",
         "Holdout, seed means: rel (guard)")}
@@ -2790,12 +2806,13 @@ def k3d_material(N: Numbers, k: dict, vk: dict, r3: dict) -> tuple:
     for h, a, b, m in K3D_HYP:
         x, bs, y = vk[h], vk[h]["beside"], ho["hypotheses"][h]
         for key, val in (
-                ("Network A", names[a]), ("Reference B", names[b]), ("Metric", HYP_METRICS[m]),
-                ("A, seeds 0, 1, 2", ", ".join(num(t) for t in x["new_per_seed"])),
-                ("B, seeds 0, 1, 2", ", ".join(num(t) for t in x["base_per_seed"])),
+                ("Network", names[a]), ("Comparator", names[b]), ("Metric", HYP_METRICS[m]),
+                ("Network, seeds 0, 1, 2", ", ".join(num(t) for t in x["new_per_seed"])),
+                ("Comparator, seeds 0, 1, 2",
+                 ", ".join(num(t) for t in x["base_per_seed"])),
                 ("rel", spct(x["rel_change"])), ("SE_rel", pct(x["se_rel"])),
                 ("Guard", pct(x["threshold"])),
-                ("Reading", reading[x["verdict"]] if h != "H3-3D" else "A lower"),
+                ("Reading", reading[x["verdict"]] if h != "H3-3D" else "network lower"),
                 ("Welch 95% interval", _ival(bs["welch_95"])),
                 ("Instance resampling 95%", _ival(bs["instance_resampling_95"])),
                 ("Seed means: rel (guard)", _rel_guard(bs["seed_means"])),
@@ -2805,7 +2822,8 @@ def k3d_material(N: Numbers, k: dict, vk: dict, r3: dict) -> tuple:
             rows[key].append(val)
     ex = h3["roles_exchanged"]
     notes = [
-        f"H3-3D is a reading without a criterion. With the roles of A and B exchanged, rel was "
+        "H3-3D is a reading without a criterion. With the network and the comparator exchanged, "
+        "rel was "
         f"{spct(ex['rel_change'])} against a guard of {pct(ex['threshold'])}."]
     # supplementary: the medians and means of every metric, and the 30 comparisons
     sup_head = ["Network", "Statistic", "Displacement\nerror", "Relative\nenergy gap",
@@ -2817,7 +2835,8 @@ def k3d_material(N: Numbers, k: dict, vk: dict, r3: dict) -> tuple:
             sup_rows.append([names[a] if stat == "median" else "",
                              "seed medians" if stat == "median" else "seed means"]
                             + [ms(st_[m][key]) for m in METRICS])
-    comp_head = ["Comparison (A against B)", "Metric", "Medians: rel (guard)", "Reading",
+    comp_head = ["Comparison (network against comparator)", "Metric", "Medians: rel (guard)",
+                 "Reading",
                  "Seed means: rel (guard)", "Reading"]
     comp_rows = []
     label = {"labels_knorm_vs_labels": f"Energy norm against displacement ({LD})",
@@ -2831,9 +2850,9 @@ def k3d_material(N: Numbers, k: dict, vk: dict, r3: dict) -> tuple:
             return "diverged"
         hi = m == "crit_recall"
         if c_["lower"]:
-            return "A worse" if hi else "A better"
+            return "worse" if hi else "better"
         if c_["worse"]:
-            return "A better" if hi else "A worse"
+            return "better" if hi else "worse"
         return "within"
 
     for cname in label:
@@ -3123,7 +3142,7 @@ def holdout_material(N: Numbers, vho: dict, used: dict, r3: dict, rcm: dict,
     vhead = ["Network", "Metric", "Validation:\nmean / median", "Holdout:\nmean / median",
              "Ratio of the\nmeans (95%)"]
     vrows, vrules = [], []
-    short = dict(zip(METRICS, ("Displacement", "Energy gap", "von Mises", "Peak stress",
+    short = dict(zip(METRICS, ("Displacement", "Relative energy gap", "von Mises", "Peak stress",
                                "Recall"), strict=True))
     nets = {"ar": "Label-free", "labels": "Supervised, displacement",
             "labels_knorm": "Supervised, energy norm",
@@ -3906,8 +3925,9 @@ def fig_norm_labels(nl: dict, out: Path) -> Path:
     """Fig. 1: the same transformer trained on the solutions with the displacement loss, on
     the solutions in the energy norm, and on the energy without solutions, in three and two
     dimensions; each cell gives the median over the validation instances of the relative
-    energy-norm error E = g^(1/2) and of the von Mises error, averaged over the three seeds
-    (norm_label_material). The fourth cell, a displacement loss without solutions, does not
+    energy-norm error g^(1/2) and of the von Mises error, averaged over the three seeds
+    (norm_label_material); the cells and arrows name them in words, E being Young's
+    modulus in the text. The fourth cell, a displacement loss without solutions, does not
     exist."""
     import matplotlib
 
@@ -3935,10 +3955,11 @@ def fig_norm_labels(nl: dict, out: Path) -> Path:
                         markeredgecolor="white", markeredgewidth=0.6, linestyle="none")
                 ax.text(x + 0.17, y + H - 0.12, name[arm], ha="left", va="center",
                         fontsize=7.5, color=col, fontweight="bold")
-                ax.text(x + W / 2, y + 0.34, f"E  {num(m[arm]['E_med'])}", ha="center",
-                        va="center", fontsize=7.5, color=INK)
-                ax.text(x + W / 2, y + 0.15, f"vM  {num(m[arm]['Vm_med'])}", ha="center",
-                        va="center", fontsize=7.5, color=INK)
+                for yy, what, q in ((0.34, "energy norm", "E"), (0.15, "von Mises", "Vm")):
+                    ax.text(x + 0.07, y + yy, what, ha="left", va="center", fontsize=6.8,
+                            color=INK2)
+                    ax.text(x + W - 0.07, y + yy, num(m[arm][f"{q}_med"]), ha="right",
+                            va="center", fontsize=7.5, color=INK)
 
             cell(X0, Y1, "labels")
             cell(X0, Y0, "labels_knorm")
@@ -3964,14 +3985,16 @@ def fig_norm_labels(nl: dict, out: Path) -> Path:
                                          arrowstyle="-|>", mutation_scale=9, color=INK,
                                          linewidth=1.0))
             ax.text(X0 + W / 2 + 0.06, (Y1 + Y0 + H) / 2,
-                    f"change the norm: E \u00f7{rn['E']:.1f}, vM \u00f7{rn['Vm']:.1f}", ha="left",
-                    va="center", fontsize=7, color=INK)
+                    f"change the norm:\nenergy norm \u00f7{rn['E']:.1f}, von Mises "
+                    f"\u00f7{rn['Vm']:.1f}", ha="left", va="center", fontsize=7, color=INK,
+                    linespacing=1.25)
             ax.add_patch(FancyArrowPatch((X0 + W + 0.02, Y0 + H / 2), (X1 - 0.02, Y0 + H / 2),
                                          arrowstyle="-|>", mutation_scale=9, color=INK2,
                                          linewidth=0.9))
-            ax.text(X0 + W + GX / 2, Y0 - 0.17,
-                    f"remove the solutions: E \u00d7{rl['E']:.2f}, vM \u00d7{rl['Vm']:.2f}",
-                    ha="center", va="center", fontsize=7, color=INK2)
+            ax.text(X0 + W + GX / 2, Y0 - 0.21,
+                    f"remove the solutions:\nenergy norm \u00d7{rl['E']:.2f}, von Mises "
+                    f"\u00d7{rl['Vm']:.2f}", ha="center", va="center", fontsize=7,
+                    color=INK2, linespacing=1.25)
         fig.subplots_adjust(left=0.01, right=0.99, top=0.98, bottom=0.02, wspace=0.05)
         p_ = _save(fig, out, "fig_norm_labels")
         plt.close(fig)
@@ -4392,7 +4415,7 @@ CAP_AMP = ("Post hoc, three-dimensional: errors of the label-free networks befor
            r"scaling each prediction by its energy-optimal amplitude c* \eqref{eq:cstar}, "
            "in-band (the 256 validation instances) and on the 256 fine-mesh instances "
            "(zero-shot); seed mean ± sample standard deviation over three seeds.")
-CAP_REM = ("Post hoc, three-dimensional: the energy-optimal amplitude c_b of the four load "
+CAP_REM = ("Post hoc, three-dimensional: the energy-optimal amplitude c*_inst of the four load "
            "cases of an instance together, for the label-free networks, on new geometries "
            "each meshed at four mesh sizes lc with the same loads, so that only the mesh "
            "changes; median over the geometries, then seed mean ± sample standard deviation. "
@@ -4412,8 +4435,9 @@ CAP_COST = ("Wall time per instance of the label-free transformer's inference, o
 CAP_E1 = ("Sketched isotropic Gaussian regularisation (SIGReg) of the latent vectors added "
           "to the label-free objective, two dimensions, with the later code of "
           r"\cref{sec:methods:networks}: seed mean ± sample standard deviation on the 256 "
-          "validation instances; untrained rows measured after the runs. S: silhouette of the instance-mean latent vectors over four "
-          "geometry bins; probe R²: linear probe of the geometry descriptor; 1-NN: "
+          "validation instances; untrained rows measured after the runs. Silhouette: of the "
+          "instance-mean latent vectors over four geometry bins; linear probe: coefficient "
+          "of determination of a linear probe of the geometry descriptor; 1-NN: "
           "leave-one-out accuracy of a nearest-neighbour classifier of the bin (chance "
           "CHANCE).")
 CAP_K3D = ("The pre-registered hypotheses of the three-dimensional energy-norm run, with "
@@ -4442,7 +4466,9 @@ CAP_KMED = ("Three-dimensional energy-norm run: every metric of the three transf
             "the 256 validation instances, the seeds' medians and the seeds' means over the "
             "instances (mean ± sample standard deviation over the three seeds).")
 CAP_KCMP = ("Three-dimensional energy-norm run: the 30 secondary comparisons, exploratory, "
-            "each with the noise guard, on the seeds' medians and on the seeds' means.")
+            "each with the noise guard, on the seeds' medians and on the seeds' means. "
+            "Reading: the network better or worse than the comparator beyond the guard, or "
+            "within it.")
 
 
 def build() -> dict:

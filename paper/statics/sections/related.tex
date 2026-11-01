@@ -62,7 +62,8 @@ under criteria fixed in advance.
 Supervised mesh surrogates, from message-passing networks \cite{Pfaff2021,Dalton2022} to
 operator networks \cite{Lu2021DeepONet,Li2021FNO} and geometry-aware operators
 \cite{He2024GeomDeepONet,Zeng2025PCNO,Liu2026GINOT}, are typically trained and evaluated
-with relative $L^2$ errors of the predicted fields. That the norm of a loss shapes what a
+with relative $L^2$ errors of the predicted fields, computed on the nodes or points as
+Euclidean norms. That the norm of a loss shapes what a
 network learns is known in machine learning: training on derivatives as well as values,
 Sobolev training, improves the accuracy of the derivatives \cite{Czarnecki2017}, and for
 physics-informed networks the $L^2$ residual loss can fail to control the solution where
@@ -94,7 +95,7 @@ displacement and stress given by a network of mixed form \cite{GuoHaghighat2022}
 methods estimate the energy-norm error of an iterate by Gauss quadrature
 \cite{GolubMeurant1997,StrakosTichy2002}. The checks of
 \cref{sec:theory:metrics,sec:theory:detector} are weaker: they rank predictions and detect gross failures, but need nothing beyond the
-assembled $K$ and $F$. The nearest uses we found are a residual-norm test that decides
+assembled stiffness matrix and load vectors. The nearest uses we found are a residual-norm test that decides
 whether a warm-started solve is needed \cite{Wang2026PretrainFEM} and an energetic upper
 bound on the effective stiffness computed from predicted fields
 \cite{MonteiroFernandes2025}.

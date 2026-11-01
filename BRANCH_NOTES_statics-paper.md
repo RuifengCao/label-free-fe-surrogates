@@ -2700,3 +2700,64 @@ generator, and no record, configuration, pre-registration or source file changed
 - Tests: the sentences that `tests/test_statics_references.py` quotes and the row of Table 4
   that `tests/test_statics_material.py` reads follow the text. Suite 837 (834 + 3),
   unchanged.
+
+## Stage 26 (1 Nov 2026) -- one meaning per symbol
+
+- Why. Stage 25 left E and B with two meanings each. Now each symbol has one meaning in the
+  manuscript, the supplementary material and the figures: a letter, in its typeface, names
+  one quantity, function, space or index, and an index runs over one kind of object.
+  Subscripts that are labels (sigma_vm, F_max) belong to the symbol they label and are set
+  upright where a letter could be read as a symbol. The names of the pre-registered
+  criteria (C5, D2, E6, G2, H1, K1, KP5, T1) are names that the pre-registration documents
+  fixed, not symbols, and are kept. An independent reading of the notation, given only the
+  PDFs, the sources and this rule, found no letter or index with two meanings after the
+  first round, and the points of the second round below. No number changed.
+- E is Young's modulus only: Fig. 1 names its two errors in words, "energy norm" and "von
+  Mises", instead of E and vM, and its caption says so. Only this figure is redrawn.
+- B is the bulk modulus only and s the deviatoric stress only: the noise guard (Appendix A)
+  compares a network with a comparator network through mean and sd of each, and the tables
+  of the pre-registered hypotheses in two and three dimensions and of the 30 secondary
+  comparisons name the network and the comparator instead of A and B (rows "Network",
+  "Comparator"; readings "better", "worse", "network lower"; notes "with the network and the
+  comparator exchanged"). "Reference" stays the name of the finite-element solution.
+- m is the index of the eigenmodes only: Section 3.4 no longer names the mean stress
+  (sigma_m, Stage 25) and writes the trace of the stress instead; gamma* =
+  G ||tr sigma||^2 / (3B ||sigma_vm||^2), the same number. I is named the identity tensor.
+- L names the Lebesgue spaces only: the number of load cases is J, in Corollary 1, the
+  losses and the gradient of Section 4.3, and the separation statement of S6. Section 2.3
+  says that the relative L^2 errors of mesh surrogates are computed as Euclidean norms of
+  the nodal or point values, and Section 2.4 names the stiffness matrix and the load
+  vectors in words before Section 3 defines K and F.
+- k is the iteration of conjugate gradients only, a and b label two predictions and c is a
+  scale factor: the Ritz basis (eq:ritzbasis) has degrees p_x, p_y and p_z with
+  p_x + p_y + p_z <= p - 1, instead of P_k and a, b, c; the Ritz projection is u_Ritz, not
+  u_p, a subscript of u being a load case or a label.
+- The iteration of S5 is a superscript of u only: the energy gap, the relative energy gap,
+  the residual and the error of an iterate are written as functions of it, gap(u^k),
+  g(u^0), r(u^0), instead of gap_k, g_0, r_0, e_0 and r_k, a subscript being a load case
+  and g(0) = 1 the zero field's. Remark S1 bounds the initial residual by the relative
+  energy gap, as its bound says.
+- The superscript + is the pseudo-inverse only: Corollary S2 writes the gradient step as a
+  map, instead of u^+ and e_m^+.
+- n is the number of unknowns only: the critical-region recall and the rule of the field
+  plots (S8) are stated without a further count.
+- i indexes instances and j load cases: the separation statement of S6 compares load cases
+  j and j', its latent representation is xi_j (z is a coordinate), with the Euclidean norm
+  written ||.||_2, and its decoder is a calligraphic D (D labels the displacement loss).
+- w_m are the eigenvectors: the proof of Proposition 2 writes g(v) for every v. Corollary 2
+  names two predictions u_a and u_b, as Remarks 2 and 3 do, since u_j is the prediction of
+  load case j.
+- c is the scale factor: the energy-optimal amplitude of an instance's four load cases
+  together is c*_inst (S4.2, Table S13), not c_b, and the characteristic length is
+  l_c with an upright c.
+- Tables: the table of the latent-regularisation run names the silhouette and the
+  coefficient of determination of the linear probe in words (S numbers the supplementary
+  material and R is the Rayleigh quotient); the holdout values (Table S4) name the relative
+  energy gap, which they give, instead of "Energy gap".
+- Generation: Fig. 1 is drawn with the system Python, whose matplotlibrc selects Inter, as
+  the paper's other figures were; they are not regenerated. Its caption stays within 90
+  words.
+- Tests: the rows, the note and the reading that `tests/test_statics_material.py` reads in
+  the tables of the hypotheses, and the sentence of S5 that
+  `tests/test_statics_references.py` quotes, follow the text. Suite 837 (834 + 3),
+  unchanged.

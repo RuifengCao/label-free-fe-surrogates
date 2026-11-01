@@ -215,11 +215,11 @@
 
 |  | H1 | H2a | H2b | H3 |
 |---|---|---|---|---|
-| Network A | Label-free | Supervised, energy norm | Supervised, energy norm | Supervised, energy norm |
-| Reference B | Supervised, displacement | Supervised, displacement | Supervised, displacement | Label-free |
+| Network | Label-free | Supervised, energy norm | Supervised, energy norm | Supervised, energy norm |
+| Comparator | Supervised, displacement | Supervised, displacement | Supervised, displacement | Label-free |
 | Metric | Relative energy gap | Relative energy gap | von Mises error | Relative energy gap |
-| A, seeds 0, 1, 2 | 0.0374, 0.0405, 0.0371 | 0.0370, 0.0146, 0.0355 | 0.119, 0.0829, 0.116 | 0.0370, 0.0146, 0.0355 |
-| B, seeds 0, 1, 2 | 0.132, 0.148, 0.120 | 0.132, 0.148, 0.120 | 0.232, 0.251, 0.222 | 0.0374, 0.0405, 0.0371 |
+| Network, seeds 0, 1, 2 | 0.0374, 0.0405, 0.0371 | 0.0370, 0.0146, 0.0355 | 0.119, 0.0829, 0.116 | 0.0370, 0.0146, 0.0355 |
+| Comparator, seeds 0, 1, 2 | 0.132, 0.148, 0.120 | 0.132, 0.148, 0.120 | 0.232, 0.251, 0.222 | 0.0374, 0.0405, 0.0371 |
 | rel | −71.3% | −78.2% | −54.9% | −24.2% |
 | SE_rel | 6.2% | 8.2% | 6.1% | 19.0% |
 | Guard | 12.4% | 16.4% | 12.3% | 38.1% |
@@ -228,7 +228,7 @@
 | Welch 95% interval | −97% to −45% | −101% to −55% | −73% to −37% | −103% to +54% |
 | Instance resampling 95% | −74.3% to −68.3% | −80.3% to −76.3% | −57.2% to −52.8% | −28.0% to −21.9% |
 
-- H3 is a reading without a criterion. With the roles of A and B exchanged, rel was +31.9% against a guard of 50.2%.
+- H3 is a reading without a criterion. With the network and the comparator exchanged, rel was +31.9% against a guard of 50.2%.
 
 ### Wall time per instance of the label-free transformer's inference, on one GPU, and of solves of the same systems on the same machine's CPU, all load cases together and without the assembly, with the surrogate's accuracy. CG: unpreconditioned conjugate gradients; its iterations (from the zero field / to the prediction's accuracy) and its displacement error are medians over the load cases, the other times and errors medians over the instances. c*: energy-optimal amplitude \eqref{eq:cstar}. Protocol in supplementary Section~\SuppTiming{}.
 
@@ -259,15 +259,15 @@
 
 |  | H2a-3D | H2b-3D | H3-3D |
 |---|---|---|---|
-| Network A | Supervised, energy norm | Supervised, energy norm | Supervised, energy norm |
-| Reference B | Supervised ($\mathcal{L}_D$) | Supervised ($\mathcal{L}_D$) | Label-free |
+| Network | Supervised, energy norm | Supervised, energy norm | Supervised, energy norm |
+| Comparator | Supervised ($\mathcal{L}_D$) | Supervised ($\mathcal{L}_D$) | Label-free |
 | Metric | Relative energy gap | von Mises error | Relative energy gap |
-| A, seeds 0, 1, 2 | 0.00432, 0.00448, 0.00452 | 0.0412, 0.0425, 0.0437 | 0.00432, 0.00448, 0.00452 |
-| B, seeds 0, 1, 2 | 0.224, 0.256, 0.275 | 0.247, 0.254, 0.276 | 0.00932, 0.00744, 0.00581 |
+| Network, seeds 0, 1, 2 | 0.00432, 0.00448, 0.00452 | 0.0412, 0.0425, 0.0437 | 0.00432, 0.00448, 0.00452 |
+| Comparator, seeds 0, 1, 2 | 0.224, 0.256, 0.275 | 0.247, 0.254, 0.276 | 0.00932, 0.00744, 0.00581 |
 | rel | −98.2% | −83.6% | −41.0% |
 | SE_rel | 5.9% | 3.4% | 13.5% |
 | Guard | 11.7% | 10.0% | 27.0% |
-| Reading | supported | supported | A lower |
+| Reading | supported | supported | network lower |
 | Welch 95% interval | −123.5% to −73.0% | −98.0% to −69.2% | −98.7% to +16.7% |
 | Instance resampling 95% | −98.4% to −98.1% | −84.5% to −82.7% | −43.9% to −38.4% |
 | Seed means: rel (guard) | −99.98% (guard 197.9%) | −88.1% (guard 43.7%) | −44.7% (guard 29.0%) |
@@ -275,7 +275,7 @@
 | Holdout: rel (guard) | −98.0% (guard 12.6%) | −83.0% (guard 10.0%) | −38.0% (guard 25.6%) |
 | Holdout, seed means: rel (guard) | −99.997% (guard 199.6%) | −89.0% (guard 60.2%) | −35.4% (guard 26.4%) |
 
-- H3-3D is a reading without a criterion. With the roles of A and B exchanged, rel was +69.5% against a guard of 45.8%.
+- H3-3D is a reading without a criterion. With the network and the comparator exchanged, rel was +69.5% against a guard of 45.8%.
 
 ### The claims of the comparisons that the pre-registered holdout evaluation read again on the held-out instances (\cref{sec:holdout}), with the same stored networks and as its adjudicator recorded them, beside their values on the validation instances. T1 and D2: comparisons that hold, five metrics in each seed and in the seed mean; T2: the range of the shares over the seeds, then the share of the instance-seed pairs; H1 to H3: the relative difference rel and its noise guard (\ref{app:claims}).
 
@@ -299,38 +299,38 @@
 |---|---|---|---|---|
 | Three dimensions, 686 held-out instances |
 | Label-free | Displacement | 0.0300 / 0.0280 | 0.0285 / 0.0269 | 0.95 (0.93–0.98) |
-|  | Energy gap | 0.00912 / 0.00758 | 0.00805 / 0.00739 | 0.88 (0.86–0.91) |
+|  | Relative energy gap | 0.00912 / 0.00758 | 0.00805 / 0.00739 | 0.88 (0.86–0.91) |
 |  | von Mises | 0.0554 / 0.0532 | 0.0541 / 0.0521 | 0.98 (0.96–0.99) |
 |  | Peak stress | 0.0807 / 0.0788 | 0.0799 / 0.0775 | 0.99 (0.97–1.01) |
 |  | Recall | 0.793 / 0.790 | 0.790 / 0.787 | 1.00 (0.99–1.00) |
 | Supervised, displacement | Displacement | 0.0470 / 0.0408 | 0.0493 / 0.0419 | 1.05 (0.98–1.16) |
-|  | Energy gap | 31.2 / 0.255 | 172 / 0.231 | 5.50 (0.01–16.49) |
+|  | Relative energy gap | 31.2 / 0.255 | 172 / 0.231 | 5.50 (0.01–16.49) |
 |  | von Mises | 0.370 / 0.259 | 0.408 / 0.253 | 1.10 (0.75–1.80) |
 |  | Peak stress | 0.784 / 0.235 | 0.646 / 0.209 | 0.82 (0.37–1.71) |
 |  | Recall | 0.619 / 0.629 | 0.623 / 0.635 | 1.01 (1.00–1.01) |
 | Graph network | Displacement | 0.0168 / 0.0137 | 0.0160 / 0.0142 | 0.95 (0.91–1.01) |
-|  | Energy gap | 0.447 / 0.209 | 0.307 / 0.197 | 0.69 (0.59–0.84) |
+|  | Relative energy gap | 0.447 / 0.209 | 0.307 / 0.197 | 0.69 (0.59–0.84) |
 |  | von Mises | 0.296 / 0.252 | 0.276 / 0.242 | 0.93 (0.90–0.97) |
 |  | Peak stress | 0.488 / 0.186 | 0.353 / 0.172 | 0.72 (0.63–0.82) |
 |  | Recall | 0.679 / 0.700 | 0.683 / 0.702 | 1.01 (1.00–1.01) |
 | Two dimensions, 4,111 held-out instances |
 | Label-free | Displacement | 0.0634 / 0.0472 | 0.0646 / 0.0477 | 1.02 (0.99–1.05) |
-|  | Energy gap | 0.0383 / 0.0253 | 0.0393 / 0.0284 | 1.02 (0.99–1.06) |
+|  | Relative energy gap | 0.0383 / 0.0253 | 0.0393 / 0.0284 | 1.02 (0.99–1.06) |
 |  | von Mises | 0.123 / 0.120 | 0.124 / 0.124 | 1.01 (0.99–1.03) |
 |  | Peak stress | 0.128 / 0.138 | 0.129 / 0.140 | 1.01 (0.99–1.03) |
 |  | Recall | 0.753 / 0.753 | 0.751 / 0.752 | 1.00 (0.99–1.00) |
 | Supervised, displacement | Displacement | 0.0505 / 0.0406 | 0.0519 / 0.0410 | 1.03 (1.00–1.05) |
-|  | Energy gap | 0.133 / 0.118 | 0.137 / 0.119 | 1.02 (0.99–1.07) |
+|  | Relative energy gap | 0.133 / 0.118 | 0.137 / 0.119 | 1.02 (0.99–1.07) |
 |  | von Mises | 0.235 / 0.231 | 0.236 / 0.231 | 1.00 (0.99–1.01) |
 |  | Peak stress | 0.141 / 0.147 | 0.145 / 0.147 | 1.03 (1.01–1.05) |
 |  | Recall | 0.668 / 0.675 | 0.669 / 0.677 | 1.00 (1.00–1.00) |
 | Supervised, energy norm | Displacement | 0.0547 / 0.0420 | 0.0567 / 0.0419 | 1.04 (1.01–1.07) |
-|  | Energy gap | 0.0290 / 0.0210 | 0.0781 / 0.0223 | 2.69 (1.12–4.64) |
+|  | Relative energy gap | 0.0290 / 0.0210 | 0.0781 / 0.0223 | 2.69 (1.12–4.64) |
 |  | von Mises | 0.106 / 0.108 | 0.111 / 0.109 | 1.05 (1.02–1.08) |
 |  | Peak stress | 0.0947 / 0.100 | 0.105 / 0.101 | 1.11 (1.02–1.24) |
 |  | Recall | 0.804 / 0.802 | 0.802 / 0.803 | 1.00 (1.00–1.00) |
 | Graph network | Displacement | 0.0499 / 0.0392 | 0.0496 / 0.0383 | 1.00 (0.97–1.02) |
-|  | Energy gap | 0.825 / 0.517 | 0.793 / 0.554 | 0.96 (0.92–1.00) |
+|  | Relative energy gap | 0.825 / 0.517 | 0.793 / 0.554 | 0.96 (0.92–1.00) |
 |  | von Mises | 0.578 / 0.489 | 0.567 / 0.504 | 0.98 (0.96–1.00) |
 |  | Peak stress | 0.321 / 0.153 | 0.320 / 0.159 | 1.00 (0.95–1.05) |
 |  | Recall | 0.517 / 0.549 | 0.520 / 0.544 | 1.01 (1.00–1.01) |
@@ -481,25 +481,25 @@
 |  | seed means | 0.0227 ± 0.0022 | 0.00504 ± 0.00022 | 0.0440 ± 0.0014 | 0.0386 ± 0.0011 | 0.858 ± 0.001 |
 
 
-### Three-dimensional energy-norm run: the 30 secondary comparisons, exploratory, each with the noise guard, on the seeds' medians and on the seeds' means.
+### Three-dimensional energy-norm run: the 30 secondary comparisons, exploratory, each with the noise guard, on the seeds' medians and on the seeds' means. Reading: the network better or worse than the comparator beyond the guard, or within it.
 
-| Comparison (A against B) | Metric | Medians: rel (guard) | Reading | Seed means: rel (guard) | Reading |
+| Comparison (network against comparator) | Metric | Medians: rel (guard) | Reading | Seed means: rel (guard) | Reading |
 |---|---|---|---|---|---|
-| Energy norm against displacement ($\mathcal{L}_D$) | Displacement error | −51.1% (guard 10.0%) | A better | −51.8% (guard 10.8%) | A better |
-|  | Relative energy gap | −98.2% (guard 11.7%) | A better | −99.98% (guard 197.9%) | within |
-|  | von Mises error | −83.6% (guard 10.0%) | A better | −88.1% (guard 43.7%) | A better |
-|  | Peak stress error | −82.9% (guard 10.0%) | A better | −95.1% (guard 118.9%) | within |
-|  | Critical-region recall | +36.7% (guard 10.0%) | A better | +38.6% (guard 10.0%) | A better |
-| Energy norm against label-free | Displacement error | −25.0% (guard 12.3%) | A better | −24.3% (guard 13.7%) | A better |
-|  | Relative energy gap | −41.0% (guard 27.0%) | A better | −44.7% (guard 29.0%) | A better |
-|  | von Mises error | −19.4% (guard 10.0%) | A better | −20.6% (guard 10.0%) | A better |
-|  | Peak stress error | −51.7% (guard 22.0%) | A better | −52.1% (guard 19.2%) | A better |
+| Energy norm against displacement ($\mathcal{L}_D$) | Displacement error | −51.1% (guard 10.0%) | better | −51.8% (guard 10.8%) | better |
+|  | Relative energy gap | −98.2% (guard 11.7%) | better | −99.98% (guard 197.9%) | within |
+|  | von Mises error | −83.6% (guard 10.0%) | better | −88.1% (guard 43.7%) | better |
+|  | Peak stress error | −82.9% (guard 10.0%) | better | −95.1% (guard 118.9%) | within |
+|  | Critical-region recall | +36.7% (guard 10.0%) | better | +38.6% (guard 10.0%) | better |
+| Energy norm against label-free | Displacement error | −25.0% (guard 12.3%) | better | −24.3% (guard 13.7%) | better |
+|  | Relative energy gap | −41.0% (guard 27.0%) | better | −44.7% (guard 29.0%) | better |
+|  | von Mises error | −19.4% (guard 10.0%) | better | −20.6% (guard 10.0%) | better |
+|  | Peak stress error | −51.7% (guard 22.0%) | better | −52.1% (guard 19.2%) | better |
 |  | Critical-region recall | +8.7% (guard 10.0%) | within | +8.1% (guard 10.0%) | within |
-| Label-free against supervised ($\mathcal{L}_D$) | Displacement error | −34.7% (guard 10.0%) | A better | −36.3% (guard 11.6%) | A better |
-|  | Relative energy gap | −97.0% (guard 11.8%) | A better | −99.97% (guard 197.9%) | within |
-|  | von Mises error | −79.6% (guard 10.0%) | A better | −85.0% (guard 43.7%) | A better |
-|  | Peak stress error | −64.6% (guard 10.6%) | A better | −89.7% (guard 118.9%) | within |
-|  | Critical-region recall | +25.8% (guard 10.0%) | A better | +28.2% (guard 10.0%) | A better |
+| Label-free against supervised ($\mathcal{L}_D$) | Displacement error | −34.7% (guard 10.0%) | better | −36.3% (guard 11.6%) | better |
+|  | Relative energy gap | −97.0% (guard 11.8%) | better | −99.97% (guard 197.9%) | within |
+|  | von Mises error | −79.6% (guard 10.0%) | better | −85.0% (guard 43.7%) | better |
+|  | Peak stress error | −64.6% (guard 10.6%) | better | −89.7% (guard 118.9%) | within |
+|  | Critical-region recall | +25.8% (guard 10.0%) | better | +28.2% (guard 10.0%) | better |
 
 
 ## In-text numbers

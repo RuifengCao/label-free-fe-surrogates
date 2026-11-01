@@ -10,17 +10,17 @@
 \toprule
  & H2a-3D & H2b-3D & H3-3D \\
 \midrule
-Network A & Supervised, energy norm & Supervised, energy norm & Supervised, energy norm \\
-Reference B & Supervised ($\mathcal{L}_D$) & Supervised ($\mathcal{L}_D$) & Label-free \\
+Network & Supervised, energy norm & Supervised, energy norm & Supervised, energy norm \\
+Comparator & Supervised ($\mathcal{L}_D$) & Supervised ($\mathcal{L}_D$) & Label-free \\
 Metric & Relative energy gap & von Mises error & Relative energy gap \\
 \midrule
-A, seeds 0, 1, 2 & 0.00432, 0.00448, 0.00452 & 0.0412, 0.0425, 0.0437 & 0.00432, 0.00448, 0.00452 \\
-B, seeds 0, 1, 2 & 0.224, 0.256, 0.275 & 0.247, 0.254, 0.276 & 0.00932, 0.00744, 0.00581 \\
+Network, seeds 0, 1, 2 & 0.00432, 0.00448, 0.00452 & 0.0412, 0.0425, 0.0437 & 0.00432, 0.00448, 0.00452 \\
+Comparator, seeds 0, 1, 2 & 0.224, 0.256, 0.275 & 0.247, 0.254, 0.276 & 0.00932, 0.00744, 0.00581 \\
 \midrule
 rel & $-$98.2\% & $-$83.6\% & $-$41.0\% \\
 SE$_\mathrm{rel}$ & 5.9\% & 3.4\% & 13.5\% \\
 Guard & 11.7\% & 10.0\% & 27.0\% \\
-Reading & supported & supported & A lower \\
+Reading & supported & supported & network lower \\
 \midrule
 Welch 95\% interval & $-$123.5\% to $-$73.0\% & $-$98.0\% to $-$69.2\% & $-$98.7\% to +16.7\% \\
 Instance resampling 95\% & $-$98.4\% to $-$98.1\% & $-$84.5\% to $-$82.7\% & $-$43.9\% to $-$38.4\% \\
@@ -35,6 +35,6 @@ Holdout, seed means: rel (guard) & $-$99.997\% (guard 199.6\%) & $-$89.0\% (guar
 
 \smallskip
 \begin{minipage}{\linewidth}\footnotesize\raggedright
-H3-3D is a reading without a criterion. With the roles of A and B exchanged, rel was +69.5\% against a guard of 45.8\%.
+H3-3D is a reading without a criterion. With the network and the comparator exchanged, rel was +69.5\% against a guard of 45.8\%.
 \end{minipage}
 \end{table}

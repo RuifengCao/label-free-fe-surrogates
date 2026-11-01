@@ -3,12 +3,12 @@
 \centering
 \footnotesize
 \setlength{\tabcolsep}{4pt}
-\caption{Post hoc, three-dimensional: the energy-optimal amplitude $c_b$ of the four load cases of an instance together, for the label-free networks, on new geometries each meshed at four mesh sizes $l_c$ with the same loads, so that only the mesh changes; median over the geometries, then seed mean $\pm$ sample standard deviation. Training range: $l_c$ = 0.0579--0.0906.}
+\caption{Post hoc, three-dimensional: the energy-optimal amplitude $c^{\ast}_{\mathrm{inst}}$ of the four load cases of an instance together, for the label-free networks, on new geometries each meshed at four mesh sizes $l_{\mathrm{c}}$ with the same loads, so that only the mesh changes; median over the geometries, then seed mean $\pm$ sample standard deviation. Training range: $l_{\mathrm{c}}$ = 0.0579--0.0906.}
 \label{tab:remesh}
 \resizebox{\ifdim\width>\textwidth\textwidth\else\width\fi}{!}{%
 \begin{tabular}{lcccc}
 \toprule
-Network & $l_c$ = 0.0906 & $l_c$ = 0.0742 & $l_c$ = 0.0579 & \shortstack{$l_c$ = 0.0374 \\ (fine)} \\
+Network & $l_{\mathrm{c}}$ = 0.0906 & $l_{\mathrm{c}}$ = 0.0742 & $l_{\mathrm{c}}$ = 0.0579 & \shortstack{$l_{\mathrm{c}}$ = 0.0374 \\ (fine)} \\
 \midrule
 Label-free transformer & 0.98 $\pm$ 0.00 & 1.00 $\pm$ 0.01 & 1.01 $\pm$ 0.00 & 1.27 $\pm$ 0.08 \\
 Token bottleneck, M = 512 & 0.91 $\pm$ 0.04 & 1.00 $\pm$ 0.02 & 1.14 $\pm$ 0.09 & 1.96 $\pm$ 0.46 \\

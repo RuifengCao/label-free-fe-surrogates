@@ -18,14 +18,17 @@ labels only, and its naive baselines are the nearest-neighbour field and the sca
 polynomial of \cref{sec:methods:networks}. In the statements, $\mathcal{L}_D$ and
 $\mathcal{L}_K$ are the losses \eqref{eq:ld} and \eqref{eq:lk}.
 
-The noise guard compares a network A with a reference B over three seeds each, through
+The noise guard compares a network with a comparator network over three seeds each, through
 \begin{equation}
-\mathrm{rel}=\frac{\mathrm{mean}(A)}{\mathrm{mean}(B)}-1,\qquad
-\mathrm{SE}_{\mathrm{rel}}=\frac{(s_A^2/3+s_B^2/3)^{1/2}}{\mathrm{mean}(B)},
+\begin{split}
+\mathrm{rel}&=\frac{\mathrm{mean}(\text{network})}{\mathrm{mean}(\text{comparator})}-1,\\
+\mathrm{SE}_{\mathrm{rel}}&=\frac{\bigl(\mathrm{sd}(\text{network})^2/3
++\mathrm{sd}(\text{comparator})^2/3\bigr)^{1/2}}{\mathrm{mean}(\text{comparator})},
+\end{split}
 \label{eq:guard}
 \end{equation}
-where $s_A$ and $s_B$ are the sample standard deviations over the seeds: A is lower beyond
-the guard when $\mathrm{rel}$ is below minus the guard,
+where $\mathrm{mean}$ and $\mathrm{sd}$ are the mean and the sample standard deviation of
+the metric over a network's seeds: the network is lower beyond the guard when $\mathrm{rel}$ is below minus the guard,
 $\max(10\%,\,2\,\mathrm{SE}_{\mathrm{rel}})$, and higher beyond it when $\mathrm{rel}$
 exceeds the guard; within it no difference is shown, which is not equivalence. The
 three-dimensional energy-norm run applies it to each seed's median over the instances.
