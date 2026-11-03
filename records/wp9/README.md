@@ -94,6 +94,21 @@ larger ones), both arms drawn afresh, independent or correlated within a seed
 (`r3`, `r3_paired`; r1's record-held reference in `r3_fixed_reference`). The
 test re-runs the script and compares the bytes.
 
+## R2b: operating characteristics (PREREG_R2B Sec. 5)
+
+`r2b/simulations.json`: `scripts/r2b_sims.py` (fixed seed; about 25 s), the
+source of every simulated number PREREG_R2B quotes: R2b's rule (R2a's, on the
+Phase-2b transformer's seed spreads -- the coefficients of variation and the
+ratio k of `fine3d/simulations.json`'s `r2b`) by S's true fine reduction and
+in-band change (`power`); at the effects the records suggest -- c* on the
+Phase-2b states, S on the token bottleneck as R2a measured it, 0.87 and 0.5
+times that -- with other spreads, the spreads drawn from their three-seed
+uncertainty, a correlation within a seed and five seeds per arm (`anchors`);
+three against five seeds per arm (`seeds`, `value`). The script imports
+`scripts/fine3d_sims.py`'s draws and guard. The test re-runs it and compares
+the bytes. R2b changes no source: the regression table above still names
+the tree its runs use.
+
 ## Operating characteristics (PREREG_W9 Sec. 6-7)
 
 `simulations.json`: `scripts/w9_sims.py` (fixed seeds; seconds on a laptop),
