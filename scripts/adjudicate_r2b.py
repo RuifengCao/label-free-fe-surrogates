@@ -18,8 +18,11 @@ session's attempts and each step's last exit (with `--status`), and the
 adjudicating code: its `git describe`, its files' SHA-256 and whether they
 and the pre-registration read are the tag's. A difference, a tag that cannot
 be read, a footer that does not verify, a status file not given or not in
-the return, repeated or missing steps and a step whose last attempt did not
-exit 0 are deviations; "deviations" holds them with R2b's own, and "notes"
+the return, repeated or missing steps, a step whose last attempt did not
+exit 0, a step the session does not have, a baseline started before the
+session found S's report complete after S's last attempt, and steps started
+on more than one host or GPU driver or with a start line that does not
+record its host or a GPU driver read are deviations; "deviations" holds them with R2b's own, and "notes"
 the uninformative note and the flags against the Phase-2b seeds 0-2.
 
     python scripts/adjudicate_r2b.py \
@@ -72,6 +75,10 @@ C_STAR_K = 0.8697758470700758
 the bottleneck (records/wp9/r2b/simulations.json, `k`), beside the ratio S's
 fine reductions on the two show."""
 STEPS = ("r2b_s", "amp_r2b_s", "r2b_b", "amp_r2b_b")
+GATE_LINE = "r2b_b: r2b_s has a complete report"
+"""The session's status line when the baseline's gate finds S's report
+complete, before the baseline's GPU check and start (scripts/r2b_session.sh,
+arm())."""
 ADJ_FILES = ("scripts/adjudicate_r2b.py", "scripts/adjudicate_fine3d.py",
              "scripts/stamp_prereg_r2b.py", "src/fejepa/analysis/adjudicate_fine3d.py",
              "src/fejepa/analysis/adjudicate_w9.py", "src/fejepa/analysis/adjudicate.py",
@@ -231,6 +238,17 @@ def paired(vb: dict, vs: dict) -> dict:
     return out
 
 
+def check_amp(amp: dict, rep_sha: str | None) -> dict:
+    """fine3d's check of a post-hoc amplitude record (A.check_amp), and the
+    record holding exactly the fresh seeds 3-5: one without a seed is
+    incomplete, not read (PREREG_R2B Sec. 7)."""
+    chk = A.check_amp(amp, rep_sha)
+    held = sorted(amp["seeds"])
+    if held != [f"s{x}" for x in FRESH_SEEDS]:
+        raise ValueError(f"the amplitude record holds seeds {held}, not s3, s4 and s5")
+    return chk
+
+
 def beyond_amplitude(s: dict, amp_b: dict | None, b_sha256: str | None) -> dict:
     """S's fine displacement error against the fresh baseline's after scaling
     each load case by its c* (the baseline's amplitude record, per seed), with
@@ -238,11 +256,8 @@ def beyond_amplitude(s: dict, amp_b: dict | None, b_sha256: str | None) -> dict:
     if amp_b is None:
         return {"not_evaluated": "no amplitude record of the fresh baseline given"}
     try:
-        A.check_amp(amp_b, b_sha256)
-        seeds = [f"s{x}" for x in FRESH_SEEDS]
-        if sorted(amp_b["seeds"]) != sorted(seeds):
-            raise ValueError(f"the baseline's amplitude record holds seeds {sorted(amp_b['seeds'])}")
-        base = [float(amp_b["seeds"][k]["fine"]["summary"]["disp_c"]) for k in seeds]
+        check_amp(amp_b, b_sha256)
+        base = [float(amp_b["seeds"][f"s{x}"]["fine"]["summary"]["disp_c"]) for x in FRESH_SEEDS]
         g = guard(base, A.seed_means(A.p3_cell(s, "fine"), "disp_rel_l2"))
     except Exception as exc:                              # noqa: BLE001
         return {"not_evaluated": f"{type(exc).__name__}: {exc}"}
@@ -290,28 +305,81 @@ CONDITION_II_ALONE = ("condition (ii) alone fails: S's fine displacement error i
 only failing condition is (ii)."""
 
 
+_DRIVER = re.compile(r"\d+(\.\d+)*")
+"""A GPU driver read (nvidia-smi's version, e.g. 595.71.05); anything else on
+the start line -- nothing, or a message nvidia-smi printed -- was not read."""
+
+
 def machines(status_text: str) -> dict:
     """{step: [(host, driver) of each attempt's start]} from the session's
-    status file (scripts/r2b_session.sh writes them on every start line)."""
+    status file (scripts/r2b_session.sh writes them on every start line; the
+    driver is what nvidia-smi printed, '' when it printed nothing)."""
     out = {}
     for line in status_text.splitlines():
-        m = re.match(r"(\S+)\.log start \S+ \S+ host (\S*) driver ?(\S*)$", line.strip())
+        m = re.match(r"(\S+)\.log start \S+ \S+ host (\S*) driver(.*)$", line.strip())
         if m:
-            out.setdefault(m.group(1), []).append((m.group(2), m.group(3)))
+            out.setdefault(m.group(1), []).append((m.group(2), m.group(3).strip()))
     return out
 
 
 def machine_deviations(mach: dict) -> list:
-    """More than one host or GPU driver among the steps' starts, or a start
-    line without them, is a deviation (a driver that could not be read is not
-    counted as another one)."""
+    """More than one host or GPU driver among the steps' starts is a deviation
+    (a driver that could not be read is not counted as another one), and so is
+    a start line that does not record its host or whose driver could not be
+    read (those starts are compared by host only)."""
     dev = []
-    hosts = {h for v in mach.values() for h, _ in v if h}
-    drivers = {d for v in mach.values() for _, d in v if d}
+    starts = [(k, h, d) for k, v in sorted(mach.items()) for h, d in v]
+    hosts = {h for _, h, _ in starts if h}
+    drivers = {d for _, _, d in starts if _DRIVER.fullmatch(d)}
     if len(hosts) > 1 or len(drivers) > 1:
         dev.append("the session's steps started on more than one host or GPU driver: "
                    + "; ".join(f"{k} {v}" for k, v in sorted(mach.items())))
+    nohost = sorted({k for k, h, _ in starts if not h})
+    if nohost:
+        dev.append(f"{sum(1 for _, h, _ in starts if not h)} of the {len(starts)} start lines "
+                   f"with host and driver fields do not record their host ({', '.join(nohost)})")
+    unread = [(k, d) for k, _, d in starts if not _DRIVER.fullmatch(d)]
+    if unread:
+        said = sorted({d for _, d in unread if d})
+        dev.append(f"the GPU driver could not be read in {len(unread)} of the {len(starts)} "
+                   f"start lines with host and driver fields "
+                   f"({', '.join(sorted({k for k, _ in unread}))}; nvidia-smi printed "
+                   + (" / ".join(repr(d) for d in said) if said else "nothing")
+                   + "); those starts are compared by host only")
     return dev
+
+
+def session_deviations(status_text: str) -> tuple:
+    """The session's status file read: (attempts, last exits, machines,
+    deviations). Repeated attempts, steps not started, a step whose last
+    attempt did not exit 0, a start line without its host and driver, a step
+    the session does not have, the baseline started before the session found
+    S's report complete after S's last attempt (S first: the gate's line,
+    GATE_LINE, written after S's last start and before the baseline's first:
+    a restart that skips S's finished arm, or finds S's report complete after
+    an attempt without an exit line or with another exit, is in order), and
+    machine_deviations."""
+    f3s = _script("adjudicate_fine3d")
+    att, ends = f3s.attempts(status_text), f3s.last_exits(status_text)
+    mach = machines(status_text)
+    dev = machine_deviations(mach)
+    dev += [f"{k}: an attempt's start line does not record its host and driver"
+            for k in att if len(mach.get(k, ())) != att[k]]
+    dev += [f"{k}: {v} attempts" for k, v in att.items() if v > 1]
+    dev += [f"{k}: not started" for k in STEPS if k not in att]
+    dev += [f"{k}: its last attempt has no exit line (interrupted)" if v is None
+            else f"{k}: its last attempt exited {v}"
+            for k, v in ends.items() if v != 0]
+    dev += [f"{k}: not a step of the session ({', '.join(STEPS)})" for k in att if k not in STEPS]
+    lines = [ln.strip() for ln in status_text.splitlines()]
+    s_start = [i for i, ln in enumerate(lines) if ln.startswith("r2b_s.log start ")]
+    gate = [i for i, ln in enumerate(lines)
+            if ln == GATE_LINE and (not s_start or i > s_start[-1])]
+    b_start = [i for i, ln in enumerate(lines) if ln.startswith("r2b_b.log start ")]
+    if b_start and (not gate or b_start[0] < gate[0]):
+        dev.append("r2b_b: started before the session found r2b_s's report complete after its "
+                   "last attempt (S first: the baseline starts only once S's report is complete)")
+    return att, ends, mach, dev
 
 
 # ------------------------------------------------------------- adjudicate --
@@ -335,7 +403,7 @@ def adjudicate_arms(b: dict, s: dict, p2b: dict, f3v: dict | None = None,
             mech[role] = {"not_evaluated": "no amplitude record given"}
             continue
         try:
-            chk = A.check_amp(amp, sha)
+            chk = check_amp(amp, sha)
             mech[role] = dict(A.mechanism(amp, chk["remesh_not_evaluated"]),
                               reproduction_max_rel_dev=chk["reproduction_max_rel_dev"])
         except Exception as exc:                          # noqa: BLE001
@@ -516,17 +584,8 @@ def main() -> None:
     if a.status:
         if present(a.status):
             text = Path(a.status).read_text()
-            att, ends = f3s.attempts(text), f3s.last_exits(text)
-            res["attempts"], res["last_exits"] = att, ends
-            res["machines"] = machines(text)
-            dev += machine_deviations(res["machines"])
-            dev += [f"{k}: an attempt's start line does not record its host and driver"
-                    for k in att if len(res["machines"].get(k, ())) != att[k]]
-            dev += [f"{k}: {v} attempts" for k, v in att.items() if v > 1]
-            dev += [f"{k}: not started" for k in STEPS if k not in att]
-            dev += [f"{k}: its last attempt has no exit line (interrupted)" if v is None
-                    else f"{k}: its last attempt exited {v}"
-                    for k, v in ends.items() if v != 0]
+            res["attempts"], res["last_exits"], res["machines"], sdev = session_deviations(text)
+            dev += sdev
         else:
             res["attempts"] = res["last_exits"] = res["machines"] = None
             dev.append(f"the session's status file is not in the return ({a.status})")

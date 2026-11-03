@@ -287,6 +287,29 @@ def test_an_amplitude_record_of_another_report_is_not_read(recs):
     assert out["beyond_amplitude"]["not_evaluated"].startswith("ValueError")
 
 
+def test_an_amplitude_record_without_a_seed_is_not_read(recs):
+    """A record of the right report lacking a seed is incomplete: neither
+    the mechanism readings nor the uninformative note's c* read it (its two
+    seeds' c* would give the note, all three not)."""
+    b, s = arm(recs[0], "r2b_b"), arm(recs[0], "r2b_s", fine=0.9)
+    full = _amp((1.05, 1.07, 1.3), "a" * 64)
+    out = _adj(b, s, recs, amp_b=full, b_sha256="a" * 64)
+    assert out["verdict"].startswith("NOT SUPPORTED") and out["uninformative_note"] is None
+    short = copy.deepcopy(full)
+    del short["seeds"]["s5"]
+    out = _adj(b, s, recs, amp_b=short, b_sha256="a" * 64, amp_s=short, s_sha256="a" * 64)
+    why = "ValueError: the amplitude record holds seeds ['s3', 's4'], not s3, s4 and s5"
+    assert out["mechanism"]["b"] == {"not_evaluated": why}
+    assert out["mechanism"]["s"] == {"not_evaluated": why}
+    assert out["beyond_amplitude"] == {"not_evaluated": why}
+    assert out["uninformative_note"] is None
+    assert out["uninformative_cstar"].startswith("not evaluated: no usable amplitude record")
+    extra = copy.deepcopy(full)
+    extra["seeds"]["s6"] = extra["seeds"]["s5"]
+    out = _adj(b, s, recs, amp_b=extra, b_sha256="a" * 64)
+    assert "holds seeds ['s3', 's4', 's5', 's6']" in out["mechanism"]["b"]["not_evaluated"]
+
+
 # --------------------------------------------------------------- readings --
 
 def test_uninformative_note(recs):
@@ -395,6 +418,7 @@ def test_the_script_adjudicates_a_return(recs, tmp_path):
         "r2b_s.log exit=0 2026-11-08 21:00:00\n"
         "amp_r2b_s.log start 2026-11-08 21:00:02 host box driver 575.64\n"
         "amp_r2b_s.log exit=0 2026-11-08 21:45:00\n"
+        "r2b_b: r2b_s has a complete report\n"
         "r2b_b.log start 2026-11-08 21:45:02 host box driver 575.64\n"
         "r2b_b.log exit=0 2026-11-12 08:00:00\n")
     pf = _stamped(tmp_path)
@@ -445,6 +469,7 @@ def test_the_script_records_hosts_and_the_condition_ii_note(recs, tmp_path):
                   "r2b_s.log exit=0 2026-11-08 21:00:00\n"
                   "amp_r2b_s.log start 2026-11-08 21:00:02\n"
                   "amp_r2b_s.log exit=0 2026-11-08 21:45:00\n"
+                  "r2b_b: r2b_s has a complete report\n"
                   "r2b_b.log start 2026-11-08 21:45:02 host box2 driver 580.10\n"
                   "r2b_b.log exit=0 2026-11-12 08:00:00\n"
                   "amp_r2b_b.log start 2026-11-12 08:00:02 host box2 driver \n"
@@ -465,6 +490,100 @@ def test_the_script_records_hosts_and_the_condition_ii_note(recs, tmp_path):
     assert "amp_r2b_s: an attempt's start line does not record its host and driver" in dev
     assert f"R2b: {J.CONDITION_II_ALONE}" in v["notes"]
     assert v["machines"]["amp_r2b_b"] == [["box2", ""]]
+    assert ("the GPU driver could not be read in 1 of the 3 start lines with host and driver "
+            "fields (amp_r2b_b; nvidia-smi printed nothing); those starts are compared by host "
+            "only") in dev
+    assert not any("found r2b_s's report complete" in d for d in dev)
+
+
+def _status(*items):
+    """A status file: an attempt exiting 0 per (step, host, driver); a string
+    is a line as it stands."""
+    out = []
+    for i, it in enumerate(items):
+        if isinstance(it, str):
+            out.append(it + "\n")
+            continue
+        k, h, d = it
+        out.append(f"{k}.log start 2026-11-05 10:00:{i:02d} host {h} driver {d}\n"
+                   f"{k}.log exit=0 2026-11-05 11:00:{i:02d}\n")
+    return "".join(out)
+
+
+S_, AS_, B_, AB_ = [(k, "box", "595.71.05") for k in ("r2b_s", "amp_r2b_s", "r2b_b", "amp_r2b_b")]
+GATE = "r2b_b: r2b_s has a complete report"
+_RUN = [S_, AS_, GATE, B_, AB_]
+ORDER = ("r2b_b: started before the session found r2b_s's report complete after its last "
+         "attempt (S first: the baseline starts only once S's report is complete)")
+
+
+@pytest.mark.parametrize("items, want", [
+    (_RUN, []),
+    # the baseline interrupted, the session run again: S skipped, the gate again, the baseline
+    ([S_, AS_, GATE, "r2b_b.log start 2026-11-05 12:00:00 host box driver 595.71.05",
+      "session interrupted 2026-11-05 12:30:00", "r2b_s: report exists, skipped",
+      "amp_r2b_s: record complete, skipped", GATE, B_, AB_], ["r2b_b: 2 attempts"]),
+    # the shell killed while S's step ran on and wrote its report: the restart finds it
+    (["r2b_s.log start 2026-11-05 09:00:00 host box driver 595.71.05",
+      "r2b_s: report exists, skipped", AS_, GATE, B_, AB_],
+     ["r2b_s: its last attempt has no exit line (interrupted)"]),
+    # S's step exited 3 after writing a complete report: the gate let the baseline start
+    (["r2b_s.log start 2026-11-05 09:00:00 host box driver 595.71.05",
+      "r2b_s.log exit=3 2026-11-05 09:30:00", AS_, GATE, B_, AB_],
+     ["r2b_s: its last attempt exited 3"]),
+    # S failed: the gate does not let the baseline start, nothing out of order
+    (["r2b_s.log start 2026-11-05 10:00:00 host box driver 595.71.05",
+      "r2b_s.log exit=3 2026-11-05 11:00:00", "amp_r2b_s: no report of r2b_s, skipped",
+      "r2b_b: not run, r2b_s has no complete report (R2b needs both arms)",
+      "amp_r2b_b: no report of r2b_b, skipped"],
+     ["amp_r2b_s: not started", "r2b_b: not started", "amp_r2b_b: not started",
+      "r2b_s: its last attempt exited 3"]),
+    # the baseline first, or run without the session's gate
+    ([B_, AB_, S_, AS_], [ORDER]),
+    ([S_, AS_, B_, AB_], [ORDER]),
+    # S run again after the baseline had started: the gate's line precedes S's last start
+    (_RUN + [S_], ["r2b_s: 2 attempts", ORDER]),
+    ([(k, "", d) for k, _, d in (S_, AS_)] + [GATE] + [(k, "", d) for k, _, d in (B_, AB_)],
+     ["4 of the 4 start lines with host and driver fields do not record their host "
+      "(amp_r2b_b, amp_r2b_s, r2b_b, r2b_s)"]),
+    ([S_, AS_, GATE, B_, ("amp_r2b_b", "box", "")],
+     ["the GPU driver could not be read in 1 of the 4 start lines with host and driver fields "
+      "(amp_r2b_b; nvidia-smi printed nothing); those starts are compared by host only"]),
+    ([(k, h, "") for k, h, _ in (S_, AS_)] + [GATE] + [(k, h, "") for k, h, _ in (B_, AB_)],
+     ["the GPU driver could not be read in 4 of the 4 start lines with host and driver fields "
+      "(amp_r2b_b, amp_r2b_s, r2b_b, r2b_s; nvidia-smi printed nothing); those starts are "
+      "compared by host only"]),
+    ([S_, AS_, GATE, B_, ("amp_r2b_b", "box", "NVIDIA-SMI has failed because it couldn't "
+                                              "communicate with the NVIDIA driver.")],
+     ["the GPU driver could not be read in 1 of the 4 start lines with host and driver fields "
+      "(amp_r2b_b; nvidia-smi printed \"NVIDIA-SMI has failed because it couldn't communicate "
+      "with the NVIDIA driver.\"); those starts are compared by host only"]),
+    ([S_, AS_, GATE, B_, ("amp_r2b_b", "box", "580.10")],
+     ["the session's steps started on more than one host or GPU driver: amp_r2b_b "
+      "[('box', '580.10')]; amp_r2b_s [('box', '595.71.05')]; r2b_b [('box', '595.71.05')]; "
+      "r2b_s [('box', '595.71.05')]"]),
+    # a start line without the host and driver fields (another script's)
+    ([S_, "amp_r2b_s.log start 2026-11-05 10:30:00", "amp_r2b_s.log exit=0 2026-11-05 10:45:00",
+      GATE, B_, AB_],
+     ["amp_r2b_s: an attempt's start line does not record its host and driver"]),
+    (_RUN + [("r2b_x", "box", "595.71.05")],
+     ["r2b_x: not a step of the session (r2b_s, amp_r2b_s, r2b_b, amp_r2b_b)"]),
+])
+def test_the_session_status_deviations(items, want):
+    """PREREG_R2B Sec. 7's deviations from the session's status file, each
+    case on its own; the order from the gate's own line."""
+    att, ends, mach, dev = J.session_deviations(_status(*items))
+    assert dev == want
+    assert set(att) == set(ends) and set(mach) <= set(att)
+    assert J.GATE_LINE == GATE
+
+
+def test_the_session_status_with_crlf_and_trailing_blanks():
+    text = _status(*_RUN).replace("\n", " \r\n")
+    att, ends, mach, dev = J.session_deviations(text)
+    assert dev == [] and att == {k: 1 for k, _, _ in (S_, AS_, B_, AB_)} \
+        and set(ends.values()) == {0}
+    assert mach["r2b_s"] == [("box", "595.71.05")]
 
 
 def test_the_script_refuses_the_draft_and_other_inputs(tmp_path):

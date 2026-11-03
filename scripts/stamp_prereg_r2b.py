@@ -37,12 +37,12 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 PREREG = "PREREG_R2B.md"
-DRAFT_STATUS = ("**Status:** r1 DRAFT (3 November 2026), not stamped; the two CONFIG_SHA256 "
+DRAFT_STATUS = ("**Status:** r2 DRAFT (3 November 2026), not stamped; the two CONFIG_SHA256 "
                 "lines below are open. Stamping fills them both at once, before any run "
                 "(Sec. 7); post-stamp criterion changes are prohibited.")
 FOOTER_OPEN = "PREREG_R2B_SHA256 = <record after commit>"
-DRAFT_SHA256 = "53923fe9c32597e7c84c03a1c630c797c279f3c0ce9eb70286bb70ca95d277ed"
-"""SHA-256 of the approved draft (PREREG_R2B.md as committed before the stamp);
+DRAFT_SHA256 = "24b9cc2b5003801d3dd8836e772fd0e9fee8703e2b1e1af86e5479944eacb73d"
+"""SHA-256 of the approved draft (PREREG_R2B.md r2 as committed before the stamp);
 a test keeps it equal to the committed draft, or to the draft the stamped file
 came from."""
 README_TREE = re.compile(r"\| this side \| [^|]*`src` = tree `([0-9a-f]{40})` \|")
@@ -52,7 +52,7 @@ _DATE = re.compile(r"^[1-9]\d? (January|February|March|April|May|June|July|Augus
 
 
 def stamped_status(date: str) -> str:
-    return (f"**Status:** r1, stamped {date} before any run: the two CONFIG_SHA256 lines "
+    return (f"**Status:** r2, stamped {date} before any run: the two CONFIG_SHA256 lines "
             "below are filled, and the last line is this file's SHA-256 (Sec. 7); "
             "post-stamp criterion changes are prohibited.")
 

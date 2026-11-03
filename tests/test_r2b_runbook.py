@@ -4,12 +4,12 @@ route, checks the code with the string every report records, states the
 suite's count, and runs scripts/r2b_session.sh; the session script is
 scripts/fine3d_session.sh's mechanics, which the box ran, for R2b's steps
 (its functions compared line by line); run here with stand-ins for git,
-python and the steps, it runs the four steps in order (S first), skips
+python, nvidia-smi and the steps, it runs the four steps in order (S first), skips
 finished ones, restarts an interrupted arm from its states or its
 checkpoints, moves an unreadable report aside, runs a step again until its
 output is complete, stops before any step when the code is not the tag alone
-and unmodified or the GPU cannot be used, stops on Ctrl-C, and refuses a
-second copy."""
+and unmodified or the GPU cannot be used, records each start's host and GPU
+driver, stops on Ctrl-C, and refuses a second copy."""
 
 import json
 import os
@@ -93,15 +93,24 @@ def test_the_session_is_fine3ds_mechanics():
             .replace("an R2a arm run again", "an arm run again")
     for name in ("gpu_probe", "code_ok", "gpu_ok", "amp"):
         assert ported(f[name]) == r[name], name
-    start = [ln for ln in r["run"].splitlines() if "start" in ln or ln.startswith("    ")]
+    end = 'echo "$log start $now host $host driver $drv" >> "$P/status.txt"'
+    block = r["run"][r["run"].index("  # the host, the first GPU's driver and the time"):
+                     r["run"].index(end) + len(end)]
     assert ported(f["run"]).replace(
-        "  echo \"$log start $(date '+%F %T')\" >> \"$P/status.txt\"", "\n".join(start)) == r["run"]
-    assert "host $(hostname 2>/dev/null) driver $(timeout --foreground 60" in r["run"]
+        "  echo \"$log start $(date '+%F %T')\" >> \"$P/status.txt\"", block) == r["run"]
+    # all three read before the start line; the host and driver in subshells that close
+    # the lock (gpu_probe's way)
+    assert block.splitlines()[-5:-1] == [
+        "  host=$(exec 9>&-; hostname 2>/dev/null)",
+        "  drv=$(exec 9>&-; timeout -k 5 --foreground 60 nvidia-smi --query-gpu=driver_version \\",
+        "    --format=csv,noheader 2>/dev/null | head -n 1)",
+        "  now=$(date '+%F %T')"]
     gate = r["arm"][r["arm"].index('  if [ -n "$need" ]; then'):r["arm"].index("  gpu_ok")]
     assert ported(f["r2a"]) == r["arm"].replace(gate, "").replace(
         "  # $1 the arm; $2 (optional) the arm whose complete report it needs first\n", "").replace(
         "need=${2:-} ", "")
     assert "R2b needs both arms" in gate and "report_state \"$need\"" in gate
+    assert gate.count('echo "$name: $need has a complete report" | tee -a "$P/status.txt"') == 1
     assert set(r) == {"gpu_probe", "run", "code_ok", "gpu_ok", "report_state", "arm", "amp"}
     head = fb[:fb.index("gpu_probe() {")]
     tail = rb[:rb.index("gpu_probe() {")]
@@ -214,7 +223,7 @@ if [ "$1" = "-c" ]; then exec "$REAL_PY" "$@"; fi
 echo "CALL $*" >> "$STUB_DIR/calls"
 if [ "$1" = "-m" ]; then                               # run-config configs/<name>.json ...
   name=$(basename "$4" .json)
-  [ "${SLEEP_IN:-}" = "$name" ] && sleep 30
+  [ "${SLEEP_IN:-}" = "$name" ] && { echo $$ > "$STUB_DIR/step_pid"; sleep "${SLEEP_SECS:-30}"; }
   [ "${FAIL:-}" = "$name" ] && { mkdir -p runs/r2b/$name/e8_states; : > runs/r2b/$name/e8_states/${FAIL_FILE:-ar_p1024_s3.pt}; exit 3; }
   mkdir -p runs/r2b/$name/e8_states; echo '{"provenance": {}}' > runs/r2b/$name/report.json
   [ "${CHANGE_AFTER:-}" = "$name" ] && echo prereg-r2b-dirty > "$STUB_DIR/describe"
@@ -236,6 +245,16 @@ exec {real} "$@"
 """
 
 
+_SMI = """#!/usr/bin/env bash
+# stand-in for nvidia-smi, ahead of the box's own on PATH: the driver, one line per GPU
+# (two); or a query that hangs, when asked
+echo "SMI $*" >> "$STUB_DIR/smi_calls"
+[ -n "${STUB_SMI_HANG:-}" ] && { echo $$ > "$STUB_DIR/smi_pid"; exec sleep "$STUB_SMI_HANG"; }
+echo 575.64.03; echo 575.64.03
+"""
+DRIVER = "575.64.03"
+
+
 @pytest.fixture
 def box(tmp_path):
     (tmp_path / "scripts").mkdir()
@@ -243,7 +262,7 @@ def box(tmp_path):
     stub = tmp_path / "stub"
     stub.mkdir()
     real_flock = shutil.which("flock", path="/usr/bin:/bin:/usr/local/bin") or "flock"
-    for name, body in (("git", _GIT), ("python", _PY),
+    for name, body in (("git", _GIT), ("python", _PY), ("nvidia-smi", _SMI),
                        ("flock", _FLOCK.replace("{real}", real_flock))):
         p = stub / name
         p.write_text(body)
@@ -321,12 +340,17 @@ def test_session_runs_the_baseline_only_after_a_complete_s_report(box):
     st = _status(tmp)
     assert "r2b_b: not run, r2b_s has no complete report (R2b needs both arms)" in st
     assert "amp_r2b_b: no report of r2b_b, skipped" in st
+    assert "r2b_b: r2b_s has a complete report" not in st
     assert not any("r2b_b" in c for c in _calls(stub))
     (stub / "calls").unlink()
     _run(box)
     assert [c.split()[4] if c.split()[1] == "-m" else c.split()[1] for c in _calls(stub)] == [
         "configs/r2b_s.json", "scripts/posthoc_amplitude.py", "configs/r2b_b.json",
         "scripts/posthoc_amplitude.py"]
+    lines = _status(tmp).splitlines()               # the gate's line, just before the baseline
+    i = lines.index("r2b_b: r2b_s has a complete report")
+    assert lines.count("r2b_b: r2b_s has a complete report") == 1
+    assert lines[i + 1].startswith("r2b_b.log start ") and lines[i - 1].startswith("amp_r2b_s.log")
     (tmp / "runs" / "r2b" / "r2b_s" / "report.json").unlink()   # S run again, the baseline kept
     (stub / "calls").unlink()
     _run(box, FAIL="r2b_s")
@@ -348,21 +372,20 @@ def test_a_failed_check_of_s_report_does_not_read_as_an_incomplete_one(box):
 
 
 def test_every_start_line_records_the_host_and_driver(box):
-    tmp, _, _ = box
+    """The host, and the first GPU's driver (the stand-in's, which the box's
+    own nvidia-smi cannot replace: the stub directory is first on PATH)."""
+    tmp, stub, _ = box
     _run(box)
+    assert len((stub / "smi_calls").read_text().splitlines()) == 4
     starts = [ln for ln in _status(tmp).splitlines() if ".log start " in ln]
     assert len(starts) == 4
-    import importlib.util
-
-    spec = importlib.util.spec_from_file_location("adjudicate_r2b",
-                                                  ROOT / "scripts" / "adjudicate_r2b.py")
-    J = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(J)
+    J = _adjudicator()
     m = J.machines(_status(tmp))
     assert sorted(m) == sorted(STEPS) and all(len(v) == 1 for v in m.values())
     host = subprocess.run(["hostname"], capture_output=True, text=True).stdout.strip()
-    assert {v[0][0] for v in m.values()} == {host} and {v[0][1] for v in m.values()} == {""}
+    assert {v[0][0] for v in m.values()} == {host} and {v[0][1] for v in m.values()} == {DRIVER}
     assert J.machine_deviations(m) == []
+    assert J.session_deviations(_status(tmp))[3] == []
 
 
 def test_session_runs_the_amplitude_pass_again_for_a_new_report(box):
@@ -646,3 +669,99 @@ def test_a_probe_left_running_does_not_hold_the_lock(box):
             os.killpg(p.pid, signal.SIGKILL)
         except ProcessLookupError:
             pass
+
+
+def _adjudicator():
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("adjudicate_r2b",
+                                                  ROOT / "scripts" / "adjudicate_r2b.py")
+    J = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(J)
+    return J
+
+
+def test_ctrl_c_while_the_driver_is_read_writes_no_start_line(box):
+    """Ctrl-C while a step's host and driver are read (nvidia-smi hanging)
+    stops the session before that step's start line: the status file holds no
+    attempt that never ran, and the next run makes one attempt per step."""
+    tmp, stub, _ = box
+    p = _start(box, STUB_SMI_HANG="30")
+    try:
+        _wait_for(lambda: (stub / "smi_pid").exists(), "the driver query")
+        time.sleep(0.5)
+        os.killpg(p.pid, signal.SIGINT)
+        assert p.wait(timeout=20) == 130
+        assert _gone(int((stub / "smi_pid").read_text()))
+    finally:
+        if p.poll() is None:
+            os.killpg(p.pid, signal.SIGKILL)
+    assert not (stub / "calls").exists()
+    st = _status(tmp)
+    assert "session interrupted" in st and ".log start" not in st and "STOP" not in st
+    r = _run(box)
+    assert r.returncode == 0, r.stdout + r.stderr
+    att, _, _, dev = _adjudicator().session_deviations(_status(tmp))
+    assert att == {k: 1 for k in STEPS} and dev == []
+
+
+def test_a_driver_query_left_running_does_not_hold_the_lock(box):
+    """The session's shell killed while nvidia-smi hangs: the query left
+    running does not hold the session's lock, so a restart is not refused."""
+    tmp, stub, _ = box
+    p = _start(box, STUB_SMI_HANG="30")
+    try:
+        _wait_for(lambda: (stub / "smi_pid").exists(), "the driver query")
+        time.sleep(0.5)
+        os.kill(p.pid, signal.SIGKILL)                        # the shell only
+        p.wait(timeout=20)
+        assert not _gone(int((stub / "smi_pid").read_text()), timeout=0.5)
+        r = _run(box)
+        assert "already running" not in r.stdout, r.stdout
+        assert r.returncode == 0 and len(_calls(stub)) == 4
+    finally:
+        try:
+            os.killpg(p.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+
+
+def test_a_restart_after_s_finished_without_its_exit_line_is_in_order(box):
+    """The session's shell killed while S's step runs on and writes S's
+    complete report (as a killed tmux pane leaves it): the restart skips S, its
+    gate finds the report complete and the baseline runs; the adjudication
+    records S's missing exit line and no order deviation."""
+    import fcntl
+
+    tmp, stub, _ = box
+    p = _start(box, SLEEP_IN="r2b_s", SLEEP_SECS="3")
+    try:
+        _wait_for(lambda: (stub / "step_pid").exists(), "S's step")
+        os.kill(p.pid, signal.SIGKILL)                        # the shell only
+        p.wait(timeout=20)
+        _wait_for(lambda: (tmp / "runs" / "r2b" / "r2b_s" / "report.json").exists(),
+                  "S's report from the step left running")
+        assert _gone(int((stub / "step_pid").read_text()), timeout=20)
+        with open(tmp / "runs" / "r2b" / "session" / ".lock", "a") as lk:   # the lock freed
+            _wait_for(lambda: _try_lock(lk, fcntl), "the session's lock to be free")
+            fcntl.flock(lk, fcntl.LOCK_UN)
+    finally:
+        try:
+            os.killpg(p.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+    r = _run(box)
+    assert r.returncode == 0, r.stdout + r.stderr
+    st = _status(tmp)
+    assert "r2b_s: report exists, skipped" in st and "r2b_b: r2b_s has a complete report" in st
+    att, ends, _, dev = _adjudicator().session_deviations(st)
+    assert att == {k: 1 for k in STEPS} and ends["r2b_s"] is None
+    assert dev == ["r2b_s: its last attempt has no exit line (interrupted)"]
+
+
+def _try_lock(f, fcntl):
+    try:
+        fcntl.flock(f, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        return True
+    except BlockingIOError:
+        return False

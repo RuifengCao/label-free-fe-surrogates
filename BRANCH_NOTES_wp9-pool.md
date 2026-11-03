@@ -1768,3 +1768,159 @@ pre-registration, runbook, script or record but the README's new section.
   independent draws make condition (ii)'s rates conservative (now said);
   "bit for bit" is a statement on CPU.
 - Suite 802 (713 + 89).
+
+## Stage 4, r2 (3 November 2026) -- PREREG_R2B r2 drafted, not stamped: the start lines' host and driver read first; the session's status checked in full
+
+r1 was stamped on 3 November 2026 (`c71a4c4`) and pushed without its tag,
+so that the code could be checked first; nothing ran. A functional audit of
+that commit (an independent check that ran the session script with
+stand-ins for git, python, flock, nvidia-smi and hostname, and the
+adjudicator on crafted returns) found one blocker, two points to fix and
+three smaller ones. Each was reproduced on `c71a4c4` before it was fixed:
+
+- **The suite would have failed on the box (blocker).**
+  `test_every_start_line_records_the_host_and_driver` expected an empty GPU
+  driver, which holds only where nvidia-smi is absent (the sandbox). The box
+  has it (fine3d's R3 read the driver 595.71.05 with it), and the NVIDIA
+  container runtime mounts it in `/usr/bin`, which the test's PATH holds: the
+  test would have read the box's driver, the suite would have reported a
+  failure, and RUNBOOK_R2B 0c would have stopped the run. Reproduced with a
+  stand-in nvidia-smi in the sandbox's `/usr/bin` (1 failed, 36 passed). The
+  session's tests now put a stand-in nvidia-smi first on PATH (the driver
+  575.64.03, two GPUs), so that no test reads the box's own, and the test
+  checks that driver.
+- **Ctrl-C while a step's driver was read wrote a start line for a step that
+  never ran.** Bash runs the INT trap only once the command it interrupts has
+  ended, and the host and driver were read inside the start line's `echo`:
+  the line was written, then `session interrupted`, and after a restart the
+  adjudication counted two attempts of that step. The host, the first GPU's
+  driver and the time are now read before the line is written
+  (`host=$(...)`, `drv=$(...)`, `now=$(...)`): Ctrl-C while they are read
+  writes no start line, and the line's time is the step's start.
+- **A killed session's driver query held the lock.** The query inherited the
+  session's lock (fd 9): a session killed while nvidia-smi hung refused its
+  restart (`the session is already running`) until the query ended, up to
+  60 s, and a query that ignores TERM outlived its timeout. Each read now runs
+  in a subshell that closes the lock (as `gpu_probe` does), and
+  `timeout -k 5` kills a query 5 s after its TERM: 65 s at most, unless it
+  hangs in the kernel, where no signal ends it (as for the GPU probe).
+- **An empty host or an unread driver was not a deviation.** `machines()`
+  kept an empty field and the check counted only start lines without the
+  fields at all, contrary to its docstring; a message nvidia-smi printed in
+  place of the driver read as a start line without its host and driver. Now
+  a start line whose host is empty, or whose driver is not a version
+  (nothing, or what nvidia-smi printed instead), is a deviation, counted,
+  named and quoted; those starts are compared by host only.
+- **A step the session does not have, and the order, were not checked.**
+  Both are now deviations: a step not among the four, and the baseline
+  started before the session found S's report complete after S's last
+  attempt (PREREG_R2B Sec. 7: the baseline only once S's report is
+  complete). The baseline's gate now writes `r2b_b: r2b_s has a complete
+  report` to the status file when it finds S's report complete, before the
+  baseline's GPU check and start, and the adjudication reads that line: a restart that skips S's finished arm, or
+  finds S's report complete after an attempt without an exit line or with
+  another exit, is in order. The status file is read by one function,
+  `session_deviations()`, tested case by case.
+- **An amplitude record without a seed fed the mechanism readings.**
+  fine3d's `check_amp` does not ask which seeds a record holds: the
+  mechanism readings and the uninformative note's c* read a record of the
+  right report holding two seeds, while the reading beyond the amplitude
+  refused it. The R2b script's `check_amp` now also requires exactly s3, s4
+  and s5, for every reading.
+
+**PREREG_R2B.md** r2: Sec. 7 names the new deviations and the seed
+requirement, the session's sentences say that the host, driver and time are
+read before the start line and that the status file records the baseline's
+gate, and the revision line records r2. No hypothesis,
+criterion, configuration, simulation or source changed: the two
+configurations are r1's (the same CONFIG_SHA256 once stamped), and `src` is
+still the regression's tree. **scripts/stamp_prereg_r2b.py** pins the r2
+draft. **RUNBOOK_R2B.md** 0c states the new count, and Sec. 1 names the gate's
+line.
+
+Checked and found correct by the audit, on `c71a4c4`: every refusal of
+Sec. 7 on crafted returns; a diverged S seed and a non-finite baseline value;
+amplitude records missing, of another report, incomplete, with a short
+remesh pass or a reproduction beyond 5%; condition (ii) failing alone; two
+hosts or drivers; strict JSON in every output; the baseline's gate on
+unreadable, unfinished and failing S outputs, S complete with its amplitude
+pass failing (the baseline still runs), a restart after the gate and Ctrl-C
+during the gate's check; the stamp (the self-hash, both CONFIG_SHA256 lines,
+the stamp reproduced byte for byte from the draft); the dry runs
+(`verified`, 614,400 E8 steps); the simulation record regenerated byte for
+byte, and Sec. 5's rates by an independent Monte Carlo of the rule. Checked
+here on `c71a4c4`'s tree: a fresh clone of GitHub's `wp9-pool` (suite 802,
+the tree clean after it); the two arms' full-size model blocks on CPU (dim
+256, depth 8, heads 8, on real-size instances of the training family): the
+same initial weights, both decode scales exact, finite forward passes, S's
+prediction scaling with the loads (largest relative deviation 7e-8), one AR
+step with finite gradients and the E8 unit path to a state that loads
+strictly; RUNBOOK_R2B 0b-0c on a simulated box holding only `5a31223`, by
+the direct fetch and by the bundle. On this code: the audit's session
+probes again (Ctrl-C while the driver is read leaves `session interrupted`
+alone and the restart one attempt per step; a restart right after the
+session's shell is killed is not refused; a query ignoring TERM ends after
+65 s and the line is still written; a missing or failing hostname and
+nvidia-smi's error message are deviations; the gate's cases as before); and
+Stage 4's CPU drill on this code, with a stand-in nvidia-smi on PATH that
+prints the box's driver: the four steps to the end and a second run skipping
+each, RUNBOOK_R2B Sec. 2's block packing the return and Sec. 3's command
+adjudicating it (R2b refused, the miniature's configuration not being
+Phase-2b's; one attempt per step, each recording the host and the driver;
+no deviation; the adjudicating files and the pre-registration read the
+tag's).
+
+**An independent review of these changes** (by execution, before delivery)
+found one point to fix and two smaller ones, all addressed above. The order
+rule first read S's exit lines: a legitimate restart after the session's
+shell was killed while S's step ran on and wrote its report (or after a
+stop between the report and the step's exit) recorded a false order
+deviation; the rule now reads the gate's own line. Ctrl-C during the start
+line's own `date` still wrote the line, without its time (the time is now
+read with the host and driver). "N of the M start lines" counted only the
+lines with host and driver fields (now said so). The 65 s bound does not
+hold for a query hung in the kernel (now said). Its check of the revision
+found the three fixed and nothing new but a wording (the gate's line comes
+before the baseline's GPU check, so a STOP of that check can follow it; now
+said): no legitimate session it ran (a normal run; the shell killed during S
+or the baseline while the step ran on; the process group killed; Ctrl-C
+during a step or after the gate's line; the baseline gated, then run on a
+restart; S's complete report followed by an exit 1) gave the order
+deviation, every violation did (S run again after the baseline started,
+with or without the baseline run again; the gate's line missing; the
+baseline first), and Ctrl-C while the time is read writes no start line.
+Checked by it and found correct: the new and changed tests, and the full
+suite (817 tests, then 822); the session's tests with an nvidia-smi after the stub on PATH, which none calls,
+and the two other tests that read a real nvidia-smi
+(`tests/test_fine3d_r3.py`, `tests/test_posthoc.py`), which record the
+driver without asserting it; the stamp reproduced byte for byte from the
+draft, its self-hash and both CONFIG_SHA256 lines recomputed; Ctrl-C and
+SIGKILL during the host or driver read; nvidia-smi missing, printing its
+error, an NVML mismatch, `[N/A]`, padding or two lines; hostname missing or
+failing; legitimate sessions (the baseline gated then run on a restart, an
+amplitude pass run again, Ctrl-C during a step) without a false deviation;
+every deviation of Sec. 7 from one crafted return end to end; strict JSON.
+
+- Tests, 20 new:
+  - `tests/test_r2b_runbook.py` (3 new): Ctrl-C while the driver is read
+    writes no start line; a driver query left running does not hold the
+    lock; the shell killed while S's step runs on to a complete report, then
+    a restart: S skipped, the gate's line, the baseline, and only S's
+    missing exit line as a deviation. Changed: the session's `run()` against
+    fine3d's (the three reads before the start line); the gate's line in
+    the baseline's gate, written once, just before the baseline; the start
+    lines' driver (the stand-in's); every session test runs with the
+    stand-in nvidia-smi.
+  - `tests/test_r2b_adjudication.py` (17 new): the status file's deviations,
+    case by case (15: none; the baseline interrupted and run again; S's
+    report found complete after a missing exit line, or after an exit 3;
+    S failed; the baseline first, or without the gate's line; S run again
+    after the baseline; hosts not recorded; a driver unread in one or every
+    start; nvidia-smi's message; two drivers; a start line without the
+    fields; a step the session does not have); CRLF line ends; an amplitude
+    record without a seed. Changed: the return's status files carry the
+    gate's line; the script's hosts test also checks the unread driver's
+    deviation.
+  - `tests/test_r2b_prereg.py` (changed): the stamped status's wording read
+    from the stamp script.
+- Suite 822 (802 + 20).

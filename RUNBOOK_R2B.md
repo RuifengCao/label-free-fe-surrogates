@@ -82,12 +82,12 @@ grep oom_kill /sys/fs/cgroup/memory.events         # note the number: 1' compare
 python -c "import torch; print(torch.__version__, torch.cuda.is_available())"   # 2.12.1+cu130 True
 ls -A runs/r2b 2>/dev/null | grep -vx session || echo "no r2b run yet"   # must print exactly: no r2b run yet
 mkdir -p runs/r2b/session
-python -m pytest -q 2>&1 | tee runs/r2b/session/pytest.log | tail -n 3   # "801 passed, 1 skipped"
+python -m pytest -q 2>&1 | tee runs/r2b/session/pytest.log | tail -n 3   # "821 passed, 1 skipped"
 ```
 Any output other than the comments describe: stop and report. The suite's last
-line reads `801 passed, 1 skipped`, then the warnings and the time, where
+line reads `821 passed, 1 skipped`, then the warnings and the time, where
 `pdflatex` is missing (the box: the paper tables' LaTeX build is not
-compiled); `802 passed` where it is present. Anything failed, an error,
+compiled); `822 passed` where it is present. Anything failed, an error,
 or another count: stop and report. (`no r2b run yet`: `runs/r2b` holds no
 output of an R2b step, so no step can be skipped as finished by an output of
 other code; 0c itself makes only `runs/r2b/session`, which the check ignores,
@@ -160,8 +160,10 @@ not restart.
   `status.txt` time-stamps each attempt, with the host and GPU driver it
   starts on. The script refuses to start while another copy runs.
 - A step ends with `exit` other than 0 (the script goes on to the next step,
-  except that the baseline runs only once S's report is complete: otherwise
-  `status.txt` reads `r2b_b: not run, r2b_s has no complete report (R2b needs both arms)`):
+  except that the baseline runs only once S's report is complete: then
+  `status.txt` reads `r2b_b: r2b_s has a complete report`, followed by the
+  baseline's start line or by its GPU check's `STOP`; otherwise it reads
+  `r2b_b: not run, r2b_s has no complete report (R2b needs both arms)`):
   when the script has finished, read `tail -n 30 runs/r2b/session/<step>.log`.
   If it mentions `out of memory`, the exit is 137, or `oom_kill` rose: do not
   re-run; go to Sec. 2 and report. Otherwise re-run the script once as above;

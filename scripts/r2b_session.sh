@@ -4,8 +4,9 @@
 # Steps, in order: the transformer with S (run-config), the post-hoc amplitude pass
 # on its report (wp8 4e, --remesh 16), the fresh baseline (run-config), the
 # post-hoc pass on its report. S first, and the baseline only once S's report is
-# complete (R2b needs both arms): the new path fails, if it fails, before the
-# baseline's time is spent. A step whose output is complete is skipped; a run with
+# complete (R2b needs both arms; status.txt records the check): the new path fails,
+# if it fails, before the baseline's time is spent. A step whose output is complete
+# is skipped; a run with
 # states but no report restarts with --reuse-states (D9, recorded in its report).
 # Otherwise a failed step does not stop the next one. Every attempt keeps its log
 # (<step>.log.<time>), and status.txt time-stamps each attempt with the host and
@@ -85,9 +86,15 @@ fi
 run() {
   local log=$1; shift
   [ -e "$P/$log" ] && mv "$P/$log" "$P/$log.$(date +%Y%m%d-%H%M%S)"
-  echo "$log start $(date '+%F %T') host $(hostname 2>/dev/null) driver $(timeout --foreground 60 \
-    nvidia-smi --query-gpu=driver_version --format=csv,noheader 2>/dev/null | head -n 1)" \
-    >> "$P/status.txt"
+  # the host, the first GPU's driver and the time, read before the start line is written
+  # (Ctrl-C while they are read writes none), the first two in subshells that close the
+  # session's lock (as gpu_probe does); -k bounds a query that ignores the timeout's TERM
+  local host drv now
+  host=$(exec 9>&-; hostname 2>/dev/null)
+  drv=$(exec 9>&-; timeout -k 5 --foreground 60 nvidia-smi --query-gpu=driver_version \
+    --format=csv,noheader 2>/dev/null | head -n 1)
+  now=$(date '+%F %T')
+  echo "$log start $now host $host driver $drv" >> "$P/status.txt"
   "$@" 2>&1 | tee "$P/$log"; local rc=${PIPESTATUS[0]}
   echo "$log exit=$rc $(date '+%F %T')" | tee -a "$P/status.txt"
 }
@@ -160,6 +167,7 @@ PY
       echo "STOP before $name: the check of $need's report failed (exit $rc)" \
         | tee -a "$P/status.txt"; return 1
     fi
+    echo "$name: $need has a complete report" | tee -a "$P/status.txt"   # the gate, recorded
   fi
   gpu_ok "$name" || return 1
   if ls "runs/r2b/$name/e8_states/"*.pt >/dev/null 2>&1 \

@@ -307,9 +307,8 @@ def _draft_of(text, mod):
     its lines, status and footer opened again (and the stamp date)."""
     from fejepa.report import PREREG_PLACEHOLDER
 
-    m = re.search(r"\*\*Status:\*\* r1, stamped (.+?) before any run: the two CONFIG_SHA256 "
-                  r"lines below are filled, and the last line is this file's SHA-256 \(Sec\. 7\); "
-                  r"post-stamp criterion changes are prohibited\.", text)
+    pre, post = mod.stamped_status("\0").split("\0")         # the script's own wording
+    m = re.search(re.escape(pre) + "(.+?)" + re.escape(post), text)
     if m is None:
         return text, None
     text = text.replace(m.group(0), mod.DRAFT_STATUS)
