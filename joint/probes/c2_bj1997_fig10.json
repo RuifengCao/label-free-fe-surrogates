@@ -1,0 +1,38 @@
+{
+ "source": "Bursi and Jaspart (1997), Fig. 10: preloaded T-stub T1, load F against the relative displacement of the webs; the experimental curve and two simulations of the authors (nominal and true laws), which nearly coincide",
+ "how": "read from a 300 dpi image of the printed page with probes/c2_bj1997_digitise.py, whose output these are; axes 0 to 16 mm and 0 to 250 kN; one pixel is about 0.03 mm and 0.44 kN; the experimental curve is the lower envelope of the dark pixels, the simulations the upper envelope (at 8 and 10 mm the three curves are within 1 to 4 kN); at 0.5 mm the simulations rise steeply and are not read",
+ "uncertainty_kN": 2.0,
+ "Delta_mm": [
+  0.5,
+  1.0,
+  1.5,
+  2.0,
+  3.0,
+  4.0,
+  6.0,
+  8.0,
+  10.0
+ ],
+ "test_kN": [
+  94.3,
+  137.5,
+  156.1,
+  165.3,
+  176.8,
+  184.0,
+  194.3,
+  201.8,
+  206.0
+ ],
+ "authors_fe_kN": [
+  null,
+  158.9,
+  177.2,
+  184.1,
+  190.8,
+  193.1,
+  198.9,
+  205.1,
+  206.9
+ ]
+}
