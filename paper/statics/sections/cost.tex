@@ -6,26 +6,24 @@ The Ritz projection of \cref{sec:methods:ritz} needs the instance's stiffness ma
 labels or training (its rows in \cref{tab:3d,tab:2d}). On the 256 three-dimensional
 validation instances its displacement error was smaller than the label-free transformer's on
 \numRitzValFreeDispSixMin{} to \numRitzValFreeDispSixMax{} of the instances at $p=6$,
-depending on the seed, and on \numRitzValFreeDispNineMin{} to \numRitzValFreeDispNineMax{}
-at $p=9$; at $p=9$ it was smaller than each network's, in each seed, on at least
+depending on the seed, and on \numRitzValFreeDispNineMin{} to \numRitzValFreeDispNineMax{} at $p=9$. At $p=9$ it was
+smaller than each network's, in each seed, on at least
 \numRitzValNineDispAll{} of the instances. Its median relative energy gap fell from
 \numRitzValGapSix{} at $p=6$ to \numRitzValGapNine{} at $p=9$, against \numKdFreeMedMin{} to
-\numKdFreeMedMax{} for the label-free transformer's three seeds, and at $p=9$ its seed means
-were better than the label-free transformer's on every metric but the peak stress error. Its
+\numKdFreeMedMax{} for the label-free transformer's three seeds. At $p=9$ its seed means were better than the label-free transformer's on every metric but the peak stress error. Its
 median peak stress error, \numRitzValPeakSix{} at $p=6$ and \numRitzValPeakNine{} at $p=9$,
 was \numRitzValPeakRatioMin{} to \numRitzValPeakRatioMax{} times the label-free
 transformer's, and its peak stress error was the larger on at least \numRitzValFreePeakMin{}
 of the instances at every degree. The energy-norm-supervised transformer had the lower
-relative energy gap on at least \numRitzValKnormGapMin{} of the instances and the lower peak
-stress error on all of them, at every degree, and lower seed means than the projection at
+relative energy gap on at least \numRitzValKnormGapMin{} of the instances and the lower peak stress error on all of them, at every degree. It also had lower seed means
+than the projection at
 $p=9$ in relative energy gap, von Mises error and peak stress error. On the held-out
 instances the comparisons read much the same: the energy-norm-supervised transformer had the
 lower relative energy gap on at least \numRitzHoldKnormGapMin{} of them and the lower peak
 stress error on all but at most \numRitzHoldKnormPeakMiss{}, at every degree. In two
 dimensions, with \numRitzTwoKSix{} and \numRitzTwoKEight{} unknowns, the projection's
 displacement error was smaller than the label-free transformer's on \numRitzTwoFreeDispMin{}
-to \numRitzTwoFreeDispMax{} of the instances, depending on the seed and the degree, its
-relative energy gap smaller on \numRitzTwoFreeGapSixMin{} to \numRitzTwoFreeGapSixMax{} at
+to \numRitzTwoFreeDispMax{} of the instances, depending on the seed and the degree. Its relative energy gap was smaller on \numRitzTwoFreeGapSixMin{} to \numRitzTwoFreeGapSixMax{} at
 $p=6$ and on \numRitzTwoFreeGapEightMin{} to \numRitzTwoFreeGapEightMax{} at $p=8$, and its
 peak stress error larger on at least \numRitzTwoFreePeakMin{} of them. Supplementary
 Section~\SuppRitz{} gives the shares for every network, set and degree. A smooth polynomial
@@ -38,40 +36,37 @@ the energy norm.
 \input{generated/table_cost}
 
 \Cref{tab:cost} times the label-free transformer's inference against solves of the same
-systems on the same instances, with the sparse direct solver that produced the labels and
-with conjugate gradients; the network ran on the GPU and the solvers on the CPU of the same
-machine, and the assembly of the stiffness matrix, which the solvers and the Ritz projection
+systems on the same instances, with the sparse direct solver that produced the labels and with conjugate gradients. The network ran on the GPU and the solvers on the CPU of the
+same machine. The assembly of the stiffness matrix, which the solvers and the Ritz projection
 need and the surrogate does not, is listed apart (supplementary Section~\SuppTiming{} gives
 the protocol). In three dimensions the direct solve took
-a median \numCostThreeValDirectRatio{} times as long as the surrogate's first call on the
-validation instances and \numCostThreeFineDirectRatio{} times on the
-\numCostFineDirectSolved{} fine-mesh instances that it solved before its time budget ran
-out (here and below, medians of the per-instance ratios, not ratios of the medians in
-\cref{tab:cost}), where
-the surrogate's median relative energy gap was \numCostThreeFineGap{} against
-\numCostThreeValGap{} on the validation instances; in two dimensions it took
+a median \numCostThreeValDirectRatio{} times as long as the surrogate's first call on the validation instances, and
+\numCostThreeFineDirectRatio{} times as long on the \numCostFineDirectSolved{} fine-mesh
+instances that it solved before its time budget ran out (here and below, medians of the
+per-instance ratios, not ratios of the medians in \cref{tab:cost}). On those fine-mesh
+instances the surrogate's median relative energy gap was \numCostThreeFineGap{}, against
+\numCostThreeValGap{} on the validation instances. In two dimensions the direct solve took
 \numCostTwoDirectRatio{} times as long, and its solution is exact. Conjugate gradients from
 the zero field, stopped at the first iterate as accurate as the prediction in the energy
 norm, took a median \numCostThreeValMatchRatio{} and \numCostThreeFineMatchRatio{} times the
-surrogate's first call on the three-dimensional validation and fine-mesh instances; this
-stop reads the reference solution, so a practical run would take at least as long. The Ritz
+surrogate's first call on the three-dimensional validation and fine-mesh instances. This stop reads the reference
+solution, so a practical run would take at least as long. The Ritz
 projection took \numCostRitzValMin{} to \numCostRitzValMax{} per validation instance from
 $p=6$ to $p=9$, against \numCostSurrVal{} for the surrogate's first call, after an assembly
 that took \numCostAsmOverRitzMin{} to \numCostAsmOverRitzMax{} times as long as the
-projection itself with the repository's assembler. We do not read these times as a speed
-advantage of the surrogate: the network ran on a GPU and the solvers on a CPU, with
-\numCostThreads{} threads (supplementary Section~\SuppTiming{}), neither the general sparse
-LU factorisation of SuperLU nor unpreconditioned conjugate gradients is the solver of choice
-for these symmetric positive definite systems, and the ratio of the matched solve to the
-surrogate fell from \numCostThreeValMatchRatio{} to \numCostThreeFineMatchRatio{} on the
-finer mesh.
+projection itself with the repository's assembler. These times do not show a speed advantage of the surrogate. The network ran on a GPU and the
+solvers on a CPU, with \numCostThreads{} threads (supplementary Section~\SuppTiming{}).
+Neither the general sparse LU factorisation of SuperLU nor unpreconditioned conjugate
+gradients is the solver of choice for these symmetric positive definite systems. The ratio of
+the matched solve to the surrogate also fell from \numCostThreeValMatchRatio{} to
+\numCostThreeFineMatchRatio{} on the finer mesh.
 
 \subsection{Labels and training}\label{sec:cost:labels}
 
 In three dimensions the comparison consumed \numThreeSolves{} solves: \numThreeTrainSolves{}
 for the 1,024 labelled training instances, \numThreeFewSolves{} for 64 fine-mesh instances
-reserved for few-shot training and \numThreeEvalSolves{} for the in-band and fine-mesh
-validation sets; in two dimensions it used \numCmSolves{}, \numCmSolvesTrain{} of them for
+reserved for few-shot training and \numThreeEvalSolves{} for the in-band and fine-mesh validation sets. In two dimensions the comparison used
+\numCmSolves{}, \numCmSolvesTrain{} of them for
 training. The validation solves are needed to evaluate any method; the training solves are
 the price of supervision, and the label-free transformer needed none of them. They are cheap
 here. At the median times of \cref{tab:cost}, the \numThreeTrainSolves{} three-dimensional
@@ -90,6 +85,5 @@ upper bound since that stop reads the reference solution. Label-free training pa
 itself where a solve is expensive enough
 (\cref{sec:discussion:engineering,sec:discussion:outlook}). As warm starts the
 predictions did not shorten conjugate gradients, here or in the pre-registered test of the
-July run (K5 in \cref{tab:claims}); supplementary Section~\SuppWarm{} gives these
-measurements, the iteration bound that explains them and a comparison with reported
+July run (K5 in \cref{tab:claims}). Supplementary Section~\SuppWarm{} gives these measurements, the iteration bound that explains them and a comparison with reported
 speed-ups.

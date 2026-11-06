@@ -978,7 +978,7 @@ def test_the_cost_table_follows_from_the_timing_records(built):
     assert ("(Xeon Platinum 8470Q, 25 CPUs, the thread environment set to 25)" in proto
             and "with the machine's 25 BLAS threads" in proto)
     assert ("The fine-mesh direct solve used up its budget of 900 s after seven of the eight "
-            "instances; its median, and the ratios that use it, are over those seven.") in proto
+            "instances. Its median, and the ratios that use it, are over those seven.") in proto
     assert ("Fine mesh, direct solve: the median over the seven of the eight instances that it "
             "solved before its budget of 900 s ran out.") in note
     assert (f"on the fine mesh it needs no iteration on the {words[len(worse)]} load cases "

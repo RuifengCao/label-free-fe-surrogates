@@ -7,8 +7,8 @@ transformer's displacement error within 10\% of the displacement-supervised tran
 with 1,024 labels and an advantage in relative energy gap of at least 40\% at every budget,
 and (c) transfer to the finer mesh. Condition (b), the pre-registered test of the label-free
 network's accuracy, was met with a wide margin: the label-free displacement error was
-\numGTwoParity{} relative to the displacement-supervised one, and the smallest advantage in
-relative energy gap was \numGTwoAdvMin{}; the kill conditions on that accuracy, KP1 and KP2,
+\numGTwoParity{} relative to the displacement-supervised one, and the smallest advantage in relative energy gap was \numGTwoAdvMin{}. The kill conditions on
+that accuracy, KP1 and KP2,
 were not triggered. Condition (c) failed, and kill condition KP4 withdrew the transfer claim
 (Section~\ref{sec:transfer}). Condition (a) was met from 64 labels on, but with 16 labels
 the displacement-supervised transformer with the energy term was only
@@ -28,8 +28,7 @@ displacement error of \numWorstSeedLabDisp{}, a von Mises error of \numWorstSeed
 a peak stress error of \numWorstSeedLabPeak{}. The same instance had the largest relative
 energy gap of the displacement-supervised transformer in all three seeds, and the
 transformer's median relative energy gap over the instance-seed pairs,
-\numThreeLabGapMedian{} (\cref{tab:tails3d}), is far below the mean. The energy term
-repaired most of this, but not at every budget: with 256 labels it raised the displacement
+\numThreeLabGapMedian{} (\cref{tab:tails3d}), is far below the mean. The energy term repaired most of this, but not at every budget. With 256 labels it raised the displacement
 error of the displacement-supervised transformer in every seed and, through one of the three
 seeds, its mean relative energy gap (\cref{tab:labeleff}), although it reduced the number of
 instance-seed predictions worse than the zero field from \numThreeLabWorseTwoFiveSix{} to
@@ -39,20 +38,15 @@ instance-seed predictions worse than the zero field from \numThreeLabWorseTwoFiv
 \Cref{tab:tails3d} gives the upper tail of the relative energy gap of the networks trained on
 1,024 instances, over the instance-seed pairs, each pair's value the mean over the four load
 cases, read after the runs. The two networks trained in the energy norm, with and without
-the solutions, had no pair with a mean relative energy gap above one on the validation or
-the held-out instances; load case by load case, \numTailThreeFreeLoad{} of the label-free
+the solutions, had no pair with a mean relative energy gap above one on the validation or the held-out instances. Load case by load case, \numTailThreeFreeLoad{} of the label-free
 transformer's load cases on the validation instances had a relative energy gap above one
 (\cref{sec:checks:zero}).
 The displacement-supervised transformer and the graph network had such pairs on a few
-instances, and for each of them more than half of these instances had one in two or three
-seeds (last column); \numTailThreeValShared{} of the validation instances,
-No.~\numWorstIndex{} among them, and \numTailThreeHoldShared{} of the held-out ones were
-failures of both. The variant with the energy term had \numTailThreeAncWorse{} such pairs,
-each in one seed, on instances on which the graph network failed in every seed; its
-networks were not stored (\cref{sec:holdout}), so it has no holdout row. The instances on
-which either network failed were harder for every
-network, whose median relative energy gaps on them exceeded their medians over all the
-instances, but on every one of them the label-free transformer's relative energy gap was at
+instances, and for each of them more than half of these instances had one in two or three seeds (last column). Both networks failed on \numTailThreeValShared{} of the validation instances,
+No.~\numWorstIndex{} among them, and on \numTailThreeHoldShared{} of the held-out ones. The variant with the energy term had \numTailThreeAncWorse{} such pairs,
+each in one seed, on instances on which the graph network failed in every seed. Its networks were not stored (\cref{sec:holdout}), so it has no holdout row. The instances on
+which either network failed were harder for every network: each network's median relative energy gap on them exceeded its
+median over all the instances. On every one of them, however, the label-free transformer's relative energy gap was at
 most \numTailThreeFreeMax{} and the energy-norm-supervised transformer's at most
 \numTailThreeKnormMax{}, far from one. A mean over the load cases above one has a load case
 above one, which has a positive energy, and which the test of \cref{cor:zero} flags without
@@ -71,9 +65,8 @@ Section~\ref{app:july}.
 \Cref{tab:k3d} gives the pre-registered hypotheses of the run with their per-seed values and
 the readings that its pre-registration required beside each verdict. The readings are those
 of the two-dimensional comparison (Section~\ref{app:prereg}), taken on each seed's median
-over the instances, the pre-registered statistic, unless a row says seed means; for the
-resampling interval each seed's value is the median of its resampled values, and the rows of
-the held-out instances give the same readings on the \numHoldThreeN{} held-out instances of
+over the instances, the pre-registered statistic, unless a row says seed means. For the resampling interval each
+seed's value is the median of its resampled values. The rows of the held-out instances give the same readings on the \numHoldThreeN{} held-out instances of
 \cref{sec:holdout}, without a verdict. \Cref{tab:kmedians}
 gives every metric of the three transformers on the 256 validation instances, as the seeds'
 medians over the instances, the statistic that the verdicts read, and as the seeds' means.
@@ -84,16 +77,15 @@ label-free transformers, and the label-free transformer against the displacement
 one, on the medians and on the means. Each reading applies the noise guard of the paper: rel
 is the relative difference of the two networks' seed-averaged values, and a difference
 counts only beyond the larger of 10\% and twice its standard error over the three seeds.
-Without a true difference, a comparison can cross the guard by chance, as the
-pre-registration's simulations of the rule show, so several crossings among
+Without a true difference, a comparison can still cross the guard, as the pre-registration's
+simulations of the rule show, so several crossings among
 \numKdSecondary{} are expected by chance. For the critical-region recall higher is better,
 and the reading says which network was the better. Descriptively, on the medians, the change
 of norm removed \numKdClosureVm{} of the displacement-supervised transformer's excess over
 the label-free transformer in von Mises error and \numKdClosureGap{} in relative energy gap,
 a reading that the pre-registration fixed without a criterion. The energy-norm-supervised
-and the displacement-supervised transformers were trained about seven weeks apart, each with
-the code of its time, whose training path a regression on small problems showed to be the
-same; the stored networks were evaluated again with the later code and reproduced their
+and the displacement-supervised transformers were trained about seven weeks apart, each with the code of its time; a regression test on small problems showed that the two
+versions follow the same training path. The stored networks were evaluated again with the later code and reproduced their
 earlier values exactly.
 
 \input{generated/table_k3d}

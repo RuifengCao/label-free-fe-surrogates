@@ -7,9 +7,9 @@
 The solvers of \cref{tab:cost} ran with the machine's \numCostThreads{} threads. The effect
 of the number of threads was measured on another host of the same type, with
 \numThreadsHost{} threads, on the first \numThreadsValN{} validation and \numThreadsFineN{}
-fine-mesh instances of the three-dimensional comparison: with one thread, the direct solve
+fine-mesh instances of the three-dimensional comparison. With one thread, the direct solve
 took the same time, to within \numThreadsDirectDev{}, and conjugate gradients
-\numThreadsCgGainMin{} to \numThreadsCgGainMax{} less; a repeat with all threads agreed with
+\numThreadsCgGainMin{} to \numThreadsCgGainMax{} less. A repeat with all threads agreed with
 the first measurement to within \numThreadsDrift{}. In two dimensions (\numThreadsTwoN{}
 instances, without a repeat), one thread was \numThreadsTwoDirect{} faster for the direct
 solve and \numThreadsTwoCg{} for conjugate gradients.

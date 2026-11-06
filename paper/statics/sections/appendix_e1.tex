@@ -1,10 +1,10 @@
 \section{Two pre-registered side experiments}\label{app:e1}
 
-This section reports two experiments that were pre-registered separately and whose outcomes
-are not part of the comparisons of the paper, although the bottleneck networks appear in the
-readings of \cref{sec:transfer:amplitude}: a regulariser of the latent representations,
-whose unregularised networks are the two-dimensional label-free networks of the paper
-(\cref{sec:labelfree:two}), and a token bottleneck that reduces the cost of attention.
+This section reports two experiments that were pre-registered separately: a regulariser of the
+latent representations, whose unregularised networks are the two-dimensional label-free
+networks of the paper (\cref{sec:labelfree:two}), and a token bottleneck that reduces the cost
+of attention. Their outcomes are not part of the comparisons of the paper, although the
+bottleneck networks appear in the readings of \cref{sec:transfer:amplitude}.
 
 \subsection{Latent regularisation}\label{app:e1:latent}
 
@@ -16,17 +16,16 @@ identical latent vectors, with regularisers on the distribution of the latent ve
 sketched isotropic Gaussian regulariser SIGReg \cite{Balestriero2025LeJEPA} projects the
 latent vectors onto random directions and penalises the mean, over the directions, of the
 Epps--Pulley statistic \cite{EppsPulley1983}, which measures how far the distribution of a
-projection is from the standard normal one; it was introduced for joint-embedding
+projection is from the standard normal one. SIGReg was introduced for joint-embedding
 predictive architectures (JEPA), self-supervised networks that predict the latent
 representation of one part of an input from that of another.
 
 The latent-regularisation run (\cref{tab:runs}) added SIGReg, applied to a learned
-projection of the latent vectors (a projection head), to the label-free objective of the
-two-dimensional transformer, with the later code, and asked whether it kept the accuracy and
+projection of the latent vectors (a projection head), to the label-free objective of the two-dimensional transformer, with the later code. The run asked whether the regulariser
+kept the accuracy and
 separated the geometries better in latent space (\cref{tab:e1}). The separation was measured
 by the silhouette, between $-1$ and 1, of the instance-mean latent vectors of the 256
-validation instances, grouped into four bins by the quartiles of the first principal
-component of the geometry descriptor; the silhouette is near zero when the bins overlap and
+validation instances, grouped into four bins by the quartiles of the first principal component of the geometry descriptor. The silhouette is near zero when the bins overlap and
 near one when they are well
 separated. The accuracy was unchanged within the pre-registered noise guard: the
 regulariser changed the seed means of the displacement error and of the relative energy gap
@@ -37,15 +36,14 @@ runs, untrained networks were measured on the same instances: networks built fro
 label-free network's configuration at initialisation, with the geometry descriptor as input;
 the same networks with the descriptor's input weights set to zero; and networks built
 without that input. With the input they separated the bins better than trained ones, and a
-linear probe read the descriptor from them perfectly; with its weights set to zero, or
+linear probe read the descriptor from them perfectly. With its weights set to zero, or
 without it, they did not separate the bins at all.
 The descriptor is an input feature of every node, so these readings measure the input
 rather than anything learned. The unregularised networks of this run are the label-free
-networks of the two-dimensional comparison, which reuses them without retraining
-(\cref{sec:methods:training}); the regulariser itself plays no part in the results.
+networks of the two-dimensional comparison, which reuses them without retraining (\cref{sec:methods:training}). The regulariser itself plays no part in the results.
 
-Criterion K4 of the July run (\cref{tab:criteria}) concerned the same kind of regulariser in
-an earlier setting: three regularisers of the latent distribution, each added to the energy
+Criterion K4 of the July run (\cref{tab:criteria}) concerned the same kind of regulariser in an earlier setting. Three regularisers of the latent
+distribution, each added to the energy
 and the masked-prediction term of the joint-embedding objective (Section~\ref{app:prereg})
 and trained for 2,000 steps on 64 instances, with and without the geometry descriptor, were
 compared by the standardised effective rank of the latent vectors on 256 instances. The best
@@ -76,12 +74,10 @@ $\norm{\Ustar_j-\Ustar_{j'}}_K\le\norm{\Ustar_j-\mathcal{D}(\xi_j)}_K
 +\norm{\mathcal{D}(\xi_{j'})-\Ustar_{j'}}_K\le2\beta+\Lambda\norm{\xi_j-\xi_{j'}}_2$.
 \end{proof}
 
-The bound is informative when the solutions themselves are separated; on sixteen
-validation instances of each corpus the smallest separation between the load cases of one
+The bound is informative when the solutions themselves are separated. On sixteen validation instances of each corpus the smallest separation between the load cases of one
 instance, relative to the mean energy norm of its solutions, was \numPremiseTwo{} (two
 dimensions) and \numPremiseThree{} (three). Across geometries there is no common energy
-norm, and the natural analogue in a transported metric fails: among the same sixteen
-instances, two different geometries had solutions under the same load, normalised to unit
+norm, and the natural analogue in a transported metric fails. Among the same sixteen instances, two different geometries had solutions under the same load, normalised to unit
 length and interpolated to common coordinates, closer to each other (\numCrossTwo{} and
 \numCrossThree{}) than the closest two load cases on a single geometry (\numWithinTwo{} and
 \numWithinThree{}). Within a geometry, the rank correlation between the distances of the

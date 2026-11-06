@@ -6,8 +6,8 @@ The comparisons of \cref{sec:norm,sec:labelfree,sec:checks} were read on the val
 instances, on which the runs were monitored and, in two dimensions, on which the results
 that motivated the comparison had been seen. A pre-registered evaluation read eight of their
 claims again, with the stored networks unchanged, on instances of the same corpora on which
-no recorded run or tool had trained or evaluated a network or computed a label:
-\numHoldThreeN{} instances in three dimensions and \numHoldTwoN{} in two
+no recorded run or tool had trained or evaluated a network or computed a label. There were \numHoldThreeN{} such instances in three dimensions and
+\numHoldTwoN{} in two
 (\cref{sec:methods:data}), labelled only after the rules had been fixed. The
 displacement-supervised transformer with the energy term, whose networks were not stored,
 was not evaluated. \Cref{tab:holdout} gives the claims with their values on both sets; seven
@@ -16,10 +16,9 @@ the same instances and several of them the same networks, and agreement among th
 little evidence.
 
 In three dimensions the label-free transformer was again more accurate than the
-displacement-supervised transformer on all five metrics, in each seed and in the seed mean;
-the graph network again had the lower displacement error on most instances and the higher
-von Mises error, now on every instance-seed pair (\numMgnVmHigher{} of \numThreePairs{} on
-the validation instances); and the networks trained on the displacement error again had load
+displacement-supervised transformer on all five metrics, in each seed and in the seed mean. The graph network again had the lower displacement error on
+most instances and the higher von Mises error, now on every instance-seed pair
+(\numMgnVmHigher{} of \numThreePairs{} on the validation instances). The networks trained on the displacement error again had load
 cases worse than the zero field, each with a positive energy. In two dimensions the
 label-free transformer's lower relative energy gap, and its larger displacement error with
 better values of the other four metrics, replicated, as did the energy-norm-supervised
@@ -36,8 +35,8 @@ interval, the held-out instances resampled: \numHoldHTwoARatioLow{} to
 \numHoldHTwoAMedHold{} and \numHoldHTwoAMedVal{}. Of its \numHoldTwoPairs{} instance-seed
 predictions on the held-out instances, \numHoldTwoWorseInstKnorm{} had a mean relative
 energy gap above one, against \numHoldTwoWorseInstLab{} of the displacement-supervised
-transformer's and \numHoldTwoWorseInstFree{} of the label-free transformer's, where on the
-validation instances none of the three had any; read after the evaluation, the largest
+transformer's and \numHoldTwoWorseInstFree{} of the label-free transformer's; on the validation instances none of the three had any. Read
+after the evaluation, the largest
 relative energy gaps of its three seeds were \numHoldHTwoATopSeeds{}. Its predictions above
 one lay on as many instances, each in one seed only, and its other two seeds predicted those
 instances with relative energy gaps of at most \numTailTwoKnormOther{} (supplementary
@@ -47,8 +46,7 @@ holds for the typical instance, not for the mean, which a few held-out instances
 again showed no difference beyond the guard, and the label-free transformer's seed-mean
 relative energy gap was now the lower, \numHoldTwoFreeGap{} against \numHoldTwoKnormGap{}.
 
-Beside the claims, the per-instance values of every network and metric were compared between
-the two sets: of the \numHoldVQuantities{} quantities none was rejected by two-sided
+Beside the claims, the per-instance values of every network and metric were compared between the two sets. Of the \numHoldVQuantities{} quantities none was rejected by two-sided
 Mann--Whitney tests of the held-out against the validation values, taken together by Holm's
 procedure at a family-wise level of \numHoldVAlpha{}, and the validation instances were read
 as representative. That verdict does not show that the means are unchanged: a mean that a few

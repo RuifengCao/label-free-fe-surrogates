@@ -19,15 +19,14 @@ on 1,024 instances.}
 The graph network, trained on the solutions with the displacement error, had the lowest mean
 displacement error of the three-dimensional networks, \numThreeMgnDisp{},
 \numThreeFreeOverMgnDisp{} times lower than the label-free transformer's (\cref{tab:3d}),
-and the label-free transformer was the more accurate on every other metric. The reversal
-held on most instances individually (\cref{fig:reverse}): the two networks trained in the
-energy norm, with and without the solutions, lie at the bottom of the figure and the two
-trained on the displacement error higher, whatever their displacement error, and the graph
-network's points lie to the left of the label-free transformer's and above them; the point
-at the top right is instance No.~\numWorstIndex{} in seed \numThreeLabWorstSeed{}
+and the label-free transformer was the more accurate on every other metric. The reversal held on most instances individually (\cref{fig:reverse}). The two networks
+trained in the energy norm, with and without the solutions, lie at the bottom of the figure
+and the two trained on the displacement error higher, whatever their displacement error. The
+graph network's points lie to the left of the label-free transformer's and above them. The
+point at the top right is instance No.~\numWorstIndex{} in seed \numThreeLabWorstSeed{}
 (\cref{sec:norm:three}). Compared within each seed, the
-graph network's displacement error was the lower on \numMgnDispLowerMin{} to
-\numMgnDispLowerMax{} of the instances, but its von Mises error was the higher on
+graph network's displacement error was the lower on \numMgnDispLowerMin{} to \numMgnDispLowerMax{} of the instances. Its von
+Mises error, however, was the higher on
 \numMgnVmHigher{} of the \numThreePairs{} instance-seed pairs, with a mean
 \numThreeMgnOverFreeVm{} times higher, and its relative energy gap was the higher on at
 least \numMgnGapHigherMin{} of the instances in every seed. On \numMgnLowerDispHigherVm{}
@@ -37,13 +36,12 @@ followed the pattern less closely: the graph network's was the lower on
 \numThreeMgnOverFreePeak{} times higher. The relative energy gap thus ranked the two
 networks as the von Mises error did, not as the displacement error did. In two dimensions
 the graph network again had the lowest displacement error of the networks, \numCmMgnDisp{},
-within the guard of the displacement-supervised transformer's, a von Mises error
-\numCmMgnOverFreeVm{} times the label-free transformer's, and the largest relative energy
-gap of the trained networks, \numCmMgnOverLabGap{} times the displacement-supervised
+within the guard of the displacement-supervised transformer's. Its von Mises error was
+\numCmMgnOverFreeVm{} times the label-free transformer's, and its relative energy gap the
+largest of the trained networks, \numCmMgnOverLabGap{} times the displacement-supervised
 transformer's (\cref{tab:2d}). By \cref{rem:rank} such reversals are possible whenever the
 displacement errors differ by a factor of less than $\kappa^{1/2}$, which on the instances
-measured was at least about \numSqrtKappaMin{} (\cref{sec:methods:data}). These comparisons
-use the solutions; for the predictions of one load case, differences of energy rank them
+measured was at least about \numSqrtKappaMin{} (\cref{sec:methods:data}). These comparisons use the solutions. For the predictions of one load case, differences of energy rank them
 exactly as the relative energy gap does, without a solution (\cref{cor:rank}).
 
 \begin{figure}[tbp]
@@ -74,8 +72,7 @@ with too large an amplitude: its relative displacement error of \numFigWorstFree
 to \numFigWorstFreeDispC{} when it is rescaled by $\cstar=\numFigWorstFreeC{}$
 (\cref{prop:amp}). The stress fields of the two networks trained on the displacement error
 are rough, and more than twice the reference's on \numFigWorstTwiceLab{} and
-\numFigWorstTwiceMgn{} of the solid's volume, against \numFigWorstTwiceFree{} for the
-label-free transformer; a typical instance, on which their predictions were better than the
+\numFigWorstTwiceMgn{} of the solid's volume, against \numFigWorstTwiceFree{} for the label-free transformer. A typical instance, on which their predictions were better than the
 zero field, shows the same roughness (supplementary Section~\SuppThree{}). Small
 displacement errors rich in stiff modes are what \cref{sec:norm:spectrum} measured, and by
 \cref{prop:stress} they are large stress errors.
@@ -95,8 +92,7 @@ dashed line: worse than the zero field.}
 In three dimensions none of the \numThreePairs{} instance-seed predictions of the label-free
 or of the energy-norm-supervised transformer had a mean relative energy gap above one
 (\cref{fig:energygap}), against \numThreeLabWorse{} of the displacement-supervised
-transformer's, \numThreeAncWorse{} of the variant with the energy term and
-\numThreeMgnWorse{} of the graph network's; the label-free transformer's median over the
+transformer's, \numThreeAncWorse{} of the variant with the energy term and \numThreeMgnWorse{} of the graph network's. The label-free transformer's median over the
 pairs, \numThreeFreeGapMedian{}, was \numThreeMedianRatioMin{} to \numThreeMedianRatioMax{}
 times lower than the medians of the networks trained on the displacement error. In two
 dimensions \numCmMgnWorse{} of the graph network's predictions had a mean relative energy
@@ -104,9 +100,9 @@ gap above one, and none of any transformer's. These counts use the solutions. Lo
 load case, with the test of \cref{cor:zero}, which does not, \numFieldLoadWorseLab{} of the
 displacement-supervised transformer's \numFieldLoads{} three-dimensional predictions and
 \numFieldLoadWorseMgn{} of the graph network's had a positive energy, and so were worse than
-the zero field, against \numThreeFreeLoadWorse{} of the label-free transformer's; in two
-dimensions, \numSpecLoadWorseMgn{} of the graph network's \numSpecLoads{} against at most
-one of each transformer's. These counts were made after the runs; on the held-out instances
+the zero field, against \numThreeFreeLoadWorse{} of the label-free transformer's. In two dimensions the counts
+were \numSpecLoadWorseMgn{} of the graph network's \numSpecLoads{}, against at most one of
+each transformer's. These counts were made after the runs. On the held-out instances
 the same test was a pre-registered claim, and it found \numHoldTThreeLab{} and
 \numHoldTThreeMgn{} of \numHoldTThreeLoads{} load cases of the two networks trained on the
 displacement error in three dimensions, each with a positive energy and no other
@@ -117,7 +113,7 @@ graph network recurred: more than half of the instances on which either had a me
 energy gap above one had it in two or three of its seeds (supplementary
 Sections~\SuppThree{} and~\SuppTwo{}).
 
-The check needs only the assembled $K$ and $F$; where a surrogate is used without them,
+The check needs only the assembled $K$ and $F$. Where a surrogate is used without them,
 their assembly, which here took longer than its inference (\cref{tab:cost}), is the cost of
 the check and of the rescaling by $\cstar$. It applies to any network, however it was
 trained, and the rescaling repairs what it flags without a solution (\cref{prop:amp}). It

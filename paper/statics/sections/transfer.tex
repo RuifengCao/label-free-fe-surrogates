@@ -7,8 +7,7 @@
 \Cref{tab:transfer} evaluates the networks trained in-band on the 256 fine-mesh evaluation
 instances, meshed at $l_{\mathrm{c}}=0.0374$, about half the in-band element size, which no network had
 seen. None transferred. The label-free transformer's displacement error rose from
-\numAmpInDisp{} in-band to \numFineFreeDisp{}, a factor of \numFineRatio{}; the
-pre-registered criterion for transfer allowed \numFineWin{} and the kill condition KP4 was
+\numAmpInDisp{} in-band to \numFineFreeDisp{}, a factor of \numFineRatio{}. The pre-registered criterion for transfer allowed \numFineWin{} and the kill condition KP4 was
 triggered above \numFineKill{}, so the transfer claim was withdrawn. The
 displacement-supervised transformer had almost the same displacement error,
 \numFineLabDisp{}, and the graph network \numFineMgnDisp{}, worse than the nearest-neighbour
@@ -18,9 +17,8 @@ Mises error (\numFineFreeVm{} against \numFineLabVm{} and \numFineMgnVm{}). The
 energy-norm-supervised transformer, trained after this comparison (\cref{sec:norm:three}),
 was evaluated on the same instances after the runs, in the run of the Ritz baseline
 (Section~\ref{app:prereg}), with the code that reproduced its recorded in-band values and
-the other networks' recorded fine-mesh values. It did not transfer either, its
-displacement error rising from
-\numThreeKnormDisp{} in-band to \numFineKnormDisp{}, and its relative energy gap,
+the other networks' recorded fine-mesh values. It did not transfer either: its displacement error rose from \numThreeKnormDisp{} in-band to
+\numFineKnormDisp{}. Its relative energy gap,
 \numFineKnormGap{}, and von Mises error, \numFineKnormVm{}, were also lower than those of
 the two networks trained on the displacement error. The discretisation
 invariance reported for operators trained on the energy
@@ -28,9 +26,9 @@ invariance reported for operators trained on the energy
 point cloud, not by refining the mesh as here.
 
 Training on a few labelled fine-mesh instances, starting from the trained label-free
-network of the same seed, was pre-registered as a reported comparison without a criterion;
-it minimised the relative displacement error \eqref{eq:ld}, without the energy term, for 50
-epochs at learning rate $1.5\times10^{-3}$, and for comparison the same network was trained
+network of the same seed, was pre-registered as a reported comparison without a criterion. It minimised the relative displacement error
+\eqref{eq:ld}, without the energy term, for 50 epochs at learning rate $1.5\times10^{-3}$. For
+comparison, the same network was trained
 in the same way from random initialisation (from scratch). With 64 such instances
 the displacement error returned to the in-band level, \numFewSixtyFourDisp{}, and with 16 it
 was \numFewSixteenDisp{}, against \numFewSixtyFourScratchDisp{} and
@@ -42,20 +40,19 @@ not the energy and stress errors, consistent with \cref{sec:theory:metrics,sec:n
 Label-free fine-tuning on the finer meshes, which needs no solves, was not tested.
 
 On the finer mesh, where no network transferred without retraining, the Ritz projection of
-\cref{sec:methods:ritz}, added after the pre-registered runs, kept most of its accuracy, its
-displacement, energy and von Mises errors close to their in-band values and its peak stress
-error larger (\cref{tab:transfer,tab:3d}): its median relative energy gap was
+\cref{sec:methods:ritz}, added after the pre-registered runs, kept most of its accuracy. Its displacement, energy and
+von Mises errors stayed close to their in-band values and its peak stress error was larger
+(\cref{tab:transfer,tab:3d}). Its median relative energy gap was
 \numRitzFineGapSix{} at $p=6$ and \numRitzFineGapNine{} at $p=9$, lower than each network's
 on at least \numRitzFineGapAll{} of the instances, the networks trained with fine-mesh
-labels included. In the peak stress error the label-free transformer, applied without
-retraining, remained the more accurate on \numRitzFineFreePeakMin{} to
-\numRitzFineFreePeakMax{} of the instances, the two token bottlenecks, which pool the nodes
-into $M=512$ or $M=1{,}024$ tokens (Section~\ref{app:e1:bottleneck}), on
-\numRitzFineBnPeakMin{} to \numRitzFineBnPeakMax{}, the energy-norm-supervised transformer
-on \numRitzFineKnormPeakMin{} to \numRitzFineKnormPeakMax{}, the displacement-supervised
-transformer on at most \numRitzFineLabPeakMax{} and the graph network on none; fine-tuned
-with the 64
-fine-mesh labels, the label-free transformer was the more accurate on
+labels included. In the peak stress error, the label-free transformer applied without retraining remained more
+accurate than the projection on \numRitzFineFreePeakMin{} to \numRitzFineFreePeakMax{} of the
+instances; the two token bottlenecks, which pool the nodes into $M=512$ or $M=1{,}024$ tokens
+(Section~\ref{app:e1:bottleneck}), on \numRitzFineBnPeakMin{} to \numRitzFineBnPeakMax{}; the
+energy-norm-supervised transformer on \numRitzFineKnormPeakMin{} to
+\numRitzFineKnormPeakMax{}; the displacement-supervised transformer on at most
+\numRitzFineLabPeakMax{}; and the graph network on none. Fine-tuned with the 64 fine-mesh
+labels, the label-free transformer was the more accurate on
 \numRitzFineFtPeakMin{} to \numRitzFineFtPeakMax{}.
 
 \subsection{Amplitude error on the finer mesh}\label{sec:transfer:amplitude}
@@ -65,8 +62,7 @@ fine-mesh labels, the label-free transformer was the more accurate on
 The rescaling that repairs predictions worse than the zero field also diagnoses the error.
 Rescaling each prediction by its energy-optimal amplitude $\cstar$ (\cref{prop:amp}), which
 needs no label and no solve, separates errors of amplitude from errors of shape. We measured
-it after the runs, on the stored label-free networks, the transformer and the two token
-bottlenecks (\cref{tab:amplitude}); no verdict was revisited. On the finer mesh the median
+it after the runs, on the stored label-free networks, the transformer and the two token bottlenecks (\cref{tab:amplitude}). No verdict was revisited. On the finer mesh the median
 $\cstar$ of the label-free transformer was \numAmpFineCstar{}, against \numAmpInCstar{}
 in-band: its predictions were too small. Rescaling lowered its fine-mesh displacement error
 from \numAmpFineDisp{} to \numAmpFineDispC{}, by \numAmpFineRedMin{} to \numAmpFineRedMax{}
@@ -91,8 +87,7 @@ sum of their energies. Over the training range the median $c^{\ast}_{\mathrm{ins
 transformer stayed within \numRemeshInDev{} of one, and at $l_{\mathrm{c}}=0.0374$ it was
 \numRemeshFine{}. The largest nodal load $F_{\max}$, by which the output is multiplied
 (\cref{sec:methods:networks}), shrinks with the element size, roughly as $l_{\mathrm{c}}^2$ for the
-face tractions, whereas the solution does not depend on the mesh; a finer mesh therefore
-asks the network for a larger output than any it produced in training. We have not tested
+face tractions, whereas the solution does not depend on the mesh. A finer mesh therefore asks the network for a larger output than any it produced in training. We have not tested
 this explanation causally. It agrees with an observation of the July run, whose code did not
 multiply the output by $F_{\max}$: networks trained on meshes \numCoarsenLow{} and
 \numCoarsenHigh{} times coarser lost little accuracy on the original meshes

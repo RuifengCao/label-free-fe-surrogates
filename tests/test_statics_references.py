@@ -349,7 +349,7 @@ def test_the_text_states_the_published_versions_and_credits_the_bound():
                            r"initial guess although their errors were much smaller."),
             ("related.tex", r"the supervised one was more accurate in displacement and in the "
                             r"$H^1$ seminorm \cite{Sun2026FEVessel}"),
-            ("related.tex", r"in polycrystals the label-free network was more accurate in "
+            ("related.tex", r"In polycrystals the label-free network was more accurate in "
                             r"stress than the supervised one, which was trained on the "
                             r"reference stresses \cite{MonteiroFernandes2025}"),
             ("supp_warm.tex", WANG + r" and " + SUN + r" explain why the benefit shrinks as "
@@ -393,10 +393,10 @@ def test_the_text_states_the_published_versions_and_credits_the_bound():
                                r"\cite{OrtizStainier1999}, and variational integrators derive "
                                r"each step of a time integration from a discrete variational "
                                r"principle \cite{MarsdenWest2001}."),
-            ("discussion.tex", r"at finite strains the incremental potential is in general not "
+            ("discussion.tex", r"At finite strains the incremental potential is in general not "
                                r"convex \cite{OrtizStainier1999}, so that its minimiser need "
                                r"not be unique."),
-            ("discussion.tex", r"the discretisation invariance reported for point-cloud "
+            ("discussion.tex", r"The discretisation invariance reported for point-cloud "
                                r"operators trained on the energy"),
             ("discussion.tex", r"As in an energy-based model \cite{LeCun2007EBM}, which uses one "
                                r"scalar energy to find the most compatible output, to rank "

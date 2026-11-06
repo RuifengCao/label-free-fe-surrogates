@@ -255,7 +255,7 @@
 - Fine mesh, direct solve: the median over the seven of the eight instances that it solved before its budget of 900 s ran out.
 - CG to the prediction's accuracy reads the reference solution, so it is a lower bound; on the fine mesh it needs no iteration on the three load cases whose relative energy gap exceeds 1.
 
-### The pre-registered hypotheses of the three-dimensional energy-norm run, with 1,024 labelled instances, as its adjudicator recorded them, and the readings its pre-registration required beside each: each seed's median over the 256 validation instances, or in the holdout rows, which carry no verdict, over the \numHoldThreeN{} held-out instances, unless a row says seed means; the readings are those of \cref{tab:cm2d}.
+### The pre-registered hypotheses of the three-dimensional energy-norm run, with 1,024 labelled instances, as its adjudicator recorded them, and the readings its pre-registration required beside each. Readings are taken on each seed's median over the 256 validation instances (in the holdout rows, which carry no verdict, over the \numHoldThreeN{} held-out instances) unless a row says seed means; they are those of \cref{tab:cm2d}.
 
 |  | H2a-3D | H2b-3D | H3-3D |
 |---|---|---|---|

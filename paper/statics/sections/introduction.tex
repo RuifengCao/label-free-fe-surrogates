@@ -1,9 +1,9 @@
 \section{Introduction}\label{sec:intro}
 
-Holes, cut-outs and internal cavities concentrate stress, and components that contain them
-are analysed on their stresses, often many times over: in design studies that vary the
-number, size and position of the holes, in uncertainty quantification over their scatter,
-and in the assessment of parts whose voids differ from one part to the next. Each analysis
+Holes, cut-outs and internal cavities concentrate stress, and components that contain them are
+analysed on their stresses. Such analyses are often repeated many times: in design studies
+that vary the number, size and position of the holes, in uncertainty quantification over their
+scatter, and in the assessment of parts whose voids differ from one part to the next. Each analysis
 is a finite-element solve. The examples here are dimensionless families of perforated plates
 in plane stress and of solids with spherical cavities, clamped on one face and carrying four
 load cases, with up to three holes or cavities of random size and position
@@ -23,8 +23,8 @@ whether solutions were used at all.
 
 The clearest symptom is a reversal. A transformer trained on the discrete potential energy
 of 1,024 three-dimensional instances, without a single solve, had lower displacement, energy
-and stress errors, in each of three seeds, than the same transformer trained on the exact
-solutions of the same instances, some of whose predictions were worse than the zero field.
+and stress errors, in each of three seeds, than the same transformer trained on the exact solutions of the same instances, some of whose
+predictions were worse than the zero field.
 Reported comparisons of energy-trained and supervised networks disagree: the two were about
 as accurate in one study \cite{Zhu2019}, the energy-trained network was the more accurate in
 energy, strain or stress in two others \cite{Dalton2023,MonteiroFernandes2025}, and the less
@@ -60,10 +60,8 @@ their claims were read again on held-out instances.
 \figfull{generated/fig_norm_labels.pdf}
 \caption{The norm of the loss against the labels, in three dimensions (left) and two (right).
 The same transformer is trained on the solutions of 1,024 instances with the relative
-displacement error (top left) or the relative energy-norm error (bottom left), and on their
-energy without the solutions (bottom right), which also changes the weighting of the load
-cases and the learning rate (\cref{sec:labelfree}); a displacement loss needs the solutions
-(top right). In each cell: relative energy-norm and von Mises errors, medians over the 256
+displacement error (top left) or the relative energy-norm error (bottom left), and on their energy without the solutions (bottom right). This also changes the weighting of the load cases and the learning rate (\cref{sec:labelfree}); a displacement
+loss needs the solutions (top right). In each cell: relative energy-norm and von Mises errors, medians over the 256
 validation instances averaged over three seeds.}
 \label{fig:normlabels}
 \end{figure}
@@ -77,20 +75,20 @@ the sign of the energy shows whether a prediction is worse than the zero field. 
 error estimators bound the energy-norm error itself, at the price of an equilibrated stress
 field or a few Krylov iterations (\cref{sec:related}); these two checks need neither.
 
-We do not claim that the networks beat classical methods on these problems. Given the
-stiffness matrix, a polynomial Ritz projection with \numRitzThreeKMax{} unknowns was more
-accurate than the label-free transformer, in the seed means, on every metric but peak
-stress, and conjugate gradients, stopped by a test that reads the solution, reached a
-network's accuracy within a few times its inference time (\cref{sec:cost}). Linear
+The networks did not beat classical methods on these problems. Given the stiffness matrix, a
+polynomial Ritz projection with \numRitzThreeKMax{} unknowns was more accurate than the
+label-free transformer, in the seed means, on every metric but peak stress. Conjugate
+gradients, stopped by a test that reads the solution, reached a network's accuracy within a
+few times its inference time (\cref{sec:cost}). Linear
 elastostatics is the setting in which the identity
 is exact and the comparison can be kept narrow. Its lesson, the choice of norm, should
 matter wherever surrogates are trained and compared; training without solutions pays most
 where solves are expensive.
 
-The contributions are three. First, an exact account of what three common losses regress on
-the assembled system (\cref{sec:theory}): the energy, in the energy norm, which bounds the
-von Mises error for a homogeneous isotropic material; the displacement error, in the
-Euclidean norm; and the Euclidean residual, in the norm of the squared stiffness matrix. A
+The contributions are three. First, an exact account of what three common losses regress on the assembled system
+(\cref{sec:theory}). The energy regresses in the energy norm, which bounds the von Mises error
+for a homogeneous isotropic material; the displacement error, in the Euclidean norm; and the
+Euclidean residual, in the norm of the squared stiffness matrix. A
 spectral factor relates the energy-norm and the displacement errors and shows when they rank
 predictions in opposite orders. Second, a controlled separation of the norm of the loss from
 the labels in two and three dimensions (\cref{sec:norm,sec:labelfree}), with criteria fixed
@@ -100,14 +98,13 @@ gap, did not. Third, evidence that displacement errors misrank surrogates by str
 that need no solution, with a closed-form rescaling for predictions that fail them
 (\cref{sec:checks}). A classical baseline and the cost of each step (\cref{sec:cost}) bound
 these claims. \Cref{lem:exact}, \cref{rem:norms} and two statements on conditioning and
-on gradient descent, which supplementary Section~\SuppRepro{} gives with their checks, are
-restated from a companion note \cite{CaoSong2026}, which checks them on synthetic problems
-and on probe instances; the trained networks, their comparisons and the baselines are new
-here.
+on gradient descent, which supplementary Section~\SuppRepro{} gives with their checks, are restated from a companion note \cite{CaoSong2026}. That note checks them on synthetic
+problems and on probe instances; the trained networks, their comparisons and the baselines are
+new here.
 
 For engineering use, the results suggest three rules, which \cref{sec:discussion:engineering}
-states with their costs and limits: train a surrogate used for stress analysis in the energy
+states with their costs and limits. Train a surrogate used for stress analysis in the energy
 norm, on the solutions where they have been computed and on the energy alone where they have
-not; compare surrogates by their energy-norm and stress errors, not by their displacement
-errors alone; and screen each prediction by the sign of its energy before it is used,
-sending those that fail back to the solver. The screen catches gross failures only.
+not. Compare surrogates by their energy-norm and stress errors, not by their displacement
+errors alone. Screen each prediction by the sign of its energy before it is used, and send
+those that fail back to the solver. The screen catches gross failures only.

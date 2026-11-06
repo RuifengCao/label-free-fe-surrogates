@@ -2,8 +2,8 @@
 \setcounter{table}{0}
 
 \Cref{tab:claims} lists the pre-registered claims of the three comparisons of this paper
-(\cref{sec:methods:prereg}), and the pre-registered test of a warm start, with the values
-measured and the outcomes as the code recorded them at the time; \cref{tab:holdout} gives
+(\cref{sec:methods:prereg}), and the pre-registered test of a warm start, with the values measured and the outcomes as the code recorded them at the time.
+\Cref{tab:holdout} gives
 those of the holdout evaluation. The hypotheses of the comparisons are read in
 \cref{sec:norm,sec:labelfree}, and the gate of the three-dimensional comparison in
 \cref{sec:labelfree:three}. Supplementary Section~\SuppPrereg{} lists every criterion of every
@@ -12,9 +12,8 @@ run, including the earlier runs of July 2026, with the departures from the plans
 The criteria are those of the pre-registration documents, which number their own. Gates
 decide whether a study proceeds to its next stage; kill conditions withdraw a claim when
 triggered. In the gate G2 of the three-dimensional comparison, (a) is a plausibility check of
-the supervised side, (b) the accuracy of the label-free network and (c) its transfer to the
-finer mesh; the amendment of the gate, written after the initial run, assessed (a) from 64
-labels only, and its naive baselines are the nearest-neighbour field and the scaled
+the supervised side, (b) the accuracy of the label-free network and (c) its transfer to the finer mesh. The amendment of the gate, written after the initial
+run, assessed (a) from 64 labels only; the naive baselines of (a) are the nearest-neighbour field and the scaled
 polynomial of \cref{sec:methods:networks}. In the statements, $\mathcal{L}_D$ and
 $\mathcal{L}_K$ are the losses \eqref{eq:ld} and \eqref{eq:lk}.
 
@@ -27,8 +26,7 @@ The noise guard compares a network with a comparator network over three seeds ea
 \end{split}
 \label{eq:guard}
 \end{equation}
-where $\mathrm{mean}$ and $\mathrm{sd}$ are the mean and the sample standard deviation of
-the metric over a network's seeds: the network is lower beyond the guard when $\mathrm{rel}$ is below minus the guard,
+where $\mathrm{mean}$ and $\mathrm{sd}$ are the mean and the sample standard deviation of the metric over a network's seeds. The network is lower beyond the guard when $\mathrm{rel}$ is below minus the guard,
 $\max(10\%,\,2\,\mathrm{SE}_{\mathrm{rel}})$, and higher beyond it when $\mathrm{rel}$
 exceeds the guard; within it no difference is shown, which is not equivalence. The
 three-dimensional energy-norm run applies it to each seed's median over the instances.

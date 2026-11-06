@@ -2859,3 +2859,43 @@ generator, and no record, configuration, pre-registration or source file changed
   no acronym in the title or the abstract; elsarticle's one-column preprint option; at most
   seven keywords, the last "stress analysis") and names the new journal. The runbook's suite
   lines read the new count. Suite 839 (836 + 3).
+
+## Stage 28 (7 Nov 2026) -- the prose of the paper and of the supplementary material edited for clause-stacked sentences; no claim, number or reference changed
+
+- Why. Before submission, every section of the manuscript and of the supplementary material
+  was read again for sentences that stack clauses with semicolons, colons and chains of
+  "which" and "with", and for sentences that argue with a reader instead of stating a
+  result. In the manuscript 115 of its 454 sentences were split or reordered, and the
+  sentences of more than 45 words fell from 115 to 34, most of those left being definitions
+  with formulae or sentences that the tests pin; in the supplementary material 106 of 329
+  were, and its long sentences fell from 71 to 19. The abstract, the declarations, the
+  highlights, the graphical abstract and the cover letter are unchanged. No number, unit,
+  citation, cross-reference, equation, link, table, figure or pre-registered verdict
+  changed: a script that compares them in the sources before and after found them the same,
+  but for four references that now begin a sentence (`\Cref`).
+- Two sentences that answered an imagined objection now state the result: "We do not claim
+  that the networks beat classical methods on these problems" (Section 1) reads "The
+  networks did not beat classical methods on these problems", and "We do not read these
+  times as a speed advantage of the surrogate" (Section 9.2) reads "These times do not show
+  a speed advantage of the surrogate", followed by its three reasons, one sentence each.
+- Wording made exact where a split exposed it:
+  - Section 4.3 and supplementary Section S2: "a regression of the two versions of the code
+    on small problems" is "a regression test", so that it is not read as the regression of
+    Section 3 (the check of PREREG_K3D, on CPU miniatures);
+  - Section 4.3: the energy term in three dimensions has its gradient scaled to at most the
+    norm of the gradient of L_D, "except with 16 labelled instances, where the term has a
+    fixed weight", as supplementary Section S1 states the policy;
+  - Section 10.5: the scope sentence first says that a pre-registered comparison kept the
+    joint-embedding term, then that the scope without it was chosen after that comparison;
+  - supplementary Section S1: the second departure of the holdout evaluation, one sentence
+    of about 130 words, is five; Appendix A: the naive baselines are those of condition (a);
+  - supplementary Section S4: the fine-mesh peak-stress shares say what they compare, the
+    network against the projection (`_net_better`).
+- The generated paragraphs of the cost protocol, the amplitude readings and the bottleneck
+  readings, and the caption of the table of the three-dimensional energy-norm run, are split
+  in the same way (`scripts/make_statics_material.py`); the figures are unchanged.
+- Tests: four pinned sentences follow the new sentence boundaries, in
+  `tests/test_statics_references.py` ("In polycrystals the label-free network was more
+  accurate in", "At finite strains", "The discretisation invariance") and in
+  `tests/test_statics_material.py` (the cost protocol's sentence on the fine-mesh direct
+  solve). Suite 839 (836 + 3), unchanged.
