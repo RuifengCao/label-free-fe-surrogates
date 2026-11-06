@@ -249,6 +249,86 @@ def test_the_comparisons_of_loss_norms_are_cited_as_they_read():
         assert re.search(rf"\\cite\{{{key}\}}", rel), key
 
 
+
+def test_the_references_of_6_november_are_cited_as_they_read():
+    """Stage 27: a literature search of 6 November 2026 found close work published or read
+    since the references were checked, and two surrogates of finite-element models in the
+    journal that the manuscript is prepared for. Each entry was checked against the sources
+    that its comment names; the text states of each only what that check read. Section 2.2
+    no longer says that its earlier works appeared in "this journal"."""
+    entries = _entries(BIB.read_text(encoding="utf-8"))
+    expect = {
+        "Do2026MNES": (
+            ["Do, Si T.", "Mai, Hau T.", "Lee, Seunghye", "Mai, Dai D."],
+            "A mesh-based neural energy solver for linear and nonlinear plane elasticity problems",
+            "Engineering with Computers", "42", "6", "199", "2026", "10.1007/s00366-026-02439-6"),
+        "Kaewnuratchadasorn2024PINOS": (
+            ["Kaewnuratchadasorn, Chawit", "Wang, Jiaji", "Kim, Chul-Woo"],
+            "Physics-informed neural operator solver and super-resolution for solid mechanics",
+            "Computer-Aided Civil and Infrastructure Engineering", "39", "22", "3435--3451",
+            "2024", "10.1111/mice.13292"),
+        "Song2023StructGNN": (
+            ["Song, Ling-Han", "Wang, Chen", "Fan, Jian-Sheng", "Lu, Hong-Ming"],
+            "Elastic structural analysis based on graph neural network without labeled data",
+            "Computer-Aided Civil and Infrastructure Engineering", "38", "10", "1307--1323",
+            "2023", "10.1111/mice.12944"),
+        "Bai2023LSWR": (
+            ["Bai, Jinshuai", "Rabczuk, Timon", "Gupta, Ashish", "Alzubaidi, Laith",
+             "Gu, Yuantong"],
+            "A physics-informed neural network technique based on a modified loss function for "
+            "computational {2D} and {3D} solid mechanics",
+            "Computational Mechanics", "71", None, "543--562", "2023",
+            "10.1007/s00466-022-02252-0"),
+        "Deshpande2024MAgNET": (
+            ["Deshpande, Saurabh", "Bordas, St{\\'e}phane P. A.", "Lengiewicz, Jakub"],
+            "{MAgNET}: a graph {U-Net} architecture for mesh-based simulations",
+            "Engineering Applications of Artificial Intelligence", "133", None, "108055", "2024",
+            "10.1016/j.engappai.2024.108055"),
+        "JiangChen2023GNN": (
+            ["Jiang, Chunhao", "Chen, Nian-Zhong"],
+            "Graph neural networks ({GNNs}) based accelerated numerical simulation",
+            "Engineering Applications of Artificial Intelligence", "123", None, "106370", "2023",
+            "10.1016/j.engappai.2023.106370"),
+    }
+    for key, (authors, title, journal, volume, number, pages, year, doi) in expect.items():
+        kind, comment, body = entries[key]
+        assert kind == "article", key
+        assert _flat(comment.replace("% ", "")).startswith("verified 6 November 2026 against"), key
+        assert _field(body, "author").split(" and ") == authors, key
+        assert (_field(body, "title"), _field(body, "journal"), _field(body, "volume"),
+                _field(body, "pages"), _field(body, "year"), _field(body, "doi")) == (
+            title, journal, volume, pages, year, doi), key
+        if number is None:
+            assert not re.search(r"^\s*number\s*=", body, re.M), key
+        else:
+            assert _field(body, "number") == number, key
+    secs = _sections()
+    rel, intro = secs["related.tex"], secs["introduction.tex"]
+    for s in (r"Do et~al.~\cite{Do2026MNES} parametrise the nodal displacement vector of a "
+              r"finite-element mesh by a coordinate-based network and minimise the total "
+              r"potential energy of the discretised system, for linear and nonlinear plane "
+              r"elasticity",
+              r"a physics-informed neural operator for solid mechanics trained, for static "
+              r"problems, on a weak form based on the principle of least work "
+              r"\cite{Kaewnuratchadasorn2024PINOS}",
+              r"a graph network for the elastic analysis of braced steel frames was trained "
+              r"without labels on the residual of the equilibrium between internal and external "
+              r"forces \cite{Song2023StructGNN}",
+              r"a least-squares weighted residual loss has been compared with this collocation "
+              r"loss and with the energy \cite{Bai2023LSWR}",
+              "have a history in computational physics:"):
+        assert s in rel, s
+    assert "this journal" not in rel
+    # the two surrogates of the journal are cited as surrogates of finite-element models only,
+    # the second as one that predicts the stresses directly
+    assert re.search(r"Neural surrogates of finite-element models return, in one network "
+                     r"evaluation, .*?\\cite\{[^}]*,Deshpande2024MAgNET\}; some predict the "
+                     r"stresses directly \\cite\{JiangChen2023GNN\}\. They are usually trained",
+                     intro)
+    assert "fixed finite-element mesh" not in rel
+    for key in ("Deshpande2024MAgNET", "JiangChen2023GNN"):
+        assert sum(t.count(key) for t in secs.values()) == 1, key
+
 def test_the_text_states_the_published_versions_and_credits_the_bound():
     s = _sections()
     for name, quote in (

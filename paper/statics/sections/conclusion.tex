@@ -21,4 +21,7 @@ solution. Given the stiffness matrix, a polynomial Ritz projection of a few hund
 was more accurate than the label-free transformer, in the seed means, on every metric but
 peak stress, and no network transferred to a substantially finer mesh; these limits, the
 claim that did not replicate on held-out instances and the criteria that were not met are
-reported with the results.
+reported with the results. For engineering use, these results suggest training surrogates
+for stress analysis in the energy norm, comparing them by their energy-norm and stress
+errors rather than by their displacement errors alone, and screening each prediction for
+gross failures by the sign of its energy before it is used.

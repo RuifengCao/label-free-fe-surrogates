@@ -1682,7 +1682,8 @@ def test_no_earlier_journal_is_named(built):
     file or directory named after another, and nothing that speaks of another submission or
     version (a revision, a resubmission, a new version of an archive); the references name
     journals only in their journal fields."""
-    bad = re.compile(r"cmame|CMAME|Computer Methods in Applied|Comput\. Methods Appl")
+    bad = re.compile(r"cmame|CMAME|Computer Methods in Applied|Comput\. Methods Appl|"
+                     r"Journal of Computational Physics|J\. ?Comput\. ?Phys")
     earlier = re.compile(r"\brevision|\brevised\b|resubmi|re-submi|previous(ly)? submi|"
                          r"earlier submi|first submi|declined|desk[- ]reject|"
                          r"-v\d\b|new version of|transferred to this", re.I)
@@ -1693,7 +1694,8 @@ def test_no_earlier_journal_is_named(built):
         hits = bad.findall(text)
         assert not hits, (f.name, hits)
         assert not earlier.search(text), (f.name, earlier.search(text).group(0))
-    assert r"\journal{Journal of Computational Physics}" in (PAPER / "main.tex").read_text()
+    assert r"\journal{Engineering Applications of Artificial Intelligence}" in (
+        PAPER / "main.tex").read_text()
     bib = (PAPER / "references.bib").read_text(encoding="utf-8")
     for line in bib.splitlines():
         if bad.search(line):
@@ -1917,6 +1919,31 @@ def test_abstract_has_no_numbers_and_at_most_250_words():
     text = (PAPER / "sections" / "abstract.tex").read_text(encoding="utf-8")
     assert not re.search(r"\d", text)
     assert len(text.split()) <= 250
+
+
+def test_the_front_matter_meets_the_journals_conditions_for_review():
+    """Stage 27: the conditions under which the journal sends a paper to review. The abstract
+    says which is the contribution to artificial intelligence and which the application in
+    engineering, each named; the title and the abstract use no acronym (a word of two or more capitals,
+    the macros of the numbers aside); the paper is set in one column (elsarticle's preprint
+    option); and the keywords are at most seven."""
+    main = (PAPER / "main.tex").read_text(encoding="utf-8")
+    abstract = " ".join((PAPER / "sections" / "abstract.tex").read_text(encoding="utf-8").split())
+    assert abstract.count("Contribution to artificial intelligence:") == 1
+    assert abstract.count("Application in engineering:") == 1
+    title = re.search(r"\\title\{(.*?)\}\n", main, re.S).group(1)
+    for text in (title, abstract):
+        words = re.sub(r"\\[A-Za-z]+(\{\})?", " ", text)
+        assert not re.search(r"\b[A-Z]{2,}", words), re.search(r"\b[A-Z]{2,}", words)
+    assert r"\documentclass[preprint,12pt]{elsarticle}" in main
+    keywords = re.search(r"\\begin\{keyword\}(.*?)\\end\{keyword\}", main, re.S).group(1)
+    assert [k.strip() for k in keywords.split(r"\sep")][-1] == "stress analysis"
+    assert " ".join(title.split()) == ("The norm, not the labels: training and evaluating "
+                                       "finite-element surrogates for stress analysis in the "
+                                       "energy norm")
+    supp = (PAPER / "supplementary.tex").read_text(encoding="utf-8")
+    assert " ".join(title.split()) in " ".join(supp.split())
+    assert keywords.count(r"\sep") + 1 <= 7
 
 
 def _prose(tex: str) -> str:

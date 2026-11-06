@@ -1,20 +1,20 @@
-Finite-element surrogates are usually trained on solutions with a displacement loss. For
-linear elastostatics we show that, for the surrogates we trained, the norm of this loss, not
-the use of solutions, limited stress accuracy. Minimising the assembled discrete potential
-energy is exactly supervised regression in the energy norm, without solutions: the energy
-gap of a prediction is the strain energy of its stress error. The Euclidean norm of the
-displacement loss under-weights the stiff modes that carry the strains. In pre-registered
-comparisons, changing only the norm of the supervised loss cut a three-dimensional
-transformer's median energy-norm error \numNlThreeNormE{}-fold and its median von Mises
-error \numNlThreeNormVm{}-fold; in two dimensions it more than halved the von Mises error,
-also on held-out instances. In three dimensions, the transformer trained on energy alone
-came within a factor of \numNlThreeLabelWithin{} of the energy-norm-supervised one in median
-energy-norm and von Mises error and beat the displacement-supervised one on all five metrics
-in every seed, while a displacement-supervised graph network had the networks' lowest
-displacement error but a von Mises error \numThreeMgnOverFreeVm{} times the label-free
-transformer's. Without solutions, energy differences rank predictions of a load case by
-energy-norm error, and the sign of the energy flags those worse than the zero field. Given
-the stiffness matrix, a \numRitzThreeKMax{}-unknown Ritz projection was more accurate than
-the label-free transformer, averaged over the seeds, on every metric but peak stress, where its
-median error was more than twice as large. No network transferred to a substantially finer
-mesh.
+Finite-element surrogates predict the stresses of a new design in one evaluation, but are
+usually trained on solutions with a displacement loss and compared by it, although
+engineering decisions rest on stresses. Application in engineering: stress analysis of
+perforated plates and solids with cavities, stylised families in which holes concentrate
+stress. Contribution to artificial intelligence: training and evaluating such surrogates in
+the energy norm, with or without solutions, and screening their predictions without
+solutions. For linear elastostatics, minimising the assembled discrete potential energy is
+exactly supervised regression in this norm, since the energy gap of a prediction is the
+strain energy of its stress error, whereas a displacement loss under-weights the stiff modes
+that carry the strains. In pre-registered comparisons, changing only the norm of the
+supervised loss cut a three-dimensional transformer's median energy-norm error
+\numNlThreeNormE{}-fold and its median von Mises error \numNlThreeNormVm{}-fold; in two
+dimensions it more than halved the von Mises error, also on held-out instances. In three
+dimensions, the transformer trained on the energy alone came within a factor of
+\numNlThreeLabelWithin{} of the energy-norm-supervised one in median energy-norm and von
+Mises error and beat the displacement-supervised one on all five metrics in every seed. The
+energy ranks predictions of a load case, and its sign flags those worse than the zero field.
+Given the stiffness matrix, a Ritz projection was more accurate than the label-free
+transformer, in the seed means, on every metric but peak stress, and no network transferred
+to a substantially finer mesh.

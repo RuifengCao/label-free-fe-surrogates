@@ -8,6 +8,9 @@ matrix: a downward and an axial traction on the face opposite the clamp, a shear
 the top face, and a downward body force. The magnitude of each load case is drawn
 independently as $0.05$ times a number uniform on $[0.5,1.5]$. Young's modulus is 1 and
 Poisson's ratio is uniform on $[0.25,0.38]$ per instance; all quantities are dimensionless.
+The problems are linear, so that the fields scale with the loads and inversely with Young's
+modulus; the values in the figures can be read in any consistent units, in which a physical
+load makes the strains small.
 Meshes were generated with Gmsh \cite{Geuzaine2009}, and reference solutions were computed
 by sparse direct factorisation.
 
@@ -62,7 +65,7 @@ sequences of an instance are processed as one batch. The encoder and decoder hav
 \numParamsTransformer{} million parameters. The decoded field is multiplied by $F_{\max}$,
 so that the prediction is proportional to the load amplitude; since $F_{\max}$, a nodal
 load, shrinks with the element size, this scaling makes the output depend on the mesh
-(\cref{sec:discussion}).
+(\cref{sec:discussion:transfer}).
 
 \subsubsection{Graph network}
 As a supervised baseline of a widely used kind we used a MeshGraphNets-style
@@ -242,4 +245,4 @@ models Claude Fable 5, Claude Fable 5.1 and Claude Opus 5.5 (Anthropic). Two ear
 pre-registered runs in two dimensions, in July 2026, used an earlier version of the code,
 which did not multiply the decoded field by $F_{\max}$; the main one, the July run, is
 reported in supplementary Section~\SuppJuly{}, and only its test of a warm start
-(\cref{sec:cost:labels}) and its transfer readings (\cref{sec:discussion}) are quoted here.
+(\cref{sec:cost:labels}) and its transfer readings (\cref{sec:discussion:transfer}) are quoted here.

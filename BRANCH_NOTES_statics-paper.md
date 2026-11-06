@@ -2761,3 +2761,101 @@ generator, and no record, configuration, pre-registration or source file changed
   the tables of the hypotheses, and the sentence of S5 that
   `tests/test_statics_references.py` quotes, follow the text. Suite 837 (834 + 3),
   unchanged.
+
+## Stage 27 (7 Nov 2026) -- the manuscript prepared for Engineering Applications of Artificial Intelligence: the title names stress analysis, the engineering application and its limits stated, six references added
+
+- Why. The manuscript is prepared for Engineering Applications of Artificial Intelligence,
+  whose conditions for sending a paper to review are that the abstract says which is the
+  contribution to artificial intelligence and which the application in engineering, that
+  the title and the abstract use no undefined acronym, and that the paper is set in one
+  column (the journal's page, read on 6 November 2026). The text now states the engineering
+  application that its problems already were, what the results mean for the use of such
+  surrogates, and where they do not pay. An independent reading of a first draft, given only
+  the PDFs, the sources and the journal's conditions, found three statements that went
+  beyond the results (on the break-even, the screen and the transfer to real parts), an
+  abstract sentence that could be read of the two-dimensional transformer, and a dozen
+  smaller points; the text below is the corrected one. No number, table, figure or
+  pre-registered verdict changed.
+- The title adds the application: "The norm, not the labels: training and evaluating
+  finite-element surrogates for stress analysis in the energy norm" (the manuscript, its
+  PDF metadata and the supplementary material's title page).
+- The journal. `\journal` names Engineering Applications of Artificial Intelligence, and so
+  does the first page's footer. Section 2.2 said that surrogates trained on a physical
+  objective "have a history in this journal", which no longer names the journals it cites;
+  it says "in computational physics". The test that the manuscript names no earlier journal
+  covers the journal of those citations as well, outside the bibliography's journal fields.
+- The abstract (248 words; at most 250) has the two parts the journal asks for, each named:
+  "Application in engineering:" (the stress analysis of perforated plates and solids with
+  cavities, stylised families in which holes concentrate stress) and "Contribution to
+  artificial intelligence:" (training and evaluating such surrogates in the energy norm, with
+  or without solutions, and screening their predictions without solutions), followed by the
+  identity, the comparisons of the norm, the three-dimensional label-free result, now
+  introduced by "In three dimensions", the ranking and the sign of the energy, and the Ritz
+  baseline in the seed means without the number of unknowns. The graph network's ratio,
+  which the introduction and Section 7 give, left the abstract.
+- The introduction opens with the engineering setting (holes and internal cavities
+  concentrate stress; components that contain them are analysed many times, in design
+  studies, in uncertainty quantification and in the assessment of parts whose voids differ)
+  and names the families of Section 4.1. Its first list of surrogates adds one from the
+  journal, and a second, which predicts the stresses directly, is cited as such. The
+  companion note is set apart from this paper: it checks its statements on synthetic
+  problems and probe instances (its abstract), and the trained networks, their comparisons
+  and the baselines are new here. The introduction ends with three rules for engineering use
+  and the limit of the screen (gross failures only).
+- Section 10.2, "In practice", is now "Engineering use" (`sec:discussion:engineering`):
+  - the rules: train in the energy norm, which by Corollary 1 and Proposition 1 is the
+    compliance-weighted error of the stresses, with the solutions or without them; compare
+    surrogates by their energy-norm and stress errors, not by displacement errors alone;
+    screen with the energy, whose sign flags gross failures (each of the nine held-out
+    predictions of the energy-norm-supervised transformer with a mean relative energy gap
+    above one had a load case that it flags), whose differences pick, among several
+    predictions of a load case, the most accurate in the energy norm (Corollary 2), and send
+    a failed prediction back to the solver, since the rescaling by c* only makes it no worse
+    than the zero field;
+  - the costs, as Sections 7.2 and 9 give them: no speed gain; one network's training
+    recovered against the direct solve after about 84,000 predictions, with the caveats of
+    Section 9.2; in two dimensions the direct solve took 1.2 times the inference and is
+    exact; the screen's assembly (900 ms against 49 ms in three dimensions) is most of the
+    cost of a Ritz projection, which was the more accurate but in peak stress; passing the
+    screen does not make a prediction accurate, and a surrogate's accuracy on a family has to
+    be established on solved instances of it;
+  - the prospects, as limits: parts whose voids differ are instances of a family, of which
+    the solids here are a stylised version; real voids are more numerous, smaller and
+    irregular, need finer meshes than any on which the networks were accurate, and other
+    geometries, numbers of voids and loads were not tested; label-free training would pay
+    most where solves are expensive (Section 10.6).
+  Every sentence that the subsection had is kept, but "the compliance" of F^T U*, which is
+  now "the product" (compliance names C^{-1} elsewhere).
+- Section 10.5 adds that no metric isolates the stresses at the holes or cavities, and that
+  where the discrete peak lies at the clamped edge the peak stress error does not measure a
+  concentration at a hole. Section 4.1 adds that the problems are linear, so that the fields
+  scale with the loads and inversely with Young's modulus. Sections 2.2, 4 and 9.3 point to
+  the subsections of Section 10 that they mean (`sec:discussion:earlier`, labelled now,
+  `sec:discussion:transfer`, `sec:discussion:engineering`, `sec:discussion:outlook`). The
+  conclusion states the rules as the introduction does; the keywords add "stress analysis"
+  (seven, the most the journal allows).
+- References. A literature search of 6 November 2026 found close work published or read
+  since the references were last checked. Six entries were added, each checked against the
+  sources that its comment names, and the text states of each only what that check read:
+  - Do et al. (Engineering with Computers 42, 199, 2026): a coordinate-based network gives
+    the nodal displacement vector of a finite-element mesh and is trained on the total
+    potential energy of the discretised system, for linear and nonlinear plane elasticity
+    (Section 2.2, beside Larson et al.);
+  - Kaewnuratchadasorn et al. (Computer-Aided Civil and Infrastructure Engineering, 2024):
+    a physics-informed neural operator trained, for static problems, on a weak form based on
+    the principle of least work (Section 2.2);
+  - Song et al. (the same journal, 2023): a graph network for braced steel frames trained
+    without labels on the residual of the equilibrium of internal and external forces
+    (Section 2.2);
+  - Bai et al. (Computational Mechanics, 2023): a least-squares weighted residual loss
+    compared with the collocation and the energy losses in two- and three-dimensional solid
+    mechanics (Section 2.1);
+  - Deshpande et al. (2024) and Jiang and Chen (2023), surrogates of finite-element models in
+    Engineering Applications of Artificial Intelligence, cited in the introduction only, the
+    second as one that predicts the stresses directly.
+- Tests: `tests/test_statics_references.py` checks the six entries, their comments and the
+  sentences that cite them, and that "this journal" is gone; `tests/test_statics_material.py`
+  checks the journal's conditions on the front matter (the two named parts of the abstract;
+  no acronym in the title or the abstract; elsarticle's one-column preprint option; at most
+  seven keywords, the last "stress analysis") and names the new journal. The runbook's suite
+  lines read the new count. Suite 839 (836 + 3).

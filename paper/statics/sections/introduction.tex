@@ -1,9 +1,19 @@
 \section{Introduction}\label{sec:intro}
 
+Holes, cut-outs and internal cavities concentrate stress, and components that contain them
+are analysed on their stresses, often many times over: in design studies that vary the
+number, size and position of the holes, in uncertainty quantification over their scatter,
+and in the assessment of parts whose voids differ from one part to the next. Each analysis
+is a finite-element solve. The examples here are dimensionless families of perforated plates
+in plane stress and of solids with spherical cavities, clamped on one face and carrying four
+load cases, with up to three holes or cavities of random size and position
+(\cref{sec:methods:data}).
+
 Neural surrogates of finite-element models return, in one network evaluation, the field that
-an assembly and a solve would return, so that design studies and uncertainty quantification
-can query many configurations cheaply
-\cite{Pfaff2021,Lu2021DeepONet,Li2021FNO,He2024GeomDeepONet,Zeng2025PCNO,Liu2026GINOT}. They
+an assembly and a solve would return, so that such studies can query many configurations
+cheaply
+\cite{Pfaff2021,Lu2021DeepONet,Li2021FNO,He2024GeomDeepONet,Zeng2025PCNO,Liu2026GINOT,Deshpande2024MAgNET};
+some predict the stresses directly \cite{JiangChen2023GNN}. They
 are usually trained by minimising a mean-square or relative error of the displacement
 against reference solutions, and compared by the same error. Both choices fix a norm, the
 Euclidean norm of the nodal displacements, and neither is usually discussed. The stresses,
@@ -91,4 +101,13 @@ that need no solution, with a closed-form rescaling for predictions that fail th
 (\cref{sec:checks}). A classical baseline and the cost of each step (\cref{sec:cost}) bound
 these claims. \Cref{lem:exact}, \cref{rem:norms} and two statements on conditioning and
 on gradient descent, which supplementary Section~\SuppRepro{} gives with their checks, are
-restated from a companion note \cite{CaoSong2026}.
+restated from a companion note \cite{CaoSong2026}, which checks them on synthetic problems
+and on probe instances; the trained networks, their comparisons and the baselines are new
+here.
+
+For engineering use, the results suggest three rules, which \cref{sec:discussion:engineering}
+states with their costs and limits: train a surrogate used for stress analysis in the energy
+norm, on the solutions where they have been computed and on the energy alone where they have
+not; compare surrogates by their energy-norm and stress errors, not by their displacement
+errors alone; and screen each prediction by the sign of its energy before it is used,
+sending those that fail back to the solver. The screen catches gross failures only.

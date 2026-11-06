@@ -7,7 +7,9 @@ to computational mechanics; later work treated essential boundary conditions
 \cite{LiaoMing2021} and the error of the quadrature that evaluates the continuous functional
 \cite{LiuCaiRamani2023}, and variational and weak-form losses followed
 \cite{Kharazmi2021,Wang2022CENN,Wang2025KINN,Manav2024}. Physics-informed neural networks
-\cite{Raissi2019} minimise instead a Euclidean residual of the differential equation. Robust
+\cite{Raissi2019} minimise instead a Euclidean residual of the differential equation; for
+two- and three-dimensional solid mechanics, a least-squares weighted residual loss has been
+compared with this collocation loss and with the energy \cite{Bai2023LSWR}. Robust
 variational physics-informed networks \cite{Rojas2024} and the deep Fourier residual method
 \cite{Taylor2023DFR,Taylor2024} construct losses equivalent to the energy norm of the error,
 whose discrete form is the energy norm of \cref{sec:theory}, by measuring the residual in a
@@ -18,11 +20,13 @@ physics-informed networks in the geometry that the energy induces on the paramet
 \cite{MullerZeinhofer2023}.
 
 \subsection{Training without solutions, and its comparison with supervision}
-Surrogates trained on a physical objective instead of solutions have a history in this
-journal: on a variational objective for elliptic problems with random inputs \cite{Zhu2019},
+Surrogates trained on a physical objective instead of solutions have a history in
+computational physics: on a variational objective for elliptic problems with random inputs \cite{Zhu2019},
 on the residual of autoregressive dynamics \cite{GenevaZabaras2020} and on irregular domains
 mapped to a reference grid \cite{Gao2021PhyGeoNet}; operators have been trained the same way
-\cite{Li2024PINO,WangWangPerdikaris2021}. Variational operator learning \cite{Xu2024VOL}
+\cite{Li2024PINO,WangWangPerdikaris2021}, among them a physics-informed neural operator for
+solid mechanics trained, for static problems, on a weak form based on the principle of least
+work \cite{Kaewnuratchadasorn2024PINOS}. Variational operator learning \cite{Xu2024VOL}
 trains operators on the finite-element system, evaluated matrix-free, and uses the gradient
 identity of \cref{lem:exact} as a computational device; its loss is the Euclidean norm of
 the residual, or a regression on provisional labels produced by a few conjugate-gradient
@@ -31,8 +35,13 @@ evaluates the continuous functional analytically on its own bilinear discretisat
 uniform grids. Larson et~al.~\cite{Larson2026MLPEnergy} train multilayer perceptrons that
 map the data of parametrised, possibly nonlinear, problems to the nodal values of their
 finite-element solutions by minimising the energy assembled element by element, without
-precomputed solutions. Other label-free approaches build on the finite-element residual or
-weak form \cite{Lee2025FEONet,Uriarte2022,Gao2022,Goswami2022}. Closest to the present work
+precomputed solutions, and Do et~al.~\cite{Do2026MNES} parametrise the nodal displacement
+vector of a finite-element mesh by a coordinate-based network and minimise the total
+potential energy of the discretised system, for linear and nonlinear plane elasticity.
+Other label-free approaches build on the finite-element residual or
+weak form \cite{Lee2025FEONet,Uriarte2022,Gao2022,Goswami2022}, and a graph network for the
+elastic analysis of braced steel frames was trained without labels on the residual of the
+equilibrium between internal and external forces \cite{Song2023StructGNN}. Closest to the present work
 are graph networks on finite-element meshes trained by minimising the potential energy
 \cite{Dalton2023}, physics-informed MeshGraphNets trained without data for non-stationary
 and nonlinear problems \cite{Wurth2024}, a three-dimensional convolutional network for
@@ -51,7 +60,7 @@ gradient to the supervised loss narrowed but did not close \cite{Dalton2023}; in
 polycrystals the label-free network was more accurate in stress than the supervised one,
 which was trained on the reference stresses \cite{MonteiroFernandes2025}; and in pressure
 vessels the supervised one was more accurate in displacement and in the $H^1$ seminorm
-\cite{Sun2026FEVessel} (\cref{sec:discussion}). Adding the deformation gradient, as in the
+\cite{Sun2026FEVessel} (\cref{sec:discussion:earlier}). Adding the deformation gradient, as in the
 soft-tissue beams, is one way of changing the norm of a supervised loss while keeping its
 labels; others are reviewed in \cref{sec:related:norm}. We are not aware of a comparison
 that trains an elasticity surrogate on its labels in the energy norm of the assembled

@@ -20,21 +20,60 @@ displacement-supervised transformer, which adds the energy to the displacement l
 step towards the energy norm; it removed most of the large failures, and the label-free
 transformer, which has only that term, was more accurate still (\cref{tab:3d}).
 
-\subsection{In practice}
+\subsection{Engineering use}\label{sec:discussion:engineering}
+For surrogates used in stress analysis, such as those of the families of
+\cref{sec:methods:data}, the results suggest three rules. First, train in the energy norm,
+which by \cref{cor:training,prop:stress} is, up to a constant, the compliance-weighted error
+of the stresses, so that a surrogate trained in it is in effect supervised on its stresses.
 Given the assembled system, the energy norm of an error costs one sparse matrix-vector
 product per load case. A supervised loss can therefore be measured in it with the labels
-already computed, on which it depends only through the compliance $F^{\top}\Ustar$ of each
-load case (\cref{sec:methods:training}), and an evaluation can report it beside the
-displacement
-error. The gain is in the accuracy of the stresses, not in speed: training in the energy
+already computed, on which it depends only through the product $F^{\top}\Ustar$ of each load
+case (\cref{sec:methods:training}); where no solutions have been computed, minimising the
+energy trains in the same norm without them. Second, compare surrogates by their energy-norm
+and stress errors, not by their displacement errors alone: an evaluation can report the
+energy norm beside the displacement error, and surrogates compared by displacement error
+alone can be ranked opposite to their stresses (\cref{sec:checks:ranking}). Third, screen
+predictions with the energy before they are used. Its sign flags gross failures, those worse
+than the zero field, without a solution (\cref{sec:checks:zero}): each of the
+\numHoldTwoWorseInstKnorm{} predictions of the energy-norm-supervised transformer with a mean
+relative energy gap above one on the two-dimensional held-out instances (\cref{sec:holdout})
+had a load case that it flags. Differences of energy rank the predictions of a load case
+exactly (\cref{cor:rank}), so that of several predictions, from different networks or seeds
+or from a network and a Ritz projection, the one of lowest energy is the most accurate in the
+energy norm. A prediction that fails should be sent back to the solver; rescaling it by
+$\cstar$ (\cref{prop:amp}) makes it no worse than the zero field without a solve, but not
+necessarily accurate.
+
+The gain is in the accuracy of the stresses, not in speed: training in the energy
 norm leaves the cost of a prediction unchanged, conjugate gradients given the stiffness
 matrix, stopped by a test that reads the solution, reached the label-free transformer's
 accuracy within a few times its inference time (\cref{sec:cost:inference}), and training
 without labels saves only their solves, which
-pays where those are expensive (\cref{sec:cost:labels}). Surrogates compared by
-displacement error alone can be ranked opposite to their
-stresses (\cref{sec:checks:ranking}), and the sign of the energy screens predictions for
-gross failures without a solution (\cref{sec:checks:zero}). As in an energy-based model
+pays where those are expensive (\cref{sec:cost:labels}). Surrogates, and with them these
+rules, are worth their training only where one family of components is analysed many times.
+In three dimensions the training of one network was recovered against the direct solve after
+about \numCostBreakEvenDirect{} predicted instances (\cref{sec:cost:labels}), with the
+caveats of \cref{sec:cost:inference}, under which a faster solver would raise that number; in
+two dimensions the direct solve took \numCostTwoDirectRatio{} times as long as the inference
+and is exact, so that a surrogate of plates of this size saves little or no time. The screen needs the
+stiffness matrix and the load vectors of the instance, and their assembly, a median of
+\numCostAsmVal{} against \numCostSurrVal{} for the inference in three dimensions
+(\cref{tab:cost}), is also most of the cost of a Ritz projection, which took a further
+\numCostRitzValMin{} to \numCostRitzValMax{} and, at the top of its ladder, was more accurate
+than the label-free transformer, in the seed means, on every metric but peak stress
+(\cref{sec:cost:ritz}). Passing the screen does not make a prediction accurate
+(\cref{sec:checks:zero}), and the accuracy of a surrogate on a family has to be established on
+solved instances of that family, as the validation instances establish it here.
+
+In the assessment of parts whose internal voids differ from one part to the next, each part
+is a new instance of a family; the solids here, with at most three spherical cavities under
+four load cases, are a stylised version of that setting. Real voids are more numerous,
+smaller and irregular, resolving them needs meshes finer than any on which these networks
+were accurate (\cref{sec:discussion:transfer}), and other geometries, numbers of voids and
+loads were not tested. Label-free training would pay most where each solve is expensive, as
+in the nonlinear and time-dependent problems of \cref{sec:discussion:outlook}.
+
+As in an energy-based model
 \cite{LeCun2007EBM}, which uses one scalar energy to find the most compatible output, to rank
 candidates and to detect incompatible ones, the potential energy here serves to train, to
 rank and to check; it is assembled rather than learned, and exact. The identity does not
@@ -45,7 +84,7 @@ enrichments have been analysed \cite{Barucq2026Enrich}. Where the stiffness matr
 hand, as for solutions exported from another code, a loss on the strains or the stresses is
 the natural substitute; we did not test one.
 
-\subsection{Earlier comparisons}
+\subsection{Earlier comparisons}\label{sec:discussion:earlier}
 The account is consistent with part of the earlier reports: in soft-tissue beams, adding the
 deformation gradient to the supervised loss, a step towards a norm of the strains, narrowed
 the gap between supervised and label-free training \cite{Dalton2023}, and for a scalar
@@ -67,7 +106,7 @@ regresses towards a different target. Whether this explains the reversal is not 
 comparison shows that the advantage of label-free training over displacement supervision
 reported here is not universal.
 
-\subsection{Transfer}
+\subsection{Transfer}\label{sec:discussion:transfer}
 No network transferred to the finer mesh. The readings of supplementary
 Section~\SuppTransfer{} point at the output scaling: the output is multiplied by the largest
 nodal load, which depends on the mesh while the solution does not, and the networks of the
@@ -87,7 +126,9 @@ per network, for which the noise guard is coarse. \Cref{prop:stress} assumes a h
 isotropic material and an exactly integrated stiffness, as with the linear elements used
 here, and the reported von Mises error weights elements equally, so that the proposition
 explains it rather than bounds it, although the area- and volume-weighted errors, measured
-after the runs, differed little. Only the transformer was trained in the energy norm; the
+after the runs, differed little. None of the metrics isolates the stresses at the holes or cavities,
+and where the peak of the discrete solution lies at the clamped edge, the peak stress
+error does not measure the concentration at a hole (\cref{sec:methods:metrics}). Only the transformer was trained in the energy norm; the
 graph network was trained on the displacement error alone, and whether its rough stress
 fields come from the norm or from message passing over the mesh edges was not tested. The
 learning rates were fixed before the runs and not tuned, and the energy-norm-supervised
@@ -102,7 +143,7 @@ regions of the mesh) that a pre-registered comparison kept, was chosen after tha
 comparison (supplementary Section~\SuppPrereg{}). Full self-attention grows with the square of
 the number of nodes, which limits the size of the meshes the transformer can take.
 
-\subsection{Outlook}
+\subsection{Outlook}\label{sec:discussion:outlook}
 The construction extends wherever each step of a computation is a convex minimisation. In
 linear dynamics, every implicit step of a Newmark-type integrator solves a symmetric
 positive definite system whose effective stiffness combines the stiffness, mass and damping
