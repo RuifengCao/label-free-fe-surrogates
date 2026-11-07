@@ -1,6 +1,6 @@
 # Extended end plate joints (stage C)
 
-This folder holds the work towards a label-free surrogate for the extended end plate joints tested by Girão Coelho, Bijlaard and Simões da Silva (2004). It contains the finite element models, the gates that tested them against the experiments, the pre-registered training gate G-C1.3 with its records and verdict, and the plastic stage C2 on bolted T-stubs with its training gate G-C2.1.
+This folder holds the work towards a label-free surrogate for the extended end plate joints tested by Girão Coelho, Bijlaard and Simões da Silva (2004). It contains the finite element models, the gates that tested them against the experiments, the pre-registered training gate G-C1.3 with its records and verdict, and the plastic stage C2 on bolted T-stubs with its training gate G-C2.1. It also holds the first tubular case: bolted circular hollow section (CHS) blank flange-plate splices tested by Fidalgo (2023), with gate G-F1.
 
 ## Contents
 
@@ -13,10 +13,13 @@ This folder holds the work towards a label-free surrogate for the extended end p
 - `joint_hf.py`, `tstub_hf.py`, `tstub.py`, `delft_tstubs.py`: the higher-fidelity joint and T-stub models of G-C1a2 and G-C1b, and the T-stub tests.
 - `family.py`, `export.py`: the joint family of stage C1.3, and its condensed nodal problem.
 - `plasticity.py`, `nlhex.py`, `nlsolve.py`, `tstub_pl.py`: the plastic models of stage C2. J2 plasticity in deformation-theory and flow-theory form with one radial return; the incompatible-mode hexahedra with their bubble parameters condensed by Newton's method at the element level; sequential quadratic programming with contact; the T-stub with plastic flange, web and bolts, preload, and force or displacement control.
+- `chs.py`: the CHS blank flange-plate splice of gate G-F1. A structured mesh in cylindrical coordinates with stair-stepped holes, an unfused weld root and a fillet, coarse O-grid core and far tube tied by hanging nodes; preloaded half bolts; bending or axial control; a frictionless or a no-slip splice.
 
 **`c13/`: the run code of gate G-C1.3.** `RUNBOOK_C13.md` gives its commands in order. `RUNBOOK_C13_addendum.md` records what the operator was given beyond it after the stamp.
 
 **`c2/`: the run code of gate G-C2.1**, label-free training on plastic T-stubs loaded through a spring. `RUNBOOK_C2.md` gives its commands in order.
+
+**`f1/`: the run code of gate G-F1**, the CHS splices of Fidalgo (2023) against their tests, with frictionless and no-slip splices as bounds. `python -m f1 -h` lists its commands; `docs/PRESPEC_G-F1.md` gives the run. `f1/data/` holds the test curves, bolt forces and coupon curves digitised from the thesis's figures, and `f1/digitise/` the scripts that reproduce every data file from the thesis PDF.
 
 **`audit/`: the audit scripts of G-C1.3**, written after the run and not under the stamp
 - `c13_recompute.py`: regenerates the held-out and tested instances, re-solves seven of them, and recomputes every metric of the label-free arm from the returned predictions and labels.
@@ -32,6 +35,8 @@ This folder holds the work towards a label-free surrogate for the extended end p
 - `tables.md` and `convergence.png`, written from `study.jsonl` and `checks.json` by `probes/elements/write_report.py`.
 
 **`records/c2/`: the records of stage C2's reference model** on Bursi and Jaspart's T-stub T1, preloaded: deformation and flow theory on the 5 mm mesh, deformation theory on the 2.5 mm mesh (`probes/c2_bj1997.py`).
+
+**`records/f1_dry/`: the dry run of gate G-F1** on B-19 and T-19, made before the stamp with `python -m f1 run --dry` and `python -m f1 verdict --dry`: the 14 records in `records/`, the progress log `run.log`, the configuration `config.json` and the verdict tables `numbers.md` and `verdict.json`. `docs/PRESPEC_G-F1.md` says which code it ran.
 
 **`tests/`: the tests.** From this folder, with the repository one level up:
 ```bash
@@ -49,11 +54,12 @@ FEJEPA_REPO=.. python -m pytest -q -p no:cacheprovider tests
 - `element_study_note.md`: an exploratory check after G-C1.3 of the element kind, the mesh and the integration rule.
 - G-C1.3, the training gate: `PRESPEC_G-C1.3.md`, with its stamped code in `G-C1.3_stamped_code/` and the hashes in `G-C1.3_code.sha256`; `G-C1.3_verdict.md`.
 - G-C2.1, the plastic training gate: `PRESPEC_G-C2.1.md`, with its stamped code in `G-C2.1_stamped_code/` and the hashes in `G-C2.1_code.sha256`.
+- G-F1, the CHS splices: `PRESPEC_G-F1.md`, with its stamped code in `G-F1_stamped_code/` and the hashes of its code and data in `G-F1_code.sha256`.
 - The files ending in `_text.md` and `_numbers.md` are the parts each verdict is assembled from.
 
 **`probes/`: exploratory probes.** None of them is a gate. `probes/elements/` holds the scripts of the element study. `probes/c2_bj1997.py`, `c2_bj1997_compare.py`, `c2_bj1997_digitise.py` and `c2_bj1997_fig10.json` run the reference model of stage C2 on Bursi and Jaspart's T1 and compare it with their test and simulations; `probes/c2_pilot/` holds the CPU pilots of G-C2.1 and their records.
 
-## Status on 6 November 2026
+## Status on 7 November 2026
 
 | Gate | Result |
 |---|---|
@@ -63,6 +69,7 @@ FEJEPA_REPO=.. python -m pytest -q -p no:cacheprovider tests
 | G-C1c | Reading of the published curves at low moments |
 | G-C1.3 | PASS: on unseen layouts of the family, label-free training reproduced the reference model, not the joint tests: its initial stiffness (median error 0.29%) and its contact zone (median overlap 0.944). The reference model itself is 2 to 3 times stiffer than the joint tests (G-C1a). |
 | G-C2.1 | Pre-registered, stamped 6 November 2026, 20:38 GMT; not yet run |
+| G-F1 | Pre-registered, stamped 7 November 2026, 03:08 GMT; not yet run |
 
 The gap of G-C1a is not a discretisation effect: the five element kinds that do not lock converge to the same stiffness, and on the C1.3 mesh the current element is about 1% stiffer than it, up to 2.7% for FS1 depending on two nodes just outside the washer patches (`docs/element_study_note.md`, exploratory, 16 October 2026).
 
@@ -83,10 +90,13 @@ The gap of G-C1a is not a discretisation effect: the five element kinds that do 
 ## Licence
 
 The repository's licences cover this folder as they cover the rest (see the repository's README):
-- the code (`fejoint/`, `c13/`, `c2/`, `audit/`, `tests/`, the scripts in `probes/` and the stamped copies in `docs/G-C1.3_stamped_code/` and `docs/G-C2.1_stamped_code/`) under the PolyForm Noncommercial License 1.0.0 (`../LICENSE`);
-- the pre-specifications, verdicts and notes in `docs/`, `RUNBOOK_C13.md` with its addendum, `RUNBOOK_C2.md`, the records in `probes/` (the `.json` and `.log` files) and those in `records/c13/`, `records/elements/` and `records/c2/` under the Creative Commons Attribution 4.0 International licence (`../LICENSE-CC-BY-4.0`), as the repository's pre-registration documents and records are.
+- the code (`fejoint/`, `c13/`, `c2/`, `f1/` with its scripts in `f1/digitise/`, `audit/`, `tests/`, the scripts in `probes/` and the stamped copies in `docs/G-C1.3_stamped_code/`, `docs/G-C2.1_stamped_code/` and `docs/G-F1_stamped_code/`) under the PolyForm Noncommercial License 1.0.0 (`../LICENSE`);
+- the pre-specifications, verdicts and notes in `docs/`, `RUNBOOK_C13.md` with its addendum, `RUNBOOK_C2.md`, the records in `probes/` (the `.json` and `.log` files) and those in `records/c13/`, `records/elements/`, `records/c2/` and `records/f1_dry/` under the Creative Commons Attribution 4.0 International licence (`../LICENSE-CC-BY-4.0`), as the repository's pre-registration documents and records are;
+- the digitised data in `f1/data/` likewise; they are readings of the figures of Fidalgo (2023), which is the source to cite for the measurements.
 
 ## References
 
 - Bursi, O.S., Jaspart, J.P. (1997). Benchmarks for finite element modelling of bolted steel connections. *Journal of Constructional Steel Research* 43(1-3), 17-42. doi:10.1016/S0143-974X(97)00031-X
+- Fidalgo, A.M. (2023). *Bolted CHS flange-plate connections under tension, bending and combined loads.* PhD thesis, University of Toronto.
+- Fidalgo, A., Packer, J.A. (2023). Bolted CHS flange-plate connections under bending. *Journal of Structural Engineering* 149(6), 04023066. doi:10.1061/JSENDH.STENG-12059
 - Girão Coelho, A.M., Bijlaard, F.S.K., Simões da Silva, L. (2004). Experimental assessment of the ductility of extended end plate connections. *Engineering Structures* 26(9), 1185-1206. doi:10.1016/j.engstruct.2000.09.001

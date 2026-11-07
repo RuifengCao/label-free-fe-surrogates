@@ -1,0 +1,175 @@
+{
+ "criteria": {
+  "C1": "bending: the test moment at Theta_D = theta lies between the two splice models' moments, each widened by the reading tolerance",
+  "C2": "axial: the test's mean LVDT displacement at T_kN lies between the two models' displacements, widened by the reading tolerance",
+  "C3": "bending: the increase of bolt 1's force between the two bolt moments lies between the two models' increases, widened by the reading tolerance",
+  "verdict": "PASS if and only if C1, C2 and C3 hold; a criterion whose model values are missing or come from a level that did not converge, or broke a KKT limit, does not hold"
+ },
+ "data_sha256": {
+  "B19_test_fig33.csv": "55f487cf9c3a1f35135fa62198d13673157b0db625a0caa2478a722d41f94228",
+  "B19_test_fig37.csv": "1d3529d125497141315ec59b7fd3728ccfabc08ebd70f3ec3d1e69e2ec265058",
+  "T19_test_fig222.csv": "c58d33e94cb2af1c0d3bdb6bfb1e19ef3404e8294738dff5929848403b73159e",
+  "T19_test_fig25.csv": "e1d9b6abebee6ef2a4dd5e9bb1164ba9249c934309e64d4f724cca37e0354e95",
+  "boltforce_B19.csv": "342530027cca69994d282fc5dcf1284bc0a4b041a89eebce78e88e4c5a7de2a7",
+  "material_chs_eng.csv": "bd2e5912c9532f4fb754d5d7f9c68d7f3b5f55a9ca51eb3f4481deecb9acb024",
+  "material_plate19_eng.csv": "23aed4b0f41f75765a59aa2eba80f20ab5dd4d9c5f161e4fc47da5c30ccf82d7"
+ },
+ "gate": "G-F1-dry",
+ "loading": {
+  "axial": {
+   "control": "axial",
+   "max": 5.0,
+   "step": 0.1,
+   "stop": "after the first level with T >= T_kN + 50 kN"
+  },
+  "bending": {
+   "control": "rotation",
+   "max": 0.03,
+   "step": 0.0005,
+   "stop": "after the first level with Theta_D >= 1.2 theta and M >= the larger bolt moment + 5 kNm"
+  }
+ },
+ "model": {
+  "bolts": {
+   "As": 213.8,
+   "E": 217100.0,
+   "law": "elastic",
+   "length": "head / 2 + 2 tp + washer + nut / 2 = 11.9 / 2 + 2 tp + 3.8 + 18.65 / 2 mm"
+  },
+  "code": "fejoint.chs.SpliceModel, half joint about the bending plane, one side of the splice",
+  "fixed_geometry": "tube 323.9 mm outside diameter, wall 12.4 mm; 12 bolts, first at 15 degrees from the tension extreme fibre; holes 21 mm; bearing radius 17.3 mm; unfused root 3.4 mm; fillet leg 8 mm; tube modelled to 600 mm beyond the plate; measuring ring 100 mm from the plate's outer face (fejoint.chs.FlangeSplice defaults)",
+  "materials": {
+   "hardening": "f1/materials.py: true stress against equivalent plastic strain from the coupon curve between engineering strains 0.004 and eu (thesis eqs 2.21 and 2.22), from fy at zero plastic strain, non-decreasing, at most 14 points; beyond necking thesis eq. 2.23 with the coupon's w, at true strains 1.5 and 2.5 times the necking strain and 0.6, final slope to 1.0",
+   "nu": 0.3,
+   "plates": {
+    "12.7": {
+     "E": 201000.0,
+     "curve": "material_plate13_eng.csv",
+     "eu": 0.1335,
+     "fu": 484.0,
+     "fy": 397.0,
+     "w": 0.4
+    },
+    "19.0": {
+     "E": 204500.0,
+     "curve": "material_plate19_eng.csv",
+     "eu": 0.1764,
+     "fu": 475.0,
+     "fy": 373.0,
+     "w": 0.0
+    }
+   },
+   "tube": {
+    "E": 191700.0,
+    "curve": "material_chs_eng.csv",
+    "eu": 0.1545,
+    "fu": 446.0,
+    "fy": 380.0,
+    "w": 0.5
+   },
+   "weld": "tube"
+  },
+  "measured_preload": {
+   "rule": "bolts 1 to 6 at the bolt forces of Fig. 3.4 at 25 kNm: bolt 1 the upper and bolt 2 the lower dotted series, bolts 3 and 4 the cyan lines, bolt 5 the upper and bolt 6 the lower red series; reported only",
+   "specimens": [
+    "B-19"
+   ],
+   "theory": "hencky"
+  },
+  "mesh": "coarse",
+  "mesh_flag": {
+   "limit": 0.02,
+   "mesh": "medium",
+   "theory": "elastic"
+  },
+  "preload_kN": 125.0,
+  "splices": [
+   "frictionless",
+   "no-slip"
+  ],
+  "theories": {
+   "gated": "hencky",
+   "reported": [
+    "elastic"
+   ]
+  }
+ },
+ "pixel": {
+  "bolt_kN": 0.6,
+  "displacement_mm": 0.05,
+  "moment_kNm": 0.7,
+  "theta_rad": 8e-05
+ },
+ "points": {
+  "B-19": {
+   "bolt_moments_kNm": [
+    25.0,
+    100.0
+   ],
+   "theta": 0.001,
+   "theta_reported": [
+    0.0005
+   ]
+  },
+  "T-19": {
+   "T_kN": 1300.0
+  }
+ },
+ "solver": {
+  "kkt_limits": {
+   "max_complementarity": [
+    "<=",
+    1e-08
+   ],
+   "max_lambda_inactive": [
+    "<=",
+    1e-06
+   ],
+   "max_residual_unconstrained": [
+    "<=",
+    1e-06
+   ],
+   "min_gap": [
+    ">=",
+    -1e-12
+   ],
+   "min_lambda": [
+    ">=",
+    -1e-08
+   ]
+  },
+  "max_it": 60,
+  "tol": 1e-10
+ },
+ "specimens": {
+  "B-19": {
+   "e1": 64.2,
+   "e2": 64.5,
+   "plate": "19.0",
+   "test": "bending",
+   "tp": 19.3
+  },
+  "T-19": {
+   "e1": 65.1,
+   "e2": 64.8,
+   "plate": "19.0",
+   "test": "axial",
+   "tp": 19.3
+  }
+ },
+ "tests": {
+  "B-19": {
+   "bolt_forces": "boltforce_B19.csv",
+   "moment_rotation": [
+    "B19_test_fig33.csv",
+    "B19_test_fig37.csv"
+   ]
+  },
+  "T-19": {
+   "load_displacement": [
+    "T19_test_fig25.csv",
+    "T19_test_fig222.csv"
+   ]
+  }
+ }
+}

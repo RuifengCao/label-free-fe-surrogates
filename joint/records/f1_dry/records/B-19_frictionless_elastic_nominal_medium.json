@@ -1,0 +1,416 @@
+{
+ "case": {
+  "specimen": "B-19",
+  "splice": "frictionless",
+  "theory": "elastic",
+  "preload": "nominal",
+  "mesh": "medium"
+ },
+ "meta": {
+  "geometry": {
+   "name": "B-19",
+   "tp": 19.3,
+   "e1": 64.2,
+   "e2": 64.5,
+   "E_p": 204500.0,
+   "d": 323.9,
+   "t": 12.4,
+   "E_t": 191700.0,
+   "E_b": 217100.0,
+   "nu": 0.3,
+   "n_bolts": 12,
+   "phi0": 15.0,
+   "d_hole": 21.0,
+   "db": 19.05,
+   "As": 213.8,
+   "r_bear": 17.3,
+   "head_h": 11.9,
+   "nut_h": 18.65,
+   "washer_t": 3.8,
+   "root": 3.4,
+   "leg": 8.0,
+   "L_tube": 600.0,
+   "z_meas": 100.0
+  },
+  "L_b": 57.675,
+  "k_ax": 1609570.1777199828,
+  "k_rot": 27384685.24900187,
+  "nodes": 18660,
+  "cells": 13392,
+  "unknowns": 56000,
+  "free_unknowns": 53670,
+  "ties": 576,
+  "root_pairs": 97,
+  "patch_nodes": [
+   46,
+   46,
+   46,
+   46,
+   46,
+   46
+  ]
+ },
+ "mesh": {
+  "n_bolt": 6,
+  "n_other": 2,
+  "n_tp": 3,
+  "n_in": 2,
+  "n_fw": 2,
+  "n_leg": 2,
+  "h_toe": 3.0,
+  "h_mid": 8.0,
+  "n_b1": 2,
+  "n_b2": 3,
+  "h_out": 9.0,
+  "n_t": 2,
+  "hz_near": 20.0,
+  "hz_far": 60.0
+ },
+ "preload": {
+  "targets_kN": [
+   125.0
+  ],
+  "forces_kN": [
+   124.9999999982181,
+   125.00000000356376,
+   124.9999999982181,
+   124.9999999982181,
+   125.00000000356384,
+   124.99999999821807
+  ],
+  "delta_mm": [
+   0.09005203214914499,
+   0.09005203450425842,
+   0.09005203214914498,
+   0.09005203214914499,
+   0.09005203450425851,
+   0.09005203214914495
+  ],
+  "iterations": 2,
+  "converged": true,
+  "kkt": {
+   "min_gap": 0.0,
+   "min_lambda": -2.7668274042205157e-13,
+   "max_complementarity": 1.8570319265494487e-13,
+   "max_lambda_inactive": 4.460517083766957e-13,
+   "max_residual_unconstrained": 3.9150360592517365e-12
+  },
+  "kkt_ok": true,
+  "max_von_mises": {
+   "plate": 209.1930720627927,
+   "tube": 3.613758151045617,
+   "weld": 5.309979063853811
+  },
+  "plastic_points": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "control": "rotation",
+ "levels": [
+  {
+   "control_value": 0.0005,
+   "M_kNm": 16.243913977174657,
+   "T_kN": 0.0,
+   "Theta_D": 0.00015824951737113441,
+   "delta_mm": 0.034649451336707056,
+   "theta_section": 0.00021195929865505843,
+   "bolts_kN": [
+    124.95600428747294,
+    124.8727063243167,
+    124.81482401109822,
+    124.94953593441741,
+    125.06635605725567,
+    125.0659234300881
+   ],
+   "converged": true,
+   "kkt": {
+    "min_gap": 0.0,
+    "min_lambda": -2.5310056595486353e-16,
+    "max_complementarity": 6.484440004044524e-17,
+    "max_lambda_inactive": 2.5310056595486353e-16,
+    "max_residual_unconstrained": 1.0834088793954631e-15
+   },
+   "kkt_ok": true,
+   "plastic_points": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "max_von_mises": {
+    "plate": 219.8787851874313,
+    "tube": 61.73054441368816,
+    "weld": 65.91431064532472
+   },
+   "newton_iterations": 2,
+   "pdas_iterations": [
+    13,
+    1
+   ],
+   "reaction_y_N": 4.319631585758543e-08,
+   "seconds": 244.6
+  },
+  {
+   "control_value": 0.001,
+   "M_kNm": 31.809776698470102,
+   "T_kN": 0.0,
+   "Theta_D": 0.0003416041188225181,
+   "delta_mm": 0.08171911680212897,
+   "theta_section": 0.0004359459330157784,
+   "bolts_kN": [
+    126.4248904547722,
+    125.65853395920279,
+    124.91302695162304,
+    124.84917152472545,
+    125.05543250840927,
+    125.04658495238266
+   ],
+   "converged": true,
+   "kkt": {
+    "min_gap": 0.0,
+    "min_lambda": -4.2973283016804577e-17,
+    "max_complementarity": 2.493902764649806e-17,
+    "max_lambda_inactive": 9.580734228723128e-17,
+    "max_residual_unconstrained": 6.250554413619683e-16
+   },
+   "kkt_ok": true,
+   "plastic_points": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "max_von_mises": {
+    "plate": 271.46414094607474,
+    "tube": 120.39958087261984,
+    "weld": 128.36142919297967
+   },
+   "newton_iterations": 2,
+   "pdas_iterations": [
+    6,
+    1
+   ],
+   "reaction_y_N": 5.3103192954040424e-08,
+   "seconds": 145.3
+  },
+  {
+   "control_value": 0.0015,
+   "M_kNm": 46.75873353329472,
+   "T_kN": 0.0,
+   "Theta_D": 0.0005362987210557709,
+   "delta_mm": 0.1326194043961659,
+   "theta_section": 0.0006709025964797335,
+   "bolts_kN": [
+    129.73638538084214,
+    127.56563072858293,
+    125.3769440420872,
+    124.7631419026554,
+    125.04068267838937,
+    125.02634486324233
+   ],
+   "converged": true,
+   "kkt": {
+    "min_gap": 0.0,
+    "min_lambda": -3.9837058739687305e-17,
+    "max_complementarity": 1.1785772837273877e-17,
+    "max_lambda_inactive": 4.235745673270083e-17,
+    "max_residual_unconstrained": 4.996162481956874e-16
+   },
+   "kkt_ok": true,
+   "plastic_points": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "max_von_mises": {
+    "plate": 309.30394279072755,
+    "tube": 178.2188949477278,
+    "weld": 190.04780851841423
+   },
+   "newton_iterations": 2,
+   "pdas_iterations": [
+    5,
+    1
+   ],
+   "reaction_y_N": 2.552337718952913e-08,
+   "seconds": 139.2
+  },
+  {
+   "control_value": 0.0025,
+   "M_kNm": 75.32476083629734,
+   "T_kN": 0.0,
+   "Theta_D": 0.0009502045503115339,
+   "delta_mm": 0.2427036843065642,
+   "theta_section": 0.0011644861910052793,
+   "bolts_kN": [
+    142.86657464516364,
+    135.45800533387103,
+    127.70130851412924,
+    124.76099631231074,
+    125.00537874307543,
+    124.98552462795631
+   ],
+   "converged": true,
+   "kkt": {
+    "min_gap": 0.0,
+    "min_lambda": -3.425482457936246e-17,
+    "max_complementarity": 1.0358130073766899e-17,
+    "max_lambda_inactive": 3.425482457936246e-17,
+    "max_residual_unconstrained": 1.892502791746799e-15
+   },
+   "kkt_ok": true,
+   "plastic_points": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "max_von_mises": {
+    "plate": 397.18404807458256,
+    "tube": 291.5939676667891,
+    "weld": 311.2348678877372
+   },
+   "newton_iterations": 2,
+   "pdas_iterations": [
+    5,
+    1
+   ],
+   "reaction_y_N": -4.1334146771987434e-08,
+   "seconds": 145.5
+  },
+  {
+   "control_value": 0.003,
+   "M_kNm": 89.09887750127535,
+   "T_kN": 0.0,
+   "Theta_D": 0.0011664989095873039,
+   "delta_mm": 0.30090406133285097,
+   "theta_section": 0.001420314708578197,
+   "bolts_kN": [
+    152.74004919096984,
+    141.7092599303337,
+    129.57868819200195,
+    124.80778179394895,
+    124.98601850117255,
+    124.96558030915412
+   ],
+   "converged": true,
+   "kkt": {
+    "min_gap": 0.0,
+    "min_lambda": -1.2098961722002548e-17,
+    "max_complementarity": 5.519441379489224e-18,
+    "max_lambda_inactive": 1.8004470635984172e-17,
+    "max_residual_unconstrained": 7.397055194883222e-16
+   },
+   "kkt_ok": true,
+   "plastic_points": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "max_von_mises": {
+    "plate": 442.3770426689716,
+    "tube": 347.22403524359873,
+    "weld": 370.7301906795674
+   },
+   "newton_iterations": 2,
+   "pdas_iterations": [
+    4,
+    1
+   ],
+   "reaction_y_N": 3.976839479946648e-08,
+   "seconds": 109.6
+  },
+  {
+   "control_value": 0.0035,
+   "M_kNm": 102.68433308339118,
+   "T_kN": 0.0,
+   "Theta_D": 0.0013861926053755213,
+   "delta_mm": 0.36025517228652515,
+   "theta_section": 0.0016794911633379987,
+   "bolts_kN": [
+    163.77497208906004,
+    149.40935285478176,
+    131.92336640493525,
+    124.90100727893049,
+    124.96512924462209,
+    124.94565100705132
+   ],
+   "converged": true,
+   "kkt": {
+    "min_gap": 0.0,
+    "min_lambda": -2.8450403106380935e-17,
+    "max_complementarity": 7.970877289247049e-18,
+    "max_lambda_inactive": 2.8450403106380935e-17,
+    "max_residual_unconstrained": 5.178389653315878e-16
+   },
+   "kkt_ok": true,
+   "plastic_points": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "max_von_mises": {
+    "plate": 488.6943112788453,
+    "tube": 402.69342534183585,
+    "weld": 430.0822975393302
+   },
+   "newton_iterations": 2,
+   "pdas_iterations": [
+    4,
+    1
+   ],
+   "reaction_y_N": -1.1722192994056968e-08,
+   "seconds": 115.1
+  },
+  {
+   "control_value": 0.004,
+   "M_kNm": 116.1520314174046,
+   "T_kN": 0.0,
+   "Theta_D": 0.001607961674165189,
+   "delta_mm": 0.42031030021841587,
+   "theta_section": 0.0019407575124227494,
+   "bolts_kN": [
+    175.3674513403096,
+    158.00134245545996,
+    134.99817659131207,
+    125.07774016970968,
+    124.94259821902088,
+    124.92575967579333
+   ],
+   "converged": true,
+   "kkt": {
+    "min_gap": 0.0,
+    "min_lambda": -1.320466899274996e-17,
+    "max_complementarity": 4.0176174327493806e-18,
+    "max_lambda_inactive": 1.320466899274996e-17,
+    "max_residual_unconstrained": 5.74035800142263e-16
+   },
+   "kkt_ok": true,
+   "plastic_points": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "max_von_mises": {
+    "plate": 535.2766064463568,
+    "tube": 458.1951336302012,
+    "weld": 489.4726472423779
+   },
+   "newton_iterations": 2,
+   "pdas_iterations": [
+    3,
+    1
+   ],
+   "reaction_y_N": 6.663140084128827e-08,
+   "seconds": 106.8
+  }
+ ],
+ "seconds": 1268.5
+}
