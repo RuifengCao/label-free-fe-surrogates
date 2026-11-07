@@ -38,6 +38,8 @@ This folder holds the work towards a label-free surrogate for the extended end p
 
 **`records/f1_dry/`: the dry run of gate G-F1** on B-19 and T-19, made before the stamp with `python -m f1 run --dry` and `python -m f1 verdict --dry`: the 14 records in `records/`, the progress log `run.log`, the configuration `config.json` and the verdict tables `numbers.md` and `verdict.json`. `docs/PRESPEC_G-F1.md` says which code it ran.
 
+**`records/G-F1/`: the run of gate G-F1** on B-13 and T-13, from the tagged commit (`prereg-f1`) with `python -m f1 run` and `python -m f1 verdict`: the 14 records in `records/`, the progress log `run.log`, the configuration `config.json` and the verdict tables `numbers.md` and `verdict.json`. `docs/G-F1_verdict.md` gives the verdict and the run record.
+
 **`tests/`: the tests.** From this folder, with the repository one level up:
 ```bash
 FEJEPA_REPO=.. python -m pytest -q -p no:cacheprovider tests
@@ -54,7 +56,7 @@ FEJEPA_REPO=.. python -m pytest -q -p no:cacheprovider tests
 - `element_study_note.md`: an exploratory check after G-C1.3 of the element kind, the mesh and the integration rule.
 - G-C1.3, the training gate: `PRESPEC_G-C1.3.md`, with its stamped code in `G-C1.3_stamped_code/` and the hashes in `G-C1.3_code.sha256`; `G-C1.3_verdict.md`.
 - G-C2.1, the plastic training gate: `PRESPEC_G-C2.1.md`, with its stamped code in `G-C2.1_stamped_code/` and the hashes in `G-C2.1_code.sha256`.
-- G-F1, the CHS splices: `PRESPEC_G-F1.md`, with its stamped code in `G-F1_stamped_code/` and the hashes of its code and data in `G-F1_code.sha256`.
+- G-F1, the CHS splices: `PRESPEC_G-F1.md`, with its stamped code in `G-F1_stamped_code/` and the hashes of its code and data in `G-F1_code.sha256`; `G-F1_verdict.md`.
 - The files ending in `_text.md` and `_numbers.md` are the parts each verdict is assembled from.
 
 **`probes/`: exploratory probes.** None of them is a gate. `probes/elements/` holds the scripts of the element study. `probes/c2_bj1997.py`, `c2_bj1997_compare.py`, `c2_bj1997_digitise.py` and `c2_bj1997_fig10.json` run the reference model of stage C2 on Bursi and Jaspart's T1 and compare it with their test and simulations; `probes/c2_pilot/` holds the CPU pilots of G-C2.1 and their records.
@@ -69,7 +71,7 @@ FEJEPA_REPO=.. python -m pytest -q -p no:cacheprovider tests
 | G-C1c | Reading of the published curves at low moments |
 | G-C1.3 | PASS: on unseen layouts of the family, label-free training reproduced the reference model, not the joint tests: its initial stiffness (median error 0.29%) and its contact zone (median overlap 0.944). The reference model itself is 2 to 3 times stiffer than the joint tests (G-C1a). |
 | G-C2.1 | Pre-registered, stamped 6 November 2026, 20:38 GMT; not yet run |
-| G-F1 | Pre-registered, stamped 7 November 2026, 17:18 GMT; not yet run |
+| G-F1 | FAIL: of the three criteria, C1 (moment at 0.001 rad) and C2 (axial displacement at 800 kN) lie between the frictionless and no-slip bounds; C3 (bolt 1's force increase from 25 to 100 kNm) lies above the frictionless bound |
 
 The gap of G-C1a is not a discretisation effect: the five element kinds that do not lock converge to the same stiffness, and on the C1.3 mesh the current element is about 1% stiffer than it, up to 2.7% for FS1 depending on two nodes just outside the washer patches (`docs/element_study_note.md`, exploratory, 16 October 2026).
 
@@ -91,7 +93,7 @@ The gap of G-C1a is not a discretisation effect: the five element kinds that do 
 
 The repository's licences cover this folder as they cover the rest (see the repository's README):
 - the code (`fejoint/`, `c13/`, `c2/`, `f1/` with its scripts in `f1/digitise/`, `audit/`, `tests/`, the scripts in `probes/` and the stamped copies in `docs/G-C1.3_stamped_code/`, `docs/G-C2.1_stamped_code/` and `docs/G-F1_stamped_code/`) under the PolyForm Noncommercial License 1.0.0 (`../LICENSE`);
-- the pre-specifications, verdicts and notes in `docs/`, `RUNBOOK_C13.md` with its addendum, `RUNBOOK_C2.md`, the records in `probes/` (the `.json` and `.log` files) and those in `records/c13/`, `records/elements/`, `records/c2/` and `records/f1_dry/` under the Creative Commons Attribution 4.0 International licence (`../LICENSE-CC-BY-4.0`), as the repository's pre-registration documents and records are;
+- the pre-specifications, verdicts and notes in `docs/`, `RUNBOOK_C13.md` with its addendum, `RUNBOOK_C2.md`, the records in `probes/` (the `.json` and `.log` files) and those in `records/c13/`, `records/elements/`, `records/c2/`, `records/f1_dry/` and `records/G-F1/` under the Creative Commons Attribution 4.0 International licence (`../LICENSE-CC-BY-4.0`), as the repository's pre-registration documents and records are;
 - the digitised data in `f1/data/` likewise; they are readings of the figures of Fidalgo (2023), which is the source to cite for the measurements.
 
 ## References

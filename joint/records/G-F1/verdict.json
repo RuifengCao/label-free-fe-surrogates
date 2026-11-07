@@ -1,0 +1,291 @@
+{
+ "gate": "G-F1",
+ "criteria": {
+  "C1": {
+   "test": {
+    "value": 74.9955995085995,
+    "tolerance": 4.814484460327042,
+    "per_figure": [
+     72.9981081081081,
+     76.99309090909091
+    ],
+    "slope_term": 2.116993059835636
+   },
+   "models": {
+    "frictionless": {
+     "value": 41.680515224126296,
+     "status": "ok"
+    },
+    "no-slip": {
+     "value": 82.47437209548647,
+     "status": "ok"
+    }
+   },
+   "holds": true,
+   "specimen": "B-13"
+  },
+  "C3": {
+   "test": {
+    "value": 55.572246642246625,
+    "tolerance": 3.478119658119657,
+    "upper_lo": 108.98444444444443,
+    "lower_lo": 104.42820512820512,
+    "upper_hi": 162.2785714285714
+   },
+   "models": {
+    "frictionless": {
+     "value": 49.59013382333558,
+     "status": "ok"
+    },
+    "no-slip": {
+     "value": 34.785709585156624,
+     "status": "ok"
+    }
+   },
+   "holds": false,
+   "specimen": "B-13"
+  },
+  "C2": {
+   "test": {
+    "value": 0.9340438539696383,
+    "tolerance": 0.05072591372532283,
+    "per_figure": [
+     0.9347697676949611,
+     0.9333179402443155
+    ]
+   },
+   "models": {
+    "frictionless": {
+     "value": 2.0735170213633425,
+     "status": "ok"
+    },
+    "no-slip": {
+     "value": 0.8108065335632558,
+     "status": "ok"
+    }
+   },
+   "holds": true,
+   "specimen": "T-13"
+  }
+ },
+ "reported": {
+  "C1 elastic": {
+   "test": {
+    "value": 74.9955995085995,
+    "tolerance": 4.814484460327042,
+    "per_figure": [
+     72.9981081081081,
+     76.99309090909091
+    ],
+    "slope_term": 2.116993059835636
+   },
+   "models": {
+    "frictionless": {
+     "value": 41.702351754476084,
+     "status": "ok"
+    },
+    "no-slip": {
+     "value": 82.49403164896906,
+     "status": "ok"
+    }
+   },
+   "holds": true,
+   "specimen": "B-13"
+  },
+  "C1 measured preload": {
+   "test": {
+    "value": 74.9955995085995,
+    "tolerance": 4.814484460327042,
+    "per_figure": [
+     72.9981081081081,
+     76.99309090909091
+    ],
+    "slope_term": 2.116993059835636
+   },
+   "models": {
+    "frictionless": {
+     "value": 41.013108932931985,
+     "status": "ok"
+    },
+    "no-slip": {
+     "value": 80.89721439749489,
+     "status": "ok"
+    }
+   },
+   "holds": true,
+   "specimen": "B-13"
+  },
+  "C3 elastic": {
+   "test": {
+    "value": 55.572246642246625,
+    "tolerance": 3.478119658119657,
+    "upper_lo": 108.98444444444443,
+    "lower_lo": 104.42820512820512,
+    "upper_hi": 162.2785714285714
+   },
+   "models": {
+    "frictionless": {
+     "value": 59.78702920908654,
+     "status": "ok"
+    },
+    "no-slip": {
+     "value": 35.24123018207459,
+     "status": "ok"
+    }
+   },
+   "holds": true,
+   "specimen": "B-13"
+  },
+  "C3 measured preload": {
+   "test": {
+    "value": 55.572246642246625,
+    "tolerance": 3.478119658119657,
+    "upper_lo": 108.98444444444443,
+    "lower_lo": 104.42820512820512,
+    "upper_hi": 162.2785714285714
+   },
+   "models": {
+    "frictionless": {
+     "value": 57.605253968579134,
+     "status": "ok"
+    },
+    "no-slip": {
+     "value": 40.683127035679334,
+     "status": "ok"
+    }
+   },
+   "holds": true,
+   "specimen": "B-13"
+  },
+  "C1 at Theta_D = 0.0005": {
+   "test": {
+    "value": 59.49930094130676,
+    "tolerance": 7.358332793075669,
+    "per_figure": [
+     57.40488095238095,
+     61.59372093023256
+    ],
+    "slope_term": 4.563912804149865
+   },
+   "models": {
+    "frictionless": {
+     "value": 22.55417304642195,
+     "status": "ok"
+    },
+    "no-slip": {
+     "value": 45.30603471634893,
+     "status": "ok"
+    }
+   },
+   "holds": false,
+   "specimen": "B-13"
+  },
+  "C1 at Theta_D = 0.0005 elastic": {
+   "test": {
+    "value": 59.49930094130676,
+    "tolerance": 7.358332793075669,
+    "per_figure": [
+     57.40488095238095,
+     61.59372093023256
+    ],
+    "slope_term": 4.563912804149865
+   },
+   "models": {
+    "frictionless": {
+     "value": 22.55417304642213,
+     "status": "ok"
+    },
+    "no-slip": {
+     "value": 45.30603471634912,
+     "status": "ok"
+    }
+   },
+   "holds": false,
+   "specimen": "B-13"
+  },
+  "mesh flag B-13 frictionless C1": {
+   "coarse": 41.702351754476084,
+   "medium": 41.614332300924765,
+   "status": [
+    "ok",
+    "ok"
+   ],
+   "ratio": 0.9978893407722055,
+   "flagged": false
+  },
+  "mesh flag B-13 frictionless C3": {
+   "coarse": 59.78702920908654,
+   "medium": 60.84461810418527,
+   "status": [
+    "ok",
+    "ok"
+   ],
+   "ratio": 1.0176892698816016,
+   "flagged": false
+  },
+  "mesh flag B-13 no-slip C1": {
+   "coarse": 82.49403164896906,
+   "medium": 82.76513853119553,
+   "status": [
+    "ok",
+    "ok"
+   ],
+   "ratio": 1.0032863817758368,
+   "flagged": false
+  },
+  "mesh flag B-13 no-slip C3": {
+   "coarse": 35.24123018207459,
+   "medium": 36.39847849905641,
+   "status": [
+    "ok",
+    "ok"
+   ],
+   "ratio": 1.0328379092047262,
+   "flagged": true
+  },
+  "C2 elastic": {
+   "test": {
+    "value": 0.9340438539696383,
+    "tolerance": 0.05072591372532283,
+    "per_figure": [
+     0.9347697676949611,
+     0.9333179402443155
+    ]
+   },
+   "models": {
+    "frictionless": {
+     "value": 1.7835903805912385,
+     "status": "ok"
+    },
+    "no-slip": {
+     "value": 0.8070817316305942,
+     "status": "ok"
+    }
+   },
+   "holds": true,
+   "specimen": "T-13"
+  },
+  "mesh flag T-13 frictionless C2": {
+   "coarse": 1.7835903805912385,
+   "medium": 1.796550620310152,
+   "status": [
+    "ok",
+    "ok"
+   ],
+   "ratio": 1.007266376775713,
+   "flagged": false
+  },
+  "mesh flag T-13 no-slip C2": {
+   "coarse": 0.8070817316305942,
+   "medium": 0.8062885627409943,
+   "status": [
+    "ok",
+    "ok"
+   ],
+   "ratio": 0.9990172384548992,
+   "flagged": false
+  }
+ },
+ "verdict": "FAIL",
+ "config_sha256": "c2fdf0fff32fd24f3714f8231b3d6e87a83bbf7d268ef2a1283f02c78c051d87"
+}
