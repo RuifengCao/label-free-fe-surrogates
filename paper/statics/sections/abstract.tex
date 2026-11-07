@@ -1,7 +1,7 @@
 Finite-element surrogates predict the stresses of a new design in one evaluation, but are
 usually trained on solutions with a displacement loss and compared by it, although
 engineering decisions rest on stresses. Application in engineering: stress analysis of
-perforated plates and solids with cavities, stylised families in which holes concentrate
+perforated plates and solids with cavities, parametric families in which holes concentrate
 stress. Contribution to artificial intelligence: training and evaluating such surrogates in
 the energy norm, with or without solutions, and screening their predictions without
 solutions. For linear elastostatics, minimising the assembled discrete potential energy is
@@ -13,8 +13,8 @@ supervised loss cut a three-dimensional transformer's median energy-norm error
 dimensions it more than halved the von Mises error, also on held-out instances. In three
 dimensions, the transformer trained on the energy alone came within a factor of
 \numNlThreeLabelWithin{} of the energy-norm-supervised one in median energy-norm and von
-Mises error and beat the displacement-supervised one on all five metrics in every seed. The
-energy ranks predictions of a load case, and its sign flags those worse than the zero field.
+Mises error and beat the displacement-supervised one on all five metrics in every seed.
 Given the stiffness matrix, a Ritz projection was more accurate than the label-free
 transformer, in the seed means, on every metric but peak stress, and no network transferred
-to a substantially finer mesh.
+to a substantially finer mesh. The energy ranks predictions of a load case, and its sign
+flags those worse than the zero field.

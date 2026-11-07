@@ -2899,3 +2899,21 @@ generator, and no record, configuration, pre-registration or source file changed
   accurate in", "At finite strains", "The discretisation invariance") and in
   `tests/test_statics_material.py` (the cost protocol's sentence on the fine-mesh direct
   solve). Suite 839 (836 + 3), unchanged.
+
+## Stage 29 (7 Nov 2026) -- the abstract ends on the screen, and a keyword names physics-informed machine learning
+
+- Why. The journal's scope asks for novel aspects of artificial intelligence used for an
+  engineering application (its page, read again on 6 November 2026), and an editor reads
+  the abstract first. Two small changes make the abstract's claims easier to place, with
+  nothing added or removed:
+  - "stylised families" is "parametric families": the geometries are drawn from
+    parametric distributions (Section 4.1); Section 10.2 still calls the solids a stylised
+    version of real parts with voids;
+  - the sentence on the Ritz projection and the finer mesh comes before the one on the
+    energy's ranking and sign, so that the abstract ends on the check that needs no
+    solution. The words, 248, are the same.
+- The keywords replace "potential energy" with "physics-informed machine learning", the
+  field in which Section 2 places the energy-trained networks, so that the manuscript is
+  indexed with that work; seven keywords, the last "stress analysis", as before.
+- No number, table, figure, test or supplementary page changed. Suite 839 (836 + 3),
+  unchanged.
