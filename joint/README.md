@@ -69,7 +69,7 @@ FEJEPA_REPO=.. python -m pytest -q -p no:cacheprovider tests
 | G-C1c | Reading of the published curves at low moments |
 | G-C1.3 | PASS: on unseen layouts of the family, label-free training reproduced the reference model, not the joint tests: its initial stiffness (median error 0.29%) and its contact zone (median overlap 0.944). The reference model itself is 2 to 3 times stiffer than the joint tests (G-C1a). |
 | G-C2.1 | Pre-registered, stamped 6 November 2026, 20:38 GMT; not yet run |
-| G-F1 | Pre-registered, stamped 7 November 2026, 03:08 GMT; not yet run |
+| G-F1 | Pre-registered, stamped 7 November 2026, 17:18 GMT; not yet run |
 
 The gap of G-C1a is not a discretisation effect: the five element kinds that do not lock converge to the same stiffness, and on the C1.3 mesh the current element is about 1% stiffer than it, up to 2.7% for FS1 depending on two nodes just outside the washer patches (`docs/element_study_note.md`, exploratory, 16 October 2026).
 

@@ -1,6 +1,17 @@
 # Pre-specification of gate G-F1
 
-Stamped 7 November 2026, 03:08 GMT. At that time no result of a model of B-13 or T-13 had been read or compared with the tests.
+Stamped 7 November 2026, 17:18 GMT. At that time no result of a model of B-13 or T-13 had been read or compared with the tests.
+
+**This stamp replaces the first one** (7 November 2026, 03:08 GMT, commit `e966200`), which was pushed but never tagged or run. A review before tagging found two places where the code did not do what that stamp's text said or implied. Neither changes a computed value:
+- a level whose solve raised a numerical error, instead of failing to converge, stopped the whole run, and the case's record was lost with it, so even values read from the converged levels before it would have been missing, against the validity rule below;
+- `python -m f1 verdict` computed a FAIL from an incomplete set of records instead of refusing.
+
+Of the gate's code only `f1/run.py` and `f1/__main__.py` changed (with their tests in `tests/test_f1.py`); the configuration and its hash did not. The code now:
+- records a level whose solve raises a numerical error as not converged, with the error, and ends the path;
+- records a case whose preload raises a numerical error with the error and no levels;
+- counts the preload state as converged only if every bolt carries its target;
+- writes each record to a temporary file and renames it into place, with the configuration's SHA-256 in it;
+- refuses to compute the verdict until every case has its record.
 
 ## Question
 
@@ -31,7 +42,13 @@ This is a finite element question. Its answer decides how the reference energy o
   - The first plastic points appeared at these levels: B-19's plate at $\Theta_D$ = 0.0012 rad (frictionless), its weld at 0.0010 rad (no-slip), T-19's plate at 658 kN (frictionless). The elastic bounds differed from the values above by at most 0.01 kNm in C1 and 0.24 kN in C3; in C2 the frictionless bound was 1.631 mm elastic instead of 1.818 mm.
   - With B-19's measured preloads the bounds were 78.1 and 146.0 kNm (C1) and 35.9 and 18.7 kN (C3). At $\Theta_D$ = 0.0005 rad the test (111.1 ± 16.1 kNm) again lay above both bounds (44.2 and 83.3 kNm).
   - The mesh flag was raised for C3: on the medium mesh the increase of bolt 1 was 3.5% (frictionless) and 3.6% (no-slip) larger. Moments and displacements differed by at most 0.6%.
-  - The code was changed in four places after the dry run started, none of which changes a computed value: `f1/run.py` flushes its progress log after each line; the help of `python -m f1` shows the module's description; an unused helper was removed from `f1/readings.py`; the text on the hardening points in `f1/config.py` and `f1/materials.py` says at most 14 points, not 15 (the code is the same, but the text is part of the configuration, so its hash changed). The dry verdict was computed afterwards, with the code as stamped. One case was then solved again with the code as stamped (B-19, frictionless, J2 deformation theory): every number of its record but the timings was the same as in the dry run.
+  - The code was changed in four places after the dry run started, none of which changes a computed value: `f1/run.py` flushes its progress log after each line; the help of `python -m f1` shows the module's description; an unused helper was removed from `f1/readings.py`; the text on the hardening points in `f1/config.py` and `f1/materials.py` says at most 14 points, not 15 (the code is the same, but the text is part of the configuration, so its hash changed). The dry verdict was computed afterwards with the first stamp's code, and again with the code stamped here; the files were the same. One case was solved again with each (J2 deformation theory, frictionless): B-19 with the first stamp's code, T-19 with the code stamped here. Every number of both records but the timings was the same as in the dry run; the second record also has the fields added since.
+- **Checks before tagging the first stamp**, on 7 November 2026 (every solve on B-19 or T-19):
+  - B-19 frictionless with J2 deformation theory was taken to 178 kNm, and T-19 frictionless to 1,763 kN, beyond the dry run's 116 kNm and 1,350 kN. Every level converged within the KKT limits, with at most 6 Newton iterations and up to 1,216 and 12,332 plastic Gauss points.
+  - B-19 on the medium mesh (the preload and one level; every medium case of the gate has the same size) needed at most 2.6 GB of memory.
+  - With B-19's measured preloads the moment at zero load, which the readings take as zero, was 0.003 kNm. With the nominal preload it is zero to round-off, because the mesh is symmetric about the neutral plane.
+  - The models of B-13 and T-13 were built, not solved, to check their meshes, sizes and preload targets.
+  - In an independent check, one B-19 case was solved again with the first stamp's code; every number of its record but the timings was the same as in the dry run.
 - **Expectation, stated before the run.** From B-19: C1 likely holds; C3 likely holds, nearer the no-slip end; C2 is uncertain, because the 12.6 mm plate bends soon after the preload is overcome at about 600 kN. The point at 0.0005 rad (reported only) may again lie above both bounds, and C3's mesh flag may be raised again.
 
 ## Authority for the criteria
@@ -56,11 +73,11 @@ This is a finite element question. Its answer decides how the reference energy o
 | File | SHA-256 |
 |---|---|
 | `f1/__init__.py` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
-| `f1/__main__.py` | `5dc5a93811110b5ff202151510b6d07756e3281ca793746508911700b796aae7` |
+| `f1/__main__.py` | `762000db398d6fe74a252ec1c2639e4a68c6abd7fa5855be094f571750c23363` |
 | `f1/config.py` | `12720d13c7cff292d36acab17ad30f3d0226bad3e160ef8eeb48b359df6b72e7` |
 | `f1/materials.py` | `5ee5ef9af510bfe1acfb561078dc1a2976be37a3514fcb7735d230b3954d94bd` |
 | `f1/readings.py` | `733f3b874de09085f191139657a17998206bc167113f56678af2967dcf67f8e3` |
-| `f1/run.py` | `b134841a367d5ae54f314f38151d3f56e8722c3fae3d629b18547118174d272c` |
+| `f1/run.py` | `b1e9875a8c5aa327f47730583364003e58a016bfaef645b02da998210a4edf73` |
 | `f1/verdict.py` | `d31380235b8454f4040f6bc5cc50931edab667360231a869352f9b9b35c6c697` |
 | `fejoint/__init__.py` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
 | `fejoint/chs.py` | `335fb6adee3df4a4d99fdde9b88cf4134dadb2a74378273393159c5df76d9b88` |
@@ -123,7 +140,7 @@ All inputs come from the thesis unless marked otherwise; the data sheet of 6 Nov
 
 **Splice and symmetry**
 - Half the joint about the bending plane (bolts 1 to 6). One side of the splice: the plane between the plates is a rigid support with unilateral contact.
-- Frictionless or no-slip (the two bounds). The free sliding along the bending plane is removed by fixing $u_y$ at the plate's centre; it carries no force.
+- Frictionless or no-slip (the two bounds). The free sliding along the bending plane is removed by fixing $u_y$ at the plate's centre. In the frictionless model it carries no force; in the no-slip model the centre is one of the fixed points.
 
 **Loading**
 - Bending: the tube's end section stays plane. Its rotation $\theta$ about the axis normal to the bending plane is prescribed, and its axial translation is free (no axial force). Steps of 0.0005 rad.
@@ -142,7 +159,7 @@ All inputs come from the thesis unless marked otherwise; the data sheet of 6 Nov
 **Mesh and solver**
 - The `coarse` mesh of `fejoint/chs.py`: 1.875 degree steps next to the bolts and 3.75 degrees elsewhere; 2 layers in the plate; 5,352 or 5,496 cells (by specimen) and about 25,000 to 26,000 unknowns.
 - In the dry run (B-19 and T-19, elastic, both bounds) coarse and medium differed by at most 0.6% in moment and displacement and by 3.6% in the increase of bolt 1.
-- Contact problems are solved by `fejoint.nlsolve` (sequential quadratic programming with a primal-dual active set). The active set is warm-started from the previous level; the result does not depend on it.
+- Contact problems are solved by the iteration of `fejoint.nlsolve` (sequential quadratic programming with a primal-dual active set), in `fejoint.chs.WarmContactProblem`, which starts the active set from the previous level; the result does not depend on it.
 - Tolerance 1e-10, at most 60 iterations, the KKT limits of `f1/config.py`.
 
 ## Test readings (`f1/readings.py`, computed before the stamp)
@@ -169,7 +186,7 @@ Each criterion compares the test value with the two bounds' values (J2 deformati
 
 **C3** (B-13). The measured increase of bolt 1's force from 25 to 100 kNm lies between the frictionless and no-slip increases.
 
-**Validity.** A criterion does not hold if either bound's value is missing, or if any level up to and including the one used did not converge or broke a KKT limit. The path does not reach the point in the first case.
+**Validity.** A criterion does not hold if either bound's value is missing, or if any level up to and including the one used did not converge or broke a KKT limit. The path does not reach the point in the first case. A level whose solve raises a numerical error counts as not converged: it is recorded with the error, and the path stops. A numerical error is a `RuntimeError` other than `NotImplementedError` and `RecursionError`, an `ArithmeticError` or numpy's `LinAlgError`; any other error stops the run. The preload state counts as converged only if its solve converged and every bolt carries its target to a relative 1e-6; a case whose preload raises a numerical error has no levels.
 
 **Verdict.** G-F1 passes if and only if C1, C2 and C3 all hold.
 
@@ -202,6 +219,8 @@ From `joint/`, on a CPU (no GPU is needed; the dry run took 1 h 42 min on two co
 python -m f1 run --sha c2fdf0fff32fd24f3714f8231b3d6e87a83bbf7d268ef2a1283f02c78c051d87 --out records/G-F1
 python -m f1 verdict --sha c2fdf0fff32fd24f3714f8231b3d6e87a83bbf7d268ef2a1283f02c78c051d87 --out records/G-F1
 ```
+Each case's record is written when the case ends. `run` keeps the records it finds, so a run that was cut off is continued by giving the same command again. `verdict` refuses until every case has its record.
+
 A dry run of the same code on B-19 and T-19, which are not part of the gate: `python -m f1 run --dry --out <dir>`, then `python -m f1 verdict --dry --out <dir>`. The one made before the stamp is in `records/f1_dry/`.
 
 ## References

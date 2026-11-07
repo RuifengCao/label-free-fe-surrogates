@@ -1,8 +1,10 @@
 """Checks of the gate G-F1 code (f1): configuration hash and data pins, test readings, hardening curves, the
-interpolation and bracketing of the verdict, the code check of the command line, and a dry run of the whole pipeline
-(every case kind, the verdict and its tables) on B-19 and T-19 with the "tiny" meshes and longer steps. B-13 and T-13,
-the gate's specimens, are never solved here."""
+interpolation and bracketing of the verdict, the code check of the command line, numerical errors in a level or the
+preload (recorded, and the run goes on), the verdict's refusal before every case has its record, and a dry run of the
+whole pipeline (every case kind, the verdict and its tables) on B-19 and T-19 with the "tiny" meshes and longer
+steps. B-13 and T-13, the gate's specimens, are never solved here."""
 import copy
+import hashlib
 import json
 
 import numpy as np
@@ -155,12 +157,25 @@ def test_remaining_branches_without_solving(tmp_path, monkeypatch, capsys):
     (out / "records" / f"{cid}.json").write_text("{}")
     cli.main(["run", "--dry", "--case", cid, "--out", str(out)])
     assert capsys.readouterr().out.strip() == f"{cid}.json exists, skipped"
-    cli.main(["verdict", "--dry", "--out", str(tmp_path / "empty")])
+    with pytest.raises(SystemExit, match="14 of 14 case records are missing"):
+        cli.main(["verdict", "--dry", "--out", str(tmp_path / "empty")])
+    assert not (tmp_path / "empty" / "verdict.json").exists()
+    full = tmp_path / "full"
+    (full / "records").mkdir(parents=True)
+    stub = {"preload": {"forces_kN": [125.0] * 6, "converged": True, "kkt_ok": True}, "levels": []}
+    for c in cases(cfg)[1:]:
+        (full / "records" / f"{case_id(c)}.json").write_text(json.dumps(dict(stub, case=c)))
+    with pytest.raises(SystemExit, match="1 of 14 case records are missing"):
+        cli.main(["verdict", "--dry", "--out", str(full)])
+    c0 = cases(cfg)[0]
+    (full / "records" / f"{case_id(c0)}.json").write_text(json.dumps(dict(stub, case=c0)))
+    cli.main(["verdict", "--dry", "--out", str(full)])
     assert capsys.readouterr().out.split() == ["FAIL"]
-    res = json.loads((tmp_path / "empty" / "verdict.json").read_text())
+    res = json.loads((full / "verdict.json").read_text())
     assert res["verdict"] == "FAIL" and res["config_sha256"] == config_hash(True)
-    assert "**Verdict: FAIL**" in (tmp_path / "empty" / "numbers.md").read_text()
-    assert json.loads((tmp_path / "empty" / "config.json").read_text()) == json.loads(canonical(cfg))
+    assert all(m["status"] == "missing" for v in res["criteria"].values() for m in v["models"].values())
+    assert "**Verdict: FAIL**" in (full / "numbers.md").read_text()
+    assert json.loads((full / "config.json").read_text()) == json.loads(canonical(cfg))
     at_limits = {k: lim for k, (op, lim) in KKT_LIMITS.items()}
     assert kkt_ok(at_limits)
     for k, (op, lim) in KKT_LIMITS.items():
@@ -186,6 +201,77 @@ def test_an_unconverged_level_ends_the_path(monkeypatch):
     assert rec["preload"]["converged"] and rec["preload"]["kkt_ok"]
 
 
+def test_numerical_errors_are_recorded_and_the_run_goes_on(tmp_path, monkeypatch):
+    """A level whose solve raises a numerical error is recorded as not converged (with the error, NaN readings) and
+    ends the path; a preload that raises one is recorded without levels; either way the record is written whole.
+    Other errors (a programming error such as NotImplementedError, a ValueError) stop the run and write nothing. A
+    preload whose bolts are off their targets does not count as converged. Tiny mesh, B-19 only."""
+    import f1.run as run_module
+    from f1.verdict import at_point
+    cfg = config(True)
+    cfg["model"]["mesh"] = "tiny"
+    cfg["loading"]["bending"]["step"] = 0.001
+    real_level, calls = run_module._level, []
+
+    def level_then_error(*a, **k):
+        calls.append(1)
+        if len(calls) == 2:
+            raise RuntimeError("active set did not settle within max_it iterations")
+        return real_level(*a, **k)
+
+    monkeypatch.setattr(run_module, "_level", level_then_error)
+    case = {"specimen": "B-19", "splice": "frictionless", "theory": "elastic", "preload": "nominal", "mesh": "tiny"}
+    logs = []
+    rec = json.loads(run_case(cfg, case, tmp_path, log=logs.append).read_text())
+    assert [l["converged"] for l in rec["levels"]] == [True, False] and not list(tmp_path.glob("records/*.tmp"))
+    bad = rec["levels"][1]
+    assert bad["error"].startswith("RuntimeError: active set") and np.isnan(bad["M_kNm"]) and not bad["kkt_ok"]
+    assert '"error": "RuntimeError: active set' in logs[-1]
+    assert rec["preload"]["on_target"] and rec["preload"]["converged"]
+    assert rec["config_sha256"] == hashlib.sha256(canonical(cfg).encode()).hexdigest()
+    m1 = rec["levels"][0]["M_kNm"]
+    assert at_point(rec, "M_kNm", 0.5 * m1, "bolt1_kN")[1] == "ok"
+    assert at_point(rec, "M_kNm", 2.0 * m1, "bolt1_kN") == (None, "missing")
+
+    def level_not_implemented(*a, **k):
+        raise NotImplementedError("a programming error, not a numerical one")
+
+    monkeypatch.setattr(run_module, "_level", level_not_implemented)
+    case4 = dict(case, theory="hencky")
+    with pytest.raises(NotImplementedError):
+        run_case(cfg, case4, tmp_path, log=logs.append)
+    assert not (tmp_path / "records" / f"{case_id(case4)}.json").exists()
+    monkeypatch.setattr(run_module, "_level", real_level)
+
+    def preload_value_error(self, *a, **k):
+        raise ValueError("not a numerical error")
+
+    monkeypatch.setattr(run_module.chs.SpliceModel, "set_preload", preload_value_error)
+    with pytest.raises(ValueError):
+        run_case(cfg, case4, tmp_path, log=logs.append)
+    assert not (tmp_path / "records" / f"{case_id(case4)}.json").exists()
+
+    def preload_error(self, *a, **k):
+        raise np.linalg.LinAlgError("singular matrix")
+
+    monkeypatch.setattr(run_module.chs.SpliceModel, "set_preload", preload_error)
+    rec2 = json.loads(run_case(cfg, dict(case, splice="no-slip"), tmp_path, log=logs.append).read_text())
+    assert rec2["levels"] == [] and not rec2["preload"]["converged"]
+    assert rec2["preload"]["error"] == "LinAlgError: singular matrix" and "preload_error" in logs[-1]
+    assert at_point(rec2, "Theta_D", 0.001, "M_kNm") == (None, "missing")
+
+    def off_target(self, N_target, **k):
+        self.delta = np.full(self.nb, N_target / self.k_ax)
+        z, _ = self.solve(0.0, z0=np.zeros(self.nfull))
+        return {"delta": self.delta.copy(), "forces_N": self.bolt_forces(z) * 1.01, "iterations": 30}
+
+    monkeypatch.setattr(run_module.chs.SpliceModel, "set_preload", off_target)
+    rec3 = run_module.run_path("B-19", cfg, "frictionless", "elastic", "nominal", "tiny", values=[0.001],
+                               log=logs.append)
+    assert not rec3["preload"]["on_target"] and not rec3["preload"]["converged"] and rec3["levels"][0]["converged"]
+    assert at_point(rec3, "Theta_D", 0.5 * rec3["levels"][0]["Theta_D"], "M_kNm") == (None, "invalid")
+
+
 def test_dry_pipeline_tiny(tmp_path):
     """Every case kind of the dry configuration (B-19, T-19), the mesh flag and the verdict, on tiny meshes."""
     cfg = config(True)
@@ -197,7 +283,9 @@ def test_dry_pipeline_tiny(tmp_path):
     for c in cases(cfg):
         run_case(cfg, c, tmp_path, log=logs.append)
     recs = {p.stem: json.loads(p.read_text()) for p in (tmp_path / "records").glob("*.json")}
-    assert set(recs) == {case_id(c) for c in cases(cfg)}
+    assert set(recs) == {case_id(c) for c in cases(cfg)} and not list((tmp_path / "records").glob("*.tmp"))
+    assert {r["config_sha256"] for r in recs.values()} == {hashlib.sha256(canonical(cfg).encode()).hexdigest()}
+    assert all(r["preload"]["on_target"] for r in recs.values())
     for k, r in recs.items():
         assert r["preload"]["converged"] and r["preload"]["kkt_ok"], k
         assert all(l["converged"] and l["kkt_ok"] for l in r["levels"]), k

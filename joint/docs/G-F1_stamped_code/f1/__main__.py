@@ -4,7 +4,8 @@
   readings [--dry]                             the test readings and their tolerances
   cases [--dry]                                the case ids, in run order
   run --sha SHA --out DIR [--case ID] [--dry]  run one case, or every case in order (existing records are kept)
-  verdict --sha SHA --out DIR [--dry]          evaluate; write DIR/verdict.json and DIR/numbers.md
+  verdict --sha SHA --out DIR [--dry]          evaluate once every case has its record (refuses before that);
+                                               write DIR/verdict.json and DIR/numbers.md
 
 Without --dry (the gate: B-13 and T-13), run and verdict refuse to start unless SHA is the configuration's hash and
 every file listed in docs/G-F1_code.sha256 has its listed SHA-256. --dry runs the same code on B-19 and T-19, which
@@ -80,6 +81,10 @@ def main(argv=None):
         for c in todo:
             run_case(cfg, c, out)
         return
+    missing = [case_id(c) for c in cases(cfg) if not (out / "records" / f"{case_id(c)}.json").exists()]
+    if missing:
+        sys.exit(f"refusing to evaluate: {len(missing)} of {len(cases(cfg))} case records are missing "
+                 f"({', '.join(missing)}); finish the run first")
     res = evaluate(cfg, read_tests(cfg), out)
     res["config_sha256"] = config_hash(args.dry)
     (out / "verdict.json").write_text(json.dumps(res, indent=1))
