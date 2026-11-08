@@ -1,0 +1,21 @@
+Sat Nov  7 15:49:38 CST 2026
+autodl-container-eb3344896e-709d725c
+NVIDIA GeForce RTX 5090, 595.71.05, 32607 MiB
+Model name:                      Intel(R) Xeon(R) Platinum 8470Q
+25
+/sys/fs/cgroup/memory.max 98784247808
+/sys/fs/cgroup/cpu.max 2500000 100000
+Sat Nov  7 15:52:48 CST 2026
+autodl-container-eb3344896e-709d725c
+NVIDIA GeForce RTX 5090, 595.71.05, 32607 MiB
+Model name:                      Intel(R) Xeon(R) Platinum 8470Q
+25
+/sys/fs/cgroup/memory.max 98784247808
+/sys/fs/cgroup/cpu.max 2500000 100000
+Sat Nov  7 16:15:51 CST 2026
+autodl-container-eb3344896e-709d725c
+NVIDIA GeForce RTX 5090, 595.71.05, 32607 MiB
+Model name:                      Intel(R) Xeon(R) Platinum 8470Q
+208
+/sys/fs/cgroup/memory.max 98784247808
+/sys/fs/cgroup/cpu.max 2500000 100000

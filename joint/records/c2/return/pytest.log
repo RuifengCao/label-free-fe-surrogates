@@ -1,0 +1,8 @@
+...............................                                                                                       [100%]
+===================================================== warnings summary ======================================================
+joint/tests/test_c2.py::test_torch_energy_and_gradient_equal_the_reference
+  /root/autodl-tmp/FE-JEPA-c2/joint/c2/torch_energy.py:177: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at /pytorch/aten/src/ATen/Context.cpp:760.)
+    return torch.sparse_coo_tensor(idx, torch.as_tensor(val, dtype=dtype), tuple(int(s) for s in shape),
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+31 passed, 1 warning in 145.06s (0:02:25)

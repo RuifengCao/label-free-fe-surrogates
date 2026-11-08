@@ -1,0 +1,7 @@
+prereg-c2
+autodl-container-eb3344896e-709d725c
+25
+/dev/md0        100G   85G   16G  85% /root/autodl-tmp
+NVIDIA GeForce RTX 5090, 595.71.05, 100 %, 2 MiB, 32607 MiB
+numpy 2.4.6 scipy 1.18.1 torch 2.12.1+cu130 True
+label solver: scipy

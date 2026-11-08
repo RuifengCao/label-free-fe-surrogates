@@ -1,6 +1,6 @@
 # Extended end plate joints (stage C)
 
-This folder holds the work towards a label-free surrogate for the extended end plate joints tested by Girão Coelho, Bijlaard and Simões da Silva (2004). It contains the finite element models, the gates that tested them against the experiments, the pre-registered training gate G-C1.3 with its records and verdict, and the plastic stage C2 on bolted T-stubs with its training gate G-C2.1. It also holds the first tubular case: bolted circular hollow section (CHS) blank flange-plate splices tested by Fidalgo (2023), with gate G-F1.
+This folder holds the work towards a label-free surrogate for the extended end plate joints tested by Girão Coelho, Bijlaard and Simões da Silva (2004). It contains the finite element models, the gates that tested them against the experiments, the pre-registered training gate G-C1.3 with its records and verdict, and the plastic stage C2 on bolted T-stubs with its training gate G-C2.1, its records and verdict. It also holds the first tubular case: bolted circular hollow section (CHS) blank flange-plate splices tested by Fidalgo (2023), with gate G-F1.
 
 ## Contents
 
@@ -21,9 +21,11 @@ This folder holds the work towards a label-free surrogate for the extended end p
 
 **`f1/`: the run code of gate G-F1**, the CHS splices of Fidalgo (2023) against their tests, with frictionless and no-slip splices as bounds. `python -m f1 -h` lists its commands; `docs/PRESPEC_G-F1.md` gives the run. `f1/data/` holds the test curves, bolt forces and coupon curves digitised from the thesis's figures, and `f1/digitise/` the scripts that reproduce every data file from the thesis PDF.
 
-**`audit/`: the audit scripts of G-C1.3**, written after the run and not under the stamp
-- `c13_recompute.py`: regenerates the held-out and tested instances, re-solves seven of them, and recomputes every metric of the label-free arm from the returned predictions and labels.
-- `c13_write_verdict.py`: the tables of the verdict, from the records.
+**`audit/`: the audit scripts of G-C1.3 and G-C2.1**, written after each run and not under the stamp
+- `c13_recompute.py`: regenerates the held-out and tested instances of G-C1.3, re-solves seven of them, and recomputes every metric of the label-free arm from the returned predictions and labels.
+- `c13_write_verdict.py`: the tables of G-C1.3's verdict, from the records.
+- `c2_recompute.py`: regenerates all 580 instances of G-C2.1, recomputes every metric of the label-free arm on the held-out and tested members from the returned predictions and labels, and re-solves four members.
+- `c2_write_verdict.py`: the tables of G-C2.1's verdict, from the records.
 
 **`records/c13/`: the records of G-C1.3**
 - `return/`: the files of the operator's return package `c13_return.tar.gz` (SHA-256 `8b88839c9f452bbdd2e2e906d790d34505dc784bf862e5dbe055225326d6cb7b`), as received, with their hashes in `return_files.sha256`.
@@ -34,7 +36,10 @@ This folder holds the work towards a label-free surrogate for the extended end p
 - `washer_radius.jsonl`, `review_checks.json` and `checks.json`: the washer patches, three checks of the review, and the checks of the elements;
 - `tables.md` and `convergence.png`, written from `study.jsonl` and `checks.json` by `probes/elements/write_report.py`.
 
-**`records/c2/`: the records of stage C2's reference model** on Bursi and Jaspart's T-stub T1, preloaded: deformation and flow theory on the 5 mm mesh, deformation theory on the 2.5 mm mesh (`probes/c2_bj1997.py`).
+**`records/c2/`: the records of stage C2**
+- `bj1997_*`: the reference model on Bursi and Jaspart's T-stub T1, preloaded: deformation and flow theory on the 5 mm mesh, deformation theory on the 2.5 mm mesh (`probes/c2_bj1997.py`).
+- `return/`: the files of the operator's return package of G-C2.1, `c2_return.tar.gz` (SHA-256 `7b6f19e6c316b0a3bf39c6821206f9e061dc2d8b1fc09724acdad125946b3ae0`), as received, with their hashes in `return_files.sha256` and the archive's listing in `return_listing.txt`.
+- `audit/`: the author's recomputation (`audit/c2_recompute.py`): `regenerate.json`, the folder `members/` (one file a member) and `environment.json` beside it, `resolve.json` and `aggregate.json`. `numpy253/` holds a first pass with numpy 2.5.3, stopped after six members.
 
 **`records/f1_dry/`: the dry run of gate G-F1** on B-19 and T-19, made before the stamp with `python -m f1 run --dry` and `python -m f1 verdict --dry`: the 14 records in `records/`, the progress log `run.log`, the configuration `config.json` and the verdict tables `numbers.md` and `verdict.json`. `docs/PRESPEC_G-F1.md` says which code it ran.
 
@@ -55,7 +60,7 @@ FEJEPA_REPO=.. python -m pytest -q -p no:cacheprovider tests
 - `C1.3_preparation_note.md`, `C1.3_data_design.md`: exploratory checks before stage C1.3.
 - `element_study_note.md`: an exploratory check after G-C1.3 of the element kind, the mesh and the integration rule.
 - G-C1.3, the training gate: `PRESPEC_G-C1.3.md`, with its stamped code in `G-C1.3_stamped_code/` and the hashes in `G-C1.3_code.sha256`; `G-C1.3_verdict.md`.
-- G-C2.1, the plastic training gate: `PRESPEC_G-C2.1.md`, with its stamped code in `G-C2.1_stamped_code/` and the hashes in `G-C2.1_code.sha256`.
+- G-C2.1, the plastic training gate: `PRESPEC_G-C2.1.md`, with its stamped code in `G-C2.1_stamped_code/` and the hashes in `G-C2.1_code.sha256`; `G-C2.1_verdict.md`.
 - G-F1, the CHS splices: `PRESPEC_G-F1.md`, with its stamped code in `G-F1_stamped_code/` and the hashes of its code and data in `G-F1_code.sha256`; `G-F1_verdict.md`.
 - The files ending in `_text.md` and `_numbers.md` are the parts each verdict is assembled from.
 
@@ -70,7 +75,7 @@ FEJEPA_REPO=.. python -m pytest -q -p no:cacheprovider tests
 | G-C1b | PASS, narrowly: the T-stub model is 1.10 times the T-stub tests in the geometric mean |
 | G-C1c | Reading of the published curves at low moments |
 | G-C1.3 | PASS: on unseen layouts of the family, label-free training reproduced the reference model, not the joint tests: its initial stiffness (median error 0.29%) and its contact zone (median overlap 0.944). The reference model itself is 2 to 3 times stiffer than the joint tests (G-C1a). |
-| G-C2.1 | Pre-registered, stamped 6 November 2026, 20:38 GMT; not yet run |
+| G-C2.1 | FAIL on both criteria: at this budget, label-free training did not reproduce the reference model's plastic force-deformation curve on unseen T-stubs of the family within these limits. In the median over three seeds the distance from the curve was 6.6% (C1: at most 5%) and its 90th percentile 31% (C2: at most 10%). One seed did not train; the two that did reached 6.6% and 2.4% in the median, 31% and 19% at the 90th percentile. |
 | G-F1 | FAIL: of the three criteria, C1 (moment at 0.001 rad) and C2 (axial displacement at 800 kN) lie between the frictionless and no-slip bounds; C3 (bolt 1's force increase from 25 to 100 kNm) lies above the frictionless bound |
 
 After G-F1's verdict, exploratory runs (`probes/f1_explore/`, 8 November 2026) found the following:
@@ -85,6 +90,7 @@ The gap of G-C1a is not a discretisation effect: the five element kinds that do 
 - The run scripts and audit records of gates G-C1a to G-C1c, which the verdicts cite as `checks/...`. They are kept with the project owner's records.
 - The papers, and the page image of Bursi and Jaspart (1997) that `probes/c2_bj1997_digitise.py` reads.
 - The instance files and training labels of G-C1.3, the predictions of its supervised arms and its model states, which were left on the GPU host. `audit/c13_recompute.py` regenerates the held-out and tested instances.
+- The instance files and training labels of G-C2.1, and its model states, which were left on the GPU host. `audit/c2_recompute.py` regenerates the instances.
 - The logs of the C1.3 cost probes.
 - The data cache of the two-dimensional probe, `probes/c13_net/data_cache.npz`; `net_probe.py` rebuilds it on its first run.
 - The scripts of the independent review of the element study. `probes/elements/review_checks.py` reproduces the three of its checks that the note cites.

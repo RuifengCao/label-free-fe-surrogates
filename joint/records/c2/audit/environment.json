@@ -1,0 +1,1 @@
+{"python": "3.13.17", "numpy": "2.4.6", "scipy": "1.18.1", "zlib": "1.3", "solver": "scipy", "blas_threads_env": "1", "cpus": 2}

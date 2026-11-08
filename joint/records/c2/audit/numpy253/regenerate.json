@@ -1,0 +1,33 @@
+{
+ "environment": {
+  "python": "3.13.17",
+  "numpy": "2.5.3",
+  "scipy": "1.18.1",
+  "zlib": "1.3",
+  "solver": "scipy",
+  "blas_threads_env": "1",
+  "cpus": 2
+ },
+ "members_are_the_configured_draws": true,
+ "train_eval_shared": 0,
+ "by_split": {
+  "train": {
+   "files": 512,
+   "sha256_equal": 512,
+   "sizes_equal": 512
+  },
+  "eval": {
+   "files": 64,
+   "sha256_equal": 64,
+   "sizes_equal": 64
+  },
+  "tested": {
+   "files": 4,
+   "sha256_equal": 4,
+   "sizes_equal": 4
+  }
+ },
+ "files": 580,
+ "sha256_equal": 580,
+ "differ": []
+}

@@ -1,0 +1,104 @@
+{
+ "environment": {
+  "python": "3.13.17",
+  "numpy": "2.4.6",
+  "scipy": "1.18.1",
+  "zlib": "1.3",
+  "solver": "scipy",
+  "blas_threads_env": "1",
+  "cpus": 2
+ },
+ "members": 68,
+ "members_missing": [],
+ "label_check": {
+  "Pi_rel": 3.3306690738754696e-16,
+  "F_rel": 0.0,
+  "e_diff": 0.0,
+  "res_unconstrained": 1.327692650008072e-10,
+  "min_gap": 0.0,
+  "min_lambda": -8.254704144459562e-12,
+  "levels": 476
+ },
+ "runs": {
+  "label_free_s0": {
+   "median": 170.1221844384233,
+   "p90": 5075.0578803668795,
+   "n": 448,
+   "infinite": 44,
+   "box_median": 170.1221844384233,
+   "box_p90": 5075.0578803668795,
+   "box_infinite": 44
+  },
+  "label_free_s1": {
+   "median": 0.06611381238606373,
+   "p90": 0.31159970927825037,
+   "n": 448,
+   "infinite": 0,
+   "box_median": 0.06611381238606373,
+   "box_p90": 0.31159970927825037,
+   "box_infinite": 0
+  },
+  "label_free_s2": {
+   "median": 0.02411537875011993,
+   "p90": 0.18561450521959055,
+   "n": 448,
+   "infinite": 0,
+   "box_median": 0.02411537875011993,
+   "box_p90": 0.18561450521959055,
+   "box_infinite": 0
+  }
+ },
+ "max_abs_diff": {
+  "label_free_s0": {
+   "curve_err": 0.0,
+   "F_err": 0.0,
+   "e_err": 0.0,
+   "F_sigma_err": 0.0,
+   "gap": 0.0,
+   "bound": 0.0,
+   "iou_contact": 0.0,
+   "iou_plastic": 0.0,
+   "bolt_err": 0.0,
+   "u_rel_l2": 0.0
+  },
+  "label_free_s1": {
+   "curve_err": 0.0,
+   "F_err": 0.0,
+   "e_err": 0.0,
+   "F_sigma_err": 0.0,
+   "gap": 0.0,
+   "bound": 0.0,
+   "iou_contact": 0.0,
+   "iou_plastic": 0.0,
+   "bolt_err": 0.0,
+   "u_rel_l2": 0.0
+  },
+  "label_free_s2": {
+   "curve_err": 0.0,
+   "F_err": 0.0,
+   "e_err": 0.0,
+   "F_sigma_err": 0.0,
+   "gap": 0.0,
+   "bound": 0.0,
+   "iou_contact": 0.0,
+   "iou_plastic": 0.0,
+   "bolt_err": 0.0,
+   "u_rel_l2": 0.0
+  }
+ },
+ "within_bound_mismatches": {
+  "label_free_s0": 0,
+  "label_free_s1": 0,
+  "label_free_s2": 0
+ },
+ "C1_value": 0.06611381238606373,
+ "C2_value": 0.31159970927825037,
+ "C1": false,
+ "C2": false,
+ "verdict": "FAIL",
+ "box": {
+  "C1_value": 0.06611381238606373,
+  "C2_value": 0.31159970927825037,
+  "verdict": "FAIL"
+ }
+}
