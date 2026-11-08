@@ -1,0 +1,3 @@
+# SHA-256 of the plan and the driver, written 2026-11-08 01:19:17 UTC before any of the plan's runs; repository commit ee47e85 (branch wp10-joint), gate code docs/G-F1_code.sha256 unchanged
+00ebfaba8e9386d967edc782a0ee23b4054ad42c63d0c66b4f167df2e2229f64  EXPLORE_PLAN.md
+740f38f10952ec150ca6c8daa37b001c53f665cc0313c0fcbba07b4b0c0bcbc2  explore.py
