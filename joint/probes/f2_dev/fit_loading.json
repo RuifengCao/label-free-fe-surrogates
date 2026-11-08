@@ -1,0 +1,449 @@
+{
+ "Theta_target": 0.011,
+ "members": [
+  "B-13_nominal",
+  "B-19_nominal",
+  "C",
+  "S1",
+  "S2",
+  "T10hi",
+  "T25lo",
+  "W1",
+  "W2",
+  "X1",
+  "X2",
+  "X3",
+  "X4"
+ ],
+ "b_per_Nmm": 2.3737407431941236e-11,
+ "L_eff_mm": 670.8088309311925,
+ "theta_rule_max_abs_error": 0.0006050290043619136,
+ "M_rule": {
+  "A_Nmm": 212561464.46844047,
+  "a": 1.6153794431437525,
+  "c": 0.7540758431803276,
+  "M_c_Nmm": 368973333.4169625,
+  "n": 4.0,
+  "d_e1": -0.8643585366001469,
+  "e_e2": 0.22226681372333082,
+  "f_Np": 0.0,
+  "log_residuals": {
+   "B-13_nominal": -0.01717627977276237,
+   "B-19_nominal": 0.009915582047074878,
+   "C": -0.0023367508379870117,
+   "S1": -0.016497126464912526,
+   "S2": 0.01004212540045657,
+   "T10hi": 0.0062743342400501945,
+   "T25lo": -0.0015678798064762134,
+   "W1": 0.0160480048399414,
+   "W2": -0.010893022510661154,
+   "X1": 0.0022953941737711148,
+   "X2": -0.021283442819296283,
+   "X3": 0.022302301065128205,
+   "X4": 0.0028767628122317035
+  }
+ },
+ "springs": {
+  "2e+09": {
+   "B-13_nominal": {
+    "Theta_max": 0.05469047825749625,
+    "ThetaD_at_top": 0.010626817675536967,
+    "magnification_first": 1.1827030144290474,
+    "magnification_target": 0.6363125385570445
+   },
+   "B-19_nominal": {
+    "Theta_max": 0.08698633015708887,
+    "ThetaD_at_top": 0.011349422870358788,
+    "magnification_first": 1.1310203095851368,
+    "magnification_target": 0.5274578811852837
+   },
+   "C": {
+    "Theta_max": 0.0811769421733261,
+    "ThetaD_at_top": 0.011014784269602899,
+    "magnification_first": 1.1441668093829804,
+    "magnification_target": 0.5424638418837611
+   },
+   "S1": {
+    "Theta_max": 0.10943425754967631,
+    "ThetaD_at_top": 0.010235310173445228,
+    "magnification_first": 1.1062708228272375,
+    "magnification_target": 0.4120268377481361
+   },
+   "S2": {
+    "Theta_max": 0.10356223525363437,
+    "ThetaD_at_top": 0.011258695910746155,
+    "magnification_first": 1.1273546489752182,
+    "magnification_target": 0.5845071670878214
+   },
+   "T10hi": {
+    "Theta_max": 0.04448236042545092,
+    "ThetaD_at_top": 0.011077413680906322,
+    "magnification_first": 1.2347216768362603,
+    "magnification_target": 0.7699048439614999
+   },
+   "T25lo": {
+    "Theta_max": 0.10192194222988814,
+    "ThetaD_at_top": 0.010921308384261587,
+    "magnification_first": 1.1154044177156393,
+    "magnification_target": 0.49238247391906065
+   },
+   "W1": {
+    "Theta_max": 0.034003069373906895,
+    "ThetaD_at_top": 0.011155012934106482,
+    "magnification_first": 1.295583911185597,
+    "magnification_target": 0.8805714966151682
+   },
+   "W2": {
+    "Theta_max": 0.04316053836138016,
+    "ThetaD_at_top": 0.010724147834020545,
+    "magnification_first": 1.1904414840669246,
+    "magnification_target": 0.7117500497880429
+   },
+   "X1": {
+    "Theta_max": 0.08685823144008922,
+    "ThetaD_at_top": 0.011104128684671526,
+    "magnification_first": 1.1269606693257206,
+    "magnification_target": 0.5321308312806694
+   },
+   "X2": {
+    "Theta_max": 0.07252801128284565,
+    "ThetaD_at_top": 0.01058285271380354,
+    "magnification_first": 1.1662986863878142,
+    "magnification_target": 0.5772434861254304
+   },
+   "X3": {
+    "Theta_max": 0.09033991109749898,
+    "ThetaD_at_top": 0.011716243764106897,
+    "magnification_first": 1.1345462016235923,
+    "magnification_target": 0.5271553187905667
+   },
+   "X4": {
+    "Theta_max": 0.07621766684047131,
+    "ThetaD_at_top": 0.011169642041275452,
+    "magnification_first": 1.1568820037749152,
+    "magnification_target": 0.5709153150254657
+   }
+  },
+  "3e+09": {
+   "B-13_nominal": {
+    "Theta_max": 0.04138987304507233,
+    "ThetaD_at_top": 0.010702170450380872,
+    "magnification_first": 1.274054521643571,
+    "magnification_target": 0.8189589870072773
+   },
+   "B-19_nominal": {
+    "Theta_max": 0.06385396312270111,
+    "ThetaD_at_top": 0.011317751514148908,
+    "magnification_first": 1.196530464377705,
+    "magnification_target": 0.6537513991976069
+   },
+   "C": {
+    "Theta_max": 0.059813115543610414,
+    "ThetaD_at_top": 0.011041561965103192,
+    "magnification_first": 1.2162502140744706,
+    "magnification_target": 0.6739825763156257
+   },
+   "S1": {
+    "Theta_max": 0.07946811272218934,
+    "ThetaD_at_top": 0.010283900717021994,
+    "magnification_first": 1.1594062342408562,
+    "magnification_target": 0.5229907999761979
+   },
+   "S2": {
+    "Theta_max": 0.0753836984696644,
+    "ThetaD_at_top": 0.01123123028473557,
+    "magnification_first": 1.1910319734628272,
+    "magnification_target": 0.6974053314338547
+   },
+   "T10hi": {
+    "Theta_max": 0.03428939217789918,
+    "ThetaD_at_top": 0.011046248211879871,
+    "magnification_first": 1.3520825152543907,
+    "magnification_target": 0.9995650384733918
+   },
+   "T25lo": {
+    "Theta_max": 0.07424275658171853,
+    "ThetaD_at_top": 0.010921913546714061,
+    "magnification_first": 1.1731066265734589,
+    "magnification_target": 0.606541682802863
+   },
+   "W1": {
+    "Theta_max": 0.027000290813939072,
+    "ThetaD_at_top": 0.011088141946405939,
+    "magnification_first": 1.4433758667783951,
+    "magnification_target": 1.1973747225091373
+   },
+   "W2": {
+    "Theta_max": 0.0333699697701485,
+    "ThetaD_at_top": 0.01076177654965648,
+    "magnification_first": 1.2856622261003872,
+    "magnification_target": 0.946216127776185
+   },
+   "X1": {
+    "Theta_max": 0.06376486124279236,
+    "ThetaD_at_top": 0.01110232929033888,
+    "magnification_first": 1.1904410039885809,
+    "magnification_target": 0.6584116423171064
+   },
+   "X2": {
+    "Theta_max": 0.05379716144514026,
+    "ThetaD_at_top": 0.010677161902526421,
+    "magnification_first": 1.2494480295817214,
+    "magnification_target": 0.7184278999155412
+   },
+   "X3": {
+    "Theta_max": 0.06618662010175241,
+    "ThetaD_at_top": 0.011606334615674025,
+    "magnification_first": 1.2018193024353885,
+    "magnification_target": 0.6516195975429485
+   },
+   "X4": {
+    "Theta_max": 0.05636358251554937,
+    "ThetaD_at_top": 0.011177142896911567,
+    "magnification_first": 1.2353230056623727,
+    "magnification_target": 0.7090288260143844
+   }
+  },
+  "4e+09": {
+   "B-13_nominal": {
+    "Theta_max": 0.034739570438860376,
+    "ThetaD_at_top": 0.010750041511929521,
+    "magnification_first": 1.3654060288580947,
+    "magnification_target": 1.0016054354575101
+   },
+   "B-19_nominal": {
+    "Theta_max": 0.05228777960550724,
+    "ThetaD_at_top": 0.011296335687864858,
+    "magnification_first": 1.2620406191702733,
+    "magnification_target": 0.7800449172099301
+   },
+   "C": {
+    "Theta_max": 0.04913120222875256,
+    "ThetaD_at_top": 0.011059595370367796,
+    "magnification_first": 1.2883336187659609,
+    "magnification_target": 0.8055013107474904
+   },
+   "S1": {
+    "Theta_max": 0.06448504030844586,
+    "ThetaD_at_top": 0.010316675909945458,
+    "magnification_first": 1.212541645654475,
+    "magnification_target": 0.6339547622042597
+   },
+   "S2": {
+    "Theta_max": 0.061294430077679415,
+    "ThetaD_at_top": 0.011211418133689262,
+    "magnification_first": 1.2547092979504364,
+    "magnification_target": 0.8103034957798881
+   },
+   "T10hi": {
+    "Theta_max": 0.029192908054123314,
+    "ThetaD_at_top": 0.011027990672930043,
+    "magnification_first": 1.4694433536725209,
+    "magnification_target": 1.2292252329852837
+   },
+   "T25lo": {
+    "Theta_max": 0.06040316375763373,
+    "ThetaD_at_top": 0.010922326993386479,
+    "magnification_first": 1.2308088354312785,
+    "magnification_target": 0.7207008916866653
+   },
+   "W1": {
+    "Theta_max": 0.02349890153395516,
+    "ThetaD_at_top": 0.011049253065623,
+    "magnification_first": 1.5911678223711936,
+    "magnification_target": 1.5141779484031064
+   },
+   "W2": {
+    "Theta_max": 0.028474685474532677,
+    "ThetaD_at_top": 0.010784460249043653,
+    "magnification_first": 1.3808829681338493,
+    "magnification_target": 1.1806822057643271
+   },
+   "X1": {
+    "Theta_max": 0.052218176144143924,
+    "ThetaD_at_top": 0.011101109050233418,
+    "magnification_first": 1.2539213386514412,
+    "magnification_target": 0.7846924533535434
+   },
+   "X2": {
+    "Theta_max": 0.04443173652628757,
+    "ThetaD_at_top": 0.010742630238299106,
+    "magnification_first": 1.3325973727756284,
+    "magnification_target": 0.8596123137056522
+   },
+   "X3": {
+    "Theta_max": 0.05410997460387913,
+    "ThetaD_at_top": 0.011534174119065769,
+    "magnification_first": 1.2690924032471846,
+    "magnification_target": 0.7760838762953304
+   },
+   "X4": {
+    "Theta_max": 0.04643654035308839,
+    "ThetaD_at_top": 0.011182197954569994,
+    "magnification_first": 1.3137640075498305,
+    "magnification_target": 0.8471423370033033
+   }
+  },
+  "6e+09": {
+   "B-13_nominal": {
+    "Theta_max": 0.028089267832648413,
+    "ThetaD_at_top": 0.010807404133778961,
+    "magnification_first": 1.5481090432871423,
+    "magnification_target": 1.3668983323579755
+   },
+   "B-19_nominal": {
+    "Theta_max": 0.04072159608831337,
+    "ThetaD_at_top": 0.011269219295902903,
+    "magnification_first": 1.39306092875541,
+    "magnification_target": 1.0326319532345765
+   },
+   "C": {
+    "Theta_max": 0.03844928891389471,
+    "ThetaD_at_top": 0.011082344569876314,
+    "magnification_first": 1.4325004281489413,
+    "magnification_target": 1.0685387796112198
+   },
+   "S1": {
+    "Theta_max": 0.049501967894702376,
+    "ThetaD_at_top": 0.010358081712054622,
+    "magnification_first": 1.3188124684817126,
+    "magnification_target": 0.8558826866603834
+   },
+   "S2": {
+    "Theta_max": 0.04720516168569443,
+    "ThetaD_at_top": 0.01118474676585285,
+    "magnification_first": 1.3820639469256544,
+    "magnification_target": 1.036099824471955
+   },
+   "T10hi": {
+    "Theta_max": 0.024096423930347444,
+    "ThetaD_at_top": 0.011007043462367944,
+    "magnification_first": 1.7041650305087814,
+    "magnification_target": 1.6885456220090673
+   },
+   "T25lo": {
+    "Theta_max": 0.04656357093354892,
+    "ThetaD_at_top": 0.010922855481348593,
+    "magnification_first": 1.3462132531469175,
+    "magnification_target": 0.9490193094542699
+   },
+   "W1": {
+    "Theta_max": 0.01999751225397125,
+    "ThetaD_at_top": 0.011005892509664016,
+    "magnification_first": 1.8867517335567903,
+    "magnification_target": 2.1477844001910444
+   },
+   "W2": {
+    "Theta_max": 0.023579401178916846,
+    "ThetaD_at_top": 0.010810482915547497,
+    "magnification_first": 1.571324452200774,
+    "magnification_target": 1.6496143617406112
+   },
+   "X1": {
+    "Theta_max": 0.040671491045495486,
+    "ThetaD_at_top": 0.011099559921026039,
+    "magnification_first": 1.3808820079771615,
+    "magnification_target": 1.0372540754264175
+   },
+   "X2": {
+    "Theta_max": 0.03506631160743487,
+    "ThetaD_at_top": 0.010827755116585378,
+    "magnification_first": 1.4988960591634428,
+    "magnification_target": 1.141981141285874
+   },
+   "X3": {
+    "Theta_max": 0.04203332910600585,
+    "ThetaD_at_top": 0.01144519652370306,
+    "magnification_first": 1.4036386048707767,
+    "magnification_target": 1.0250124338000939
+   },
+   "X4": {
+    "Theta_max": 0.036509498190627425,
+    "ThetaD_at_top": 0.011188579082145425,
+    "magnification_first": 1.4706460113247455,
+    "magnification_target": 1.123369358981141
+   }
+  },
+  "8e+09": {
+   "B-13_nominal": {
+    "Theta_max": 0.024764116529542433,
+    "ThetaD_at_top": 0.010840572939200687,
+    "magnification_first": 1.7308120577161896,
+    "magnification_target": 1.732191229258441
+   },
+   "B-19_nominal": {
+    "Theta_max": 0.03493850432971643,
+    "ThetaD_at_top": 0.011252761397365951,
+    "magnification_first": 1.5240812383405467,
+    "magnification_target": 1.285218989259223
+   },
+   "C": {
+    "Theta_max": 0.03310833225646578,
+    "ThetaD_at_top": 0.011096106087508937,
+    "magnification_first": 1.5766672375319217,
+    "magnification_target": 1.3315762484749492
+   },
+   "S1": {
+    "Theta_max": 0.04201043168783063,
+    "ThetaD_at_top": 0.010383161482814112,
+    "magnification_first": 1.4250832913089502,
+    "magnification_target": 1.077810611116507
+   },
+   "S2": {
+    "Theta_max": 0.04016052748970193,
+    "ThetaD_at_top": 0.01116762023563807,
+    "magnification_first": 1.5094185959008726,
+    "magnification_target": 1.2618961531640218
+   },
+   "T10hi": {
+    "Theta_max": 0.021548181868459512,
+    "ThetaD_at_top": 0.010995055358989371,
+    "magnification_first": 1.9388867073450418,
+    "magnification_target": 2.147866011032851
+   },
+   "T25lo": {
+    "Theta_max": 0.03964377452150652,
+    "ThetaD_at_top": 0.010923178992382637,
+    "magnification_first": 1.4616176708625568,
+    "magnification_target": 1.1773377272218746
+   },
+   "W1": {
+    "Theta_max": 0.018246817613979296,
+    "ThetaD_at_top": 0.010982287198092335,
+    "magnification_first": 2.182335644742387,
+    "magnification_target": 2.7813908519789825
+   },
+   "W2": {
+    "Theta_max": 0.021131759031108935,
+    "ThetaD_at_top": 0.010824985546965168,
+    "magnification_first": 1.7617659362676987,
+    "magnification_target": 2.1185465177168954
+   },
+   "X1": {
+    "Theta_max": 0.034898148496171275,
+    "ThetaD_at_top": 0.011098617468549569,
+    "magnification_first": 1.5078426773028821,
+    "magnification_target": 1.2898156974992916
+   },
+   "X2": {
+    "Theta_max": 0.03038359914800852,
+    "ThetaD_at_top": 0.01088311636253922,
+    "magnification_first": 1.6651947455512568,
+    "magnification_target": 1.4243499688660957
+   },
+   "X3": {
+    "Theta_max": 0.035995006357069204,
+    "ThetaD_at_top": 0.011392450507444732,
+    "magnification_first": 1.538184806494369,
+    "magnification_target": 1.2739409913048576
+   },
+   "X4": {
+    "Theta_max": 0.03154597710939694,
+    "ThetaD_at_top": 0.011192441426604518,
+    "magnification_first": 1.6275280150996607,
+    "magnification_target": 1.3995963809589789
+   }
+  }
+ },
+ "held_out": {}
+}
