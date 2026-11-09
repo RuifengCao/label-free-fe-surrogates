@@ -1,0 +1,4 @@
+seed 0, epoch 1: host 10.5444, starting field 10.5650, host minus starting field -0.0206; adjusted: host 10.6085, starting field 10.6291
+seed 0, epoch 8: host 10.6715, starting field 10.6727, host minus starting field -0.0012; adjusted: host 10.6274, starting field 10.6285
+seed 0, epoch 200: host 10.7426, starting field 10.7435, host minus starting field -0.0010; adjusted: host 10.6225, starting field 10.6235
+seed 1, epoch 16: host 10.6166, starting field 10.6164, host minus starting field +0.0002; adjusted: host 10.6263, starting field 10.6261

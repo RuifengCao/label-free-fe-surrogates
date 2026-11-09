@@ -1,0 +1,49 @@
+seed 0: 3072 replayed steps, members equal: True, largest |D difference| 5.02e-05 (D logged to 4 decimals)
+seed 1: 3072 replayed steps, members equal: True, largest |D difference| 5.01e-05 (D logged to 4 decimals)
+host fit: b1 1.6642 (se 0.0221), b2 0.0935 (se 0.0170), residual sd 0.0098
+  slope d(loss)/d(ln D) at the mean ln D (0.631): 1.782
+replay fit (4608 steps, 512 member levels): b1 1.6977, b2 0.1375, slope at mean ln D 1.871; step loss sd 1.009 raw, 0.113 after
+=== seed 0
+  epochs 1-24 adjusted: [10.608, 10.58, 10.56, 10.56, 10.56, 10.556, 10.548, 10.627, 10.623, 10.625, 10.633, 10.626, 10.625, 10.633, 10.629, 10.632, 10.624, 10.629, 10.619, 10.625, 10.631, 10.618, 10.624, 10.617]
+  epochs 1-24 raw:      [10.544, 10.596, 10.529, 10.601, 10.579, 10.603, 10.603, 10.672, 10.649, 10.611, 10.64, 10.627, 10.563, 10.651, 10.662, 10.687, 10.666, 10.673, 10.533, 10.571, 10.648, 10.619, 10.627, 10.586]
+  epochs     1-5: raw 10.5700, adjusted 10.5738
+  epochs    6-10: raw 10.6275, adjusted 10.5958
+  epochs   11-20: raw 10.6273, adjusted 10.6274
+  epochs   21-50: raw 10.6153, adjusted 10.6241
+  epochs  51-100: raw 10.6279, adjusted 10.6257
+  epochs 101-150: raw 10.6185, adjusted 10.6238
+  epochs 151-200: raw 10.6360, adjusted 10.6248
+  sd of the epoch means over epochs 101-200: raw 0.0487, adjusted 0.0055
+  rise in epoch 8: 10.627 against a median of 10.560 before (+0.068)
+  rise in epoch 9: 10.623 against a median of 10.560 before (+0.063)
+  rise in epoch 10: 10.625 against a median of 10.560 before (+0.064)
+  epochs 8-200: mean 10.6248, sd 0.0051, range 10.6111 to 10.6379
+=== seed 1
+  epochs 1-24 adjusted: [10.612, 10.579, 10.566, 10.603, 10.56, 10.554, 10.558, 10.564, 10.556, 10.554, 10.555, 10.539, 10.548, 10.726, 10.629, 10.626, 10.624, 10.621, 10.614, 10.587, 10.574, 10.58, 10.574, 10.578]
+  epochs 1-24 raw:      [10.615, 10.569, 10.64, 10.603, 10.566, 10.463, 10.508, 10.553, 10.55, 10.571, 10.562, 10.556, 10.554, 10.725, 10.571, 10.617, 10.688, 10.618, 10.712, 10.56, 10.6, 10.586, 10.545, 10.62]
+  epochs     1-5: raw 10.5983, adjusted 10.5838
+  epochs    6-10: raw 10.5292, adjusted 10.5575
+  epochs   11-20: raw 10.6164, adjusted 10.6070
+  epochs   21-50: raw 10.5607, adjusted 10.5552
+  epochs  51-100: raw 10.4533, adjusted 10.4609
+  epochs 101-150: raw 10.4042, adjusted 10.4063
+  epochs 151-200: raw 10.3744, adjusted 10.3748
+  sd of the epoch means over epochs 101-200: raw 0.0488, adjusted 0.0187
+  rise in epoch 14: 10.726 against a median of 10.554 before (+0.172)
+  rise in epoch 15: 10.629 against a median of 10.554 before (+0.075)
+  rise in epoch 16: 10.626 against a median of 10.555 before (+0.071)
+  epochs 15-18: mean 10.6251
+=== seed 2
+  epochs 1-24 adjusted: [10.602, 10.58, 10.569, 10.557, 10.595, 10.593, 10.576, 10.561, 10.597, 10.57, 10.548, 10.549, 10.547, 10.545, 10.554, 10.542, 10.531, 10.537, 10.519, 10.53, 10.522, 10.508, 10.513, 10.525]
+  epochs 1-24 raw:      [10.605, 10.584, 10.568, 10.498, 10.544, 10.573, 10.621, 10.522, 10.633, 10.569, 10.518, 10.539, 10.586, 10.538, 10.594, 10.536, 10.526, 10.494, 10.495, 10.551, 10.548, 10.489, 10.507, 10.506]
+  epochs     1-5: raw 10.5598, adjusted 10.5805
+  epochs    6-10: raw 10.5837, adjusted 10.5798
+  epochs   11-20: raw 10.5378, adjusted 10.5401
+  epochs   21-50: raw 10.4919, adjusted 10.4918
+  epochs  51-100: raw 10.4348, adjusted 10.4380
+  epochs 101-150: raw 10.3958, adjusted 10.3951
+  epochs 151-200: raw 10.3721, adjusted 10.3667
+  sd of the epoch means over epochs 101-200: raw 0.0481, adjusted 0.0179
+  rise in epoch 47: 10.504 against a median of 10.470 before (+0.034)
+  replay seed 0 adjusted epochs 1-6: [10.606, 10.582, 10.561, 10.556, 10.557, 10.611]
+  replay seed 1 adjusted epochs 1-6: [10.615, 10.574, 10.566, 10.582, 10.575, 10.556]
