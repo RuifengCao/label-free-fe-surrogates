@@ -1,7 +1,7 @@
 \section{Warm starts}\label{supp:warm}
 
 \paragraph{An iteration bound}
-A prediction can serve as the initial iterate of the conjugate gradient method
+A prediction can be used as the initial iterate of the conjugate gradient method
 \cite{HestenesStiefel1952} applied to $K\Ustar=F$. Let $u^k$ be the iterate after $k$
 iterations, so that $u^0$ is the initial iterate. For $\kappa>1$ the classical bound \cite[Section~6.11.3]{Saad2003} is
 \begin{equation}
@@ -33,7 +33,7 @@ $k$ reaches the stated value; subtract the two iteration counts.
 give in the relative residual, after a bound of Wang et~al.~\cite{Wang2026PretrainFEM} for
 fixed-point iterations. It compares bounds, not iteration counts: how many iterations a warm
 start actually saves depends on the spectral content of its error and can even be negative. It shows that a prediction of given accuracy lowers the iteration bound by a fixed
-number of iterations, while the bound grows with $\ln(1/\bar g)$, so that its share shrinks
+number of iterations, while the bound grows with $\ln(1/\bar g)$, so its share shrinks
 as the tolerance tightens. Sun et~al.~\cite{Sun2026FEVessel} draw the same conclusion for
 conjugate gradients in the relative residual, where the constant of the bound and the
 conversion between residual and error add a bounded offset to the saving, and Wang
@@ -76,19 +76,19 @@ and four load cases each, unpreconditioned conjugate gradients needed on average
 \numKfiveZero{} iterations from the zero field to reach a relative residual of
 \numKfiveTol{}, \numKfiveFree{} from the prediction of a label-free transformer of the
 earlier code, trained for 100 epochs for this test, and \numKfiveNaive{} from the scaled polynomial. These are savings of \numKfiveSaving{} and
-\numKfiveNaiveSaving{} against the 20\% required, so that K5 was triggered and the claim withdrawn. The prediction had a relative
-energy gap of \numKfiveStartGap{}, which five and twenty iterations from it lowered to
-\numKfiveFiveGap{} and \numKfiveTwentyGap{}, but it did not shorten the run to the
+\numKfiveNaiveSaving{} against the 20\% required, so K5 was triggered and the claim withdrawn. The prediction had a relative
+energy gap of \numKfiveStartGap{}; five and twenty iterations from it lowered the gap to
+\numKfiveFiveGap{} and \numKfiveTwentyGap{}, but the prediction did not shorten the run to the
 tolerance. This is consistent with \cref{cor:warm,rem:residual}: at a tight tolerance a warm
-start of this accuracy lowers the iteration bound by only a small fraction, and a
-residual-based stop can see a prediction accurate in energy as further from convergence than
+start of this accuracy lowers the iteration bound by only a small fraction, and, to a
+residual-based stop, a prediction accurate in energy can appear further from convergence than
 the zero field. Neither the initial residuals nor energy-based stopping were measured, so
 the two effects cannot be separated here. The test used one network of the earlier code,
-trained for half the usual number of epochs, and one solver without preconditioning. The
-predictions timed in \cref{tab:cost}, started instead of the zero field, needed between
-\numCostWarmMore{} more and \numCostWarmFewer{} fewer iterations of conjugate gradients to a
-relative residual of \numCostCgTol{} (medians per set), again consistent with \cref{cor:warm,rem:residual}. Their initial residuals were not recorded
-either.
+trained for half the usual number of epochs, and one solver without preconditioning. Started from
+the predictions timed in \cref{tab:cost} instead of the zero field, conjugate gradients
+needed between \numCostWarmMore{} more and \numCostWarmFewer{} fewer iterations to a
+relative residual of \numCostCgTol{} (medians per set), again consistent with \cref{cor:warm,rem:residual}. The initial residuals of these predictions
+were not recorded either.
 
 \paragraph{Reported speed-ups}
 The pretrain finite element method needed up to about nine times fewer conjugate-gradient

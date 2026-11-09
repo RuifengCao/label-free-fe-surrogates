@@ -2964,3 +2964,57 @@ generator, and no record, configuration, pre-registration or source file changed
   renders the new entry; the check for numbers typed by hand knows the new DOI as a
   name. The runbook's suite lines read the new count. No number, table, figure or
   supplementary page changed. Suite 840 (837 + 3).
+
+## Stage 31 (9 Nov 2026) -- the prose edited again for wording that slows the reader; no number or reference changed, and a few statements made exact
+
+- Why. Before submission, the manuscript and the supplementary material were read again
+  against a revised editing checklist. Stage 28 split clause-stacked sentences; this pass
+  looked for wording that costs the reader more effort than the content needs: inanimate
+  subjects given the verbs of a person ("the code refused to start a run", "the run asked
+  whether", "no network could know", a test that "reads" the solution), vivid verbs where
+  the field's plain verb fits ("pays for itself", "repairs", "beat", "carries"), "so that"
+  where a result is meant (it marks purpose), long gaps between a subject and its verb,
+  pronouns whose antecedent was unclear, and actions hidden in nouns. In the manuscript 66
+  of its 592 sentences changed, and in the supplementary material 67 of its 440. The
+  abstract keeps its 248 words; the highlights, the figures and the graphical abstract are
+  unchanged. No number, unit, citation, cross-reference, equation, link, table value or
+  pre-registered verdict changed: a script that compares them in the sources before and
+  after found them the same, but for one reference that no longer begins a sentence
+  (`\cref{tab:ritzpairs}`) and the criterion of supplementary Section S1, which reads "a
+  displacement error at most a third of the zero field's" instead of "three times more
+  accurate in displacement than the zero field".
+- Wording made exact where the edit exposed it:
+  - supplementary Section S9: the networks paired with the Ritz projection are "those
+    trained on 1,024 instances", not "with 1,024 labelled instances", since the table
+    includes the label-free transformer, which used no labels;
+  - Section 2: the multiscale Darcy surrogate reached lower errors than "when trained with
+    L2, relative L2 or L1 losses" (was "and": each loss was a separate comparison);
+  - Sections 1, 9 and 10 and the cost table: the conjugate-gradient stop "uses the
+    reference solution" (was "reads the solution"); label-free training "recovers its
+    cost" or "is most useful" where solves are expensive (was "pays for itself");
+  - Section 3: K and F are what "a finite-element code assembles before solving" (was
+    "every": a matrix-free code does not assemble K);
+  - Section 7: the rescaling "makes every prediction that the check flags no worse than
+    the zero field", which is what Proposition 2 gives (was "repairs what it flags");
+  - Section 10, outlook: at finite strains the choice of norm "may again decide what a
+    surrogate learns" (was "will"), since that setting was not tested;
+  - supplementary Section S1: the independent review of 20 October 2026 is described in
+    the passive, as what was meshed, solved and read in that review, not as an agent that
+    meshed them.
+- A second reading, by an AI tool that had not seen the edit, compared every changed
+  sentence with the original. Its findings were taken: the novelty sentence of Section 2 keeps "a
+  comparison" ("a study" would have widened it), the runs still "decide" the claims,
+  Section 9 keeps the GPU and the CPU side by side as the first reason, Section 10 keeps
+  "regarded as valid within the range of mesh sizes", Section S4 keeps "diagnoses the
+  error", and several pronouns and attachments that the edit had made unclear were fixed.
+- The generated paragraphs and notes follow (`scripts/make_statics_material.py`): the cost
+  protocol, the remeshing and bottleneck readings, and the notes of the result tables, the
+  cost table, the transfer table and the July table; the figures are unchanged.
+- Tests: six pinned sentences follow the new wording, four in
+  `tests/test_statics_references.py` (the multiscale Darcy comparison of Section 2, the
+  conjugate-gradient stop and the cost of label-free training in Section 9, and the
+  outlook at finite strains), one in `tests/test_statics_material.py` (the cost protocol's
+  first sentence) and one in `tests/test_repository_transfer.py` (the Software Heritage
+  sentence of supplementary Section S8). Suite 840 (837 + 3), unchanged.
+- The manuscript has 60 pages, one more than before: the last row of Table A.1 moves to
+  the next page. The supplementary material keeps its 37 pages.

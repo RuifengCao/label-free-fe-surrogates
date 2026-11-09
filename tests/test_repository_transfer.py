@@ -236,8 +236,8 @@ def test_the_manuscript_gives_the_address_tag_doi_and_snapshot():
               "On 11 October 2026 the repository was transferred from that account to the "
               "first author's and renamed",
               "begins with the 103 events of the first",
-              "which archived the repository from its former address before the transfer and "
-              "from its present address after it, recorded the same snapshot both times, the "
+              "archived the repository from its former address before the transfer and from "
+              "its present address after it, and recorded the same snapshot both times, the "
               "one given in the Data availability statement"):
         assert s in repro, s
     prereg = _flat((SECTIONS / "appendix_prereg.tex").read_text(encoding="utf-8"))

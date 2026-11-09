@@ -14,19 +14,19 @@ metric.
 
 The three-dimensional energy-norm run trained the transformer on $\mathcal{L}_K$ with the
 1,024 labelled instances of the three-dimensional comparison. It also evaluated the stored label-free and
-displacement-supervised transformers, which reproduced their earlier values exactly. Its two hypotheses were supported. The energy-norm-supervised
-transformer's median relative energy gap, \numKdKnormGapMedian{} averaged over the seeds,
-was \numKdGapRel{} lower than the displacement-supervised transformer's,
-\numKdLabGapMedian{}, beyond the noise guard of \numKdGapTau{}, a \numNlThreeNormE{}-fold reduction of the median
-energy-norm error. Its median von Mises error was \numKdVmRel{} lower (guard \numKdVmTau{}).
+displacement-supervised transformers, which reproduced their earlier values exactly. Its two hypotheses were supported. Averaged over the seeds, the
+energy-norm-supervised transformer's median relative energy gap was \numKdKnormGapMedian{},
+\numKdGapRel{} lower than the displacement-supervised transformer's \numKdLabGapMedian{} and
+beyond the noise guard of \numKdGapTau{}. This is a \numNlThreeNormE{}-fold reduction of the
+median energy-norm error. Its median von Mises error was \numKdVmRel{} lower (guard \numKdVmTau{}).
 Both medians were lower in each seed. Its displacement error fell too, from
 \numThreeLabDisp{} to \numThreeKnormDisp{} in the seed mean (\cref{tab:3d}), and none of its
 \numThreePairs{} instance-seed predictions was worse than the zero field, against
-\numThreeLabWorse{} of the displacement-supervised transformer's. The verdicts read each seed's median over the 256 validation instances. That statistic was
+\numThreeLabWorse{} of the displacement-supervised transformer's. The verdicts were based on each seed's median over the 256 validation instances. That statistic was
 fixed after the per-instance values of the two stored transformers, and the two-dimensional comparison's readings on the
 medians, were known. The reason is one validation instance, No.~\numWorstIndex{}: in seed
 \numThreeLabWorstSeed{} the displacement-supervised transformer's prediction of it had a
-relative energy gap of \numThreeLabWorst{}, averaged over its four load cases. This one value carries the network's seed means
+relative energy gap of \numThreeLabWorst{}, averaged over its four load cases. This one value dominates the network's seed means
 (\cref{tab:3d}) and widens the guard on them. On the seed means
 the von Mises error was \numKdMeansVmRel{} lower, beyond the guard of \numKdMeansVmTau{},
 although with three seeds its Welch 95\% interval runs from \numKdMeansVmWelchLow{} to \numKdMeansVmWelchHigh{}. The relative energy gap was
@@ -105,7 +105,7 @@ the label-free transformer and \numSpecShareKStar{} of the solution's own. The g
 network's errors had the size of the displacement-supervised transformer's (ratio of
 $\delta^2$ \numSpecMgnLabDisp{}) and lay higher still (ratio of $\rho$ \numSpecMgnLabRq{}).
 The networks ran with TF32 matrix products, whose rounding weighs heavily in the energy
-norm; with TF32 off, the difference between the two norms reads larger still (supplementary
+norm; with TF32 off, the difference between the two norms is larger still (supplementary
 Section~\SuppRepro{}).
 
 In three dimensions, where the full eigendecomposition was not computed, the same quotient

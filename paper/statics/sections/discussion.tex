@@ -23,7 +23,7 @@ transformer, which has only that term, was more accurate still (\cref{tab:3d}).
 For surrogates used in stress analysis, such as those of the families of
 \cref{sec:methods:data}, the results suggest three rules. First, train in the energy norm,
 which by \cref{cor:training,prop:stress} is, up to a constant, the compliance-weighted error
-of the stresses, so that a surrogate trained in it is in effect supervised on its stresses.
+of the stresses, so a surrogate trained in it is in effect supervised on its stresses.
 Given the assembled system, the energy norm of an error costs one sparse matrix-vector
 product per load case. A supervised loss can therefore be measured in it with the labels
 already computed, on which it depends only through the product $F^{\top}\Ustar$ of each load case (\cref{sec:methods:training}). Where no solutions have been computed, minimising the
@@ -35,8 +35,8 @@ predictions with the energy before they are used. Its sign flags gross failures,
 than the zero field, without a solution (\cref{sec:checks:zero}). Each of the \numHoldTwoWorseInstKnorm{}
 predictions of the energy-norm-supervised transformer with a mean
 relative energy gap above one on the two-dimensional held-out instances (\cref{sec:holdout})
-had a load case that it flags. Differences of energy rank the predictions of a load case
-exactly (\cref{cor:rank}), so that of several predictions, from different networks or seeds
+had a load case that the screen flags. Differences of energy rank the predictions of a load case
+exactly (\cref{cor:rank}), so, of several predictions from different networks or seeds
 or from a network and a Ritz projection, the one of lowest energy is the most accurate in the
 energy norm. A prediction that fails should be sent back to the solver. Rescaling it by
 $\cstar$ (\cref{prop:amp}) makes it no worse than the zero field without a solve, but not
@@ -44,16 +44,16 @@ necessarily accurate.
 
 The gain is in the accuracy of the stresses, not in speed. Training in the energy norm leaves
 the cost of a prediction unchanged. Conjugate gradients given the stiffness matrix, stopped by
-a test that reads the solution, reached the label-free transformer's accuracy within a few
+a test that uses the reference solution, reached the label-free transformer's accuracy within a few
 times its inference time (\cref{sec:cost:inference}). Training without labels saves only their
-solves, which pays where those are expensive (\cref{sec:cost:labels}). Surrogates, and with them these
+solves, which matters where those are expensive (\cref{sec:cost:labels}). Surrogates, and with them these
 rules, are worth their training only where one family of components is analysed many times.
 In three dimensions the training of one network was recovered against the direct solve after
 about \numCostBreakEvenDirect{} predicted instances (\cref{sec:cost:labels}), with the
 caveats of \cref{sec:cost:inference}, under which a faster solver would raise that number. In two dimensions the direct solve took \numCostTwoDirectRatio{} times as long as the inference
-and is exact, so that a surrogate of plates of this size saves little or no time. The screen needs the stiffness matrix and the load vectors of the instance. Their assembly, a
-median of \numCostAsmVal{} against \numCostSurrVal{} for the inference in three dimensions
-(\cref{tab:cost}), is also most of the cost of a Ritz projection, which took a further
+and is exact, so a surrogate of plates of this size saves little or no time. The screen needs the stiffness matrix and the load vectors of the instance. Their assembly
+took a median of \numCostAsmVal{} against \numCostSurrVal{} for the inference in three
+dimensions (\cref{tab:cost}). It is also most of the cost of a Ritz projection, which took a further
 \numCostRitzValMin{} to \numCostRitzValMax{} and, at the top of its ladder, was more accurate
 than the label-free transformer, in the seed means, on every metric but peak stress
 (\cref{sec:cost:ritz}). Passing the screen does not make a prediction accurate
@@ -63,12 +63,12 @@ solved instances of that family, as the validation instances establish it here.
 In the assessment of parts whose internal voids differ from one part to the next, each part is a new instance of a family. The solids here, with at most three spherical cavities under
 four load cases, are a stylised version of that setting. Real voids are more numerous, smaller and irregular. Resolving them needs meshes finer than any on which these networks
 were accurate (\cref{sec:discussion:transfer}), and other geometries, numbers of voids and
-loads were not tested. Label-free training would pay most where each solve is expensive, as
+loads were not tested. Label-free training would be most useful where each solve is expensive, as
 in the nonlinear and time-dependent problems of \cref{sec:discussion:outlook}.
 
 As in an energy-based model
 \cite{LeCun2007EBM}, which uses one scalar energy to find the most compatible output, to rank
-candidates and to detect incompatible ones, the potential energy here serves to train, to rank and to check. It is assembled rather than learned, and exact. The identity does not
+candidates and to detect incompatible ones, the potential energy here is used to train, to rank and to check. It is assembled rather than learned, and exact. The identity does not
 depend on the approximation: the energy evaluates a Ritz solution as it does a network's prediction. The rescaling by $\cstar$, the projection onto the span of a prediction
 (\cref{prop:amp}), is the smallest enrichment of a finite-element space by it; richer
 enrichments have been analysed \cite{Barucq2026Enrich}. Where the stiffness matrix is not at
@@ -80,7 +80,7 @@ The account is consistent with part of the earlier reports. In soft-tissue beams
 deformation gradient to the supervised loss, a step towards a norm of the strains, narrowed
 the gap between supervised and label-free training \cite{Dalton2023}. For a scalar multiscale
 problem an energy-norm loss gave lower errors of the solution than $L^2$,
-relative $L^2$ and $L^1$ losses on the same labels \cite{Haltmayer2026LOD}. One comparison,
+relative $L^2$ or $L^1$ losses on the same labels \cite{Haltmayer2026LOD}. One comparison,
 reported in a preprint, points the other way. In the pressure vessels of Sun
 et~al.~\cite{Sun2026FEVessel}, the same point-cloud transformer trained on the relative
 error of the displacement labels instead of the energy, with every other setting unchanged,
@@ -99,7 +99,7 @@ reported here is not universal.
 
 \subsection{Transfer}\label{sec:discussion:transfer}
 No network transferred to the finer mesh. The readings of supplementary
-Section~\SuppTransfer{} point at the output scaling. The output is multiplied by the largest nodal load, which depends
+Section~\SuppTransfer{} point to the output scaling. The output is multiplied by the largest nodal load, which depends
 on the mesh while the solution does not. The networks of the July run, whose output was not scaled in this way, lost little accuracy on meshes
 \numCoarsenLow{} and \numCoarsenHigh{} times finer than those they were trained on, though
 that evidence is weak. Until an output scale independent of the mesh is shown to remove the
@@ -112,7 +112,7 @@ Label-free fine-tuning on the finer mesh, which needs no solves, was not tested 
 The study is restricted to linear elastostatics, where \cref{lem:exact} is exact; one family
 of geometries and one set of four load cases per dimension; one model size; and three seeds
 per network, for which the noise guard is coarse. \Cref{prop:stress} assumes a homogeneous
-isotropic material and an exactly integrated stiffness, as with the linear elements used here. The reported von Mises error weights elements equally, so that the proposition
+isotropic material and an exactly integrated stiffness, as with the linear elements used here. The reported von Mises error weights elements equally, so the proposition
 explains it rather than bounds it, although the area- and volume-weighted errors, measured
 after the runs, differed little. None of the metrics isolates the stresses at the holes or cavities,
 and where the peak of the discrete solution lies at the clamped edge, the peak stress
@@ -123,11 +123,11 @@ transformer used the displacement-supervised settings unchanged. The departures 
 pre-registrations are stated with their results: the statistic of the three-dimensional
 energy-norm run (\cref{sec:norm:three}), the registration of the two-dimensional comparison
 (\cref{sec:norm:two}), the amended three-dimensional gate (\cref{sec:labelfree:three}) and the claim that did not replicate (\cref{sec:holdout}). The spectral readings and the Ritz
-baseline were added after the runs. A pre-registered comparison kept the joint-embedding term, a self-supervised term that
-predicts the latent vectors of masked regions of the mesh. The scope of this paper, the energy
+baseline were added after the runs. A pre-registered comparison kept the joint-embedding term, a self-supervised term in which
+the network predicts the latent vectors of masked regions of the mesh. The scope of this paper, the energy
 objective without that term, was chosen after that comparison (supplementary
-Section~\SuppPrereg{}). Full self-attention grows with the square of
-the number of nodes, which limits the size of the meshes the transformer can take.
+Section~\SuppPrereg{}). The cost of full self-attention grows with the square of
+the number of nodes, which limits the size of the meshes that the transformer can take.
 
 \subsection{Outlook}\label{sec:discussion:outlook}
 The construction extends wherever each step of a computation is a convex minimisation. In
@@ -139,7 +139,7 @@ the minimisation of an incremental potential \cite{OrtizStainier1999}, and varia
 integrators derive each step of a time integration from a discrete variational principle
 \cite{MarsdenWest2001}. Where such a step is a minimisation, its potential remains a
 label-free training objective, although the energy gap is no longer a squared norm, and the
-counterparts of \cref{prop:amp,cor:zero} remain to be worked out. At finite strains the incremental potential is in general not convex \cite{OrtizStainier1999}, so that its
+counterparts of \cref{prop:amp,cor:zero} remain to be worked out. At finite strains the incremental potential is in general not convex \cite{OrtizStainier1999}, so its
 minimiser need not be unique. These are the problems in which a solve may be expensive
-enough for label-free training to pay for itself, and in which the choice of norm will again
+enough for label-free training to recover its cost, and in which the choice of norm may again
 decide what a surrogate learns.

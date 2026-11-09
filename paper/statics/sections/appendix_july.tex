@@ -38,9 +38,9 @@ and the label-free transformer \numTwoFreeWorse{}, one per seed.
 
 The displacement errors of the five trained networks lay between \numTwoLabDisp{} and
 \numTwoMgnDisp{}, a narrow band, while their relative energy gaps spanned a factor of
-\numTwoGapSpread{}. We attribute the narrow band to the code: no network could know the
-absolute amplitude of an instance's loads, which adds an error common to every displacement
-and compresses their differences. With the later code, the displacement errors of the
+\numTwoGapSpread{}. We attribute the narrow band to the code: the absolute amplitude of an
+instance's loads was not available to any network; the missing amplitude adds an error common
+to every displacement and compresses their differences. With the later code, the displacement errors of the
 label-free transformer, the displacement-supervised transformer and the graph network on the
 same instances were \numJulyOverCmDispMin{} to \numJulyOverCmDispMax{} times lower
 (\cref{tab:2d}), and those of the trained networks spanned a factor of \numCmDispSpread{}
@@ -52,8 +52,8 @@ differ in their software versions, and no experiment isolated the output scaling
 With no labels, the label-free transformer's relative energy gap was lower than every
 supervised network's at every budget (\cref{tab:labeleffjuly}). Its advantage over the
 displacement-supervised transformer fell from \numTwoAdvMax{} with 16 labels to
-\numTwoAdvMin{} with 1,024. In displacement, the displacement-supervised transformer needed
-1,024 labels to pass it. With 16 labels, the displacement-supervised transformer with the
+\numTwoAdvMin{} with 1,024. In displacement, the displacement-supervised transformer reached
+a lower error than it only with 1,024 labels. With 16 labels, the displacement-supervised transformer with the
 energy term was less accurate in displacement than without it, and its per-seed errors
 scattered widely (\numTwoAncSixteenSeeds{}). The diagnostic run later traced this to the
 instability of the gradient-scaled energy term with very few labels
@@ -65,16 +65,17 @@ later code was less accurate than that of the July run, with a relative energy g
 
 The gate of this run concerned the energy term and pretraining rather than the label-free
 network alone, and all three of its conditions were met (\cref{tab:criteria}). Its first
-condition read a separate energy-term sub-experiment of the same run, which trained its own
+condition was evaluated on a separate energy-term sub-experiment of the same run, which trained its own
 displacement-supervised transformers with and without the energy term in the same configuration. There, at every budget, the
-displacement-supervised transformer with the energy term was \numGOneSanityMin{} to
-\numGOneSanityMax{} times more accurate in displacement than the zero field. At every budget it also beat the two naive baselines, the nearest-neighbour field and the scaled polynomial of
+zero field's displacement error was \numGOneSanityMin{} to \numGOneSanityMax{} times that of
+the displacement-supervised transformer with the energy term. At every budget this
+transformer was also more accurate than the two naive baselines, the nearest-neighbour field and the scaled polynomial of
 \cref{sec:methods:networks}, and a plain polynomial, a quadratic ridge regression from the
-node features to the displacements, all three fitted on 1,024 labelled instances. The other two conditions read the networks of \cref{tab:2djuly,tab:labeleffjuly}. With 64
+node features to the displacements, all three fitted on 1,024 labelled instances. The other two conditions were evaluated on the networks of \cref{tab:2djuly,tab:labeleffjuly}. With 64
 labels, the energy term lowered the relative
 energy gap by \numGOneGapReduction{} and the von Mises error by \numGOneVmReduction{}, and
-label-free training followed by supervised training beat supervised training alone by
-\numGOneFtGap{} in relative energy gap. The kill conditions on the label-free network were
+label-free training followed by supervised training gave a relative energy gap \numGOneFtGap{}
+lower than supervised training alone. The kill conditions on the label-free network were
 not triggered: its displacement error was within the 30\% allowed by K2, and its relative
 energy-gap advantage stayed above the 40\% floor at every budget. Two kill conditions were
 triggered, and both claims were withdrawn: K5, on warm starts, which Section~\ref{supp:warm}

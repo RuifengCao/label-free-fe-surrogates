@@ -5,16 +5,16 @@ perforated plates and solids with cavities, parametric families in which holes c
 stress. Contribution to artificial intelligence: training and evaluating such surrogates in
 the energy norm, with or without solutions, and screening their predictions without
 solutions. For linear elastostatics, minimising the assembled discrete potential energy is
-exactly supervised regression in this norm, since the energy gap of a prediction is the
-strain energy of its stress error, whereas a displacement loss under-weights the stiff modes
-that carry the strains. In pre-registered comparisons, changing only the norm of the
+exactly supervised regression in this norm: the energy gap of a prediction is the strain
+energy of its stress error. A displacement loss under-weights the stiff modes that carry the
+strains. In pre-registered comparisons, changing only the norm of the
 supervised loss cut a three-dimensional transformer's median energy-norm error
 \numNlThreeNormE{}-fold and its median von Mises error \numNlThreeNormVm{}-fold; in two
 dimensions it more than halved the von Mises error, also on held-out instances. In three
 dimensions, the transformer trained on the energy alone came within a factor of
 \numNlThreeLabelWithin{} of the energy-norm-supervised one in median energy-norm and von
-Mises error and beat the displacement-supervised one on all five metrics in every seed.
-Given the stiffness matrix, a Ritz projection was more accurate than the label-free
-transformer, in the seed means, on every metric but peak stress, and no network transferred
-to a substantially finer mesh. The energy ranks predictions of a load case, and its sign
-flags those worse than the zero field.
+Mises error. It was more accurate than the displacement-supervised one on all five metrics
+in every seed. Given the stiffness matrix, a Ritz projection was more accurate than the
+label-free transformer, in the seed means, on every metric but peak stress. No network
+transferred to a substantially finer mesh. The energy ranks predictions of a load case, and
+its sign flags those worse than the zero field.

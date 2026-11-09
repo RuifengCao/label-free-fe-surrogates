@@ -68,15 +68,15 @@ The pre-registration also compared the displacement-supervised and the
 energy-norm-supervised transformers with the label-free transformer on every metric at every
 number of labels, by the same guard, as readings without verdicts. These are among its
 \numCmSecondary{} secondary readings, which are exploratory and not corrected for
-multiplicity, so that some crossings of the guard are expected by chance. The
+multiplicity, so some crossings of the guard are expected by chance. The
 displacement-supervised transformer was worse than the label-free transformer beyond the
 guard in relative energy gap, von Mises error, peak stress error and critical-region recall
 at every budget. The energy-norm-supervised transformer was worse beyond the guard on every
 metric with 16 labelled instances and on every metric but the critical-region recall with
 64, and within the guard on every metric with 256 and 1,024. Its seed means fell below the
 label-free transformer's, in relative energy gap and in displacement, with 1,024 labels
-only. Supervised in the energy norm, 256 labelled instances brought the transformer's seed
-means within the guard of the label-free transformer's on every metric, although the
+only. Supervised in the energy norm with 256 labelled instances, the transformer had seed means
+within the guard of the label-free transformer's on every metric, although the
 label-free transformer still had the lower relative energy gap on \numPairCmFreeKnormGapTwoFiveSix{} of the instance-seed pairs. Supervised on the
-displacement error, it had a von Mises error \numCmLabOverFreeVm{} times the label-free
+displacement error, the transformer had a von Mises error \numCmLabOverFreeVm{} times the label-free
 transformer's with 1,024.

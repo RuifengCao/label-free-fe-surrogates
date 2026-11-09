@@ -102,11 +102,11 @@ trained with 64 and 1,024 labels only. In three dimensions the label-free
 transformer's relative energy gap was lower than that of every network trained on the
 displacement error at every number of labels, and its displacement error lower than both displacement-supervised transformers'. The graph network reached a lower displacement error than the label-free transformer with
 1,024 labels, not with 64. The displacement-supervised transformer's relative energy gap did
-not fall monotonically: its seed mean rose from 256 to 1,024 labels, through the instance of
+not fall monotonically: its seed mean rose from 256 to 1,024 labels, because of the instance of
 \cref{sec:norm:three}. In two dimensions the label-free transformer's relative energy gap
 was lower than those of the displacement-supervised transformer and the graph network at every number of labels. Its advantage over the displacement-supervised transformer fell from
 \numCmAdvMax{} with 16 labels to \numCmAdvMin{} with 1,024. In displacement, the two
-networks supervised on it needed 1,024 labels to pass the label-free transformer. Supervised in the energy norm, the transformer came within the guard of the label-free one on every
+networks supervised on it reached a lower error than the label-free transformer only with 1,024 labels. Supervised in the energy norm, the transformer came within the guard of the label-free one on every
 metric from 256 labels on (supplementary Section~\SuppTwo{}). With 16, 64 and 256 labelled
 instances, \numCmLabWorseSixteen{}, \numCmLabWorseSixtyFour{} and \numCmLabWorseTwoFiveSix{}
 of the displacement-supervised transformer's \numCmPairs{} instance-seed predictions were

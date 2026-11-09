@@ -10,9 +10,9 @@ bottleneck networks appear in the readings of \cref{sec:transfer:amplitude}.
 
 Three criteria of \cref{tab:criteria} (K4, E6 and KP6) and the experiment of this
 subsection concern the latent vectors of the transformer, the outputs of its encoder, one
-per node, which the paper does not use. Self-supervised representation learning
-guards against representational collapse, the mapping of different inputs to nearly
-identical latent vectors, with regularisers on the distribution of the latent vectors. The
+per node, which the paper does not use. In self-supervised representation learning,
+regularisers on the distribution of the latent vectors guard against representational
+collapse, the mapping of different inputs to nearly identical latent vectors. The
 sketched isotropic Gaussian regulariser SIGReg \cite{Balestriero2025LeJEPA} projects the
 latent vectors onto random directions and penalises the mean, over the directions, of the
 Epps--Pulley statistic \cite{EppsPulley1983}, which measures how far the distribution of a
@@ -21,7 +21,7 @@ predictive architectures (JEPA), self-supervised networks that predict the laten
 representation of one part of an input from that of another.
 
 The latent-regularisation run (\cref{tab:runs}) added SIGReg, applied to a learned
-projection of the latent vectors (a projection head), to the label-free objective of the two-dimensional transformer, with the later code. The run asked whether the regulariser
+projection of the latent vectors (a projection head), to the label-free objective of the two-dimensional transformer, with the later code. The run tested whether the regulariser
 kept the accuracy and
 separated the geometries better in latent space (\cref{tab:e1}). The separation was measured
 by the silhouette, between $-1$ and 1, of the instance-mean latent vectors of the 256
@@ -36,18 +36,18 @@ runs, untrained networks were measured on the same instances: networks built fro
 label-free network's configuration at initialisation, with the geometry descriptor as input;
 the same networks with the descriptor's input weights set to zero; and networks built
 without that input. With the input they separated the bins better than trained ones, and a
-linear probe read the descriptor from them perfectly. With its weights set to zero, or
+linear probe recovered the descriptor from them perfectly. With its weights set to zero, or
 without it, they did not separate the bins at all.
 The descriptor is an input feature of every node, so these readings measure the input
 rather than anything learned. The unregularised networks of this run are the label-free
 networks of the two-dimensional comparison, which reuses them without retraining (\cref{sec:methods:training}). The regulariser itself plays no part in the results.
 
 Criterion K4 of the July run (\cref{tab:criteria}) concerned the same kind of regulariser in an earlier setting. Three regularisers of the latent
-distribution, each added to the energy
-and the masked-prediction term of the joint-embedding objective (Section~\ref{app:prereg})
-and trained for 2,000 steps on 64 instances, with and without the geometry descriptor, were
-compared by the standardised effective rank of the latent vectors on 256 instances. The best
-raised it by more than the factor of 1.5 at or below which the criterion would have been
+distribution were compared by the standardised effective rank of the latent vectors on 256
+instances. Each was added to the energy and the masked-prediction term of the
+joint-embedding objective (Section~\ref{app:prereg}) and trained for 2,000 steps on 64
+instances, with and without the geometry descriptor. The best
+raised the standardised effective rank by more than the factor of 1.5 at or below which the criterion would have been
 triggered.
 
 What accuracy does imply for the latent representation is limited to load cases on a

@@ -706,12 +706,11 @@ def side_readings(amp: dict, e2: dict, e1: dict) -> dict:
              + f" for {name[k]}" for k in keys]
     unorm = "; ".join(parts[:-1]) + "; and " + parts[-1]
     rem_tex = (
-        r"In \cref{tab:remesh}, the largest nodal load over the four load cases, by which every "
-        f"network multiplies its output, was at ${LC}$ = {lcl} a factor of {fsc} of its value "
-        f"at ${LC} = {lc0}$, against $({LC}/{lc0})^2$ = {sq}. At the same three values of "
-        f"${LC}$, the energy norm of the label-free prediction, relative to its value at "
-        f"${LC} = {lc0}$ "
-        f"and averaged over the seeds, was {unorm}.\n")
+        r"Every network of \cref{tab:remesh} multiplies its output by the largest nodal load "
+        f"over the four load cases. At ${LC}$ = {lcl}, this load was a factor of {fsc} of its "
+        f"value at ${LC} = {lc0}$, against $({LC}/{lc0})^2$ = {sq}. Relative to the value at "
+        f"${LC} = {lc0}$ and averaged over the seeds, the energy norm of the label-free "
+        f"prediction at the same three values of ${LC}$ was {unorm}.\n")
     tr = e2["archs"]["transformer"]["step_ms_both"]
     c, n, mach, st = e2["corpus"], e2["nodes"], e2["machine"], e2["bench_steps"]
     if not mach["tf32"]:
@@ -721,13 +720,14 @@ def side_readings(amp: dict, e2: dict, e1: dict) -> dict:
         f"{c['n_val']} validation instances, with ${LC}$ from {c['lc_range'][0]} to "
         f"{c['lc_range'][1]}, and the fine-mesh instances {c['n_fine']} instances at "
         f"${LC} = {c['lc_fine']}$, never trained on. A step time is that of one label-free "
-        f"training step on one instance of the stated size, on an {mach['gpu']} with TF32, "
-        "from a dedicated benchmark whose instances at the two ends of the in-band range have "
-        f"{n['inband_0']:,} and {n['inband_2']:,} nodes and whose fine-mesh instance has "
+        f"training step on one instance of the stated size, on an {mach['gpu']} with TF32. "
+        "It was measured in a dedicated benchmark, whose instances at the two ends of the "
+        f"in-band range have {n['inband_0']:,} and {n['inband_2']:,} nodes and whose "
+        "fine-mesh instance has "
         f"{n['fine']:,}. For the bottleneck it is the median over {words(st[2])} "
         f"repetitions of the time of {st[1]} steps minus that of {st[0]} steps, divided by "
-        f"{st[1] - st[0]}, which removes the set-up time. For the transformer it is a single "
-        "timed step, its set-up included, the mean of its two benchmark measurements, "
+        f"{st[1] - st[0]}, which removes the set-up time. For the transformer it is the time "
+        "of a single step, its set-up included, averaged over its two benchmark measurements: "
         f"{tr['inband_0'][0]:,.0f} and {tr['inband_0'][1]:,.0f} ms in-band and "
         f"{tr['fine'][0]:,.0f} and {tr['fine'][1]:,.0f} ms on the fine mesh. The noise guard "
         r"of the bottleneck run's criteria (\cref{tab:criteria}) is that of the paper's "
@@ -2502,13 +2502,13 @@ def cost_material(N: Numbers, used: dict) -> tuple:
     notes = [
         f"Fine mesh, direct solve: the median over the {words(solved)} of the {words(total)} "
         f"instances that it solved before its budget of {limit:.0f} s ran out.",
-        "CG to the prediction's accuracy reads the reference solution, so it is a lower bound; "
+        "CG to the prediction's accuracy uses the reference solution, so it is a lower bound; "
         f"on the fine mesh it needs no iteration on the {words(len(fine['worse_loads']))} load "
         "cases whose relative energy gap exceeds 1."]
     protocol = "\n".join([
         "% generated from the committed records; do not edit",
         r"\paragraph{The measurements of \cref{tab:cost}}",
-        f"The two-dimensional column times the first {cols['2D']['n']} validation instances of "
+        f"The two-dimensional column covers the first {cols['2D']['n']} validation instances of "
         f"the two-dimensional comparison, and the three-dimensional columns the first "
         f"{cols['3D']['n']} validation and {fine['n']} fine-mesh instances of the "
         "three-dimensional comparison, with the label-free transformers of seed 0. The table "
@@ -2516,21 +2516,21 @@ def cost_material(N: Numbers, used: dict) -> tuple:
         "together and without the assembly, which the surrogate does not need. The "
         "iterations of conjugate gradients (CG), from the zero field and to the prediction's "
         "accuracy, and CG's displacement error are medians over the load cases. The surrogate "
-        f"ran on one {gpu} with TF32, preparing the inputs and copying the prediction back "
-        f"included. Its first call was timed after an untimed warm-up on {st['warmup']} "
+        f"ran on one {gpu} with TF32, and its times include preparing the inputs and copying the "
+        f"prediction back. Its first call was timed after an untimed warm-up on {st['warmup']} "
         f"validation instances, and its repeated call is the median of {st['repeats'] - 1} "
         f"further passes. The solvers ran on the CPU of the same machine ({cpu_tex}, {nproc} "
         f"CPUs, the thread environment set to {env_threads}): SuperLU, which produced the "
         "labels, and unpreconditioned CG to a relative residual of $10^{-10}$, from the zero "
         "field or from the prediction. CG to the prediction's accuracy stops, on each load "
         "case, at the first iterate whose relative energy gap is at most the prediction's. "
-        "It reads the reference solution, so that a practical run would take at least as long. "
+        "It uses the reference solution, so a practical run would take at least as long. "
         f"The fine-mesh direct solve used up its budget of {limit:.0f} s after "
         f"{words(solved)} of the {words(total)} instances. Its median, and the ratios that use "
         f"it, are over those {words(solved)}. The Ritz projection ran from the lowest to the "
         "highest degree ($p = 6$ to 9 in three dimensions, 6 and 8 in two) with the machine's "
-        f"{nproc} BLAS threads. Its time is that after the assembly of $K$, which the table "
-        "lists apart (in two dimensions the assembler also builds the four load vectors), for "
+        f"{nproc} BLAS threads. Its time excludes the assembly of $K$, which the table lists "
+        "apart (in two dimensions the assembler also builds the four load vectors), and covers "
         "the free block, the basis, $\\Phi^{\\top}K\\Phi$ and $\\Phi^{\\top}F$, the small "
         "solve and the reconstruction. On the fine mesh, "
         f"{words(len(fine['worse_loads']))} of the {fine['n'] * fine['loads']} load cases had a "
@@ -4538,13 +4538,13 @@ def build() -> dict:
     if not (ncm == n3 == n2 == 256):
         raise SystemExit("the captions of Tables 2, 3 and S8 say 256 validation instances")
     det_note = (r"The Ritz projection of degree $p$ (\cref{sec:methods:ritz}) was added after "
-                "the pre-registered runs. It, the nearest-neighbour field and the scaled "
+                "the pre-registered runs. This projection, the nearest-neighbour field and the scaled "
                 "polynomial are deterministic, so their last column counts instances.")
     notescm = [det_note]
     notes2 = [
         r"The July run's code did not multiply the load scale back onto the output "
         r"(\cref{sec:methods:networks}); we attribute the narrow spread of the displacement "
-        "errors to this, which no experiment isolated."]
+        "errors to this omission, which no experiment isolated."]
     notes3 = [det_note]
     hle = ["Run", "Model", "16", "64", "256", "1,024"]
     rle, rules_le = label_efficiency_rows((
@@ -4563,9 +4563,9 @@ def build() -> dict:
     p3 = r3["results"]["p3_transfer"]["metrics"]
     if per_instance(r3, "ar", "disp_rel_l2").shape[1] != 256:
         raise SystemExit("the caption of the transfer table says 256 fine-mesh instances")
-    ntr = ["The Ritz projection, added after the pre-registered runs and computed on the fine "
-           "meshes themselves, and the naive baselines, built from the 1,024 in-band labelled "
-           "instances, are deterministic."]
+    ntr = ["The Ritz projection and the naive baselines are deterministic. The projection was "
+           "added after the pre-registered runs and is computed on the fine meshes themselves; "
+           "the naive baselines are built from the 1,024 in-band labelled instances."]
     h_tl, (r_t3, rules_t3), (r_t2, rules_t2) = tails_material(N, r3, k, rcm, used)
     n_tl = ["Percentiles by linear interpolation. Worse than zero field: pairs above 1. "
             "Instances: those with such a pair, in parentheses those with one in two or three "

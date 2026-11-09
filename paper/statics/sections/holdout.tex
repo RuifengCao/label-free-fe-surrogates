@@ -42,7 +42,7 @@ one lay on as many instances, each in one seed only, and its other two seeds pre
 instances with relative energy gaps of at most \numTailTwoKnormOther{} (supplementary
 Section~\SuppTwo{}). On the seeds' medians
 the reduction was \numHoldHTwoAMedRel{}, beyond a guard of \numHoldHTwoAMedTau{}: the claim
-holds for the typical instance, not for the mean, which a few held-out instances carry. H3
+holds for the typical instance, not for the mean, which a few held-out instances dominate. H3
 again showed no difference beyond the guard, and the label-free transformer's seed-mean
 relative energy gap was now the lower, \numHoldTwoFreeGap{} against \numHoldTwoKnormGap{}.
 
@@ -50,6 +50,6 @@ Beside the claims, the per-instance values of every network and metric were comp
 Mann--Whitney tests of the held-out against the validation values, taken together by Holm's
 procedure at a family-wise level of \numHoldVAlpha{}, and the validation instances were read
 as representative. That verdict does not show that the means are unchanged: a mean that a few
-instances carry can move without a rejection, as the energy-norm-supervised transformer's
+instances dominate can move without a rejection, as the energy-norm-supervised transformer's
 relative energy gap did. Supplementary Section~\SuppPrereg{} gives the means and medians on
 both sets and the evaluation's two departures from its plan.

@@ -249,8 +249,8 @@ def test_the_comparisons_of_loss_norms_are_cited_as_they_read():
               "We are not aware of a comparison that trains an elasticity surrogate on its "
               "labels in the energy norm of the assembled stiffness matrix",
               r"\subsection{The norm of the loss}\label{sec:related:norm}",
-              r"reached lower relative $L^2$ errors of the solution than with $L^2$, relative "
-              r"$L^2$ and $L^1$ losses \cite{Haltmayer2026LOD}"):
+              r"reached lower relative $L^2$ errors of the solution than when trained with "
+              r"$L^2$, relative $L^2$ or $L^1$ losses \cite{Haltmayer2026LOD}"):
         assert s in rel, s
     for key in expect:
         assert re.search(rf"\\cite\{{{key}\}}", rel), key
@@ -401,7 +401,7 @@ def test_the_text_states_the_published_versions_and_credits_the_bound():
                                r"each step of a time integration from a discrete variational "
                                r"principle \cite{MarsdenWest2001}."),
             ("discussion.tex", r"At finite strains the incremental potential is in general not "
-                               r"convex \cite{OrtizStainier1999}, so that its minimiser need "
+                               r"convex \cite{OrtizStainier1999}, so its minimiser need "
                                r"not be unique."),
             ("discussion.tex", r"The discretisation invariance reported for point-cloud "
                                r"operators trained on the energy"),
@@ -456,9 +456,9 @@ def test_the_break_even_of_the_cost_section_is_recomputed_from_the_records():
               r"\numTimeThreeSeed{} h of training per seed",
               r"the training of one seed is recovered after about \numCostBreakEvenDirect{} "
               r"predicted instances, and after about \numCostBreakEvenMatch{} against conjugate "
-              r"gradients stopped at the surrogate's accuracy, an upper bound since that stop reads the "
+              r"gradients stopped at the surrogate's accuracy, an upper bound since that stop uses the "
               r"reference solution",
-              r"Label-free training pays for itself where a solve is expensive enough"):
+              r"Label-free training recovers its cost where a solve is expensive enough"):
         assert s in text, s
 
 

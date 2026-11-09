@@ -973,7 +973,7 @@ def test_the_cost_table_follows_from_the_timing_records(built):
     assert (f"On the fine mesh, {words[len(worse)]} of the {4 * len(fine)} load cases had a "
             "relative energy gap above 1") in proto
     assert f"and {words[n_inst]} of the {words[len(fine)]} instances a mean above 1" in proto
-    assert ("The two-dimensional column times the first 32 validation instances of the "
+    assert ("The two-dimensional column covers the first 32 validation instances of the "
             "two-dimensional comparison") in proto
     assert ("(Xeon Platinum 8470Q, 25 CPUs, the thread environment set to 25)" in proto
             and "with the machine's 25 BLAS threads" in proto)

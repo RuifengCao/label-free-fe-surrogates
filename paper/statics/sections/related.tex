@@ -78,9 +78,9 @@ lowered both the relative $L^2$ and the relative $H^1$ errors of three neural
 operators on Darcy flow and on a multiscale elliptic problem \cite{Liu2024Multiscale}, and
 adding a stress term, computed by passing the predicted strains through the material model,
 lowered the stress errors of a graph network for elastoplastic microstructures
-\cite{Storm2024MicroGNN}. Energy-norm losses have been compared with others on the same labels for scalar problems. A surrogate for multiscale Darcy flow, which predicts the
-coefficients of a localised orthogonal decomposition and was trained on the energy norm of
-their error, reached lower relative $L^2$ errors of the solution than with $L^2$, relative $L^2$ and $L^1$ losses \cite{Haltmayer2026LOD}. A neural preconditioner for flexible
+\cite{Storm2024MicroGNN}. Energy-norm losses have been compared with others on the same labels for scalar problems. One surrogate for multiscale Darcy flow predicts the
+coefficients of a localised orthogonal decomposition; trained on the energy norm of their
+error, it reached lower relative $L^2$ errors of the solution than when trained with $L^2$, relative $L^2$ or $L^1$ losses \cite{Haltmayer2026LOD}. A neural preconditioner for flexible
 conjugate gradients trained in the energy norm needed fewer iterations than one trained in
 the Euclidean norm \cite{Rudikov2024FCGNO}. For finite-element surrogates of linear
 elasticity the right norm is fixed by the problem itself: it is the energy norm, which the

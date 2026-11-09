@@ -14,7 +14,7 @@
 | Ritz projection, $p = 8$ | 0.0424 | 0.0333 | 0.109 | 0.208 | 0.852 | 0/256 |
 | Zero field | 1.00 | 1.00 | 1.00 | 1.00 | – | – |
 
-- The Ritz projection of degree $p$ (\cref{sec:methods:ritz}) was added after the pre-registered runs. It, the nearest-neighbour field and the scaled polynomial are deterministic, so their last column counts instances.
+- The Ritz projection of degree $p$ (\cref{sec:methods:ritz}) was added after the pre-registered runs. This projection, the nearest-neighbour field and the scaled polynomial are deterministic, so their last column counts instances.
 
 ### Two-dimensional plates, the July run with the earlier code: every metric on the validation instances of \cref{tab:2d}, for the networks trained on 1,024 instances and the baselines; trained networks: mean ± sample standard deviation over three seeds. Metrics as in \cref{sec:methods:metrics}; lower is better except in critical-region recall.
 
@@ -29,7 +29,7 @@
 | Scaled polynomial | 1.42 | 873 | 11.4 | 30.8 | 0.159 | 256/256 |
 | Zero field | 1.00 | 1.00 | 1.00 | 1.00 | – | – |
 
-- The July run's code did not multiply the load scale back onto the output (\cref{sec:methods:networks}); we attribute the narrow spread of the displacement errors to this, which no experiment isolated.
+- The July run's code did not multiply the load scale back onto the output (\cref{sec:methods:networks}); we attribute the narrow spread of the displacement errors to this omission, which no experiment isolated.
 
 ### Three-dimensional solids: every metric on the 256 validation instances, four load cases each, for the networks trained on 1,024 instances (the label-free transformer on the same instances without their solutions) and for the baselines. Trained networks: mean ± sample standard deviation over three seeds. Metrics as in \cref{sec:methods:metrics}; lower is better except in critical-region recall.
 
@@ -48,7 +48,7 @@
 | Ritz projection, $p = 9$ | 0.00798 | 0.00654 | 0.0449 | 0.223 | 0.896 | 0/256 |
 | Zero field | 1.00 | 1.00 | 1.00 | 1.00 | – | – |
 
-- The Ritz projection of degree $p$ (\cref{sec:methods:ritz}) was added after the pre-registered runs. It, the nearest-neighbour field and the scaled polynomial are deterministic, so their last column counts instances.
+- The Ritz projection of degree $p$ (\cref{sec:methods:ritz}) was added after the pre-registered runs. This projection, the nearest-neighbour field and the scaled polynomial are deterministic, so their last column counts instances.
 
 ### Relative displacement error / relative energy gap against the number of labelled training instances, seed means over three seeds, in the three- and two-dimensional comparisons (\cref{tab:3d,tab:2d}); the nearest-neighbour field is deterministic. A dash marks a budget at which a network was not trained; the label-free row repeats its single value, which uses the same 1,024 instances without labels.
 
@@ -97,7 +97,7 @@
 | Label-free, then 64 fine-mesh labels | 0.0298 ± 0.0020 | 0.0520 ± 0.0088 | 0.126 ± 0.018 | 0.272 ± 0.068 | 0.731 ± 0.014 |
 | Supervised from scratch, 64 fine-mesh labels | 0.193 ± 0.076 | 13.2 ± 5.3 | 2.57 ± 0.47 | 8.94 ± 4.65 | 0.128 ± 0.043 |
 
-- The Ritz projection, added after the pre-registered runs and computed on the fine meshes themselves, and the naive baselines, built from the 1,024 in-band labelled instances, are deterministic.
+- The Ritz projection and the naive baselines are deterministic. The projection was added after the pre-registered runs and is computed on the fine meshes themselves; the naive baselines are built from the 1,024 in-band labelled instances.
 
 ### Three dimensions: the upper tail of the relative energy gap of the networks trained on 1,024 instances, over the instance-seed pairs of the 256 validation and the 686 held-out instances, each pair's value the mean over the four load cases; read after the runs.
 
@@ -253,7 +253,7 @@
 | CG's displacement error at that accuracy | 0.049 | 0.017 | 0.16 |
 
 - Fine mesh, direct solve: the median over the seven of the eight instances that it solved before its budget of 900 s ran out.
-- CG to the prediction's accuracy reads the reference solution, so it is a lower bound; on the fine mesh it needs no iteration on the three load cases whose relative energy gap exceeds 1.
+- CG to the prediction's accuracy uses the reference solution, so it is a lower bound; on the fine mesh it needs no iteration on the three load cases whose relative energy gap exceeds 1.
 
 ### The pre-registered hypotheses of the three-dimensional energy-norm run, with 1,024 labelled instances, as its adjudicator recorded them, and the readings its pre-registration required beside each. Readings are taken on each seed's median over the 256 validation instances (in the holdout rows, which carry no verdict, over the \numHoldThreeN{} held-out instances) unless a row says seed means; they are those of \cref{tab:cm2d}.
 

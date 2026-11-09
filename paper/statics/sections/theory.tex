@@ -30,7 +30,7 @@ discrete potential energy of a vector $u\in\R^{n}$ is
 \Pi_h(u) = \tfrac12\,u^{\top}Ku - F^{\top}u ,
 \label{eq:energy}
 \end{equation}
-and the energy norm, which numerical linear algebra calls the $K$-norm, is
+and the energy norm, which is called the $K$-norm in numerical linear algebra, is
 $\norm{v}_K=(v^{\top}Kv)^{1/2}$ for $v\in\R^{n}$. For a prediction $u$ with error
 $e=u-\Ustar$ we call $\gap(u)=\Pi_h(u)-\Pi_h(\Ustar)$ its energy gap and
 \begin{equation}
@@ -41,7 +41,7 @@ its relative energy gap. Substituting \eqref{eq:system} into \eqref{eq:energy} g
 $\Pi_h(\Ustar)=-\norm{\Ustar}_K^2/2$, so the zero field has $g(0)=1$. The smallest and
 largest eigenvalues of $K$ are $\lambda_{\min}$ and $\lambda_{\max}$, and
 $\kappa=\lambda_{\max}/\lambda_{\min}$ is its spectral condition number. Evaluating
-$\Pi_h(u)$ requires $K$ and $F$, which every finite-element code assembles before solving,
+$\Pi_h(u)$ requires $K$ and $F$, which a finite-element code assembles before solving,
 and one sparse matrix-vector product; it does not require $\Ustar$. The energy gap and $g$
 do require $\Ustar$: in this paper they are evaluation quantities, computed on evaluation
 instances only. Differences of energy do not (\cref{cor:rank}).
@@ -94,8 +94,8 @@ from $u_{ij}$ to $\theta$.
 
 The regression in \eqref{eq:training} sums squared energy-norm errors without
 normalising them, so instances whose solutions carry more strain energy weigh more.
-Normalising each term by $\lvert\Pi_{ij}(\Ustar_{ij})\rvert$ would require the solutions;
-the label-free objective cannot do it.
+Normalising each term by $\lvert\Pi_{ij}(\Ustar_{ij})\rvert$ would require the solutions,
+so the label-free objective cannot be normalised in this way.
 
 \subsection{Three losses, three norms}\label{sec:theory:norms}
 
@@ -264,7 +264,7 @@ over the load cases.
 
 Ranking candidate fields by their energy is the Ritz minimum principle itself. The ranking
 is by the energy gap, not by the relative energy gap $g$ of the tables, whose normalisation
-by $\lvert\Pi_h(\Ustar)\rvert$ needs the solution; the tables report $g$ because it compares
+by $\lvert\Pi_h(\Ustar)\rvert$ needs the solution; the tables report $g$ because it puts
 instances and load cases of different strain energy on one scale.
 
 \subsection{Checks without the solution}\label{sec:theory:detector}

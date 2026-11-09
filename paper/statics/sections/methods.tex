@@ -8,7 +8,7 @@ matrix: a downward and an axial traction on the face opposite the clamp, a shear
 the top face, and a downward body force. The magnitude of each load case is drawn
 independently as $0.05$ times a number uniform on $[0.5,1.5]$. Young's modulus is 1 and
 Poisson's ratio is uniform on $[0.25,0.38]$ per instance; all quantities are dimensionless.
-The problems are linear, so that the fields scale with the loads and inversely with Young's
+The problems are linear, so the fields scale with the loads and inversely with Young's
 modulus; the values in the figures can be read in any consistent units, in which a physical
 load makes the strains small.
 Meshes were generated with Gmsh \cite{Geuzaine2009}, and reference solutions were computed
@@ -35,13 +35,13 @@ training or validation; \numHoldThreeN{} of them form the holdout set of \cref{s
 The validation meshes have between \numNodesInMin{} and \numNodesInMax{} nodes (median
 \numNodesInMedian{}), with three degrees of freedom per node. A finer set of 320 instances
 from the same distribution is meshed at $l_{\mathrm{c}}=0.0374$, about half the element size. Its first 256 instances, with between \numNodesFineMin{} and \numNodesFineMax{} nodes (median
-\numNodesFineMedian{}), test transfer to a finer mesh, and the last 64 are reserved for
+\numNodesFineMedian{}), are used to test transfer to a finer mesh, and the last 64 are reserved for
 few-shot training.
 
 \subsubsection{Conditioning}
 On sixteen assembled validation instances of each corpus, the spectral condition number
 $\kappa$ of the stiffness matrix ranged from \numKappaTwoLow{} to \numKappaTwoHigh{} in two
-dimensions and from \numKappaThreeLow{} to \numKappaThreeHigh{} in three, so that
+dimensions and from \numKappaThreeLow{} to \numKappaThreeHigh{} in three, so
 $\kappa^{1/2}$ lies between about \numSqrtKappaMin{} and \numSqrtKappaMax{}.
 
 \subsection{Networks}\label{sec:methods:networks}
@@ -128,9 +128,9 @@ are implemented in PyTorch, and the report of each run records the versions of P
 PyTorch, NumPy and SciPy with which it ran (supplementary Section~\SuppRepro{}). The
 supervised networks were trained with 16, 64, 256 and 1,024 labelled instances, the first 16, 64, 256 and 1,024 instances of the training pool. The graph network was trained
 with 64 and 1,024 only, and the three-dimensional energy-norm-supervised transformer with
-1,024 only, savings of machine time that the pre-registrations of September and October 2026
+1,024 only, to save machine time, as the pre-registrations of September and October 2026
 fixed.
-Every network ran 200 epochs, so that a supervised network with $N$ labelled instances took
+Every network ran 200 epochs, so a supervised network with $N$ labelled instances took
 $200N$ steps, 3,200 with 16, and the comparisons at the smaller budgets differ in the number
 of steps as well as in the labels. The label-free transformer was trained on the same 1,024
 instances without their solutions, for 204,800 steps; its training set is thus the
@@ -180,8 +180,8 @@ For each instance we also computed the Ritz-Galerkin projection of the finite-el
 problem onto a space of vector polynomials, from the instance's own stiffness matrix and
 load vectors, without labels or training. With the instance's box
 $[0,l_x]\times[0,l_y]\times[0,l_z]$ and the Legendre polynomials $P_{p_x}$, $P_{p_y}$ and
-$P_{p_z}$ of degrees $p_x$, $p_y$ and $p_z$, each displacement component is spanned by the
-functions
+$P_{p_z}$ of degrees $p_x$, $p_y$ and $p_z$, the trial space of each displacement component
+is spanned by the functions
 \begin{equation}
 \phi(x,y,z)=\frac{x}{l_x}\,P_{p_x}\Bigl(\frac{2x}{l_x}-1\Bigr)\,P_{p_y}\Bigl(\frac{2y}{l_y}-1\Bigr)\,
 P_{p_z}\Bigl(\frac{2z}{l_z}-1\Bigr),
@@ -209,8 +209,9 @@ projection needs the assembled stiffness matrix, which the surrogates do not.
 
 Weak baselines and selective reporting have led to over-optimism in machine learning for
 fluid-related partial differential equations \cite{McGreivy2024}, and a fair comparison of
-two neural operators needed common data and protocols \cite{Lu2022Fair}. Pre-registration, the recording of hypotheses, analyses and decision criteria in a dated document before the
-data are seen, guards against these biases in other sciences \cite{Nosek2018}. Four runs decide the claims of this paper, and each was pre-registered. The three-dimensional
+two neural operators needed common data and protocols \cite{Lu2022Fair}. Pre-registration guards against these biases in other sciences \cite{Nosek2018}: hypotheses,
+analyses and decision criteria are recorded in a dated document before the data are seen.
+Four runs decide the claims of this paper, and each was pre-registered. The three-dimensional
 comparison (22 to 28 September 2026) trained the label-free transformer and reused the
 supervised networks, the graph network among them, that its initial run had trained in the
 first half of September 2026. The two-dimensional comparison (8 to 9 October 2026) trained the
@@ -219,8 +220,8 @@ holdout evaluation (21 October 2026) read the claims of both comparisons again o
 instances without training. The fourth is the three-dimensional energy-norm run (22 to 25
 October 2026). Each was specified, before it was executed, in a
 document that fixes the configuration, the metrics and the criteria, and that declares both outcomes publishable. The documents were committed to the project's public repository before
-their runs, and the code refused to start a run whose configuration did not match the
-registered hash. Where a comparison of two networks over three seeds carries a verdict, it
+their runs, and the code started no run whose configuration differed from the registered
+hash. Where a comparison of two networks over three seeds carries a verdict, it
 uses a noise guard fixed in advance \eqref{eq:guard}: a difference counts only beyond the larger of 10\% and twice its standard error over the seeds. The guard is a rule of
 decision, not a test at a stated level of significance, and within it no difference is shown,
 which is not equivalence. \Cref{tab:claims} lists the pre-registered claims with their outcomes,

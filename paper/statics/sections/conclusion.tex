@@ -6,19 +6,21 @@ Minimising it is supervised regression in the energy norm without solutions; the
 displacement loss regresses in the Euclidean norm, which under-weights the stiff modes that
 carry the strains. In pre-registered comparisons that changed only the norm of the
 supervised loss, with the same solutions, the median von Mises error of a three-dimensional
-transformer fell \numNlThreeNormVmWord{}fold, and in two dimensions the mean fell by more than half, also on held-out instances. In two dimensions, measured after the run, the errors were
-of about the same size but lay lower in the spectrum of the stiffness matrix. Removing the solutions with the energy norm kept cost far less. In three dimensions the
+transformer fell \numNlThreeNormVmWord{}fold, and in two dimensions the mean fell by more than half, also on held-out instances. In two dimensions, measured after the run, the errors of the
+displacement-supervised and the energy-norm-supervised transformers were of about the same
+size, but the latter's lay lower in the spectrum of the stiffness matrix. Removing the solutions, with the energy norm
+kept, cost far less accuracy. In three dimensions the
 transformer
 trained on the energy alone came within a factor of \numNlThreeLabelWithin{} of the
 energy-norm-supervised one in median energy-norm and von Mises error, and was more accurate
 than the displacement-supervised one on every metric, in every seed. For these surrogates,
 the norm of the loss, not the use of solutions, limited the stress accuracy. The same norm
 should decide how surrogates are compared. A graph network with the lowest displacement error
-of the networks had among the largest stress errors, and the energy itself ranks the
-predictions of a load case and flags, by its sign, those worse than the zero field, without a
-solution. Given the stiffness matrix, a polynomial Ritz projection of a few hundred unknowns
-was more accurate than the label-free transformer, in the seed means, on every metric but
-peak stress, and no network transferred to a substantially finer mesh. These limits, the
+of the networks had among the largest stress errors. Without a solution, the energy itself
+ranks the predictions of a load case and, by its sign, flags those worse than the zero field.
+Given the stiffness matrix, a polynomial Ritz projection of a few hundred unknowns was more
+accurate than the label-free transformer, in the seed means, on every metric but peak
+stress. No network transferred to a substantially finer mesh. These limits, the
 claim that did not replicate on held-out instances and the criteria that were not met are
 reported with the results. For engineering use, these results suggest training surrogates
 for stress analysis in the energy norm, comparing them by their energy-norm and stress

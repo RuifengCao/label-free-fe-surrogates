@@ -1,9 +1,9 @@
 \section{The Ritz projection paired with the networks}\label{supp:ritz}
 
-The paper pairs the polynomial Ritz-Galerkin projection of each instance
-(\cref{sec:methods:ritz}), computed from the instance's own stiffness matrix and loads
-without labels or training, with every network's prediction of the same instance. This baseline was added after the pre-registered runs and was not pre-registered.
-\Cref{tab:ritzpairs} gives, for each set, model and degree $p$ of the ladder, the share of
+The paper pairs every network's prediction of an instance with the polynomial Ritz-Galerkin
+projection of the same instance (\cref{sec:methods:ritz}), which is computed from the
+instance's own stiffness matrix and loads without labels or training. This baseline was added after the pre-registered runs and was not pre-registered.
+For each set, model and degree $p$ of the ladder, \cref{tab:ritzpairs} gives the share of
 the instances on which the projection was strictly the more accurate, as the lowest and the
 highest over the three seeds of a trained network. The sets are the validation instances of
 the three- and two-dimensional comparisons, their held-out instances, and the finer
@@ -12,7 +12,7 @@ projection has \numRitzThreeK{} unknowns at $p=6$, 7, 8 and 9 in three dimension
 \numRitzTwoK{} at $p=6$ and 8 in two. It counts as the more accurate where its error is
 lower, or its critical-region recall higher. A tie, which occurs only in critical-region
 recall, counts for neither side, and a share strictly between none and all of the instances
-is never rounded to either. The networks are those trained with 1,024 labelled instances. On the finer mesh the few-shot networks are those of \cref{tab:transfer}, and the
+is never rounded to either. The networks are those trained on 1,024 instances. On the finer mesh the few-shot networks are those of \cref{tab:transfer}, and the
 energy-norm-supervised transformer, which no pre-registered run evaluated there, is paired
 with the values of its evaluation beside the projection (Section~\ref{sec:transfer}). The
 shares for the other networks and label budgets are in the records.

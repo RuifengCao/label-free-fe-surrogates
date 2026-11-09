@@ -11,8 +11,8 @@ network's accuracy, was met with a wide margin: the label-free displacement erro
 that accuracy, KP1 and KP2,
 were not triggered. Condition (c) failed, and kill condition KP4 withdrew the transfer claim
 (Section~\ref{sec:transfer}). Condition (a) was met from 64 labels on, but with 16 labels
-the displacement-supervised transformer with the energy term was only
-\numGTwoSanitySixteen{} times more accurate in displacement than the zero field, against the
+the zero field's displacement error was only \numGTwoSanitySixteen{} times that of the
+displacement-supervised transformer with the energy term, against the
 \numGTwoSanityX{} required. The amendment, written after this result of the initial run was
 known, assessed (a) only from \numGTwoFloor{} labels: under it the gate read GO, and under
 the registered form, which assesses every budget, it read NO-GO (Section~\ref{app:prereg}).
@@ -28,9 +28,9 @@ displacement error of \numWorstSeedLabDisp{}, a von Mises error of \numWorstSeed
 a peak stress error of \numWorstSeedLabPeak{}. The same instance had the largest relative
 energy gap of the displacement-supervised transformer in all three seeds, and the
 transformer's median relative energy gap over the instance-seed pairs,
-\numThreeLabGapMedian{} (\cref{tab:tails3d}), is far below the mean. The energy term repaired most of this, but not at every budget. With 256 labels it raised the displacement
-error of the displacement-supervised transformer in every seed and, through one of the three
-seeds, its mean relative energy gap (\cref{tab:labeleff}), although it reduced the number of
+\numThreeLabGapMedian{} (\cref{tab:tails3d}), is far below the mean. The energy term removed most of this excess, but not at every budget. With 256 labels it raised the displacement
+error of the displacement-supervised transformer in every seed and, because of one of the
+three seeds, its mean relative energy gap (\cref{tab:labeleff}), although it reduced the number of
 instance-seed predictions worse than the zero field from \numThreeLabWorseTwoFiveSix{} to
 \numThreeAncWorseTwoFiveSix{}.
 
@@ -69,7 +69,7 @@ over the instances, the pre-registered statistic, unless a row says seed means. 
 seed's value is the median of its resampled values. The rows of the held-out instances give the same readings on the \numHoldThreeN{} held-out instances of
 \cref{sec:holdout}, without a verdict. \Cref{tab:kmedians}
 gives every metric of the three transformers on the 256 validation instances, as the seeds'
-medians over the instances, the statistic that the verdicts read, and as the seeds' means.
+medians over the instances, the statistic on which the verdicts were based, and as the seeds' means.
 \Cref{tab:kcomparisons} gives the \numKdSecondary{} secondary comparisons that the
 pre-registration fixed as exploratory readings, without a criterion: for each of the five
 metrics, the energy-norm-supervised transformer against the displacement-supervised and the

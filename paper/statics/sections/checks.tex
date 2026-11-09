@@ -103,10 +103,10 @@ displacement-supervised transformer's \numFieldLoads{} three-dimensional predict
 the zero field, against \numThreeFreeLoadWorse{} of the label-free transformer's. In two dimensions the counts
 were \numSpecLoadWorseMgn{} of the graph network's \numSpecLoads{}, against at most one of
 each transformer's. These counts were made after the runs. On the held-out instances
-the same test was a pre-registered claim, and it found \numHoldTThreeLab{} and
-\numHoldTThreeMgn{} of \numHoldTThreeLoads{} load cases of the two networks trained on the
-displacement error in three dimensions, each with a positive energy and no other
-(\cref{tab:holdout}). After the rescaling by $\cstar$, none of the three-dimensional
+the same test was a pre-registered claim. Of the \numHoldTThreeLoads{} load cases of each of
+the two networks trained on the displacement error in three dimensions,
+\numHoldTThreeLab{} and \numHoldTThreeMgn{} were worse than the zero field; these were
+exactly the load cases with a positive energy (\cref{tab:holdout}). After the rescaling by $\cstar$, none of the three-dimensional
 predictions flagged was worse than the zero field, and the rescaling never increased a
 relative energy gap. The failures of the displacement-supervised transformer and of the
 graph network recurred: more than half of the instances on which either had a mean relative
@@ -114,8 +114,8 @@ energy gap above one had it in two or three of its seeds (supplementary
 Sections~\SuppThree{} and~\SuppTwo{}).
 
 The check needs only the assembled $K$ and $F$. Where a surrogate is used without them,
-their assembly, which here took longer than its inference (\cref{tab:cost}), is the cost of
-the check and of the rescaling by $\cstar$. It applies to any network, however it was
-trained, and the rescaling repairs what it flags without a solution (\cref{prop:amp}). It
-catches gross failures only: the displacement-supervised transformer's median prediction in
+the check and the rescaling by $\cstar$ cost the assembly of $K$ and $F$, which here took longer than the
+surrogate's inference (\cref{tab:cost}). The check applies to any network, however it was
+trained, and the rescaling, also without a solution, makes every prediction that the check
+flags no worse than the zero field (\cref{prop:amp}). The check catches gross failures only: the displacement-supervised transformer's median prediction in
 three dimensions, with a relative energy gap of \numThreeLabGapMedian{}, passed it.

@@ -4,9 +4,9 @@
 
 \input{generated/table_transfer}
 
-\Cref{tab:transfer} evaluates the networks trained in-band on the 256 fine-mesh evaluation
-instances, meshed at $l_{\mathrm{c}}=0.0374$, about half the in-band element size, which no network had
-seen. None transferred. The label-free transformer's displacement error rose from
+\Cref{tab:transfer} gives the accuracy of the networks trained in-band, measured on the 256
+fine-mesh evaluation instances. No network had seen these instances, meshed at
+$l_{\mathrm{c}}=0.0374$, about half the in-band element size. None transferred. The label-free transformer's displacement error rose from
 \numAmpInDisp{} in-band to \numFineFreeDisp{}, a factor of \numFineRatio{}. The pre-registered criterion for transfer allowed \numFineWin{} and the kill condition KP4 was
 triggered above \numFineKill{}, so the transfer claim was withdrawn. The
 displacement-supervised transformer had almost the same displacement error,
@@ -59,10 +59,10 @@ labels, the label-free transformer was the more accurate on
 
 \input{generated/table_amplitude}
 
-The rescaling that repairs predictions worse than the zero field also diagnoses the error.
+The rescaling that the deployment guard applies to flagged predictions also diagnoses the error.
 Rescaling each prediction by its energy-optimal amplitude $\cstar$ (\cref{prop:amp}), which
 needs no label and no solve, separates errors of amplitude from errors of shape. We measured
-it after the runs, on the stored label-free networks, the transformer and the two token bottlenecks (\cref{tab:amplitude}). No verdict was revisited. On the finer mesh the median
+its effect after the runs, on the stored label-free networks, the transformer and the two token bottlenecks (\cref{tab:amplitude}). No verdict was revisited. On the finer mesh the median
 $\cstar$ of the label-free transformer was \numAmpFineCstar{}, against \numAmpInCstar{}
 in-band: its predictions were too small. Rescaling lowered its fine-mesh displacement error
 from \numAmpFineDisp{} to \numAmpFineDispC{}, by \numAmpFineRedMin{} to \numAmpFineRedMax{}
@@ -87,7 +87,7 @@ sum of their energies. Over the training range the median $c^{\ast}_{\mathrm{ins
 transformer stayed within \numRemeshInDev{} of one, and at $l_{\mathrm{c}}=0.0374$ it was
 \numRemeshFine{}. The largest nodal load $F_{\max}$, by which the output is multiplied
 (\cref{sec:methods:networks}), shrinks with the element size, roughly as $l_{\mathrm{c}}^2$ for the
-face tractions, whereas the solution does not depend on the mesh. A finer mesh therefore asks the network for a larger output than any it produced in training. We have not tested
+face tractions, whereas the solution does not depend on the mesh. A finer mesh therefore requires from the network a larger output than any it produced in training. We have not tested
 this explanation causally. It agrees with an observation of the July run, whose code did not
 multiply the output by $F_{\max}$: networks trained on meshes \numCoarsenLow{} and
 \numCoarsenHigh{} times coarser lost little accuracy on the original meshes
