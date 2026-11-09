@@ -2917,3 +2917,50 @@ generator, and no record, configuration, pre-registration or source file changed
   indexed with that work; seven keywords, the last "stress analysis", as before.
 - No number, table, figure, test or supplementary page changed. Suite 839 (836 + 3),
   unchanged.
+
+## Stage 30 (9 Nov 2026) -- the data sets are archived at Zenodo, and the Data availability statement cites them
+
+- Why. The journal's scope asks that the results be "validated using public data sets for
+  easy replicability of the research results" (its page, read on 6 November 2026). Until
+  now the statement said that the meshes and reference solutions were not archived and
+  that the code regenerates them, though not necessarily bit for bit.
+- The archive (Zenodo, 10.5281/zenodo.24091113, CC BY 4.0, version statics-paper-1.0)
+  holds the 7,677 instances on which the networks were trained, validated and evaluated
+  on held-out data, with their reference solutions: in three dimensions the validation
+  set (256), the training pool (1,024), the holdout set (686) and the finer set (320: 256
+  for evaluation, 64 for few-shot training); in two dimensions the validation set (256),
+  the training pool (1,024) and the holdout set (4,111). Each instance keeps its mesh,
+  loads, constraints, reference solutions, material and geometry; the stiffness matrix is
+  omitted, and each file records its number of nonzeros, its Frobenius norm and its
+  SHA-256, which a matrix rebuilt by the archived code reproduces with the library
+  versions of the runs.
+- The instances were exported on 9 November 2026 on the training machine, from the files
+  that the runs read, by a script that uses only the standard library and numpy and
+  writes nothing until its checks pass: the split, recomputed from its seed, against the
+  validation lists that the records hold (the training pools follow from the same
+  split), the held-out files and their labels against the hashes in
+  `records/cmame/holdout`, and the corpus manifests against the hashes that the
+  pre-registrations and reports record (`dc75628290bb...`, `0f859ad98a01...`,
+  `3553396d1831...`). The archive's manifest gives each instance's source SHA-256.
+  Checked again on the returned manifest, summary and hash list: every role holds the
+  instances that the split gives; all 4,797 held-out instances have the recorded source
+  hashes; every instance has its reference solutions; the node counts of the 3D
+  validation set and of the fine evaluation set are those of Section 4.1 (2,195 to
+  17,692, median 5,617; 15,175 to 71,749, median 36,216.5, which `numbers.tex` gives
+  truncated, as 36,216); the three archives downloaded on another computer match the
+  hash list.
+- The statement: the paragraph on the networks ends where it did, and a new paragraph
+  cites the archive (entry `Cao2026Data`, with "[dataset]" before it as for the archives
+  of the code and of the networks), names the sets that it holds in the terms of
+  Section 4.1, says that the archived code rebuilds the stiffness matrices, and keeps, for
+  the instances that it does not hold, the sentence on regeneration not necessarily bit
+  for bit. It gives no count: 7,677 would be a number typed by hand that sums two
+  generated ones (the holdout sizes), and Sections 4.1 and 8 already give each set's size.
+  The paragraph is set ragged right, as the statement's first paragraph is, so that the
+  address of the archive is not broken across lines; it keeps its indent.
+- Tests: the networks' test no longer pins the sentence that moved; a new test pins the
+  paragraph, the entry and its DOI, and checks that the sizes of the sets that it names,
+  as Sections 4.1 and 8 give them, sum to the archive's 7,677; the bibliography test
+  renders the new entry; the check for numbers typed by hand knows the new DOI as a
+  name. The runbook's suite lines read the new count. No number, table, figure or
+  supplementary page changed. Suite 840 (837 + 3).

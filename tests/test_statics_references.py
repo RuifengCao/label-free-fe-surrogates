@@ -11,7 +11,9 @@ described, and cited in the Data availability statement; its DOI, reserved on 30
 box in the statement said so, and CITATION.cff named the repository's first archive).
 Stage 21: the archive of the trained networks is a data reference in the same way, cited
 with its licence and, from Stage 22, its DOI, and Li et al. (2024) carry their volume,
-issue and article number. Where the text
+issue and article number. Stage 30: so is the archive of the data sets, the 7,677
+instances on which the networks were trained, validated and evaluated on held-out data,
+with their reference solutions, cited with its licence and its DOI. Where the text
 gives the
 iteration bound of a warm start for conjugate gradients, it credits the estimate of Sun et al.
 in the relative residual and the bound of Wang et al. for fixed-point iterations; it states their solvers, their observation on
@@ -35,6 +37,7 @@ BIB = PAPER / "references.bib"
 TAG = "statics-paper-1.0"               # the version that the manuscript describes
 CODE_DOI = "10.5281/zenodo.23815187"     # the archive of the version described
 NETWORKS_DOI = "10.5281/zenodo.23815225" # the archive of its trained networks
+DATA_DOI = "10.5281/zenodo.24091113"     # the archive of its data sets
 FIRST_DOI = "10.5281/zenodo.23298799"    # the repository's first archive at Zenodo
 # the entries checked on 11 October 2026 against the PDFs of their published versions, and
 # the preprint of Sun et al.
@@ -115,7 +118,7 @@ def test_the_bibliography_renders_the_data_reference_and_the_chapter(tmp_path):
     shutil.copy(BIB, tmp_path / "references.bib")
     (tmp_path / "t.aux").write_text(
         "\\citation{Cao2026Zenodo}\n\\citation{LeCun2007EBM}\n\\citation{Saad2003}\n"
-        "\\citation{Cao2026Networks}\n\\citation{Li2024PINO}\n"
+        "\\citation{Cao2026Networks}\n\\citation{Li2024PINO}\n\\citation{Cao2026Data}\n"
         "\\bibstyle{elsarticle-num}\n\\bibdata{references}\n", encoding="ascii")
     res = subprocess.run([bibtex, "t"], cwd=tmp_path, capture_output=True, text=True)
     assert res.returncode == 0, res.stdout + res.stderr
@@ -137,7 +140,11 @@ def test_the_bibliography_renders_the_data_reference_and_the_chapter(tmp_path):
               rf"{{https://doi.org/{NETWORKS_DOI}}} {{\path{{doi:{NETWORKS_DOI}}}}}. "
               r"\bibitem{Li2024PINO}",
               r"Physics-informed neural operator for learning partial differential equations, "
-              r"ACM/IMS Journal of Data Science 1~(3) (2024) 9."):
+              r"ACM/IMS Journal of Data Science 1~(3) (2024) 9.",
+              r"\bibitem{Cao2026Data} {\relax [dataset] R}.~Cao, label-free-fe-surrogates: "
+              rf"data sets, Zenodo, version {TAG} (2026). \newblock \href "
+              rf"{{https://doi.org/{DATA_DOI}}} {{\path{{doi:{DATA_DOI}}}}}. "
+              r"\end{thebibliography}"):
         assert s in bbl, s
 
 
@@ -166,7 +173,7 @@ def test_the_references_checked_on_11_october_say_so():
     assert {k for k, (_, comment, _) in entries.items() if not comment} == batch
     assert all(re.match(r"% (verified|checked)\b", comment)
                for k, (_, comment, _) in entries.items()
-               if comment and k not in ("Cao2026Zenodo", "Cao2026Networks"))
+               if comment and k not in ("Cao2026Zenodo", "Cao2026Networks", "Cao2026Data"))
     lecun = entries["LeCun2007EBM"][2]
     assert (_field(lecun, "title"), _field(lecun, "booktitle"), _field(lecun, "publisher"),
             _field(lecun, "address"), _field(lecun, "year"), _field(lecun, "pages"),
@@ -464,7 +471,9 @@ def test_the_networks_are_archived_as_a_data_reference_under_their_licence():
     replaces the pending box; the statement says that the networks archived are those trained
     in the runs reported here, since the Ritz baseline's records also name the states of six
     label-free networks of a separate study, that the code versions are those that the
-    repository records, and that the corpora are regenerated not necessarily bit for bit."""
+    repository records, and that the corpora are regenerated not necessarily bit for bit.
+    Stage 30: that last sentence is now in the paragraph on the archived data sets, and
+    covers the instances that they do not hold."""
     kind, comment, body = _entries(BIB.read_text(encoding="utf-8"))["Cao2026Networks"]
     assert kind == "misc"
     assert _field(body, "author") == r"Cao, {\relax [dataset] R}uifeng"
@@ -481,10 +490,11 @@ def test_the_networks_are_archived_as_a_data_reference_under_their_licence():
             rf"at Zenodo \cite{{Cao2026Networks}}, \url{{https://doi.org/{NETWORKS_DOI}}}, "
             r"under CC BY-NC 4.0, and licences for their commercial use are also available "
             r"from the first author. The others are not archived and can be retrained from the "
-            r"configurations, seeds and versions of the code that the repository records. The "
-            r"meshes and reference solutions are not archived either; the same code regenerates "
-            r"them, though not necessarily bit for bit, since a mesh can differ slightly between "
-            r"machines and between versions of the mesh generator.") in statement
+            r"configurations, seeds and versions of the code that the repository records.") \
+        in statement
+    assert (r"are not archived. The same code regenerates them, though not necessarily bit for "
+            r"bit, since a mesh can differ slightly between machines and between versions of "
+            r"the mesh generator.") in statement
     assert r"\pending" not in statement
     # the provenance note names the three networks of the July run with their hashes
     note = _flat((ROOT / "PROVENANCE_NOTE.md").read_text(encoding="utf-8"))
@@ -519,6 +529,48 @@ def test_the_networks_are_archived_as_a_data_reference_under_their_licence():
         assert s in wp7, s
     assert "the archive of the stored networks are given in the Data availability statement" \
         in _sections()["appendix_repro.tex"]
+
+
+def test_the_data_sets_are_archived_as_a_data_reference_under_their_licence():
+    """Stage 30: the instances on which the networks were trained, validated and evaluated on
+    held-out data, with their reference solutions, are archived at Zenodo under CC BY 4.0, a
+    data reference like the archives of the code and of the networks, with the same author
+    and version; its DOI was reserved on 9 November 2026. The statement names the sets that
+    the archive holds, in the terms of Section 4.1, without a count typed by hand; the sizes
+    that Sections 4.1 and 8 give them sum to the archive's 7,677 instances."""
+    kind, comment, body = _entries(BIB.read_text(encoding="utf-8"))["Cao2026Data"]
+    assert kind == "misc"
+    assert _field(body, "author") == r"Cao, {\relax [dataset] R}uifeng"
+    assert (_field(body, "title"), _field(body, "howpublished"), _field(body, "year")) == (
+        "label-free-fe-surrogates: data sets", f"Zenodo, version {TAG}", "2026")
+    assert _field(body, "doi") == DATA_DOI
+    assert len({DATA_DOI, CODE_DOI, NETWORKS_DOI, FIRST_DOI}) == 4
+    assert "The DOI was reserved on 9 November 2026; the record is published, with this " \
+        "title, author and version, before the paper is submitted." in \
+        _flat(comment.replace("% ", ""))
+    statement = _flat(_sections()["declarations.tex"]
+                      .split(r"\section*{Data availability}", 1)[1].split(r"\section*", 1)[0])
+    assert (r"The validation sets, training pools and holdout sets of both corpora and the finer "
+            r"set are archived at Zenodo \cite{Cao2026Data}, "
+            rf"\url{{https://doi.org/{DATA_DOI}}}, under CC BY 4.0. They hold the meshes, loads, "
+            r"constraints and reference solutions, exported from the files that the runs read, "
+            r"whose SHA-256 hashes the archive records. The stiffness matrices are omitted; the "
+            r"archived code rebuilds them. The other instances of the corpora, and those "
+            r"generated only for readings taken after the runs, are not archived.") in statement
+    assert "The meshes and reference solutions are not archived" not in statement
+    assert "7,677" not in statement
+    # the archive's 7,677: a validation set of 256 and a training pool of 1,024 in each
+    # corpus, the two holdout sets, and the finer set of 320
+    methods = _sections()["methods.tex"]
+    for s in ("256 form the validation set and the first 1,024 of the remainder the training "
+              "pool", "256 form the validation set, the first 1,024 of the remainder the "
+              "training pool", "A finer set of 320 instances"):
+        assert s in methods, s
+    numbers = (PAPER / "generated" / "numbers.tex").read_text(encoding="utf-8")
+    held = [int(re.search(rf"\\newcommand{{\\{k}}}{{([^}}]*)}}", numbers).group(1)
+                .replace(",", "")) for k in ("numHoldThreeN", "numHoldTwoN")]
+    assert held == [686, 4111]
+    assert 2 * (256 + 1024) + sum(held) + 320 == 7677
 
 
 def test_the_physics_informed_neural_operator_carries_its_volume_issue_and_article():
