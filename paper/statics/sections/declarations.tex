@@ -1,3 +1,7 @@
+% For double-anonymized review (main.tex), the review copy leaves out the CRediT statement
+% and the declaration of competing interest, which the separate title page gives, and
+% withholds the addresses of the repository and of the archives.
+\ifanonymous\else
 \section*{CRediT authorship contribution statement}
 
 Ruifeng Cao: Conceptualization, Data curation, Formal analysis, Methodology, Project
@@ -11,6 +15,7 @@ The authors declare the following financial interests/personal relationships whi
 considered as potential competing interests: Ruifeng Cao holds the copyright in the code
 released with this article and offers licences for commercial use of the code and of the
 trained networks, both of which are licensed for non-commercial use only.
+\fi
 
 \section*{Funding}
 
@@ -19,6 +24,34 @@ commercial, or not-for-profit sectors.
 
 \section*{Data availability}
 
+\ifanonymous
+The code, configurations and records listed in supplementary Section~\SuppRepro{} are
+available in a public repository. The version described here is tagged
+\texttt{statics-paper-1.0} and archived at Zenodo \cite{Cao2026Zenodo}, and the repository
+is also archived with its full history by Software Heritage. For double-anonymized review,
+the addresses of the repository and of its archives are withheld here and in the
+references; the title page gives them.
+
+The code is licensed under the PolyForm Noncommercial License 1.0.0, which permits its
+use, modification and redistribution for any non-commercial purpose, including research
+and teaching; licences for commercial use are available from the first author. The records
+and the pre-registration documents are licensed under CC BY 4.0.
+
+Of the networks trained in the runs reported here, those whose states the records and the
+repository's provenance note name with their SHA-256 hashes are archived at Zenodo
+\cite{Cao2026Networks} under CC BY-NC 4.0, and licences for their commercial use are also
+available from the first author. The others are not archived and can be retrained from the
+configurations, seeds and versions of the code that the repository records.
+
+The validation sets, training pools and holdout sets of both corpora and the finer set are
+archived at Zenodo \cite{Cao2026Data} under CC BY 4.0. They hold the meshes, loads,
+constraints and reference solutions, exported from the files that the runs read, whose
+SHA-256 hashes the archive records. The stiffness matrices are omitted; the archived code
+rebuilds them. The other instances of the corpora, and those generated only for readings
+taken after the runs, are not archived. The same code regenerates them, though not
+necessarily bit for bit, since a mesh can differ slightly between machines and between
+versions of the mesh generator.
+\else
 {\raggedright\emergencystretch=3em The code, configurations and records listed in
 supplementary Section~\SuppRepro{} are available at
 \url{https://github.com/RuifengCao/label-free-fe-surrogates}. The version described here is
@@ -49,6 +82,7 @@ code rebuilds them. The other instances of the corpora, and those generated only
 readings taken after the runs, are not archived. The same code regenerates them, though
 not necessarily bit for bit, since a mesh can differ slightly between machines and between
 versions of the mesh generator.\par}
+\fi
 
 \section*{Declaration of generative AI and AI-assisted technologies in the manuscript preparation process}
 

@@ -583,3 +583,37 @@ def test_the_physics_informed_neural_operator_carries_its_volume_issue_and_artic
         "ACM/IMS Journal of Data Science", "1", "3", "9", "2024", "10.1145/3648506")
     assert ("checked 30 October 2026 against the published article (its PDF): volume 1, "
             "issue 3, article 9") in _flat(comment.replace("% ", ""))
+
+
+def test_the_review_copies_cite_the_authors_note_and_archives_anonymously():
+    """Stage 32: the journal reviews double-anonymized. The review copies of the paper and of
+    its supplementary material, built with \\anonymousbuild defined, cite from
+    references_anonymous.bib, which scripts/make_anonymous_bib.py writes from references.bib:
+    the entries of the authors' note and of their three archives are anonymous, under the
+    same keys, so that the text and its numbering are the paper's, and every other entry is
+    that of references.bib."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "make_anonymous_bib", ROOT / "scripts" / "make_anonymous_bib.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    anon = (PAPER / "references_anonymous.bib").read_text(encoding="utf-8")
+    assert anon == mod.anonymous(BIB.read_text(encoding="utf-8"))
+    entries, anon_entries = _entries(BIB.read_text(encoding="utf-8")), _entries(anon)
+    assert list(entries) == list(anon_entries)
+    own = {"CaoSong2026", "Cao2026Zenodo", "Cao2026Networks", "Cao2026Data"}
+    assert own <= set(entries)
+    for key, (kind, _, body) in anon_entries.items():
+        if key in own:
+            assert kind == "misc"
+            assert _field(body, "title") == "Details omitted for double-anonymized reviewing"
+            assert "nonymous" in _field(body, "author")
+            for s in ("Cao", "Song", "Ruifeng", "Xidan", "zenodo", "arXiv", "doi", "github"):
+                assert s not in body, (key, s)
+        else:
+            assert (kind, body) == (entries[key][0], entries[key][2]), key
+    for f in ("main.tex", "supplementary.tex"):
+        tex = (PAPER / f).read_text(encoding="utf-8")
+        assert "\\newif\\ifanonymous\n\\ifdefined\\anonymousbuild\\anonymoustrue\\fi\n" in tex, f
+        assert (r"\ifanonymous\bibliography{references_anonymous}\else"
+                r"\bibliography{references}\fi") in tex, f

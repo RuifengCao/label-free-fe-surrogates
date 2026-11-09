@@ -3,6 +3,13 @@
 % hand. Build after the manuscript, whose labels it reads from main.aux:
 %   latexmk -pdf main.tex && latexmk -pdf supplementary.tex   (from this directory)
 \documentclass[11pt,a4paper]{article}
+% double-anonymized review: the review copy is built, after the manuscript, with
+%   latexmk -pdf -usepretex='\def\anonymousbuild{}' -jobname=supplementary_anonymous
+%     supplementary.tex
+% and names no author and cites the authors' note and archives anonymously, as the
+% manuscript's review copy does (main.tex)
+\newif\ifanonymous
+\ifdefined\anonymousbuild\anonymoustrue\fi
 
 \usepackage[british]{babel}
 \usepackage[margin=2.2cm]{geometry}
@@ -66,14 +73,15 @@
 
 \input{generated/numbers}
 \input{suppsections}
-\pdfinfo{/Title (Supplementary material: The norm, not the labels) /Author (Ruifeng Cao, Xidan Song)}
+\ifanonymous\pdfinfo{/Title (Supplementary material: The norm, not the labels)}\else
+\pdfinfo{/Title (Supplementary material: The norm, not the labels) /Author (Ruifeng Cao, Xidan Song)}\fi
 % each section must carry the number by which the paper cites it (suppsections.tex)
 \newcommand{\checksection}[1]{\begingroup\edef\x{\thesection}\edef\y{#1}%
   \ifx\x\y\else\errmessage{Supplementary section \x\space is cited as \y}\fi\endgroup}
 
 \title{Supplementary material for\\[2pt] \large The norm, not the labels: training and
 evaluating finite-element surrogates for stress analysis in the energy norm}
-\author{Ruifeng Cao \and Xidan Song}
+\ifanonymous\author{}\else\author{Ruifeng Cao \and Xidan Song}\fi
 \date{}
 
 \begin{document}
@@ -100,6 +108,6 @@ transfer to a finer mesh; \SuppWarm{} warm starts; \SuppSide{} two side experime
 \input{sections/supp_timing}\checksection{\SuppTiming}
 
 \bibliographystyle{elsarticle-num}
-\bibliography{references}
+\ifanonymous\bibliography{references_anonymous}\else\bibliography{references}\fi
 
 \end{document}

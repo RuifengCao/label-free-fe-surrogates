@@ -1925,8 +1925,9 @@ def test_the_front_matter_meets_the_journals_conditions_for_review():
     """Stage 27: the conditions under which the journal sends a paper to review. The abstract
     says which is the contribution to artificial intelligence and which the application in
     engineering, each named; the title and the abstract use no acronym (a word of two or more capitals,
-    the macros of the numbers aside); the paper is set in one column (elsarticle's preprint
-    option); and the keywords are at most seven."""
+    the macros of the numbers aside); the paper is set in one column (Stage 32: elsarticle's
+    single-column journal layout 3p, at 12 points, which keeps it within the journal's 50
+    pages); and the keywords are at most six, the journal's limit (Stage 32)."""
     main = (PAPER / "main.tex").read_text(encoding="utf-8")
     abstract = " ".join((PAPER / "sections" / "abstract.tex").read_text(encoding="utf-8").split())
     assert abstract.count("Contribution to artificial intelligence:") == 1
@@ -1935,7 +1936,7 @@ def test_the_front_matter_meets_the_journals_conditions_for_review():
     for text in (title, abstract):
         words = re.sub(r"\\[A-Za-z]+(\{\})?", " ", text)
         assert not re.search(r"\b[A-Z]{2,}", words), re.search(r"\b[A-Z]{2,}", words)
-    assert r"\documentclass[preprint,12pt]{elsarticle}" in main
+    assert r"\documentclass[3p,12pt]{elsarticle}" in main
     keywords = re.search(r"\\begin\{keyword\}(.*?)\\end\{keyword\}", main, re.S).group(1)
     assert [k.strip() for k in keywords.split(r"\sep")][-1] == "stress analysis"
     assert " ".join(title.split()) == ("The norm, not the labels: training and evaluating "
@@ -1943,7 +1944,7 @@ def test_the_front_matter_meets_the_journals_conditions_for_review():
                                        "energy norm")
     supp = (PAPER / "supplementary.tex").read_text(encoding="utf-8")
     assert " ".join(title.split()) in " ".join(supp.split())
-    assert keywords.count(r"\sep") + 1 <= 7
+    assert keywords.count(r"\sep") + 1 <= 6
 
 
 def _prose(tex: str) -> str:
@@ -2339,6 +2340,41 @@ def test_manuscript_compiles(tmp_path):
     assert res.returncode == 0, slog[-3000:]
     assert not re.search(r"(Reference|Citation) .* undefined", slog)
     assert "Overfull" not in slog and "Float too large" not in slog
+    # Stage 32: the paper runs into no margin and keeps within the journal's 50 pages; the
+    # review copies for its double-anonymized review, built after the paper (the supplementary
+    # material reads main.aux), name no author in their text or their metadata and give no
+    # address from which the authors can be found, within the same limits
+    assert "Overfull" not in log
+    pdfinfo, pdftotext = shutil.which("pdfinfo"), shutil.which("pdftotext")
+
+    def pages(pdf):
+        info = subprocess.run([pdfinfo, str(pdf)], capture_output=True, text=True).stdout
+        return int(re.search(r"Pages:\s+(\d+)", info).group(1))
+
+    for job, src in (("main_anonymous", "main.tex"),
+                     ("supplementary_anonymous", "supplementary.tex")):
+        res = subprocess.run(["latexmk", "-pdf", "-interaction=nonstopmode", "-halt-on-error",
+                              r"-usepretex=\def\anonymousbuild{}", f"-jobname={job}", src],
+                             cwd=work, capture_output=True, text=True, timeout=600)
+        alog = (work / f"{job}.log").read_text(encoding="latin-1")
+        assert res.returncode == 0, alog[-3000:]
+        assert not re.search(r"(Reference|Citation) .* undefined", alog), job
+        assert "Overfull" not in alog and "Float too large" not in alog, job
+        if pdfinfo and pdftotext:
+            info = subprocess.run([pdfinfo, str(work / f"{job}.pdf")], capture_output=True,
+                                  text=True).stdout
+            assert not re.search(r"^Author:[ \t]*\S", info, re.M), (job, info)
+            text = subprocess.run([pdftotext, str(work / f"{job}.pdf"), "-"],
+                                  capture_output=True, encoding="utf-8").stdout.lower()
+            for s in ("ruifeng", "xidan", "r. cao", "x. song", "manchester", "wuhan", "github",
+                      "zenodo.", "softwareheritage", "swh:", "label-free-fe-surrogates",
+                      "2608.05437", "liuqingdamafen"):
+                assert s not in text, (job, s)
+            text_main = subprocess.run([pdftotext, str(work / "main.pdf"), "-"],
+                                       capture_output=True, encoding="utf-8").stdout.lower()
+            assert "ruifeng" in text_main and "zenodo." in text_main
+    if pdfinfo:
+        assert pages(work / "main.pdf") <= 50 and pages(work / "main_anonymous.pdf") <= 50
 
 
 def test_the_competing_interest_declares_the_commercial_licences():
@@ -2348,7 +2384,8 @@ def test_the_competing_interest_declares_the_commercial_licences():
     declarations tool, instead of declaring none."""
     decl = " ".join((PAPER / "sections" / "declarations.tex").read_text(encoding="utf-8").split())
     ci = decl.split(r"\section*{Declaration of competing interest}", 1)[1]
-    ci = ci.split(r"\section*", 1)[0].strip()
+    # the review copy leaves the declaration out (Stage 32): it ends at the \fi of that switch
+    ci = ci.split(r"\section*", 1)[0].strip().removesuffix(r"\fi").strip()
     assert ci == ("The authors declare the following financial interests/personal relationships "
                   "which may be considered as potential competing interests: Ruifeng Cao holds "
                   "the copyright in the code released with this article and offers licences for "

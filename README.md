@@ -133,6 +133,16 @@ numbers from the records independently of the script, checks the design constant
 the configurations and the code and builds both documents;
 `tests/test_statics_references.py` checks the references.
 
+The journal reviews double-anonymized. The review copies of the paper and of its
+supplementary material name no author, leave out the CRediT statement and the declaration
+of competing interest (which the separate title page gives), withhold the addresses of the
+repository and of the archives, and cite the authors' note and archives anonymously from
+`references_anonymous.bib`, which `python scripts/make_anonymous_bib.py` writes from
+`references.bib`. They are built after the paper with
+
+    latexmk -pdf -usepretex='\def\anonymousbuild{}' -jobname=main_anonymous main.tex
+    latexmk -pdf -usepretex='\def\anonymousbuild{}' -jobname=supplementary_anonymous supplementary.tex
+
 The commands of the box sessions that the paper's runs needed are in `RUNBOOK_STATICS.md`,
 and the branch's notes in `BRANCH_NOTES_statics-paper.md`. These two files, the
 manuscript's directory, the script and its tests were renamed after the branch,

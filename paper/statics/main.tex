@@ -1,7 +1,9 @@
 % Every number in the text, tables and figures comes from generated/, which the
 % repository's generation script writes from the committed records; do not type numbers
 % by hand. Build: latexmk -pdf main.tex (from this directory).
-\documentclass[preprint,12pt]{elsarticle}
+% the journal's single-column layout of Elsevier's template (3p), which sets the manuscript
+% within the journal's 50 pages; preprint,12pt, the template's default, took 60
+\documentclass[3p,12pt]{elsarticle}
 
 \usepackage[british]{babel}
 \usepackage{amsmath,amssymb,amsthm}
@@ -13,13 +15,23 @@
 % line numbers for reviewers (the Guide for Authors does not require them);
 % \linenumbersfalse removes them, for the preprint
 \newif\iflinenumbers \linenumberstrue
+% double-anonymized review: the review copy is built with
+%   latexmk -pdf -usepretex='\def\anonymousbuild{}' -jobname=main_anonymous main.tex
+% and leaves out the authors, the CRediT statement and the declaration of competing
+% interest, which the separate title page gives, withholds the addresses of the repository
+% and of the archives, and cites the authors' note and archives anonymously
+% (references_anonymous.bib, written by scripts/make_anonymous_bib.py)
+\newif\ifanonymous
+\ifdefined\anonymousbuild\anonymoustrue\fi
 \usepackage{lineno}
 \usepackage[hidelinks,hypertexnames=false]{hyperref}
 \usepackage[capitalise,nameinlink]{cleveref}
 \biboptions{sort&compress}
 \hypersetup{pdftitle={The norm, not the labels: training and evaluating finite-element
-  surrogates for stress analysis in the energy norm},
-  pdfauthor={Ruifeng Cao, Xidan Song}}
+  surrogates for stress analysis in the energy norm}}
+\ifanonymous\else\hypersetup{pdfauthor={Ruifeng Cao, Xidan Song}}\fi
+% a line that cannot break within the tolerance stretches instead of running into the margin
+\setlength{\emergencystretch}{1em}
 \Urlmuskip=0mu plus 1mu
 \makeatletter
 \g@addto@macro{\UrlBreaks}{\do\_\do\.}
@@ -70,6 +82,7 @@
 \title{The norm, not the labels: training and evaluating finite-element surrogates for
 stress analysis in the energy norm}
 
+\ifanonymous\else
 \author[man]{Ruifeng Cao\corref{cor1}}
 \ead{ruifeng.cao@manchester.ac.uk}
 \author[whu]{Xidan Song}
@@ -82,6 +95,7 @@ stress analysis in the energy norm}
 \affiliation[whu]{organization={School of Computer Science, Wuhan University},
   addressline={299 Bayi Road, Wuchang District}, city={Wuhan}, postcode={430072},
   country={China}}
+\fi
 
 \begin{abstract}
 \input{sections/abstract}
@@ -89,7 +103,7 @@ stress analysis in the energy norm}
 
 \begin{keyword}
 finite element method \sep neural surrogate \sep physics-informed machine learning \sep
-energy norm \sep label-free training \sep linear elasticity \sep stress analysis
+energy norm \sep label-free training \sep stress analysis
 \end{keyword}
 
 \end{frontmatter}
@@ -115,6 +129,6 @@ energy norm \sep label-free training \sep linear elasticity \sep stress analysis
 \input{sections/declarations}
 
 \bibliographystyle{elsarticle-num}
-\bibliography{references}
+\ifanonymous\bibliography{references_anonymous}\else\bibliography{references}\fi
 
 \end{document}

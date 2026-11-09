@@ -3018,3 +3018,53 @@ generator, and no record, configuration, pre-registration or source file changed
   sentence of supplementary Section S8). Suite 840 (837 + 3), unchanged.
 - The manuscript has 60 pages, one more than before: the last row of Table A.1 moves to
   the next page. The supplementary material keeps its 37 pages.
+
+## Stage 32 (9 Nov 2026) -- the journal's layout and its double-anonymized review: the paper in 43 pages, review copies without the authors, six keywords
+
+- Why. The journal's Guide for Authors, read in full on 9 November 2026 (a copy the PI
+  saved that day), sets three conditions that the manuscript of Stage 31 did not meet:
+  "all submissions must not exceed 50 pages, and the manuscript file size should be under
+  100 MB. Submissions that do not meet these requirements will be subject to desk
+  rejection" (the manuscript had 60); "This journal follows a double anonymized review
+  process", with the title page and the anonymized manuscript as separate files and
+  neither the manuscript nor any supplementary material carrying the authors' names or
+  affiliations; and "1 to 6 keywords" (there were seven). Its other conditions were met:
+  one column, an abstract of at most 250 words that names the contribution to artificial
+  intelligence and the application in engineering, no undefined acronym in the title or the
+  abstract, highlights of three to five lines of at most 85 characters, a graphical
+  abstract at least 1328 pixels wide, a declaration of the use of generative AI, a funding
+  statement, a CRediT statement and the data in a public repository.
+- Layout: `\documentclass[3p,12pt]{elsarticle}`, the single-column journal layout of
+  Elsevier's template, at the same 12 points, sets the manuscript in 43 pages (the template's
+  default, preprint at 12 points, took 60; at 11 points it took 58). One line that could not
+  break within the tolerance ran 11 points into the margin; `\emergencystretch` of 1 em lets
+  it stretch instead. Nothing else changed in the text, the tables or the figures.
+- Keywords: six, without "linear elasticity", which the abstract's "linear elastostatics"
+  and the keywords "finite element method" and "stress analysis" cover.
+- Review copies. `main.tex` and `supplementary.tex` define `\ifanonymous`, set when the build
+  defines `\anonymousbuild`
+  (`latexmk -pdf -usepretex='\def\anonymousbuild{}' -jobname=main_anonymous main.tex`, and
+  the same for the supplementary material, after the paper). The review copy of the paper
+  names no author and has no author metadata; leaves out the CRediT statement and the
+  declaration of competing interest, which the separate title page and the journal's
+  declarations tool give; gives the Data availability statement without the addresses of
+  the repository, of its Zenodo archive and of its Software Heritage snapshot, and without
+  the DOIs of the archives of the networks and of the data sets, saying that the title page
+  gives them; and cites the authors' note and their three archives as "Anonymous, Details
+  omitted for double-anonymized reviewing (2026)", in the form of Elsevier's guidance, from
+  `references_anonymous.bib`. That file is written by `scripts/make_anonymous_bib.py` from
+  `references.bib`: the four entries are anonymous under the same keys, so that the text,
+  the citations and their numbering are the paper's, and every other entry is unchanged.
+  The review copy of the supplementary material names no author and cites in the same way.
+  The review copy of the paper has 42 pages, that of the supplementary material 37.
+- The paper and its supplementary material as the repository builds them, and the arXiv
+  version, keep the authors, the statements and the addresses.
+- Tests: the front-matter test reads the new layout and at most six keywords; the test of
+  the declaration of competing interest reads it up to the switch that the review copy
+  leaves it out by; the compile test also requires no box running into the margin of the
+  paper, at most 50 pages for the paper and its review copy, and builds both review copies,
+  requiring of each no undefined reference, no box in the margin, no author metadata, and
+  none of the authors' names, affiliations, e-mail address, repository name or archive
+  addresses in its text; a new test requires that `references_anonymous.bib` is the
+  script's output and that its four entries name no author and no address. The runbook's
+  suite lines read the new count. Suite 841 (838 + 3).
