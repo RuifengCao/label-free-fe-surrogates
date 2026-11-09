@@ -2,6 +2,8 @@
 
 Exploratory, after the verdict (`docs/G-C2.1_verdict.md`) and not pre-registered. Nothing here changes the verdict. 9 November 2026.
 
+Added later on 9 November 2026: the states just before the two replays' collapses, branched with one change each, are in `BRANCHES.md`. For these two events they show that the bursts cause the collapses, the second point under "Not shown" in section 5.
+
 ## Findings
 
 1. **Seed 0 trained for seven epochs, then collapsed and stayed collapsed.** With the effect of each epoch's drawn displacements removed (section 3), seed 0's mean loss fell like those of seeds 1 and 2 through epoch 7, from 10.608 to 10.548, rose to 10.627 in epoch 8, and stayed at 10.625 for the rest of the run (standard deviation 0.005 over epochs 8 to 200). Seed 1 rose in epoch 14, stayed at the same level over epochs 15 to 18 (10.625), and came down again from epoch 19. Seed 2 never rose more than 0.034 above the median of the five epochs before. The level at which both stayed is the loss of the starting field, the field the networks give before their first step: on the same draws, the host's runs and the starting field differ by 0.0012 or less in the collapsed epochs checked (section 3).

@@ -1,0 +1,87 @@
+replay: 0.67% of its steps from step 257 exceed five times the median of the previous 256, 0.28% ten times (2816 steps)
+=== control: branch at step 1856, 256 steps
+  identical to the replay at every step: True
+  lowest latent relative variance 0.0059 at step 1936; collapsed: True
+  loss minus control: mean +0.0000, last 128 steps +0.0000
+  encoder bursts (> 10 times the median of the previous 256 steps): 1900 (16 times), 1902 (22 times), 1904 (92 times), 1906 (26 times), 1908 (11 times)
+    step 1856: latents 0.8417, input layer 0.308, before the final norm 0.8462, |gain| median 0.9932, e/(D+delta) 0.0917
+    step 1872: latents 0.8724, input layer 0.310, before the final norm 0.8720, |gain| median 0.9927, e/(D+delta) 0.0893
+    step 1888: latents 0.8444, input layer 0.309, before the final norm 0.8453, |gain| median 0.9927, e/(D+delta) 0.1000
+    step 1904: latents 0.7726, input layer 0.309, before the final norm 0.7711, |gain| median 0.9928, e/(D+delta) 0.0867
+    step 1920: latents 0.0085, input layer 0.307, before the final norm 0.0092, |gain| median 0.9916, e/(D+delta) 0.0070
+    step 1936: latents 0.0059, input layer 0.306, before the final norm 0.0064, |gain| median 0.9903, e/(D+delta) -0.0009
+    step 1952: latents 0.0136, input layer 0.307, before the final norm 0.0145, |gain| median 0.9901, e/(D+delta) 0.0053
+    step 1968: latents 0.0285, input layer 0.308, before the final norm 0.0300, |gain| median 0.9895, e/(D+delta) 0.0097
+    step 1984: latents 0.0435, input layer 0.310, before the final norm 0.0458, |gain| median 0.9890, e/(D+delta) 0.0109
+    step 2000: latents 0.0959, input layer 0.313, before the final norm 0.0998, |gain| median 0.9886, e/(D+delta) 0.0239
+    step 2016: latents 0.1697, input layer 0.313, before the final norm 0.1728, |gain| median 0.9881, e/(D+delta) 0.0302
+    step 2032: latents 0.2097, input layer 0.313, before the final norm 0.2116, |gain| median 0.9880, e/(D+delta) 0.0338
+    step 2048: latents 0.1740, input layer 0.313, before the final norm 0.1751, |gain| median 0.9878, e/(D+delta) 0.0329
+    step 2064: latents 0.3138, input layer 0.315, before the final norm 0.3175, |gain| median 0.9878, e/(D+delta) 0.0350
+    step 2080: latents 0.3557, input layer 0.315, before the final norm 0.3630, |gain| median 0.9877, e/(D+delta) 0.0359
+    step 2096: latents 0.3139, input layer 0.315, before the final norm 0.3190, |gain| median 0.9874, e/(D+delta) 0.0405
+    step 2112: latents 0.3223, input layer 0.315, before the final norm 0.3265, |gain| median 0.9873, e/(D+delta) 0.0382
+=== enc_cap: branch at step 1856, 256 steps
+  lowest latent relative variance 0.8227 at step 1904; collapsed: False
+  loss minus control: mean -0.0602, last 128 steps -0.0456
+  encoder bursts (> 10 times the median of the previous 256 steps): 1900 (16 times), 1905 (47 times)
+  capped at 2 steps: 1900 (0.321), 1905 (0.106)
+    step 1856: latents 0.8417, input layer 0.308, before the final norm 0.8462, |gain| median 0.9932, e/(D+delta) 0.0917
+    step 1872: latents 0.8724, input layer 0.310, before the final norm 0.8720, |gain| median 0.9927, e/(D+delta) 0.0893
+    step 1888: latents 0.8444, input layer 0.309, before the final norm 0.8453, |gain| median 0.9927, e/(D+delta) 0.1000
+    step 1904: latents 0.8227, input layer 0.309, before the final norm 0.8281, |gain| median 0.9925, e/(D+delta) 0.0996
+    step 1920: latents 0.8757, input layer 0.310, before the final norm 0.8842, |gain| median 0.9919, e/(D+delta) 0.0781
+    step 1936: latents 0.8626, input layer 0.311, before the final norm 0.8685, |gain| median 0.9916, e/(D+delta) 0.0780
+    step 1952: latents 0.8816, input layer 0.311, before the final norm 0.8843, |gain| median 0.9911, e/(D+delta) 0.0803
+    step 1968: latents 0.8723, input layer 0.312, before the final norm 0.8760, |gain| median 0.9911, e/(D+delta) 0.0832
+    step 1984: latents 0.8597, input layer 0.312, before the final norm 0.8633, |gain| median 0.9910, e/(D+delta) 0.0910
+    step 2000: latents 0.8702, input layer 0.313, before the final norm 0.8653, |gain| median 0.9912, e/(D+delta) 0.0865
+    step 2016: latents 0.8913, input layer 0.312, before the final norm 0.8901, |gain| median 0.9905, e/(D+delta) 0.0838
+    step 2032: latents 0.8722, input layer 0.313, before the final norm 0.8745, |gain| median 0.9903, e/(D+delta) 0.0849
+    step 2048: latents 0.8752, input layer 0.314, before the final norm 0.8699, |gain| median 0.9903, e/(D+delta) 0.0912
+    step 2064: latents 0.8630, input layer 0.314, before the final norm 0.8626, |gain| median 0.9903, e/(D+delta) 0.0994
+    step 2080: latents 0.8894, input layer 0.315, before the final norm 0.8870, |gain| median 0.9901, e/(D+delta) 0.0943
+    step 2096: latents 0.8623, input layer 0.315, before the final norm 0.8607, |gain| median 0.9901, e/(D+delta) 0.1014
+    step 2112: latents 0.9045, input layer 0.315, before the final norm 0.8971, |gain| median 0.9898, e/(D+delta) 0.0947
+=== beta2: branch at step 1856, 256 steps
+  lowest latent relative variance 0.8389 at step 1888; collapsed: False
+  loss minus control: mean -0.0628, last 128 steps -0.0409
+  encoder bursts (> 10 times the median of the previous 256 steps): none
+    step 1856: latents 0.8417, input layer 0.308, before the final norm 0.8462, |gain| median 0.9932, e/(D+delta) 0.0917
+    step 1872: latents 0.8741, input layer 0.310, before the final norm 0.8739, |gain| median 0.9927, e/(D+delta) 0.0880
+    step 1888: latents 0.8389, input layer 0.310, before the final norm 0.8402, |gain| median 0.9926, e/(D+delta) 0.0997
+    step 1904: latents 0.8682, input layer 0.310, before the final norm 0.8709, |gain| median 0.9925, e/(D+delta) 0.0993
+    step 1920: latents 0.8881, input layer 0.311, before the final norm 0.8896, |gain| median 0.9923, e/(D+delta) 0.0855
+    step 1936: latents 0.8888, input layer 0.311, before the final norm 0.8868, |gain| median 0.9918, e/(D+delta) 0.0859
+    step 1952: latents 0.8791, input layer 0.312, before the final norm 0.8722, |gain| median 0.9916, e/(D+delta) 0.0855
+    step 1968: latents 0.8794, input layer 0.312, before the final norm 0.8763, |gain| median 0.9914, e/(D+delta) 0.0915
+    step 1984: latents 0.8660, input layer 0.312, before the final norm 0.8598, |gain| median 0.9914, e/(D+delta) 0.0949
+    step 2000: latents 0.8460, input layer 0.313, before the final norm 0.8468, |gain| median 0.9913, e/(D+delta) 0.0975
+    step 2016: latents 0.8780, input layer 0.310, before the final norm 0.8647, |gain| median 0.9912, e/(D+delta) 0.0968
+    step 2032: latents 0.9007, input layer 0.310, before the final norm 0.9015, |gain| median 0.9911, e/(D+delta) 0.0861
+    step 2048: latents 0.9110, input layer 0.311, before the final norm 0.9012, |gain| median 0.9906, e/(D+delta) 0.0844
+    step 2064: latents 0.8992, input layer 0.311, before the final norm 0.8885, |gain| median 0.9903, e/(D+delta) 0.0854
+    step 2080: latents 0.8972, input layer 0.312, before the final norm 0.8791, |gain| median 0.9898, e/(D+delta) 0.0792
+    step 2096: latents 0.8930, input layer 0.312, before the final norm 0.8872, |gain| median 0.9895, e/(D+delta) 0.0811
+    step 2112: latents 0.8932, input layer 0.312, before the final norm 0.8835, |gain| median 0.9896, e/(D+delta) 0.0884
+=== lr_half: branch at step 1856, 256 steps
+  lowest latent relative variance 0.8119 at step 2064; collapsed: False
+  loss minus control: mean -0.0926, last 128 steps -0.0748
+  encoder bursts (> 10 times the median of the previous 256 steps): none
+    step 1856: latents 0.8417, input layer 0.308, before the final norm 0.8462, |gain| median 0.9932, e/(D+delta) 0.0917; after the first block: mean square 217, node variance 101, relative variance 0.467; its MLP output: mean square 116, node variance 64
+    step 1872: latents 0.8660, input layer 0.309, before the final norm 0.8683, |gain| median 0.9930, e/(D+delta) 0.0931; after the first block: mean square 210, node variance 107, relative variance 0.512; its MLP output: mean square 112, node variance 69
+    step 1888: latents 0.8412, input layer 0.309, before the final norm 0.8454, |gain| median 0.9930, e/(D+delta) 0.1042; after the first block: mean square 225, node variance 108, relative variance 0.485; its MLP output: mean square 120, node variance 70
+    step 1904: latents 0.8199, input layer 0.309, before the final norm 0.8233, |gain| median 0.9933, e/(D+delta) 0.1136; after the first block: mean square 223, node variance 105, relative variance 0.482; its MLP output: mean square 118, node variance 68
+    step 1920: latents 0.8277, input layer 0.309, before the final norm 0.8303, |gain| median 0.9933, e/(D+delta) 0.1187; after the first block: mean square 222, node variance 108, relative variance 0.493; its MLP output: mean square 116, node variance 71
+    step 1936: latents 0.8568, input layer 0.310, before the final norm 0.8563, |gain| median 0.9933, e/(D+delta) 0.1062; after the first block: mean square 213, node variance 115, relative variance 0.542; its MLP output: mean square 114, node variance 76
+    step 1952: latents 0.8518, input layer 0.309, before the final norm 0.8501, |gain| median 0.9930, e/(D+delta) 0.1082; after the first block: mean square 217, node variance 112, relative variance 0.522; its MLP output: mean square 116, node variance 74
+    step 1968: latents 0.8222, input layer 0.309, before the final norm 0.8235, |gain| median 0.9931, e/(D+delta) 0.1174; after the first block: mean square 222, node variance 111, relative variance 0.510; its MLP output: mean square 118, node variance 74
+    step 1984: latents 0.8444, input layer 0.310, before the final norm 0.8439, |gain| median 0.9931, e/(D+delta) 0.1108; after the first block: mean square 213, node variance 113, relative variance 0.538; its MLP output: mean square 115, node variance 75
+    step 2000: latents 0.8284, input layer 0.311, before the final norm 0.8275, |gain| median 0.9931, e/(D+delta) 0.1103; after the first block: mean square 207, node variance 114, relative variance 0.559; its MLP output: mean square 114, node variance 76
+    step 2016: latents 0.8525, input layer 0.311, before the final norm 0.8533, |gain| median 0.9928, e/(D+delta) 0.1160; after the first block: mean square 228, node variance 120, relative variance 0.531; its MLP output: mean square 125, node variance 81
+    step 2032: latents 0.8547, input layer 0.311, before the final norm 0.8493, |gain| median 0.9928, e/(D+delta) 0.1081; after the first block: mean square 221, node variance 126, relative variance 0.570; its MLP output: mean square 124, node variance 85
+    step 2048: latents 0.8417, input layer 0.311, before the final norm 0.8391, |gain| median 0.9928, e/(D+delta) 0.1156; after the first block: mean square 225, node variance 125, relative variance 0.559; its MLP output: mean square 126, node variance 85
+    step 2064: latents 0.8119, input layer 0.312, before the final norm 0.8111, |gain| median 0.9929, e/(D+delta) 0.1222; after the first block: mean square 228, node variance 119, relative variance 0.528; its MLP output: mean square 126, node variance 80
+    step 2080: latents 0.8246, input layer 0.312, before the final norm 0.8215, |gain| median 0.9929, e/(D+delta) 0.1184; after the first block: mean square 224, node variance 121, relative variance 0.549; its MLP output: mean square 125, node variance 82
+    step 2096: latents 0.8471, input layer 0.313, before the final norm 0.8463, |gain| median 0.9931, e/(D+delta) 0.1216; after the first block: mean square 227, node variance 127, relative variance 0.563; its MLP output: mean square 130, node variance 87
+    step 2112: latents 0.8624, input layer 0.313, before the final norm 0.8601, |gain| median 0.9929, e/(D+delta) 0.1168; after the first block: mean square 228, node variance 130, relative variance 0.576; its MLP output: mean square 131, node variance 90
