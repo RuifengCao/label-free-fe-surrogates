@@ -1,0 +1,42 @@
+=== seed 0: epoch 200, step 102400
+  latents, relative variance: first member 0.0002; nine members 0.0000 to 0.0002
+  first member: input layer 0.442; after each block 0.0093, 0.0032, 0.0017, 0.0009, 0.0006, 0.0004, 0.0003, 0.0002
+  first member: input layer mean square 25 (node variance 11); after block 1 913734 (8519); block 1 attention 144240 (3151.1), MLP 435068 (1904.2)
+  medians over the nine members: after block 1 mean square 919709, node variance 1385.1; MLP 443781 (436.4); e/(D+delta) 0.0008
+  block 1 MLP hidden units: below -3 everywhere 0.0%, nearly the same at every node 36.9%; norms {"w1": 22.81, "b1": 1.26, "w2": 16.83, "b2": 0.38}
+  final LayerNorm median |gain| 0.9244
+  gradient norms (median over 16 draws): encoder 1.32e-11, input layer 1.65e-12, block 1 2.24e-12, block 2 1.31e-12, block 3 1.24e-12, block 4 1.37e-12, block 5 1.39e-12, block 6 1.43e-12, block 7 1.33e-12, block 8 1.34e-12, final norm 1.22e-11, decoder 0.338, head 0.992, decoder layer 1 weight 7.9e-12, decoder layer 1 bias 3.33e-13, decoder layer 2 weight 3.4e-12, decoder layer 2 bias 1.47e-06, decoder layer 3 weight 2.65e-07, decoder layer 3 bias 0.338, head layer 1 weight 1.54e-10, head layer 1 bias 9.24e-12, head layer 2 weight 0, head layer 2 bias 6.89e-05, head layer 3 weight 5.03e-06, head layer 3 bias 0.992
+  AdamW sqrt(v) medians: input layer 5.25e-14, block 1 2.52e-16, block 2 1.12e-16, block 3 7.7e-17, block 4 7.07e-17, block 5 4.69e-17, block 6 3.65e-17, block 7 3.01e-17, block 8 2.2e-17, final norm 4.37e-13, decoder 6.7e-21, head 8.38e-16
+  loss minus the starting field's on the same draws: mean -0.0010
+  decoder layer 1 (512 units): largest GELU input over the nine members -5.26; units below -3 at every node and displacement 100.0%, below -5 100.0%
+  decoder layer 2 (256 units): largest GELU input over the nine members 3.22e-07; units below -3 at every node and displacement 0.0%, below -5 0.0%
+  head layer 1 (256 units): largest GELU input over the nine members -5.6; units below -3 at every node and displacement 100.0%, below -5 100.0%
+  head layer 2 (256 units): largest GELU input over the nine members 3.78e-06; units below -3 at every node and displacement 0.0%, below -5 0.0%
+=== seed 1: epoch 200, step 102400
+  latents, relative variance: first member 0.0708; nine members 0.0312 to 0.0708
+  first member: input layer 0.462; after each block 0.1891, 0.1524, 0.0993, 0.0589, 0.0391, 0.0338, 0.0342, 0.0374
+  first member: input layer mean square 56 (node variance 26); after block 1 3390214 (639230); block 1 attention 1466926 (510710.0), MLP 994500 (170690.2)
+  medians over the nine members: after block 1 mean square 3430084, node variance 560906.2; MLP 1134275 (201002.0); e/(D+delta) 0.2622
+  block 1 MLP hidden units: below -3 everywhere 15.1%, nearly the same at every node 0.2%; norms {"w1": 67.7, "b1": 4.35, "w2": 66.21, "b2": 2.07}
+  final LayerNorm median |gain| 0.5020
+  gradient norms (median over 16 draws): encoder 0.195, input layer 0.117, block 1 0.0433, block 2 0.014, block 3 0.0123, block 4 0.0103, block 5 0.0117, block 6 0.0109, block 7 0.0138, block 8 0.0186, final norm 0.134, decoder 2.11, head 0.882, decoder layer 1 weight 0.513, decoder layer 1 bias 0.0535, decoder layer 2 weight 0.103, decoder layer 2 bias 0.783, decoder layer 3 weight 0.136, decoder layer 3 bias 1.75, head layer 1 weight 0.246, head layer 1 bias 0.0377, head layer 2 weight 0.094, head layer 2 bias 0.303, head layer 3 weight 0.121, head layer 3 bias 0.744
+  AdamW sqrt(v) medians: input layer 0.000531, block 1 6e-06, block 2 6.41e-07, block 3 8.81e-07, block 4 3.31e-07, block 5 4.19e-07, block 6 3.88e-07, block 7 1.24e-07, block 8 1.9e-08, final norm 0.00116, decoder 2.41e-09, head 1.25e-09
+  loss minus the starting field's on the same draws: mean -0.2598
+  decoder layer 1 (512 units): largest GELU input over the nine members -0.634; units below -3 at every node and displacement 93.6%, below -5 32.8%
+  decoder layer 2 (256 units): largest GELU input over the nine members 0.178; units below -3 at every node and displacement 0.0%, below -5 0.0%
+  head layer 1 (256 units): largest GELU input over the nine members -0.587; units below -3 at every node and displacement 91.4%, below -5 34.4%
+  head layer 2 (256 units): largest GELU input over the nine members 0.293; units below -3 at every node and displacement 0.0%, below -5 0.0%
+=== seed 2: epoch 200, step 102400
+  latents, relative variance: first member 0.7325; nine members 0.6408 to 0.7325
+  first member: input layer 0.461; after each block 0.6566, 0.6653, 0.6681, 0.6839, 0.6878, 0.6832, 0.6895, 0.6425
+  first member: input layer mean square 65 (node variance 30); after block 1 4732130 (3147113); block 1 attention 1681134 (1202435.9), MLP 2321917 (1345362.8)
+  medians over the nine members: after block 1 mean square 5190670, node variance 3396370.0; MLP 2765017 (1590746.0); e/(D+delta) 0.2652
+  block 1 MLP hidden units: below -3 everywhere 0.4%, nearly the same at every node 0.0%; norms {"w1": 65.05, "b1": 7.71, "w2": 65.28, "b2": 1.16}
+  final LayerNorm median |gain| 0.3217
+  gradient norms (median over 16 draws): encoder 0.1, input layer 0.0453, block 1 0.0248, block 2 0.00382, block 3 0.00535, block 4 0.00475, block 5 0.00617, block 6 0.00737, block 7 0.00993, block 8 0.0142, final norm 0.0684, decoder 1.75, head 0.726, decoder layer 1 weight 0.318, decoder layer 1 bias 0.0281, decoder layer 2 weight 0.691, decoder layer 2 bias 0.109, decoder layer 3 weight 1.22, decoder layer 3 bias 0.888, head layer 1 weight 0.192, head layer 1 bias 0.039, head layer 2 weight 0.128, head layer 2 bias 0.129, head layer 3 weight 0.224, head layer 3 bias 0.55
+  AdamW sqrt(v) medians: input layer 0.000267, block 1 3.99e-06, block 2 1.61e-07, block 3 8.4e-08, block 4 1.8e-07, block 5 2.8e-07, block 6 5.49e-07, block 7 5.9e-07, block 8 8.75e-07, final norm 0.000586, decoder 1.06e-09, head 4.91e-08
+  loss minus the starting field's on the same draws: mean -0.2694
+  decoder layer 1 (512 units): largest GELU input over the nine members 9.62; units below -3 at every node and displacement 84.4%, below -5 0.0%
+  decoder layer 2 (256 units): largest GELU input over the nine members 3.04; units below -3 at every node and displacement 0.0%, below -5 0.0%
+  head layer 1 (256 units): largest GELU input over the nine members 3.63; units below -3 at every node and displacement 69.9%, below -5 0.0%
+  head layer 2 (256 units): largest GELU input over the nine members 1.5; units below -3 at every node and displacement 0.0%, below -5 0.0%

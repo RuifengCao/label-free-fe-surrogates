@@ -1,0 +1,20 @@
+seed 1 before its collapse (step 1856): latents 0.8499
+   decoder layer 1: largest GELU input 3.58; below -3 everywhere 0.0%, below -5 0.0%
+   decoder layer 2: largest GELU input 1.61; below -3 everywhere 0.0%, below -5 0.0%
+   head layer 1: largest GELU input 1.46; below -3 everywhere 0.0%, below -5 0.0%
+   head layer 2: largest GELU input 0.392; below -3 everywhere 0.0%, below -5 0.0%
+seed 1 after (replay end) (step 3072): latents 0.5661
+   decoder layer 1: largest GELU input 4.93; below -3 everywhere 0.0%, below -5 0.0%
+   decoder layer 2: largest GELU input 1.46; below -3 everywhere 0.0%, below -5 0.0%
+   head layer 1: largest GELU input 1.38; below -3 everywhere 0.0%, below -5 0.0%
+   head layer 2: largest GELU input 0.262; below -3 everywhere 0.0%, below -5 0.0%
+seed 0 before its collapse (step 2752): latents 0.8874
+   decoder layer 1: largest GELU input 4.37; below -3 everywhere 0.0%, below -5 0.0%
+   decoder layer 2: largest GELU input 2.39; below -3 everywhere 0.0%, below -5 0.0%
+   head layer 1: largest GELU input 1.63; below -3 everywhere 0.0%, below -5 0.0%
+   head layer 2: largest GELU input 0.391; below -3 everywhere 0.0%, below -5 0.0%
+seed 0 after (replay end) (step 3072): latents 0.1156
+   decoder layer 1: largest GELU input 5.23; below -3 everywhere 14.5%, below -5 0.6%
+   decoder layer 2: largest GELU input 0.349; below -3 everywhere 0.0%, below -5 0.0%
+   head layer 1: largest GELU input 0.494; below -3 everywhere 3.9%, below -5 0.0%
+   head layer 2: largest GELU input 0.112; below -3 everywhere 0.0%, below -5 0.0%

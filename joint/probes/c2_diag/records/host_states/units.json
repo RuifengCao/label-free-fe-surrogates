@@ -1,0 +1,98 @@
+{
+ "seed 1 before its collapse": {
+  "step": 1856,
+  "latent_rel_var_median": 0.8499161601066589,
+  "decoder layer 1": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 3.578488826751709
+  },
+  "decoder layer 2": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 1.6139776706695557
+  },
+  "head layer 1": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 1.4560409784317017
+  },
+  "head layer 2": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 0.3923952877521515
+  }
+ },
+ "seed 1 after (replay end)": {
+  "step": 3072,
+  "latent_rel_var_median": 0.5661242604255676,
+  "decoder layer 1": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 4.930026054382324
+  },
+  "decoder layer 2": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 1.4647760391235352
+  },
+  "head layer 1": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 1.3825104236602783
+  },
+  "head layer 2": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 0.2620581090450287
+  }
+ },
+ "seed 0 before its collapse": {
+  "step": 2752,
+  "latent_rel_var_median": 0.8873618245124817,
+  "decoder layer 1": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 4.3665876388549805
+  },
+  "decoder layer 2": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 2.386934995651245
+  },
+  "head layer 1": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 1.6348251104354858
+  },
+  "head layer 2": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 0.3907395601272583
+  }
+ },
+ "seed 0 after (replay end)": {
+  "step": 3072,
+  "latent_rel_var_median": 0.11559119820594788,
+  "decoder layer 1": {
+   "share_below_-3": 0.14453125,
+   "share_below_-5": 0.005859375,
+   "largest": 5.232983589172363
+  },
+  "decoder layer 2": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 0.348720520734787
+  },
+  "head layer 1": {
+   "share_below_-3": 0.0390625,
+   "share_below_-5": 0.0,
+   "largest": 0.4944254159927368
+  },
+  "head layer 2": {
+   "share_below_-3": 0.0,
+   "share_below_-5": 0.0,
+   "largest": 0.11211549490690231
+  }
+ }
+}

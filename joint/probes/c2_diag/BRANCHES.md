@@ -2,6 +2,8 @@
 
 Exploratory, after the verdict (`docs/G-C2.1_verdict.md`) and not pre-registered, like `RESULTS.md` in this folder. Nothing here changes the verdict. 9 November 2026.
 
+Added on 10 November 2026: the host's final states, read in `HOST_STATES.md`, show that seed 0's first block carries such a shared part after 200 epochs (99% of the mean square of its output), as the last point under "Not shown" in section 4 asked.
+
 ## Findings
 
 1. **Cutting the encoder's bursts prevents the collapse.** The states just before the two replays' collapses (seed 1 at step 1,856, seed 0 at step 2,752) were reproduced bit for bit and branched for 256 steps. Left unchanged, both collapsed exactly as in the replays. With the encoder's gradient scaled down, before clipping, to at most five times its median over the previous 256 steps, neither collapsed. The scaling acted at two steps in each seed: steps 1,900 and 1,905 of seed 1, and steps 2,776 and 2,778 of seed 0. In these two events, the updates of the burst steps cause the collapse.
