@@ -31,7 +31,10 @@ branch where they appear:
 - the pre-registration documents (`PREREG*.md`) and the deviations ledger
   (`DEVIATIONS_PHASE2.md`);
 - the provenance note (`PROVENANCE_NOTE.md`);
-- the manuscript sources in `paper/`.
+- the manuscript sources in `paper/`;
+- in `pilots/notch_adjoint/`, the pilot's plan, deviations, results, hashes and run records
+  (`PLAN.md`, `DEVIATIONS.md`, `RESULTS.md`, `HASHES_before_run.txt`, `run.log`,
+  `results.json`) and its `README.md`.
 
 These terms apply to every version of these files in this repository, including earlier
 commits, branches and tags.
@@ -114,6 +117,7 @@ instances bought vs. the unlabeled pool AR consumed), derived from the solve led
     src/fejepa/{fe,data,anchor,models,train,experiments}/ ...  # plan refs in docstrings
     configs/{smoke.json, phase1_rec8_v2.json}
     tests/                                                     # numpy suite + guarded torch suite
+    pilots/notch_adjoint/                                      # exploratory pilot (28 Oct 2026): label-free adjoint correction on notched plates
 
 ## Citation
 
