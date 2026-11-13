@@ -1,0 +1,11 @@
+{"id": "train_0127", "seconds": 120.6, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 8, 13, 7, 8, 7], "F_vs_F_sigma": 2.0492172822920988e-14, "kkt_worst_abs": 5.972889642205555e-13}
+{"id": "train_0175", "seconds": 107.3, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 6, 8, 7, 9, 7], "F_vs_F_sigma": 2.7752294659628067e-14, "kkt_worst_abs": 2.4965505266702365e-13}
+{"id": "train_0391", "seconds": 197.5, "converged": [true, true, true, true, true, true, true], "iterations": [2, 6, 9, 9, 10, 9, 13], "F_vs_F_sigma": 3.281384188212475e-14, "kkt_worst_abs": 4.1858524984822596e-13}
+{"id": "train_0494", "seconds": 220.6, "converged": [true, true, true, true, true, true, true], "iterations": [2, 6, 10, 10, 24, 8, 7], "F_vs_F_sigma": 1.2978478730020525e-13, "kkt_worst_abs": 2.6797937122178918e-11}
+{"id": "train_0184", "seconds": 125.9, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 7, 11, 6, 8, 7], "F_vs_F_sigma": 6.01478742123236e-14, "kkt_worst_abs": 4.5352949448827346e-12}
+{"id": "train_0224", "seconds": 214.5, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 7, 10, 10, 14, 12], "F_vs_F_sigma": 4.446000460104736e-14, "kkt_worst_abs": 3.890107249261374e-13}
+{"id": "train_0203", "seconds": 192.6, "converged": [true, true, true, true, true, true, true], "iterations": [2, 6, 9, 11, 10, 8, 7], "F_vs_F_sigma": 1.0904944727176284e-13, "kkt_worst_abs": 2.8277871729843903e-12}
+{"id": "train_0033", "seconds": 93.5, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 6, 8, 7, 8, 7], "F_vs_F_sigma": 7.879616267400972e-14, "kkt_worst_abs": 6.925063051251845e-13}
+{"id": "train_0081", "seconds": 173.1, "converged": [true, true, true, true, true, true, true], "iterations": [2, 6, 16, 13, 9, 8, 7], "F_vs_F_sigma": 2.735687011860027e-13, "kkt_worst_abs": 3.7671875058956026e-12}
+{"id": "train_0100", "seconds": 129.7, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 6, 11, 7, 9, 7], "F_vs_F_sigma": 2.5764242052767978e-14, "kkt_worst_abs": 1.962724689113937e-13}
+{"id": "train_0436", "seconds": 93.3, "converged": [true, true, true, true, true, true, true], "iterations": [2, 4, 8, 13, 8, 11, 6], "F_vs_F_sigma": 2.7188427485656112e-14, "kkt_worst_abs": 6.467626686980874e-11}

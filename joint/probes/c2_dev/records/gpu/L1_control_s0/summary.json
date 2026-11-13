@@ -1,0 +1,70 @@
+{
+ "name": "L1_control_s0",
+ "status": "stopped 512 steps after the collapse at step 1920",
+ "time": "2026-11-11T00:24:27+00:00",
+ "seed": 0,
+ "recipe": "none",
+ "betas": [
+  0.9,
+  0.999
+ ],
+ "cap": null,
+ "epochs_asked": 15,
+ "epochs_done": 4,
+ "steps": 2432,
+ "members": 512,
+ "schedule_total_steps": 102400,
+ "device": "cuda",
+ "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+ "torch": "2.12.1+cu132",
+ "epoch_loss": [
+  10.541886090300977,
+  10.596108186990023,
+  10.530424903146923,
+  10.638079986907542
+ ],
+ "epoch_seconds": [
+  319.53,
+  353.28,
+  316.41,
+  207.51
+ ],
+ "bursts": [
+  {
+   "step": 392,
+   "ratio": 11.284820709478243
+  },
+  {
+   "step": 812,
+   "ratio": 12.140172061160346
+  },
+  {
+   "step": 1871,
+   "ratio": 149.98470638943255
+  },
+  {
+   "step": 1872,
+   "ratio": 16.194800139085835
+  },
+  {
+   "step": 2091,
+   "ratio": 29.206477110622654
+  },
+  {
+   "step": 2408,
+   "ratio": 40.45912964342333
+  }
+ ],
+ "cap_events": [],
+ "collapses": [
+  {
+   "step": 1920,
+   "rel_var": 0.07675165931383769,
+   "before": 0.8379682103792826
+  }
+ ],
+ "resumes": [],
+ "config_sha256": "795515630ff6f37a819c7503931c7d7cf6e70a9f272e25ac96730394dd361fb4",
+ "test_hooks": {},
+ "peak_memory_GiB": 3.516921043395996
+}

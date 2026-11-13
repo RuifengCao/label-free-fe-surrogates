@@ -1,0 +1,41 @@
+
+L1_control_s0: status 'stopped 512 steps after the collapse at step 1920', epochs 4, steps 2432, bursts 6 (largest 150 times), cap events 0, collapses 1
+   bursts (step, epoch, ratio): (392, 1, 11), (812, 2, 12), (1871, 4, 150), (1872, 4, 16), (2091, 5, 29), (2408, 5, 40)
+   seconds per step, median over epochs: 0.621
+   loss minus host's same seed, by epoch: -0.002 -0.000 +0.001 +0.037
+
+L1_control_s1: status 'finished', epochs 15, steps 7680, bursts 14 (largest 187 times), cap events 0, collapses 0
+   bursts (step, epoch, ratio): (649, 2, 15), (1156, 3, 14), (1447, 3, 90), (1448, 3, 21), (1449, 3, 35), (1458, 3, 11), (1468, 3, 22), (2371, 5, 12), (2374, 5, 187), (2377, 5, 25), (2380, 5, 51), (2381, 5, 98), (2537, 5, 12), (3012, 6, 30)
+   seconds per step, median over epochs: 0.378
+   loss minus host's same seed, by epoch: -0.001 -0.003 +0.019 -0.037 +0.012 +0.014 +0.004 -0.009 -0.000 +0.002 +0.014 -0.001 -0.002 -0.198 -0.086
+
+L2_recipe_s0: status 'finished', epochs 30, steps 15360, bursts 13 (largest 163 times), cap events 45, collapses 0
+   bursts (step, epoch, ratio): (392, 1, 15), (812, 2, 18), (3633, 8, 25), (3657, 8, 38), (3659, 8, 116), (4910, 10, 10), (5274, 11, 13), (5284, 11, 163), (6494, 13, 10), (6526, 13, 54), (6769, 14, 12), (6772, 14, 11), (15090, 30, 26)
+   cap events in epochs 1-5, 6-10, ..., 26-30: [10, 10, 9, 4, 1, 11]
+   seconds per step, median over epochs: 0.383
+   loss minus host's same seed, by epoch: +0.000 -0.000 +0.002 -0.003 -0.005 -0.002 +0.006 -0.071 -0.070 -0.076 -0.077 -0.074 -0.081 -0.089 -0.098 -0.100 -0.104 -0.097 -0.101 -0.100 -0.117 -0.118 -0.115 -0.117 -0.114 -0.132 -0.127 -0.127 -0.135 -0.136
+
+L2_recipe_s1: status 'finished', epochs 30, steps 15360, bursts 11 (largest 220 times), cap events 40, collapses 0
+   bursts (step, epoch, ratio): (498, 1, 14), (649, 2, 17), (813, 2, 12), (1508, 3, 29), (4305, 9, 84), (4309, 9, 220), (4314, 9, 40), (6490, 13, 50), (6501, 13, 71), (6502, 13, 49), (6505, 13, 86)
+   cap events in epochs 1-5, 6-10, ..., 26-30: [12, 6, 8, 3, 4, 7]
+   seconds per step, median over epochs: 0.379
+   loss minus host's same seed, by epoch: +0.001 -0.004 +0.006 -0.049 -0.014 -0.006 -0.007 -0.008 -0.003 -0.004 +0.002 -0.004 +0.005 -0.197 -0.093 -0.097 -0.106 -0.109 -0.093 -0.072 -0.069 -0.071 -0.073 -0.065 -0.072 -0.079 -0.090 -0.081 -0.075 -0.083
+
+L2_recipe_s3: status 'finished', epochs 30, steps 15360, bursts 11 (largest 32 times), cap events 43, collapses 0
+   bursts (step, epoch, ratio): (450, 1, 10), (797, 2, 11), (920, 2, 14), (5721, 12, 28), (5735, 12, 16), (5738, 12, 16), (7673, 15, 13), (7878, 16, 13), (7881, 16, 32), (7882, 16, 19), (7884, 16, 15)
+   cap events in epochs 1-5, 6-10, ..., 26-30: [6, 9, 9, 11, 5, 3]
+   seconds per step, median over epochs: 0.380
+
+L2_recipe_s4: status 'finished', epochs 30, steps 15360, bursts 20 (largest 148 times), cap events 49, collapses 0
+   bursts (step, epoch, ratio): (596, 2, 12), (1034, 3, 13), (2324, 5, 27), (2352, 5, 148), (3334, 7, 42), (3339, 7, 127), (3346, 7, 21), (4685, 10, 13), (4929, 10, 12), (5177, 11, 10), (7052, 14, 17), (7156, 14, 18), (8085, 16, 70), (13303, 26, 27), (13305, 26, 14), (13306, 26, 61), (13308, 26, 54), (13314, 27, 13), (13323, 27, 31), (14952, 30, 10)
+   cap events in epochs 1-5, 6-10, ..., 26-30: [19, 9, 4, 2, 2, 13]
+   seconds per step, median over epochs: 0.380
+
+mean loss over epochs 1-10 / 11-20 / 21-30:
+   host seed 0      10.5988 / 10.6273 / 10.6181
+   host seed 1      10.5638 / 10.6164 / 10.5795
+   host seed 2      10.5718 / 10.5378 / 10.4954
+   L2_recipe_s0     10.5768 / 10.5351 / 10.4944
+   L2_recipe_s1     10.5550 / 10.5399 / 10.5038
+   L2_recipe_s3     10.5593 / 10.5140 / 10.5008
+   L2_recipe_s4     10.5415 / 10.5356 / 10.5192

@@ -1,0 +1,140 @@
+{
+ "config_sha256": "819a8445197ab65a52c13beb76cecb8e9560056643bbd2b16cf8a26f3c997e50",
+ "device": "cuda",
+ "workers": 4,
+ "machine": {
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.16",
+  "numpy": "2.4.6",
+  "scipy": "1.18.1",
+  "torch": "2.12.1+cu132",
+  "processors": 32,
+  "start_methods": [
+   "spawn"
+  ],
+  "label_solver": "scipy",
+  "thread_variables_at_start": {
+   "OMP_NUM_THREADS": null,
+   "MKL_NUM_THREADS": null,
+   "OPENBLAS_NUM_THREADS": null
+  },
+  "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+  "gpu_memory_GiB": 8.0,
+  "gpu_memory_in_use_MiB": 1120,
+  "thread_variables_of_the_workers": {
+   "OMP_NUM_THREADS": "1",
+   "MKL_NUM_THREADS": "1",
+   "OPENBLAS_NUM_THREADS": "1"
+  }
+ },
+ "seconds": {
+  "generate": 0.6,
+  "label": 13.4,
+  "train_full": 23.6,
+  "train_resumed": 19.1,
+  "evaluate_workers": 30.2,
+  "evaluate_single": 68.7
+ },
+ "check_labels": {
+  "labels": 5,
+  "needed": 5,
+  "missing": [],
+  "extra": [],
+  "levels_ok": true,
+  "converged": true,
+  "worst": {
+   "min_gap": 0.0,
+   "min_lambda": -2.6476450923921884e-12,
+   "max_complementarity": 2.101562887658858e-12,
+   "max_lambda_inactive": 2.6476450923921884e-12,
+   "max_residual_unconstrained": 1.60833148652393e-11
+  },
+  "within_limits": {
+   "min_gap": true,
+   "min_lambda": true,
+   "max_complementarity": true,
+   "max_lambda_inactive": true,
+   "max_residual_unconstrained": true
+  },
+  "max_F_vs_F_sigma": 7.557625702353434e-14,
+  "ok": true
+ },
+ "resume": {
+  "max_weight_difference": 0.0,
+  "loss_full": [
+   10.596275568008423,
+   10.178741455078125,
+   10.378497838973999,
+   10.885085105895996
+  ],
+  "loss_resumed": [
+   10.596275568008423,
+   10.178741455078125,
+   10.378497838973999,
+   10.885085105895996
+  ],
+  "cap_events_full": 10,
+  "cap_events_resumed": 10,
+  "same_cap_steps": true,
+  "max_prediction_difference": {
+   "preds.npz": 0.0,
+   "preds_condensed.npz": 0.0,
+   "preds_base.npz": 0.0
+  }
+ },
+ "members_predicted": [
+  "eval_0000",
+  "eval_0001",
+  "former_0000",
+  "former_0001",
+  "tested_BJ_T1_preloaded"
+ ],
+ "condense": {
+  "a_min": 0.5,
+  "a_max": 1.134763240814209,
+  "energy_never_higher": true,
+  "at_bound": 7,
+  "not_converged": 0
+ },
+ "evaluate": {
+  "same_with_workers": true,
+  "verdict": "FAIL",
+  "C1_value": 115.58069731539035,
+  "C2_value": 263.2454666691783,
+  "raw": {
+   "C1_value": 59.218612878017495,
+   "C2_value": 87.76531653709736
+  },
+  "sets": {
+   "eval": 4,
+   "former": 4,
+   "tested": 2
+  },
+  "amplitudes": {
+   "eval": {
+    "n": 4,
+    "min": 0.5,
+    "max": 0.6484165191650391,
+    "median": 0.5,
+    "at_bound": 3,
+    "not_converged": 0
+   },
+   "former": {
+    "n": 4,
+    "min": 0.5,
+    "max": 1.134763240814209,
+    "median": 0.5,
+    "at_bound": 3,
+    "not_converged": 0
+   },
+   "tested": {
+    "n": 2,
+    "min": 0.5,
+    "max": 0.9599999785423279,
+    "median": 0.7299999892711639,
+    "at_bound": 1,
+    "not_converged": 0
+   }
+  }
+ }
+}

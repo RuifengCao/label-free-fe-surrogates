@@ -1,0 +1,57 @@
+L2_recipe_s0: status finished, seed 0, recipe cap+beta2, epochs 200, steps 102400, bursts 177, cap events 2087, collapses 0, resumes 1
+
+mean training loss by block of epochs
+  block        1-10    11-20    21-30    31-60    61-100  101-150  151-180  181-190  191-200
+  host seed 010.5988  10.6273  10.6181  10.6138  10.6314  10.6185  10.6365  10.6249  10.6456
+  host seed 110.5638  10.6164  10.5795  10.5313  10.4437  10.4042  10.3864  10.3537  10.3591
+  host seed 210.5718  10.5378  10.4954  10.4801  10.4286  10.3958  10.3746  10.3603  10.3762
+  this run   10.5768  10.5351  10.4944  10.4538  10.4302  10.3759  10.3679  10.3533  10.3714
+  this run minus the host's same seed, by block: -0.0220  -0.0921  -0.1237  -0.1600  -0.2013  -0.2426  -0.2686  -0.2716  -0.2741
+  epochs with a lower loss than the host's same seed: 197 of 200; last 20 epochs: 20 of 20
+  host seed 0: epochs with loss above 10.8 after epoch 10: 0; max after epoch 10: 10.759; last epoch 10.7426
+  host seed 1: epochs with loss above 10.8 after epoch 10: 0; max after epoch 10: 10.725; last epoch 10.3987
+  host seed 2: epochs with loss above 10.8 after epoch 10: 0; max after epoch 10: 10.594; last epoch 10.4209
+  this run   : epochs with loss above 10.8 after epoch 10: 0; max after epoch 10: 10.587; last epoch 10.4610
+
+bursts over ten times the running median, and cap events, by block of epochs
+  epochs   1-30 : bursts  13 (largest    163 times), cap events   45
+  epochs  31-60 : bursts   1 (largest     15 times), cap events  105
+  epochs  61-100: bursts   3 (largest     11 times), cap events  290
+  epochs 101-150: bursts  48 (largest     19 times), cap events  694
+  epochs 151-200: bursts 112 (largest     23 times), cap events  953
+  bursts over 100 times: 2; over 1000 times: 0; largest 163 times at step 5284 (epoch 11)
+
+probes 1601: latent relative variance from step 512 on: min 0.2770 at step 512, median 0.9391, last 0.9310; largest fall between two probes 0.3056 -> 0.2770 at step 512 (factor 1.10)
+seconds per step, median over epochs: 0.381
+
+eval/L3_recipe_s0_e200.json: raw  1.42 /  7.27 /  35 of 448 | condensed  0.84 /  3.00 /   2 of 448
+    mode 1   raw  2.02 / 25.08 /  21 of 119 | condensed  1.61 /  4.43 /   1 of 119
+    mode 2   raw  1.09 /  4.66 /   2 of 105 | condensed  0.61 /  2.16 /   1 of 105
+    web      raw  1.33 /  5.13 /  12 of 224 | condensed  0.68 /  2.26 /   0 of 224
+    D = 0.5  raw  0.98 /  2.46 /   0 of 64 | condensed  0.48 /  1.21 /   0 of 64 | gap median raw 0.066% condensed 0.064%
+    D = 1    raw  0.83 /  2.34 /   0 of 64 | condensed  0.41 /  0.99 /   0 of 64 | gap median raw 0.060% condensed 0.058%
+    D = 2    raw  1.41 /  4.88 /   0 of 64 | condensed  0.51 /  3.11 /   0 of 64 | gap median raw 0.069% condensed 0.069%
+    D = 3    raw  1.31 /  4.15 /   0 of 64 | condensed  1.17 /  3.10 /   0 of 64 | gap median raw 0.203% condensed 0.186%
+    D = 4    raw  1.41 /  5.76 /   3 of 64 | condensed  1.31 /  2.80 /   0 of 64 | gap median raw 0.384% condensed 0.380%
+    D = 6    raw  1.82 / 20.16 /  12 of 64 | condensed  1.25 /  3.53 /   0 of 64 | gap median raw 0.573% condensed 0.572%
+    D = 8    raw  5.76 / 44.34 /  20 of 64 | condensed  1.52 /  5.01 /   2 of 64 | gap median raw 1.038% condensed 0.913%
+    condensed pairs over 10%: [('eval_0017', 8.0, 12.2), ('eval_0038', 8.0, 10.8)]
+    raw: members with a pair over 10%: 20; signs: over-stiff 35, over-soft 0
+    amplitude a: median 0.999, range 0.914 to 1.206; solve {'not_converged': 11, 'at_bound': 0, 'rel_slope_max': 0.00023465525009669363, 'a_min': 0.9143421053886414, 'a_max': 1.2064629793167114}
+    worst raw pairs: [(63.2, 'eval_0026', 6.0), (79.4, 'eval_0034', 8.0), (90.3, 'eval_0046', 8.0), (93.9, 'eval_0049', 8.0), (108.9, 'eval_0026', 8.0)]
+
+L5a_plain_sqrt/eval_e0.json: raw  2.41 / 18.56 /  74 of 448 | condensed  1.64 / 11.35 /  56 of 448
+    mode 1   raw  3.25 / 30.41 /  31 of 119 | condensed  4.28 / 11.86 /  20 of 119
+    mode 2   raw  1.48 /  4.81 /   2 of 105 | condensed  1.00 /  3.12 /   1 of 105
+    web      raw  2.43 / 18.25 /  41 of 224 | condensed  1.42 / 13.52 /  35 of 224
+    D = 0.5  raw  1.71 /  4.53 /   0 of 64 | condensed  0.97 /  1.84 /   0 of 64 | gap median raw 0.150% condensed 0.148%
+    D = 1    raw  1.37 /  3.31 /   0 of 64 | condensed  0.90 /  2.04 /   0 of 64 | gap median raw 0.136% condensed 0.133%
+    D = 2    raw  1.73 /  4.58 /   3 of 64 | condensed  1.17 /  5.51 /   2 of 64 | gap median raw 0.149% condensed 0.148%
+    D = 3    raw  1.64 / 15.15 /  11 of 64 | condensed  1.88 / 11.25 /   8 of 64 | gap median raw 0.291% condensed 0.283%
+    D = 4    raw  2.57 / 21.11 /  11 of 64 | condensed  2.69 / 11.11 /   9 of 64 | gap median raw 0.683% condensed 0.682%
+    D = 6    raw  3.41 / 33.30 /  18 of 64 | condensed  4.25 / 17.86 /  13 of 64 | gap median raw 1.914% condensed 1.883%
+    D = 8    raw  9.48 / 46.63 /  31 of 64 | condensed  7.63 / 22.42 /  24 of 64 | gap median raw 3.245% condensed 3.237%
+    condensed pairs over 10%: 56
+    raw: members with a pair over 10%: 31; signs: over-stiff 74, over-soft 0
+    amplitude a: median 1.000, range 0.926 to 1.321; solve {'not_converged': 10, 'at_bound': 0, 'rel_slope_max': 0.00022968983103055507, 'a_min': 0.9258587956428528, 'a_max': 1.3211047649383545}
+    worst raw pairs: [(70.9, 'eval_0043', 6.0), (73.0, 'eval_0046', 8.0), (81.7, 'eval_0049', 8.0), (85.3, 'eval_0043', 8.0), (89.5, 'eval_0026', 8.0)]

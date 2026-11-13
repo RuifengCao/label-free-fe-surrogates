@@ -1,0 +1,32 @@
+members done: 64 of 64 | seconds per member median 38.1 | energy evaluations per member [7]
+all pairs                          n 448 | curve dist med/p90: raw   2.41  18.56  cond   1.64  11.35 | >10%:  74 ->  56 | |e err| med:  2.60 ->  1.89 | gap med:  0.42 ->  0.41 | |bolt err| med:  0.64 ->  0.56 | worse after: 163
+  D = 0.5                          n  64 | curve dist med/p90: raw   1.71   4.53  cond   0.97   1.84 | >10%:   0 ->   0 | |e err| med:  1.73 ->  0.93 | gap med:  0.15 ->  0.15 | |bolt err| med:  0.45 ->  0.45 | worse after: 18
+  D = 1                            n  64 | curve dist med/p90: raw   1.37   3.31  cond   0.89   2.04 | >10%:   0 ->   0 | |e err| med:  1.43 ->  0.89 | gap med:  0.14 ->  0.13 | |bolt err| med:  0.71 ->  0.58 | worse after: 21
+  D = 2                            n  64 | curve dist med/p90: raw   1.73   4.58  cond   1.17   5.54 | >10%:   3 ->   2 | |e err| med:  1.91 ->  1.20 | gap med:  0.15 ->  0.15 | |bolt err| med:  1.60 ->  1.62 | worse after: 28
+  D = 3                            n  64 | curve dist med/p90: raw   1.64  15.15  cond   1.88  11.25 | >10%:  11 ->   8 | |e err| med:  3.26 ->  3.79 | gap med:  0.29 ->  0.28 | |bolt err| med:  0.00 ->  0.00 | worse after: 26
+  D = 4                            n  64 | curve dist med/p90: raw   2.57  21.11  cond   2.69  11.11 | >10%:  11 ->   9 | |e err| med:  3.58 ->  3.62 | gap med:  0.68 ->  0.68 | |bolt err| med:  0.02 ->  0.02 | worse after: 31
+  D = 6                            n  64 | curve dist med/p90: raw   3.41  33.30  cond   4.25  17.86 | >10%:  18 ->  13 | |e err| med:  3.00 ->  2.55 | gap med:  1.91 ->  1.88 | |bolt err| med:  0.72 ->  0.73 | worse after: 25
+  D = 8                            n  64 | curve dist med/p90: raw   9.48  46.63  cond   7.63  22.43 | >10%:  31 ->  24 | |e err| med:  5.16 ->  3.41 | gap med:  3.25 ->  3.24 | |bolt err| med:  1.44 ->  1.42 | worse after: 14
+mode 2 (flange + bolt) (15 members) n 105 | curve dist med/p90: raw   1.48   4.81  cond   1.00   3.14 | >10%:   2 ->   1 | |e err| med:  1.75 ->  1.18 | gap med:  0.21 ->  0.21 | |bolt err| med:  0.38 ->  0.32 | worse after: 29
+    D = 6, 8                       n  30 | curve dist med/p90: raw   3.14   8.61  cond   2.29   5.11 | >10%:   2 ->   1 | |e err| med:  2.57 ->  1.74 | gap med:  0.93 ->  0.90 | |bolt err| med:  0.12 ->  0.05 | worse after: 10
+    D = 3, 4                       n  30 | curve dist med/p90: raw   1.44   3.50  cond   1.09   2.63 | >10%:   0 ->   0 | |e err| med:  3.08 ->  2.13 | gap med:  0.28 ->  0.27 | |bolt err| med:  0.00 ->  0.00 | worse after: 9
+mode 1 (flange) (17 members)       n 119 | curve dist med/p90: raw   3.25  30.41  cond   4.28  11.88 | >10%:  31 ->  20 | |e err| med:  2.92 ->  2.80 | gap med:  1.92 ->  1.88 | |bolt err| med:  0.56 ->  0.47 | worse after: 54
+    D = 6, 8                       n  34 | curve dist med/p90: raw  15.35  66.22  cond   7.74  20.69 | >10%:  18 ->  12 | |e err| med:  5.66 ->  2.69 | gap med:  4.96 ->  4.67 | |bolt err| med:  0.02 ->  0.02 | worse after: 10
+    D = 3, 4                       n  34 | curve dist med/p90: raw   4.56  23.41  cond   5.52  10.92 | >10%:  10 ->   6 | |e err| med:  4.50 ->  4.19 | gap med:  2.43 ->  2.43 | |bolt err| med:  0.01 ->  0.01 | worse after: 18
+web yielding (32 members)          n 224 | curve dist med/p90: raw   2.43  18.25  cond   1.42  13.52 | >10%:  41 ->  35 | |e err| med:  2.98 ->  1.56 | gap med:  0.27 ->  0.24 | |bolt err| med:  1.02 ->  1.05 | worse after: 80
+    D = 6, 8                       n  64 | curve dist med/p90: raw   8.64  35.95  cond   7.98  24.51 | >10%:  29 ->  24 | |e err| med:  5.26 ->  5.00 | gap med:  2.37 ->  2.37 | |bolt err| med:  2.96 ->  2.91 | worse after: 19
+    D = 3, 4                       n  64 | curve dist med/p90: raw   1.67  17.42  cond   1.99  16.66 | >10%:  12 ->  11 | |e err| med:  3.56 ->  3.69 | gap med:  0.42 ->  0.42 | |bolt err| med:  0.02 ->  0.02 | worse after: 30
+amplitude a: min 0.926 median 1.000 max 1.321; at D >= 6: min 0.926 median 1.010 max 1.135; at the clamp (0.5 or 3.0): 0
+worst after condensation:
+   eval_0043 D 8.0 web yielding             raw  +85.32% cond  +57.79%  a 1.095  e err  -23.0 ->  -15.8  bolt err  +67.8 ->  +68.8
+   eval_0043 D 6.0 web yielding             raw  +70.88% cond  +45.68%  a 1.127  e err  -26.6 ->  -17.3  bolt err  +67.5 ->  +69.1
+   eval_0010 D 8.0 web yielding             raw  +52.80% cond  +36.40%  a 1.061  e err  -16.5 ->  -11.5  bolt err  +38.6 ->  +39.1
+   eval_0043 D 4.0 web yielding             raw  +54.72% cond  +35.44%  a 1.211  e err  -37.0 ->  -23.9  bolt err  +69.7 ->  +69.7
+   eval_0014 D 8.0 web yielding             raw  +38.98% cond  +34.16%  a 1.014  e err  -10.5 ->   -9.2  bolt err   +0.4 ->   +0.4
+   eval_0038 D 8.0 mode 1 (flange)          raw  +38.03% cond  +31.31%  a 1.020  e err  -10.2 ->   -8.4  bolt err   +0.0 ->   +0.0
+   eval_0019 D 8.0 web yielding             raw  +47.77% cond  +29.99%  a 1.081  e err  -18.1 ->  -11.5  bolt err  +33.7 ->  +34.1
+   eval_0049 D 8.0 mode 1 (flange)          raw  +81.71% cond  +28.04%  a 1.114  e err  -14.9 ->   -5.2  bolt err   +0.0 ->   +0.0
+   eval_0010 D 6.0 web yielding             raw  +40.90% cond  +27.73%  a 1.071  e err  -18.1 ->  -12.3  bolt err  +39.6 ->  +40.3
+   eval_0043 D 3.0 web yielding             raw  +40.76% cond  +26.86%  a 1.321  e err  -48.1 ->  -31.7  bolt err  +50.4 ->  +71.5
+   eval_0049 D 6.0 mode 1 (flange)          raw  +55.92% cond  +25.44%  a 1.084  e err  -13.5 ->   -6.2  bolt err   +0.0 ->   +0.0
+   eval_0014 D 6.0 web yielding             raw  +26.61% cond  +25.04%  a 1.006  e err   -9.9 ->   -9.4  bolt err   +0.0 ->   +0.0

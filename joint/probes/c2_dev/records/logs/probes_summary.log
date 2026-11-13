@@ -1,0 +1,54 @@
+
+L1_control_s0 (none, seed 0, 2432 steps): probes 39
+  relative variance from step 512 on: min 0.0768 at step 1920, median 0.6485; largest fall between two probes: 0.8380 -> 0.0768 at step 1920 (factor 10.92)
+  first block's MLP mean square: median 55, max 2112 at step 2432, last 2112
+  e/(D+delta) at 8 mm from step 512 on: min 0.0070, last 0.0407
+  burst of 150 times at step 1871: (step, relative variance, first-block mean square) [(1856, 0.838, 106), (1920, 0.077, 999), (1984, 0.277, 894), (2048, 0.294, 999), (2112, 0.255, 1290)]
+  burst of 29 times at step 2091: (step, relative variance, first-block mean square) [(2048, 0.294, 999), (2112, 0.255, 1290), (2176, 0.385, 1363), (2240, 0.34, 1259), (2304, 0.419, 1317)]
+  burst of 40 times at step 2408: (step, relative variance, first-block mean square) [(2368, 0.484, 1652), (2432, 0.484, 2111)]
+  non-finite losses: 0; seconds per step median 0.621
+
+L1_control_s1 (none, seed 1, 7680 steps): probes 121
+  relative variance from step 512 on: min 0.3658 at step 512, median 0.9385; largest fall between two probes: 0.8244 -> 0.7035 at step 1472 (factor 1.17)
+  first block's MLP mean square: median 7228, max 78059 at step 7616, last 72824
+  e/(D+delta) at 8 mm from step 512 on: min 0.0306, last 0.1384
+  burst of 90 times at step 1447: (step, relative variance, first-block mean square) [(1408, 0.824, 50), (1472, 0.704, 213), (1536, 0.866, 366), (1600, 0.874, 353), (1664, 0.862, 304)]
+  burst of 187 times at step 2374: (step, relative variance, first-block mean square) [(2368, 0.917, 682), (2432, 0.906, 2764), (2496, 0.905, 2422), (2560, 0.865, 6647), (2624, 0.906, 6169)]
+  burst of 98 times at step 2381: (step, relative variance, first-block mean square) [(2368, 0.917, 682), (2432, 0.906, 2764), (2496, 0.905, 2422), (2560, 0.865, 6647), (2624, 0.906, 6169)]
+  non-finite losses: 0; seconds per step median 0.378
+
+L2_recipe_s0 (cap+beta2, seed 0, 15360 steps): probes 241
+  relative variance from step 512 on: min 0.2770 at step 512, median 0.9552; largest fall between two probes: 0.3056 -> 0.2770 at step 512 (factor 1.10)
+  first block's MLP mean square: median 86709, max 436784 at step 15296, last 427692
+  e/(D+delta) at 8 mm from step 512 on: min 0.0404, last 0.3213
+  burst of 116 times at step 3659: (step, relative variance, first-block mean square) [(3648, 0.946, 5627), (3712, 0.953, 5630), (3776, 0.952, 6622), (3840, 0.95, 6450), (3904, 0.955, 7289)]
+  burst of 163 times at step 5284: (step, relative variance, first-block mean square) [(5248, 0.958, 21664), (5312, 0.958, 23900), (5376, 0.953, 23348), (5440, 0.957, 27609), (5504, 0.959, 26586)]
+  burst of 54 times at step 6526: (step, relative variance, first-block mean square) [(6464, 0.961, 41528), (6528, 0.957, 56766), (6592, 0.956, 63965), (6656, 0.956, 61023), (6720, 0.954, 62324)]
+  non-finite losses: 0; seconds per step median 0.383
+
+L2_recipe_s1 (cap+beta2, seed 1, 15360 steps): probes 241
+  relative variance from step 512 on: min 0.4292 at step 576, median 0.9526; largest fall between two probes: 0.4789 -> 0.4292 at step 576 (factor 1.12)
+  first block's MLP mean square: median 112903, max 482618 at step 15296, last 470332
+  e/(D+delta) at 8 mm from step 512 on: min 0.0320, last 0.3288
+  burst of 84 times at step 4305: (step, relative variance, first-block mean square) [(4288, 0.957, 10836), (4352, 0.954, 14092), (4416, 0.963, 14443), (4480, 0.953, 15700), (4544, 0.957, 12870)]
+  burst of 220 times at step 4309: (step, relative variance, first-block mean square) [(4288, 0.957, 10836), (4352, 0.954, 14092), (4416, 0.963, 14443), (4480, 0.953, 15700), (4544, 0.957, 12870)]
+  burst of 86 times at step 6505: (step, relative variance, first-block mean square) [(6464, 0.955, 54961), (6528, 0.95, 96781), (6592, 0.954, 88648), (6656, 0.956, 89029), (6720, 0.961, 86737)]
+  non-finite losses: 0; seconds per step median 0.379
+
+L2_recipe_s3 (cap+beta2, seed 3, 15360 steps): probes 241
+  relative variance from step 512 on: min 0.3775 at step 512, median 0.9685; largest fall between two probes: 0.6509 -> 0.6291 at step 896 (factor 1.03)
+  first block's MLP mean square: median 122975, max 458873 at step 15168, last 429922
+  e/(D+delta) at 8 mm from step 512 on: min 0.0458, last 0.3432
+  burst of 28 times at step 5721: (step, relative variance, first-block mean square) [(5696, 0.977, 46396), (5760, 0.976, 52259), (5824, 0.974, 57818), (5888, 0.976, 52484), (5952, 0.975, 56483)]
+  burst of 32 times at step 7881: (step, relative variance, first-block mean square) [(7872, 0.975, 104622), (7936, 0.975, 136626), (8000, 0.974, 135567), (8064, 0.975, 139027), (8128, 0.966, 133597)]
+  burst of 19 times at step 7882: (step, relative variance, first-block mean square) [(7872, 0.975, 104622), (7936, 0.975, 136626), (8000, 0.974, 135567), (8064, 0.975, 139027), (8128, 0.966, 133597)]
+  non-finite losses: 0; seconds per step median 0.380
+
+L2_recipe_s4 (cap+beta2, seed 4, 15360 steps): probes 241
+  relative variance from step 512 on: min 0.3489 at step 640, median 0.9694; largest fall between two probes: 0.3946 -> 0.3489 at step 640 (factor 1.13)
+  first block's MLP mean square: median 134925, max 549627 at step 14976, last 489209
+  e/(D+delta) at 8 mm from step 512 on: min 0.0396, last 0.3219
+  burst of 148 times at step 2352: (step, relative variance, first-block mean square) [(2304, 0.941, 615), (2368, 0.947, 962), (2432, 0.937, 1245), (2496, 0.945, 1235), (2560, 0.943, 1366)]
+  burst of 127 times at step 3339: (step, relative variance, first-block mean square) [(3328, 0.966, 3834), (3392, 0.961, 6023), (3456, 0.946, 6413), (3520, 0.959, 6848), (3584, 0.966, 6952)]
+  burst of 70 times at step 8085: (step, relative variance, first-block mean square) [(8064, 0.974, 134924), (8128, 0.976, 170220), (8192, 0.972, 159474), (8256, 0.973, 153131), (8320, 0.977, 158297)]
+  non-finite losses: 0; seconds per step median 0.380

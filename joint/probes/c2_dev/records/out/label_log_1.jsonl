@@ -1,0 +1,13 @@
+{"id": "train_0128", "seconds": 150.5, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 2, 6, 7, 13, 13], "F_vs_F_sigma": 1.1838264867132349e-14, "kkt_worst_abs": 2.6355420223569316e-12}
+{"id": "train_0110", "seconds": 182.0, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 2, 6, 7, 12, 11], "F_vs_F_sigma": 6.2293253873197e-13, "kkt_worst_abs": 3.9108689281306207e-11}
+{"id": "train_0500", "seconds": 247.8, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 7, 7, 10, 18, 10], "F_vs_F_sigma": 9.074932783511407e-14, "kkt_worst_abs": 1.3729501403957618e-12}
+{"id": "train_0488", "seconds": 90.0, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 2, 7, 9, 8, 7], "F_vs_F_sigma": 3.2975016979383584e-14, "kkt_worst_abs": 6.57686837031467e-13}
+{"id": "train_0171", "seconds": 158.5, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 6, 7, 7, 15, 7], "F_vs_F_sigma": 3.663165455085697e-14, "kkt_worst_abs": 3.889188744778269e-11}
+{"id": "train_0269", "seconds": 96.7, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 5, 6, 7, 15, 8], "F_vs_F_sigma": 1.511495153471286e-13, "kkt_worst_abs": 1.321419012655837e-12}
+{"id": "train_0202", "seconds": 229.5, "converged": [true, true, true, true, true, true, true], "iterations": [3, 2, 6, 7, 8, 18, 12], "F_vs_F_sigma": 8.211120870368894e-13, "kkt_worst_abs": 1.1729301120390821e-11}
+{"id": "train_0463", "seconds": 90.5, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 5, 7, 8, 7, 7], "F_vs_F_sigma": 4.792483349933546e-14, "kkt_worst_abs": 6.483813355520748e-13}
+{"id": "train_0142", "seconds": 132.4, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 6, 7, 9, 9, 15], "F_vs_F_sigma": 8.905809603639965e-15, "kkt_worst_abs": 9.69237194030214e-12}
+{"id": "train_0434", "seconds": 38.0, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 6, 11, 6, 8, 6], "F_vs_F_sigma": 3.321915649339079e-14, "kkt_worst_abs": 1.1197893191342404e-11}
+{"id": "train_0151", "seconds": 79.3, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 2, 6, 10, 14, 7], "F_vs_F_sigma": 2.49437750669424e-14, "kkt_worst_abs": 3.704890923750964e-12}
+{"id": "train_0146", "seconds": 146.6, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 6, 6, 9, 11, 16], "F_vs_F_sigma": 5.22278968012741e-14, "kkt_worst_abs": 1.4327920056649817e-12}
+{"id": "train_0168", "seconds": 63.7, "converged": [true, true, true, true, true, true, true], "iterations": [2, 2, 4, 7, 8, 9, 11], "F_vs_F_sigma": 9.467514715423533e-15, "kkt_worst_abs": 5.808618258869608e-13}

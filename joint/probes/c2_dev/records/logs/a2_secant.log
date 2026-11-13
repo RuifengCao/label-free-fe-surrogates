@@ -1,0 +1,18 @@
+
+label_free seed 1: secant-energy force over each interval, relative error against the exact secant
+  [0.5,1.0] mm: |err| median   0.45%  p90   1.58%  max   2.13%   signed median +0.43%
+  [1.0,2.0] mm: |err| median   0.61%  p90   1.78%  max  11.30%   signed median +0.61%
+  [2.0,3.0] mm: |err| median   1.19%  p90   8.36%  max  20.36%   signed median +1.19%
+  [3.0,4.0] mm: |err| median   3.08%  p90  13.66%  max  26.10%   signed median +3.08%
+  [4.0,6.0] mm: |err| median   3.63%  p90  21.08%  max  36.10%   signed median +3.63%
+  [6.0,8.0] mm: |err| median   7.57%  p90  32.96%  max  62.11%   signed median +7.57%
+  all 384 intervals: median 1.71%  p90 12.48%
+
+label_free seed 2: secant-energy force over each interval, relative error against the exact secant
+  [0.5,1.0] mm: |err| median   0.13%  p90   0.48%  max   0.81%   signed median +0.13%
+  [1.0,2.0] mm: |err| median   0.16%  p90   1.09%  max   6.79%   signed median +0.16%
+  [2.0,3.0] mm: |err| median   0.43%  p90   6.03%  max  16.93%   signed median +0.43%
+  [3.0,4.0] mm: |err| median   1.19%  p90  10.09%  max  38.08%   signed median +1.19%
+  [4.0,6.0] mm: |err| median   3.13%  p90  17.10%  max  48.32%   signed median +3.13%
+  [6.0,8.0] mm: |err| median   6.10%  p90  29.07%  max  62.50%   signed median +6.10%
+  all 384 intervals: median 0.86%  p90 11.73%

@@ -1,0 +1,3 @@
+L6_recipe_s1_e200: members 64, pairs 448, 572 s
+second route, raw: median 1.55%, 90th percentile 8.03%, above 10%: 38
+largest difference of the judged error to the reading script's rows: 4.32e-07; of the end-displacement error: 2.13e-07

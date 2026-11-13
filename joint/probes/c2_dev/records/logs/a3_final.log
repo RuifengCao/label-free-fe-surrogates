@@ -1,0 +1,68 @@
+
+=== seed 1, direction tan: 448 pairs (64 members) ===
+  all        before: median   6.61%  p90  31.16%  over10 153 | after: median   4.22%  p90  14.90%  over10  74  max 98%
+  gap median 1.132% -> 1.026% ; |e_err| median 7.12% -> 4.33% , p90 19.68% -> 9.95% ; evals median 4, max 6; pairs where the slope fell by less than 100x: 58
+   D=0.5:   7.81 /  23.22  ->    4.70 /   9.04    |e_err| med  6.94 ->  4.49   p90 20.10 ->  9.26   gap med  0.52 ->  0.52
+   D=1.0:   6.41 /  19.70  ->    2.93 /   6.54    |e_err| med  6.67 ->  3.02   p90 14.71 ->  6.26   gap med  0.43 ->  0.36
+   D=2.0:   5.21 /  15.19  ->    3.14 /   6.71    |e_err| med  5.54 ->  3.29   p90 19.94 ->  9.44   gap med  0.60 ->  0.45
+   D=3.0:   5.95 /  18.40  ->    3.28 /   9.56    |e_err| med 12.19 ->  4.81   p90 24.08 ->  9.82   gap med  0.86 ->  0.63
+   D=4.0:   5.44 /  19.81  ->    3.97 /  14.15    |e_err| med  7.29 ->  4.99   p90 20.78 -> 12.89   gap med  1.74 ->  1.59
+   D=6.0:   5.18 /  37.09  ->    4.99 /  19.62    |e_err| med  4.89 ->  3.81   p90 15.87 ->  9.31   gap med  2.61 ->  2.55
+   D=8.0:  17.00 /  73.43  ->   10.46 /  37.12    |e_err| med  8.34 ->  5.66   p90 19.45 -> 11.17   gap med  4.15 ->  3.89
+   fy<300 and D>=6  ( 40): median  34.00 ->  18.25%   p90 106.65 ->  51.48%   over10 34 -> 31   |e_err| med 13.62 -> 6.10%
+   m>1.5            ( 81): median  24.95 ->  11.98%   p90  84.78 ->  36.74%   over10 72 -> 51   |e_err| med 12.37 -> 5.42%
+   m<=1.5           (367): median   5.18 ->   3.43%   p90  17.47 ->   8.62%   over10 81 -> 23   |e_err| med 6.25 -> 3.87%
+   fy>=345          (224): median   5.03 ->   3.37%   p90  14.71 ->   8.04%   over10 46 -> 10   |e_err| med 5.90 -> 3.62%
+  hypothetical (first order, same e errors): corrected reading and magnification capped at 1.5 for D>=4: median 4.22%  p90 11.40%  over10 52
+  pairs clearly better 252, clearly worse 69
+
+=== seed 1, direction load: 448 pairs (64 members) ===
+  all        before: median   6.61%  p90  31.16%  over10 153 | after: median   5.16%  p90  19.10%  over10 115  max 45%
+  gap median 1.132% -> 1.093% ; |e_err| median 7.12% -> 5.14% , p90 19.68% -> 14.14% ; evals median 3, max 5; pairs where the slope fell by less than 100x: 3
+   D=0.5:   7.81 /  23.22  ->    7.42 /  21.52    |e_err| med  6.94 ->  7.39   p90 20.10 -> 18.81   gap med  0.52 ->  0.52
+   D=1.0:   6.41 /  19.70  ->    4.95 /  16.33    |e_err| med  6.67 ->  5.50   p90 14.71 -> 12.17   gap med  0.43 ->  0.42
+   D=2.0:   5.21 /  15.19  ->    3.79 /   8.45    |e_err| med  5.54 ->  3.83   p90 19.94 -> 11.37   gap med  0.60 ->  0.57
+   D=3.0:   5.95 /  18.40  ->    3.66 /  16.38    |e_err| med 12.19 ->  7.31   p90 24.08 -> 18.77   gap med  0.86 ->  0.77
+   D=4.0:   5.44 /  19.81  ->    5.29 /  18.20    |e_err| med  7.29 ->  7.03   p90 20.78 -> 17.43   gap med  1.74 ->  1.70
+   D=6.0:   5.18 /  37.09  ->    5.55 /  23.73    |e_err| med  4.89 ->  4.04   p90 15.87 ->  9.54   gap med  2.61 ->  2.53
+   D=8.0:  17.00 /  73.43  ->    8.40 /  25.89    |e_err| med  8.34 ->  3.96   p90 19.45 ->  7.59   gap med  4.15 ->  3.80
+   fy<300 and D>=6  ( 40): median  34.00 ->  16.19%   p90 106.65 ->  35.99%   over10 34 -> 28   |e_err| med 13.62 -> 6.15%
+   m>1.5            ( 81): median  24.95 ->  11.64%   p90  84.78 ->  27.79%   over10 72 -> 46   |e_err| med 12.37 -> 4.87%
+   m<=1.5           (367): median   5.18 ->   4.49%   p90  17.47 ->  15.10%   over10 81 -> 69   |e_err| med 6.25 -> 5.24%
+   fy>=345          (224): median   5.03 ->   4.18%   p90  14.71 ->  10.59%   over10 46 -> 25   |e_err| med 5.90 -> 4.36%
+  hypothetical (first order, same e errors): corrected reading and magnification capped at 1.5 for D>=4: median 5.10%  p90 15.44%  over10 96
+  pairs clearly better 159, clearly worse 42
+
+=== seed 2, direction tan: 448 pairs (64 members) ===
+  all        before: median   2.41%  p90  18.56%  over10  74 | after: median   1.94%  p90  12.90%  over10  59  max 77%
+  gap median 0.420% -> 0.406% ; |e_err| median 2.60% -> 2.07% , p90 10.98% -> 7.86% ; evals median 4, max 6; pairs where the slope fell by less than 100x: 122
+   D=0.5:   1.71 /   4.53  ->    1.47 /   3.44    |e_err| med  1.73 ->  1.44   p90  4.13 ->  3.24   gap med  0.15 ->  0.15
+   D=1.0:   1.37 /   3.31  ->    1.18 /   2.32    |e_err| med  1.43 ->  1.21   p90  3.28 ->  2.40   gap med  0.14 ->  0.13
+   D=2.0:   1.73 /   4.58  ->    1.24 /   3.69    |e_err| med  1.91 ->  1.31   p90  9.08 ->  6.64   gap med  0.15 ->  0.15
+   D=3.0:   1.64 /  15.15  ->    1.77 /   7.81    |e_err| med  3.26 ->  2.92   p90 12.29 ->  7.58   gap med  0.29 ->  0.28
+   D=4.0:   2.57 /  21.11  ->    2.24 /  10.54    |e_err| med  3.58 ->  2.99   p90 12.89 -> 12.59   gap med  0.68 ->  0.68
+   D=6.0:   3.41 /  33.30  ->    3.98 /  18.45    |e_err| med  3.00 ->  2.60   p90 12.06 ->  9.66   gap med  1.91 ->  1.88
+   D=8.0:   9.48 /  46.63  ->    9.53 /  39.60    |e_err| med  5.16 ->  4.73   p90 13.49 -> 11.99   gap med  3.25 ->  3.23
+   fy<300 and D>=6  ( 40): median  23.99 ->  18.01%   p90  71.09 ->  48.81%   over10 30 -> 28   |e_err| med 10.36 -> 6.11%
+   m>1.5            ( 81): median  15.88 ->  10.55%   p90  52.80 ->  33.70%   over10 52 -> 43   |e_err| med 6.92 -> 4.33%
+   m<=1.5           (367): median   1.80 ->   1.46%   p90   6.29 ->   5.63%   over10 22 -> 16   |e_err| med 2.06 -> 1.63%
+   fy>=345          (224): median   2.27 ->   1.56%   p90   6.24 ->   6.94%   over10 11 -> 13   |e_err| med 2.44 -> 1.78%
+  hypothetical (first order, same e errors): corrected reading and magnification capped at 1.5 for D>=4: median 1.94%  p90 9.68%  over10 44
+  pairs clearly better 114, clearly worse 62
+
+=== seed 2, direction load: 448 pairs (64 members) ===
+  all        before: median   2.41%  p90  18.56%  over10  74 | after: median   2.18%  p90  12.65%  over10  62  max 58%
+  gap median 0.420% -> 0.410% ; |e_err| median 2.60% -> 2.26% , p90 10.98% -> 8.20% ; evals median 3, max 6; pairs where the slope fell by less than 100x: 6
+   D=0.5:   1.71 /   4.53  ->    1.56 /   4.36    |e_err| med  1.73 ->  1.59   p90  4.13 ->  3.88   gap med  0.15 ->  0.15
+   D=1.0:   1.37 /   3.31  ->    1.01 /   2.50    |e_err| med  1.43 ->  1.02   p90  3.28 ->  2.55   gap med  0.14 ->  0.14
+   D=2.0:   1.73 /   4.58  ->    1.28 /   4.22    |e_err| med  1.91 ->  1.32   p90  9.08 ->  9.91   gap med  0.15 ->  0.15
+   D=3.0:   1.64 /  15.15  ->    1.80 /  12.28    |e_err| med  3.26 ->  3.13   p90 12.29 ->  9.63   gap med  0.29 ->  0.28
+   D=4.0:   2.57 /  21.11  ->    2.49 /  16.67    |e_err| med  3.58 ->  3.49   p90 12.89 -> 12.96   gap med  0.68 ->  0.68
+   D=6.0:   3.41 /  33.30  ->    4.03 /  19.57    |e_err| med  3.00 ->  2.57   p90 12.06 ->  9.11   gap med  1.91 ->  1.88
+   D=8.0:   9.48 /  46.63  ->    7.69 /  27.78    |e_err| med  5.16 ->  3.58   p90 13.49 ->  8.30   gap med  3.25 ->  3.24
+   fy<300 and D>=6  ( 40): median  23.99 ->  14.45%   p90  71.09 ->  33.76%   over10 30 -> 27   |e_err| med 10.36 -> 5.34%
+   m>1.5            ( 81): median  15.88 ->  10.83%   p90  52.80 ->  27.75%   over10 52 -> 43   |e_err| med 6.92 -> 4.02%
+   m<=1.5           (367): median   1.80 ->   1.57%   p90   6.29 ->   6.61%   over10 22 -> 19   |e_err| med 2.06 -> 1.83%
+   fy>=345          (224): median   2.27 ->   1.85%   p90   6.24 ->   6.48%   over10 11 -> 8   |e_err| med 2.44 -> 2.04%
+  hypothetical (first order, same e errors): corrected reading and magnification capped at 1.5 for D>=4: median 2.16%  p90 9.99%  over10 45
+  pairs clearly better 87, clearly worse 29

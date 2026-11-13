@@ -1,0 +1,24 @@
+
+[raw reading] projected under rule v0: median 1.78%  p90 7.28%  over 10%: 32 of 448  (pairs beyond the member's solved range: 19)
+   level 0.08 D_max: median  1.53%  p90   4.15%  over 10%:  0 | magnification median 0.09
+   level 0.17 D_max: median  1.32%  p90   3.25%  over 10%:  0 | magnification median 0.10
+   level 0.32 D_max: median  0.93%  p90   2.86%  over 10%:  0 | magnification median 0.12
+   level 0.44 D_max: median  1.08%  p90   3.04%  over 10%:  0 | magnification median 0.17
+   level 0.56 D_max: median  1.66%  p90   6.45%  over 10%:  3 | magnification median 0.37
+   level 0.80 D_max: median  2.83%  p90  11.26%  over 10%:  9 | magnification median 0.83
+   level 1.00 D_max: median  6.08%  p90  16.03%  over 10%: 20 | magnification median 1.21
+   mode 2 (flange + bolt)  : median  1.40%  p90   3.86%  over 10%:  1 of 105
+   mode 1 (flange)         : median  2.08%  p90   7.74%  over 10%:  7 of 119
+   web yielding            : median  1.85%  p90  10.47%  over 10%: 24 of 224
+
+[cond reading] projected under rule v0: median 1.41%  p90 5.19%  over 10%: 15 of 448  (pairs beyond the member's solved range: 19)
+   level 0.08 D_max: median  0.90%  p90   1.65%  over 10%:  0 | magnification median 0.09
+   level 0.17 D_max: median  0.87%  p90   1.59%  over 10%:  0 | magnification median 0.10
+   level 0.32 D_max: median  0.98%  p90   2.60%  over 10%:  0 | magnification median 0.12
+   level 0.44 D_max: median  1.47%  p90   2.92%  over 10%:  0 | magnification median 0.17
+   level 0.56 D_max: median  1.95%  p90   5.11%  over 10%:  1 | magnification median 0.37
+   level 0.80 D_max: median  2.78%  p90   9.43%  over 10%:  6 | magnification median 0.83
+   level 1.00 D_max: median  4.08%  p90  11.15%  over 10%:  8 | magnification median 1.21
+   mode 2 (flange + bolt)  : median  0.95%  p90   2.68%  over 10%:  1 of 105
+   mode 1 (flange)         : median  2.55%  p90   3.98%  over 10%:  0 of 119
+   web yielding            : median  1.33%  p90   8.01%  over 10%: 14 of 224

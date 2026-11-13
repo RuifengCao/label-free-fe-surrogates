@@ -1,0 +1,15 @@
+reference at 8 mm, 64 members: e/(D - e) from 0.97 to 5.61, median 1.80; above 1.5 in 47, above 2.5 in 16; force 97 to 324 kN; correlation of log factor and log force -0.997
+
+label-free seed 1
+   D = 4 mm: correlation 0.9973; judged error over the product, median 1.113
+   D = 6 mm: correlation 0.9998; judged error over the product, median 1.083
+   D = 8 mm: correlation 0.9999; judged error over the product, median 1.073
+   fy < 300 MPa, 6 and 8 mm: 40 pairs; judged error median 34.00%, 90th percentile 106.65%, above 10% in 34; end displacement too small in 40, median error -13.6%; energy gap median 10.95%
+   all other pairs: 408 pairs; judged error median 5.97%, 90th percentile 21.04%, above 10% in 119; end displacement too small in 273, median error -3.6%; energy gap median 0.97%
+
+label-free seed 2
+   D = 4 mm: correlation 0.9991; judged error over the product, median 1.115
+   D = 6 mm: correlation 0.9999; judged error over the product, median 1.072
+   D = 8 mm: correlation 0.9999; judged error over the product, median 1.062
+   fy < 300 MPa, 6 and 8 mm: 40 pairs; judged error median 23.99%, 90th percentile 71.09%, above 10% in 30; end displacement too small in 40, median error -10.4%; energy gap median 8.26%
+   all other pairs: 408 pairs; judged error median 2.19%, 90th percentile 10.38%, above 10% in 44; end displacement too small in 296, median error -1.8%; energy gap median 0.31%

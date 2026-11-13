@@ -1,0 +1,31 @@
+constants: factors [1.828 1.335 1.326 1.07 ] exponent 7.45
+
+spring stretch at the estimate DELTA = 4.0 mm, D_max = 9.0 mm: k_s from 5.5 to 21.0 kN/mm per quarter (median 13.7; G-C2.1: 20)
+   level D (mm) | end displacement e: min / median / max | factor e/(D-e): min / median / p90 / max | members beyond their solved range
+    0.562       |  0.03 /  0.04 /  0.07            |  0.05 /  0.08 /  0.12 /  0.15                  | 0
+    1.125       |  0.06 /  0.10 /  0.15            |  0.05 /  0.10 /  0.14 /  0.15                  | 0
+    2.250       |  0.12 /  0.22 /  0.33            |  0.06 /  0.11 /  0.15 /  0.17                  | 0
+    3.375       |  0.21 /  0.39 /  0.61            |  0.07 /  0.13 /  0.17 /  0.22                  | 0
+    4.500       |  0.68 /  0.94 /  1.26            |  0.18 /  0.27 /  0.36 /  0.39                  | 0
+    6.750       |  2.60 /  2.85 /  3.17            |  0.63 /  0.73 /  0.83 /  0.89                  | 0
+    9.000       |  4.56 /  4.94 /  5.20            |  1.03 /  1.21 /  1.29 /  1.37                  | 19
+
+spring stretch at the estimate DELTA = 3.2 mm, D_max = 7.2 mm: k_s from 6.9 to 26.2 kN/mm per quarter (median 17.1; G-C2.1: 20)
+   level D (mm) | end displacement e: min / median / max | factor e/(D-e): min / median / p90 / max | members beyond their solved range
+    0.450       |  0.03 /  0.04 /  0.07            |  0.06 /  0.10 /  0.15 /  0.18                  | 0
+    0.900       |  0.06 /  0.10 /  0.14            |  0.07 /  0.12 /  0.17 /  0.19                  | 0
+    1.800       |  0.12 /  0.22 /  0.31            |  0.07 /  0.14 /  0.19 /  0.21                  | 0
+    2.700       |  0.21 /  0.37 /  0.56            |  0.08 /  0.16 /  0.21 /  0.26                  | 0
+    3.600       |  0.56 /  0.80 /  1.06            |  0.18 /  0.28 /  0.38 /  0.42                  | 0
+    5.400       |  2.10 /  2.34 /  2.59            |  0.64 /  0.77 /  0.88 /  0.92                  | 0
+    7.200       |  3.75 /  4.00 /  4.24            |  1.09 /  1.25 /  1.34 /  1.43                  | 0
+
+spring stretch at the estimate DELTA = 5.0 mm, D_max = 10.0 mm: k_s from 4.4 to 16.8 kN/mm per quarter (median 11.0; G-C2.1: 20)
+   level D (mm) | end displacement e: min / median / max | factor e/(D-e): min / median / p90 / max | members beyond their solved range
+    0.625       |  0.02 /  0.04 /  0.07            |  0.04 /  0.07 /  0.10 /  0.12                  | 0
+    1.250       |  0.05 /  0.09 /  0.14            |  0.04 /  0.08 /  0.11 /  0.12                  | 0
+    2.500       |  0.11 /  0.20 /  0.29            |  0.05 /  0.09 /  0.12 /  0.13                  | 0
+    3.750       |  0.18 /  0.33 /  0.52            |  0.05 /  0.10 /  0.13 /  0.16                  | 0
+    5.000       |  0.32 /  0.69 /  1.04            |  0.07 /  0.16 /  0.23 /  0.26                  | 0
+    7.500       |  2.32 /  2.66 /  3.04            |  0.45 /  0.55 /  0.64 /  0.68                  | 0
+   10.000       |  4.47 /  4.92 /  5.24            |  0.81 /  0.97 /  1.03 /  1.10                  | 16

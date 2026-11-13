@@ -1,0 +1,24 @@
+
+seed 1 dir tan: 64 members complete, 448 pairs
+  distance from curve  before: median   6.61%  p90  31.16%   after: median   4.22%  p90  14.90%   max 98.1%
+  gap before median 1.132% p90 6.865%  after median 1.026% p90 6.365%;  evals median 4 max 6; worst slope reduction 1.0e+00
+   level   before med/p90     after med/p90    |e_err| b/a med     |Fsig_err| after med   gap b/a med    |bolt_err| b/a med
+   D=0.5    7.81   23.22     4.70    9.04     6.94  4.49          4.98          0.521 0.516     2.43  2.00
+   D=1.0    6.41   19.70     2.93    6.54     6.67  3.02          4.80          0.425 0.356     5.94  4.07
+   D=2.0    5.21   15.19     3.14    6.71     5.54  3.29          5.96          0.602 0.450     8.04  5.47
+   D=3.0    5.95   18.40     3.28    9.56    12.19  4.81          5.33          0.861 0.634     0.01  0.00
+   D=4.0    5.44   19.81     3.97   14.15     7.29  4.99          8.16          1.744 1.589     0.05  0.05
+   D=6.0    5.18   37.09     4.99   19.62     4.89  3.81          8.36          2.609 2.548     1.49  1.49
+   D=8.0   17.00   73.43    10.46   37.12     8.34  5.66         12.16          4.146 3.890     1.19  1.39
+
+seed 2 dir tan: 64 members complete, 448 pairs
+  distance from curve  before: median   2.41%  p90  18.56%   after: median   1.94%  p90  12.90%   max 76.8%
+  gap before median 0.420% p90 5.490%  after median 0.406% p90 5.182%;  evals median 4 max 6; worst slope reduction 1.0e+00
+   level   before med/p90     after med/p90    |e_err| b/a med     |Fsig_err| after med   gap b/a med    |bolt_err| b/a med
+   D=0.5    1.71    4.53     1.47    3.44     1.73  1.44          1.92          0.150 0.147     0.45  0.39
+   D=1.0    1.37    3.31     1.18    2.32     1.43  1.21          1.52          0.136 0.131     0.71  0.48
+   D=2.0    1.73    4.58     1.24    3.69     1.91  1.31          2.13          0.149 0.147     1.60  1.44
+   D=3.0    1.64   15.15     1.77    7.81     3.26  2.92          3.45          0.291 0.283     0.00  0.00
+   D=4.0    2.57   21.11     2.24   10.54     3.58  2.99          4.99          0.683 0.680     0.02  0.02
+   D=6.0    3.41   33.30     3.98   18.45     3.00  2.60          5.73          1.914 1.882     0.72  0.75
+   D=8.0    9.48   46.63     9.53   39.60     5.16  4.73          8.87          3.245 3.231     1.44  1.39

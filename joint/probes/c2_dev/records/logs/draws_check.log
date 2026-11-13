@@ -1,0 +1,7 @@
+steps in both records: 2432; the same member at 2432; the same displacements at 2432
+first four steps (member, loss on the GPU, loss in the replay): [(63, 11.544173240661621, 11.544172286987305), (464, 10.38374137878418, 10.38374137878418), (109, 11.1106595993042, 11.1106595993042), (339, 9.564409255981445, 9.564409255981445)]
+largest difference of the losses over the first 4 steps: 9.5e-07
+largest difference of the losses over the first 64 steps: 9.5e-06
+largest difference of the losses over the first 256 steps: 6.2e-02
+largest difference of the losses over the first 1024 steps: 1.7e-01
+largest difference of the losses over the first 2432 steps: 2.4e+00
