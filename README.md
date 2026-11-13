@@ -15,6 +15,13 @@ Theory note: R. Cao and X. Song, *Discrete energy as an exact label-free
 training objective for finite-element surrogates*, arXiv:2608.05437 [cs.CE], 2026.
 <https://arxiv.org/abs/2608.05437>
 
+Paper: R. Cao and X. Song, *The norm, not the labels: training and evaluating
+finite-element surrogates for stress analysis in the energy norm*,
+arXiv:2611.14574 [cs.CE], 2026. <https://arxiv.org/abs/2611.14574>
+Its code, records and manuscript sources are on the branch `statics-paper`. The version
+tagged `statics-paper-1.0` is archived on Zenodo (see [`CITATION.cff`](CITATION.cff)), and
+the data sets are at <https://doi.org/10.5281/zenodo.24091113>.
+
 ## Licence
 
 The code in this repository is licensed under the
@@ -130,4 +137,16 @@ instances bought vs. the unlabeled pool AR consumed), derived from the solve led
       archivePrefix = {arXiv},
       primaryClass  = {cs.CE},
       doi           = {10.48550/arXiv.2608.05437}
+    }
+
+    @misc{cao2026norm,
+      title         = {The norm, not the labels: training and evaluating
+                       finite-element surrogates for stress analysis in the
+                       energy norm},
+      author        = {Cao, Ruifeng and Song, Xidan},
+      year          = {2026},
+      eprint        = {2611.14574},
+      archivePrefix = {arXiv},
+      primaryClass  = {cs.CE},
+      doi           = {10.48550/arXiv.2611.14574}
     }

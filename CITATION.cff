@@ -18,6 +18,21 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.23815225
     description: "Zenodo archive of the trained networks, version statics-paper-1.0"
+  - type: doi
+    value: 10.5281/zenodo.24091113
+    description: "Zenodo archive of the data sets, version statics-paper-1.0"
   - type: swh
     value: "swh:1:snp:79f91af6d07e45a45933743bda38253b49c82bb6"
     description: "Software Heritage snapshot of the repository as it stood on 11 October 2026, when it moved to this address"
+references:
+  - type: generic
+    title: "The norm, not the labels: training and evaluating finite-element surrogates for stress analysis in the energy norm"
+    authors:
+      - family-names: Cao
+        given-names: Ruifeng
+      - family-names: Song
+        given-names: Xidan
+    year: 2026
+    doi: 10.48550/arXiv.2611.14574
+    url: "https://arxiv.org/abs/2611.14574"
+    notes: "Preprint, arXiv:2611.14574 [cs.CE]. The version statics-paper-1.0 of this software is the code of this paper."
