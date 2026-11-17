@@ -1,0 +1,44 @@
+G-C2.2: interruptions and incidents. Written by the operator; times are UTC, which is the laptop's local time.
+
+1. Pause and restart of the laptop during the run of seed 5 (13 to 14 November 2026)
+
+Before
+- 13 November 21:13: the owner wrote that he would pause the run, close the runner's window, restart the laptop to
+  install Windows updates, use the GPU for other things, and then continue the run. The runbook allows a pause of a training
+  run and says that after a restart the queue is started again.
+- The host as recorded before: Windows-11-10.0.26200-SP0 (gate_records/smoke/smoke_report.json, 13 November 12:46 to
+  12:51); NVIDIA driver 610.74 (logs/setup_log.txt, 10 November); Python 3.12.16, numpy 2.4.6, scipy 1.18.1,
+  torch 2.12.1+cu132.
+
+What happened
+- 21:17:53: the checkpoint of epoch 75 was written (gate_runs/label_free_s5/state.pt).
+- 21:19:05: the owner paused the run (tools/pause.py; the record is queue/PAUSED_20261114_014256.json).
+  21:19:08: the runner stopped the job 74_c22_train_s5 (its done file: returncode 1, killed true). The 75 s of work on
+  epoch 76 were lost. The waiting job 74_c22_train_s5_b_hold started.
+- 21:20:15: the owner closed the runner's window. The waiting job ended with code 3221225786. The runner was stopped
+  while it wrote that job's done file: an empty queue/74_c22_train_s5_b_hold.done.json.tmp was left and no done file,
+  so the waiting job stayed pending. No guard ran and no later job was cancelled.
+- For the time between 21:20 and 01:40 the owner had announced a restart of the laptop. Whether it took place and
+  which updates were installed is not known to the operator at the time of writing; it is added below when known.
+- 14 November 01:40 to 01:42: the operator checked the files before the run went on: the queue as described;
+  state.pt of 82,366,333 bytes, a zip archive of 455 entries without a CRC error; attempts.log with its one start line.
+- 01:42:56: the owner continued the run (tools/resume.py: queue/74_c22_train_s5_c.job.json with the same command).
+  01:43:07: he started the runner again (start.bat). The waiting job ran again and ended at once with code 0, and
+  74_c22_train_s5_c started.
+- gate_runs/label_free_s5/attempts.log: "2026-11-14T01:43:10+00:00 start", "2026-11-14T01:44:51+00:00 resumed from
+  epoch 75".
+- 01:48:03: epoch 76 ended with loss 10.4179 in 191.64 s (epochs 73 to 75 before the pause: 10.4481, 10.4185, 10.3804
+  in 350.03, 368.22 and 360.81 s).
+
+Effect
+- No training between 21:19:08 and 01:44:51 (4 h 26 min). The run is the same run, resumed from its checkpoint, as
+  the pre-specification provides.
+- The software of the host may have changed during the run of seed 5 (Windows updates). No threshold, metric,
+  reading or seed changed.
+
+Note on the queue (a script outside the stamp)
+- When the runner's window is closed, the running job can end a moment before the runner does. Here the runner had
+  begun to record the waiting job as ended. Had it finished, the next start of the runner would have gone to the
+  guard 74z_c22_guard before the continuation existed, and the guard would have cancelled the later jobs. This did
+  not happen. After a closed window the continuation is therefore queued first (tools/resume.py) and the runner is
+  started second, the order used here.

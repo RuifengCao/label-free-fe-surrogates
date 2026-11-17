@@ -1,0 +1,14 @@
+{
+ "script": "gate/joint/c22/smoke.py",
+ "args": [
+  "--repo",
+  "gate",
+  "--device",
+  "cuda",
+  "--workers",
+  "4",
+  "--out",
+  "gate_records/smoke"
+ ],
+ "note": "G-C2.2 runbook 0d: the host check from the stamped tree"
+}

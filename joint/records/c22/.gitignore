@@ -1,0 +1,4 @@
+# The label and prediction files of the kept copy are deposited outside the repository (deposit.json).
+# audit/c22_deposit.py restore writes them into return/; they are not committed.
+return/labels/
+return/run_files/*/preds*.npz

@@ -1,0 +1,15 @@
+{
+ "script": "gate/joint/c22/__main__.py",
+ "args": [
+  "evaluate",
+  "--data",
+  "gate_data",
+  "--runs",
+  "gate_runs",
+  "--config-sha",
+  "ef5376a4d6c3cc98d7888121439c8d959ee817d332958dd6b1141b25e78734bb",
+  "--workers",
+  "16"
+ ],
+ "note": "G-C2.2 runbook 5: evaluation"
+}

@@ -1,0 +1,3 @@
+=== 73d_c22_check_labels started 2026-11-13T13:19:23+00:00: __main__.py check-labels --data gate_data
+{"labels": 132, "needed": 132, "missing": [], "extra": [], "levels_ok": true, "converged": true, "worst": {"min_gap": 0.0, "min_lambda": -8.254048935000682e-12, "max_complementarity": 5.901387329565941e-12, "max_lambda_inactive": 8.254048935000682e-12, "max_residual_unconstrained": 1.3274461831853003e-10}, "within_limits": {"min_gap": true, "min_lambda": true, "max_complementarity": true, "max_lambda_inactive": true, "max_residual_unconstrained": true}, "max_F_vs_F_sigma": 4.760121832979955e-13, "ok": true}
+=== 73d_c22_check_labels ended 2026-11-13T13:19:24+00:00 with code 0

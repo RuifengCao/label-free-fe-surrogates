@@ -1,0 +1,7 @@
+=== 73c_c22_label_tested started 2026-11-13T13:17:08+00:00: __main__.py label --data gate_data --split tested --workers 16
+tested_BJ_T1_snug 78.18 s converged
+tested_BJ_T1_preloaded 78.35 s converged
+tested_BJ_T2_snug 88.13 s converged
+tested_BJ_T2_preloaded 133.44 s converged
+labelled 4
+=== 73c_c22_label_tested ended 2026-11-13T13:19:23+00:00 with code 0

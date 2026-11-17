@@ -1,0 +1,9 @@
+{
+ "script": "tools/guard.py",
+ "args": [
+  "77_c22_evaluate",
+  "c22",
+  "77z_c22_guard"
+ ],
+ "note": "G-C2.2: guard after 77_c22_evaluate"
+}

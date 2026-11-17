@@ -1,0 +1,14 @@
+{
+ "script": "code/joint/c22/smoke.py",
+ "args": [
+  "--repo",
+  "code/repo",
+  "--out",
+  "smoke_c22",
+  "--device",
+  "cuda",
+  "--workers",
+  "4"
+ ],
+ "note": "host check of the c22 package on the GPU through the queue, before the stamp (replaces dev/smoke_c22.py)"
+}

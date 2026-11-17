@@ -1,0 +1,9 @@
+{
+ "script": "tools/guard.py",
+ "args": [
+  "70_c22_smoke",
+  "c22",
+  "70z_c22_guard"
+ ],
+ "note": "G-C2.2: guard after 70_c22_smoke"
+}

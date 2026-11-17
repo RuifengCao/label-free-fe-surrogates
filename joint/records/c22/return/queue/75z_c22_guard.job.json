@@ -1,0 +1,9 @@
+{
+ "script": "tools/guard.py",
+ "args": [
+  "75_c22_train_s6",
+  "c22",
+  "75z_c22_guard"
+ ],
+ "note": "G-C2.2: guard after 75_c22_train_s6"
+}

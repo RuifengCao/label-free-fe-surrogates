@@ -1,0 +1,3 @@
+=== 77_c22_evaluate started 2026-11-15T09:32:11+00:00: __main__.py evaluate --data gate_data --runs gate_runs --config-sha ef5376a4d6c3cc98d7888121439c8d959ee817d332958dd6b1141b25e78734bb --workers 16
+{"verdict": "PASS", "C1_value": 0.007972382816471169, "C2_value": 0.03663936677608451, "missing": [], "non_finite": []}
+=== 77_c22_evaluate ended 2026-11-15T11:32:35+00:00 with code 0

@@ -1,0 +1,9 @@
+{
+ "script": "tools/guard.py",
+ "args": [
+  "73d_c22_check_labels",
+  "c22",
+  "73z_c22_guard"
+ ],
+ "note": "G-C2.2: guard after 73d_c22_check_labels"
+}

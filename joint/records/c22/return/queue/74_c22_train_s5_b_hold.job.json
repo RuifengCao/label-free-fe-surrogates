@@ -1,0 +1,7 @@
+{
+ "script": "tools/hold.py",
+ "args": [
+  "74_c22_train_s5"
+ ],
+ "note": "waits while 74_c22_train_s5 is paused"
+}

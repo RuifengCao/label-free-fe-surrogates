@@ -1,0 +1,9 @@
+{
+ "script": "tools/guard.py",
+ "args": [
+  "72_c22_generate",
+  "c22",
+  "72z_c22_guard"
+ ],
+ "note": "G-C2.2: guard after 72_c22_generate"
+}

@@ -1,0 +1,45 @@
+G-C2.2: preconditions (RUNBOOK_C22.md, section 0), recorded by the operator on 13 November 2026. Times are GMT.
+
+Push check, 11:19 to 11:20 and 12:44: branch wp10-joint is at commit 6d9da9b7a564dbe7dace8e580dcc917547caeec9 (parent 8eb6e68,
+tree 952ab34813174ca896214da8adb606db6ab5c083, the tree of the stamped files as packed before the push). The tag prereg-c22 is an
+annotated tag (object 78f942e4b31d2afc883bfc42eef5eba8d8f28ca1, made 12:44:25) that points at this commit. Read from the
+repository on GitHub with git fetch and git ls-remote.
+
+0a. The tree. W is the folder c2dev of the laptop's queue.
+    12:45:28  ls -d gate gate_data gate_runs gate_records 2>/dev/null | wc -l            -> 0
+    12:45     git rev-parse --short 'prereg-c22^{commit}'                                 -> 6d9da9b
+    12:45     git -c core.autocrlf=false archive --format=tar -o gate.tar prereg-c22 joint/c22 joint/c2 joint/fejoint
+              joint/docs/G-C2.2_code.sha256 joint/docs/PRESPEC_G-C2.2.md joint/RUNBOOK_C22.md src
+              (in the operator's clone on a Linux machine, git 2.43.0)
+              sha256sum gate.tar -> 2fddd104386c45f9d4b19a8911a5c511cd85f6ead44ae6184260f7db9237f115  (942,080 bytes, 101 files)
+    12:46     gate.tar copied to W; its SHA-256 on the laptop is the same; unpacked with tar -xf gate.tar -C gate
+              in the laptop's Linux shell that mounts W. No file under gate/ holds a carriage return.
+
+0b. The files, in gate/joint, in the same shell.
+    12:46     sha256sum -c docs/G-C2.2_code.sha256 | grep -vc ': OK$'                     -> 0   (34 lines)
+
+0c. The suite, on a full checkout of commit 6d9da9b on the operator's Linux machine (Python 3.13.18, numpy 2.5.3, scipy 1.18.1,
+    torch 2.12.1+cu130, pytest 9.1.1, pypardiso 0.4.7), with the command of the runbook as written:
+    11:43:40 to 11:58   cd joint && FEJEPA_REPO=.. python -m pytest -q -p no:cacheprovider tests/test_hex8i.py tests/test_contact.py
+              tests/test_c2.py tests/test_c22.py                                          -> 51 passed, 5 warnings in 875.85s (0:14:35)
+    The five warnings are deprecation warnings of the standard library about fork in a process with threads.
+    The same 51 tests had passed on the stamped files before the push with FEJOINT_SOLVER=legacy, the sparse solver of the laptop
+    (13 November 2026, 08:59 to 09:15, 926 s).
+
+0d. The host: job 70_c22_smoke of the queue; its log is logs/70_c22_smoke.log and its report gate_records/smoke/smoke_report.json.
+    The operator's reading of the report is added below when the job has ended.
+
+0d, read by the operator at 12:53: job 70_c22_smoke ran from 12:46:57 to 12:51:08 with exit code 0, and its log ends with
+    "smoke test of c22 passed". The report: Windows-11-10.0.26200-SP0, Python 3.12.16, numpy 2.4.6, scipy 1.18.1, torch 2.12.1+cu132;
+    NVIDIA GeForce RTX 4070 Laptop GPU, 8.0 GiB, 1,120 MiB in use; 32 processors; worker processes started by spawn; label solver scipy;
+    the three thread variables unset at the start and 1 in the workers. check_labels.ok, evaluate.same_with_workers and
+    condense.energy_never_higher are true. resume: the largest differences of the weights and of the three prediction files are 0.0;
+    the losses and the capped steps are the same. The guard 70z_c22_guard let the queue go on.
+
+1.  Configuration: job 71_c22_config, 12:51:08, exit code 0 (logs/71_c22_config.log).
+    First line: config sha256 ef5376a4d6c3cc98d7888121439c8d959ee817d332958dd6b1141b25e78734bb, the value in docs/PRESPEC_G-C2.2.md.
+    28 file hashes, each equal to its line in docs/G-C2.2_code.sha256; six lines "repository ... checked", each equal likewise.
+    gate_records/c22_config.json: 9,252 bytes, SHA-256 8196ab9195bf073afa75a388da9f6cf0ce4c937a41a4cb5d3732f46964a12e72, the same
+    bytes as the file that the same command writes from the same commit on the operator's Linux machine.
+
+Sections 0 and 1 have passed. The jobs of sections 2 to 5 (72_c22_generate to 77z_c22_guard) were queued at 12:53.

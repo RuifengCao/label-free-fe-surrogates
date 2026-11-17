@@ -1,0 +1,17 @@
+{
+ "script": "gate/joint/c22/__main__.py",
+ "args": [
+  "train",
+  "--data",
+  "gate_data",
+  "--runs",
+  "gate_runs",
+  "--seed",
+  "7",
+  "--repo",
+  "gate",
+  "--config-sha",
+  "ef5376a4d6c3cc98d7888121439c8d959ee817d332958dd6b1141b25e78734bb"
+ ],
+ "note": "G-C2.2 runbook 4: training, seed 7"
+}

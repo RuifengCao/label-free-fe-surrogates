@@ -1,0 +1,13 @@
+{
+ "script": "gate/joint/c22/__main__.py",
+ "args": [
+  "label",
+  "--data",
+  "gate_data",
+  "--split",
+  "eval",
+  "--workers",
+  "16"
+ ],
+ "note": "G-C2.2 runbook 3: labels of the set eval"
+}

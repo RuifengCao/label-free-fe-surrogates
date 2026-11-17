@@ -1,0 +1,9 @@
+{
+ "script": "gate/joint/c22/__main__.py",
+ "args": [
+  "generate",
+  "--data",
+  "gate_data"
+ ],
+ "note": "G-C2.2 runbook 2: generation"
+}

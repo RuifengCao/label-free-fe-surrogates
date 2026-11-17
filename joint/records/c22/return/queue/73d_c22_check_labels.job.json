@@ -1,0 +1,9 @@
+{
+ "script": "gate/joint/c22/__main__.py",
+ "args": [
+  "check-labels",
+  "--data",
+  "gate_data"
+ ],
+ "note": "G-C2.2 runbook 3: the check of the labels"
+}

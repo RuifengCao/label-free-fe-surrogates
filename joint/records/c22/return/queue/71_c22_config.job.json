@@ -1,0 +1,11 @@
+{
+ "script": "gate/joint/c22/__main__.py",
+ "args": [
+  "write-config",
+  "--out",
+  "gate_records/c22_config.json",
+  "--repo",
+  "gate"
+ ],
+ "note": "G-C2.2 runbook 1: configuration"
+}
