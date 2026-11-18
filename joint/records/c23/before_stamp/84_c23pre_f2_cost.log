@@ -1,0 +1,39 @@
+=== 84_c23pre_f2_cost started 2026-11-18T11:44:32+00:00: energy_cost.py --out pre3_records/f2_energy_cost.json --device cuda
+W\pre3\joint\c2\torch_energy.py:177: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\aten\src\ATen\Context.cpp:767.)
+  return torch.sparse_coo_tensor(idx, torch.as_tensor(val, dtype=dtype), tuple(int(s) for s in shape),
+{
+ "member": "B-13_nominal",
+ "mesh": "coarse",
+ "nodes": 8632,
+ "unknowns": 25916,
+ "elements": {
+  "p": 3168,
+  "t": 2112,
+  "w": 216
+ },
+ "fields_per_evaluation": 4,
+ "bubble_newton_steps": 10,
+ "precision": "float32",
+ "export_seconds": 158.48,
+ "build_energy_seconds": 1.162,
+ "seconds_per_energy_and_gradient": {
+  "median": 0.8875264500002231,
+  "mean": 0.873982050000086,
+  "min": 0.6568057000004046,
+  "max": 1.0780476999971143
+ },
+ "all_finite": true,
+ "peak_memory_GiB": 0.1582794189453125,
+ "energy_memory_GiB_per_instance": 0.05449247360229492,
+ "host": {
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.16",
+  "torch": "2.12.1+cu132",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+  "threads": 24,
+  "processors": 32
+ },
+ "note": "a lower bound on the time of a label-free training step: the network's forward and backward pass and the optimiser are not included"
+}
+=== 84_c23pre_f2_cost ended 2026-11-18T11:47:35+00:00 with code 0

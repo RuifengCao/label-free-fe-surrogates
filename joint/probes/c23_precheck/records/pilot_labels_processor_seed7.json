@@ -1,0 +1,125 @@
+{
+ "gate_config_sha256": "3b41c26636637e7279f0a43f95406af3b37700c18d979c6d8dd8ec477e055f9e",
+ "pilot_config_sha256": "d9f8d16ff3859733ed2596f1c1cdc9b6b476042ca242a1bc0c10bdccbb316280",
+ "family_seed": 7,
+ "members": 2,
+ "levels_mm": [
+  0.1,
+  0.75,
+  1.5,
+  2.5,
+  3.5,
+  5.0,
+  7.0,
+  8.0
+ ],
+ "mesh": {
+  "h": 5.0,
+  "n_tf": 2,
+  "hx_max": 20.0
+ },
+ "label_solver": {
+  "tol": 1e-12,
+  "max_it": 80,
+  "order": "levels in increasing order, each from the previous level's solution"
+ },
+ "linear_solver": "pardiso",
+ "workers": 2,
+ "export_seconds": 0.4,
+ "label_seconds_wall": 166.4,
+ "label_seconds_per_member": {
+  "median": 157.72,
+  "max": 166.38,
+  "sum": 315.44
+ },
+ "all_converged": true,
+ "check_labels": {
+  "splits": [
+   "train"
+  ],
+  "labels": 2,
+  "needed": 2,
+  "missing": [],
+  "extra": [],
+  "levels_ok": true,
+  "converged": true,
+  "worst": {
+   "min_gap": 0.0,
+   "min_lambda": -3.3745934907025644e-14,
+   "max_complementarity": 2.0967423848243285e-14,
+   "max_lambda_inactive": 3.3745934907025644e-14,
+   "max_residual_unconstrained": 2.3638382608752814e-11
+  },
+  "within_limits": {
+   "min_gap": true,
+   "min_lambda": true,
+   "max_complementarity": true,
+   "max_lambda_inactive": true,
+   "max_residual_unconstrained": true
+  },
+  "max_F_vs_F_sigma": 1.3235218077300525e-13,
+  "ok": true
+ },
+ "per_member": [
+  {
+   "id": "train_0000",
+   "seconds": 149.06,
+   "converged": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "iterations": [
+    2,
+    2,
+    2,
+    6,
+    7,
+    10,
+    8,
+    7
+   ]
+  },
+  {
+   "id": "train_0001",
+   "seconds": 166.38,
+   "converged": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "iterations": [
+    2,
+    2,
+    2,
+    7,
+    8,
+    9,
+    20,
+    7
+   ]
+  }
+ ],
+ "host": {
+  "platform": "Linux-6.18.44-fc-v595-x86_64-with-glibc2.39",
+  "python": "3.13.18",
+  "numpy": "2.5.3",
+  "scipy": "1.18.1",
+  "processors": 2,
+  "thread_variables": {
+   "OMP_NUM_THREADS": null,
+   "MKL_NUM_THREADS": null,
+   "OPENBLAS_NUM_THREADS": "1"
+  }
+ }
+}

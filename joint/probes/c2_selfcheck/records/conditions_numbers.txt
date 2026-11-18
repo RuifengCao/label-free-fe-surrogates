@@ -1,0 +1,10 @@
+T-stubs: 64 | steps: 7 | comparisons: 448
+every T-stub plastic at its last step: True
+refined, all: median 0.797% | 90th percentile 3.664% | gate's C1, C2: 0.797% 3.664%
+raw, all:     median 1.364% | 90th percentile 10.543%
+elastic comparisons (no plastic Gauss point in the reference solution): 126 | median 0.460% | per surrogate ['0.430%', '0.460%', '0.472%'] | max ['2.319%', '3.372%', '2.783%']
+comparisons with secant ratio < 1/8: 117 | median 2.003% | per surrogate ['2.003%', '2.009%', '1.985%']
+differences above 10% per surrogate: [6, 5, 6] | of them with secant ratio < 1/8: [6, 5, 6] | of them overestimates: [6, 5, 6]
+distinct comparisons above 10% in any surrogate: 8 | T-stubs: 5 | their yield stresses (MPa): [238, 239, 266, 273, 289] | largest secant ratio among them: 0.121
+first step: T-stubs with no plastic Gauss point: 63 of 64
+secant ratio at the last step: min 0.032 median 0.071 max 0.147

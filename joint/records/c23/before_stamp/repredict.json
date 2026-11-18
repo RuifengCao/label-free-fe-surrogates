@@ -1,0 +1,135 @@
+{
+ "config_sha256": "ef5376a4d6c3cc98d7888121439c8d959ee817d332958dd6b1141b25e78734bb",
+ "seeds": {
+  "5": {
+   "state_sha256": "5859ca7737e94b502660dddd082891a18f981b6df4228ff2a7c59d865ca7dcf5",
+   "state_is_the_pinned_one": true,
+   "files": {
+    "preds.npz": {
+     "same_members": true,
+     "same_shapes": true,
+     "members": 132,
+     "members_that_differ": [],
+     "largest_difference": 0.0,
+     "largest_value": 5.698017597198486,
+     "identical": true
+    },
+    "preds_condensed.npz": {
+     "same_members": true,
+     "same_shapes": true,
+     "members": 132,
+     "members_that_differ": [],
+     "largest_difference": 0.0,
+     "largest_value": 6.738880157470703,
+     "identical": true
+    },
+    "preds_base.npz": {
+     "same_members": true,
+     "same_shapes": true,
+     "members": 132,
+     "members_that_differ": [],
+     "largest_difference": 0.0,
+     "largest_value": 0.02990064211189747,
+     "identical": true
+    },
+    "condense.json": {
+     "identical": true,
+     "largest_difference": 0.0
+    }
+   },
+   "finite": true,
+   "predict_seconds": 621.8,
+   "identical": true
+  },
+  "6": {
+   "state_sha256": "adb9992ae19846afd56e9f75d9dfe533edcf5a47fbca9c6a210f18581032c0b1",
+   "state_is_the_pinned_one": true,
+   "files": {
+    "preds.npz": {
+     "same_members": true,
+     "same_shapes": true,
+     "members": 132,
+     "members_that_differ": [],
+     "largest_difference": 0.0,
+     "largest_value": 5.895655155181885,
+     "identical": true
+    },
+    "preds_condensed.npz": {
+     "same_members": true,
+     "same_shapes": true,
+     "members": 132,
+     "members_that_differ": [],
+     "largest_difference": 0.0,
+     "largest_value": 6.690794467926025,
+     "identical": true
+    },
+    "preds_base.npz": {
+     "same_members": true,
+     "same_shapes": true,
+     "members": 132,
+     "members_that_differ": [],
+     "largest_difference": 0.0,
+     "largest_value": 0.02733536623418331,
+     "identical": true
+    },
+    "condense.json": {
+     "identical": true,
+     "largest_difference": 0.0
+    }
+   },
+   "finite": true,
+   "predict_seconds": 636.3,
+   "identical": true
+  },
+  "7": {
+   "state_sha256": "80c56c73af04b4321f52a9acfd037a476837bfa6ec0cc8e55524dbf63988bc53",
+   "state_is_the_pinned_one": true,
+   "files": {
+    "preds.npz": {
+     "same_members": true,
+     "same_shapes": true,
+     "members": 132,
+     "members_that_differ": [],
+     "largest_difference": 0.0,
+     "largest_value": 5.757699966430664,
+     "identical": true
+    },
+    "preds_condensed.npz": {
+     "same_members": true,
+     "same_shapes": true,
+     "members": 132,
+     "members_that_differ": [],
+     "largest_difference": 0.0,
+     "largest_value": 6.7575578689575195,
+     "identical": true
+    },
+    "preds_base.npz": {
+     "same_members": true,
+     "same_shapes": true,
+     "members": 132,
+     "members_that_differ": [],
+     "largest_difference": 0.0,
+     "largest_value": 0.030063940212130547,
+     "identical": true
+    },
+    "condense.json": {
+     "identical": true,
+     "largest_difference": 0.0
+    }
+   },
+   "finite": true,
+   "predict_seconds": 602.9,
+   "identical": true
+  }
+ },
+ "all_identical": true,
+ "host": {
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.16",
+  "numpy": "2.4.6",
+  "torch": "2.12.1+cu132",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+  "processors": 32
+ }
+}

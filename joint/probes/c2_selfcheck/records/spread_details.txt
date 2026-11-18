@@ -1,0 +1,34 @@
+threshold on the spread, from the former sample: 0.450% of the force
+
+former: 448 cases, flagged 112 (25.0%)
+  not flagged: median 0.76, 0.66, 0.68 | p90 1.97, 2.06, 2.03 | max 5.09, 4.60, 4.80 | above 5%: [1, 0, 0]
+  flagged    : median 2.29, 2.21, 2.13 | p90 6.67, 6.80, 6.61 | max 29.51, 27.35, 14.11 | above 5%: [21, 19, 19] | above 10%: [6, 3, 5]
+  flagged and FE secant ratio < 1/8: 59 of 118 deep cases; flagged but not deep: 53 | flagged by step 1..7: [0, 0, 9, 18, 25, 22, 38]
+  cases above 5% in any run: 28; smallest spread among them 0.375%; share flagged at that threshold 29.0%
+
+eval: 448 cases, flagged 118 (26.3%)
+  not flagged: median 0.61, 0.62, 0.58 | p90 1.85, 1.88, 1.85 | max 4.92, 4.79, 4.92 | above 5%: [0, 0, 0]
+  flagged    : median 2.69, 2.80, 2.74 | p90 6.55, 7.08, 7.30 | max 50.10, 68.63, 51.03 | above 5%: [26, 24, 25] | above 10%: [6, 5, 6]
+  flagged and FE secant ratio < 1/8: 56 of 117 deep cases; flagged but not deep: 62 | flagged by step 1..7: [1, 1, 10, 22, 30, 20, 34]
+  cases above 5% in any run: 32; smallest spread among them 0.497%; share flagged at that threshold 23.2%
+
+tested: 28 cases, flagged 6 (21.4%)
+  not flagged: median 0.81, 0.80, 0.67 | p90 1.40, 1.35, 1.27 | max 1.74, 1.78, 1.63 | above 5%: [0, 0, 0]
+  flagged    : median 1.77, 1.70, 1.60 | p90 2.48, 2.43, 2.06 | max 2.89, 2.55, 2.46 | above 5%: [0, 0, 0] | above 10%: [0, 0, 0]
+  flagged and FE secant ratio < 1/8: 3 of 4 deep cases; flagged but not deep: 3 | flagged by step 1..7: [0, 0, 0, 1, 1, 0, 4]
+
+spread of two runs only (threshold = its own upper quartile on the former sample), judged on the eval sample:
+  runs 5,6, difference of run 5: AUC above 5% 0.874 | flagged 124 | caught 6/6 of >10%, 21/26 of >5% | largest unflagged 8.7%
+  runs 5,6, difference of run 6: AUC above 5% 0.854 | flagged 124 | caught 5/5 of >10%, 19/24 of >5% | largest unflagged 9.0%
+  runs 5,7, difference of run 5: AUC above 5% 0.900 | flagged 119 | caught 6/6 of >10%, 23/26 of >5% | largest unflagged 7.7%
+  runs 5,7, difference of run 7: AUC above 5% 0.898 | flagged 119 | caught 6/6 of >10%, 22/25 of >5% | largest unflagged 7.7%
+  runs 6,7, difference of run 6: AUC above 5% 0.910 | flagged 105 | caught 5/5 of >10%, 19/24 of >5% | largest unflagged 7.1%
+  runs 6,7, difference of run 7: AUC above 5% 0.917 | flagged 105 | caught 6/6 of >10%, 20/25 of >5% | largest unflagged 7.0%
+
+change made by the rescaling (one run is enough): threshold = upper quartile on the former sample, three runs pooled
+  former, run 5: flagged 114 | caught 6/6 of >10%, 20/22 of >5% | not flagged: median 0.72%, p90 2.11%, max 5.5%
+  former, run 6: flagged 113 | caught 2/3 of >10%, 17/19 of >5% | not flagged: median 0.66%, p90 2.08%, max 13.4%
+  former, run 7: flagged 109 | caught 5/5 of >10%, 13/19 of >5% | not flagged: median 0.65%, p90 2.03%, max 6.6%
+  eval, run 5: flagged 118 | caught 6/6 of >10%, 23/26 of >5% | not flagged: median 0.58%, p90 2.09%, max 7.7%
+  eval, run 6: flagged 125 | caught 5/5 of >10%, 22/24 of >5% | not flagged: median 0.59%, p90 2.24%, max 7.1%
+  eval, run 7: flagged 115 | caught 6/6 of >10%, 23/25 of >5% | not flagged: median 0.58%, p90 2.14%, max 7.6%

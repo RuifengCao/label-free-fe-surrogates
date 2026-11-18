@@ -1,0 +1,258 @@
+{
+ "config_sha256": "ef5376a4d6c3cc98d7888121439c8d959ee817d332958dd6b1141b25e78734bb",
+ "set": "eval",
+ "members": [
+  "eval_0000",
+  "eval_0001",
+  "eval_0002",
+  "eval_0003",
+  "eval_0004",
+  "eval_0005",
+  "eval_0006",
+  "eval_0007"
+ ],
+ "levels_mm": [
+  0.5,
+  1.0,
+  2.0,
+  3.0,
+  4.0,
+  6.0,
+  8.0
+ ],
+ "weights": {
+  "file": "state.pt",
+  "epoch": 200,
+  "seed": 5,
+  "config_sha256": "ef5376a4d6c3cc98d7888121439c8d959ee817d332958dd6b1141b25e78734bb"
+ },
+ "host": {
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.16",
+  "numpy": "2.4.6",
+  "torch": "2.12.1+cu132",
+  "processors": 32,
+  "threads": 1,
+  "label_solver": "scipy",
+  "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU"
+ },
+ "surrogate": {
+  "cuda": {
+   "members": {
+    "eval_0000": {
+     "nodes": 1364,
+     "prepare_s": 0.14711279999755789,
+     "forward_s": 0.0634128999990935,
+     "condense_s": 5.135866600001464,
+     "energy_evaluations": 9,
+     "predict_s": 5.199279500000557,
+     "with_preparation_s": 5.346392299998115
+    },
+    "eval_0001": {
+     "nodes": 1254,
+     "prepare_s": 0.15071719999832567,
+     "forward_s": 0.08670060000076774,
+     "condense_s": 5.36309650000112,
+     "energy_evaluations": 9,
+     "predict_s": 5.449797100001888,
+     "with_preparation_s": 5.6005143000002136
+    },
+    "eval_0002": {
+     "nodes": 1661,
+     "prepare_s": 0.18195539999942412,
+     "forward_s": 0.15299550000054296,
+     "condense_s": 2.8870257000016863,
+     "energy_evaluations": 5,
+     "predict_s": 3.0400212000022293,
+     "with_preparation_s": 3.2219766000016534
+    },
+    "eval_0003": {
+     "nodes": 1188,
+     "prepare_s": 0.21097690000169678,
+     "forward_s": 0.08455200000025798,
+     "condense_s": 2.118386599999212,
+     "energy_evaluations": 4,
+     "predict_s": 2.20293859999947,
+     "with_preparation_s": 2.413915500001167
+    },
+    "eval_0004": {
+     "nodes": 1397,
+     "prepare_s": 0.1859690999990562,
+     "forward_s": 0.24054500000056578,
+     "condense_s": 2.2613138999986404,
+     "energy_evaluations": 4,
+     "predict_s": 2.501858899999206,
+     "with_preparation_s": 2.6878279999982624
+    },
+    "eval_0005": {
+     "nodes": 1408,
+     "prepare_s": 0.20217870000124094,
+     "forward_s": 0.14854750000085915,
+     "condense_s": 2.0893402000001515,
+     "energy_evaluations": 4,
+     "predict_s": 2.2378877000010107,
+     "with_preparation_s": 2.4400664000022516
+    },
+    "eval_0006": {
+     "nodes": 1463,
+     "prepare_s": 0.23218719999931636,
+     "forward_s": 0.19840680000197608,
+     "condense_s": 2.3706633000001602,
+     "energy_evaluations": 4,
+     "predict_s": 2.5690701000021363,
+     "with_preparation_s": 2.8012573000014527
+    },
+    "eval_0007": {
+     "nodes": 1265,
+     "prepare_s": 0.20600899999772082,
+     "forward_s": 0.0842607999984466,
+     "condense_s": 2.41016959999979,
+     "energy_evaluations": 4,
+     "predict_s": 2.4944303999982367,
+     "with_preparation_s": 2.7004393999959575
+    }
+   },
+   "median": {
+    "prepare_s": 0.19407390000014857,
+    "forward_s": 0.11762405000081344,
+    "condense_s": 2.390416449999975,
+    "predict_s": 2.5354645000006713,
+    "with_preparation_s": 2.750848349998705
+   }
+  },
+  "cpu": {
+   "members": {
+    "eval_0000": {
+     "nodes": 1364,
+     "prepare_s": 0.14901129999998375,
+     "forward_s": 34.90021660000275,
+     "condense_s": 21.938469099997747,
+     "energy_evaluations": 12,
+     "predict_s": 56.8386857000005,
+     "with_preparation_s": 56.98769700000048
+    },
+    "eval_0001": {
+     "nodes": 1254,
+     "prepare_s": 0.13786769999933313,
+     "forward_s": 31.264292699997895,
+     "condense_s": 15.052671999997983,
+     "energy_evaluations": 9,
+     "predict_s": 46.31696469999588,
+     "with_preparation_s": 46.45483239999521
+    },
+    "eval_0002": {
+     "nodes": 1661,
+     "prepare_s": 0.1808378999994602,
+     "forward_s": 54.7264929999983,
+     "condense_s": 14.113718900000094,
+     "energy_evaluations": 6,
+     "predict_s": 68.8402118999984,
+     "with_preparation_s": 69.02104979999785
+    },
+    "eval_0003": {
+     "nodes": 1188,
+     "prepare_s": 0.13303610000002664,
+     "forward_s": 21.73523639999985,
+     "condense_s": 6.487046599999303,
+     "energy_evaluations": 4,
+     "predict_s": 28.222282999999152,
+     "with_preparation_s": 28.35531909999918
+    },
+    "eval_0004": {
+     "nodes": 1397,
+     "prepare_s": 0.14675480000005336,
+     "forward_s": 36.95297940000091,
+     "condense_s": 7.45039800000086,
+     "energy_evaluations": 4,
+     "predict_s": 44.40337740000177,
+     "with_preparation_s": 44.550132200001826
+    },
+    "eval_0005": {
+     "nodes": 1408,
+     "prepare_s": 0.1507534999982454,
+     "forward_s": 34.46867510000084,
+     "condense_s": 8.026035000002594,
+     "energy_evaluations": 4,
+     "predict_s": 42.49471010000343,
+     "with_preparation_s": 42.645463600001676
+    },
+    "eval_0006": {
+     "nodes": 1463,
+     "prepare_s": 0.17462159999922733,
+     "forward_s": 44.95971350000036,
+     "condense_s": 8.420418799996696,
+     "energy_evaluations": 4,
+     "predict_s": 53.38013229999706,
+     "with_preparation_s": 53.554753899996285
+    },
+    "eval_0007": {
+     "nodes": 1265,
+     "prepare_s": 0.15310859999954118,
+     "forward_s": 32.66807399999743,
+     "condense_s": 6.8870481999983895,
+     "energy_evaluations": 4,
+     "predict_s": 39.55512219999582,
+     "with_preparation_s": 39.70823079999536
+    }
+   },
+   "median": {
+    "prepare_s": 0.14988239999911457,
+    "forward_s": 34.684445850001794,
+    "condense_s": 8.223226899999645,
+    "predict_s": 45.360171049998826,
+    "with_preparation_s": 45.50248229999852
+   }
+  }
+ },
+ "reference": {
+  "eval_0000": {
+   "solve_s": 104.28378669999802,
+   "converged": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "eval_0001": {
+   "solve_s": 122.49749789999987,
+   "converged": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "eval_0002": {
+   "solve_s": 162.3946481000021,
+   "converged": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "eval_0003": {
+   "solve_s": 66.35206639999888,
+   "converged": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  }
+ },
+ "reference_median_s": 113.39064229999894
+}

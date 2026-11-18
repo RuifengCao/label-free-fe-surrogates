@@ -1,0 +1,43 @@
+{
+ "config_sha256": "ef5376a4d6c3cc98d7888121439c8d959ee817d332958dd6b1141b25e78734bb",
+ "members": [
+  "train_0000",
+  "train_0001",
+  "train_0002",
+  "train_0003",
+  "train_0004",
+  "train_0005",
+  "train_0006",
+  "train_0007"
+ ],
+ "fields_per_step": 4,
+ "host": {
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.16",
+  "torch": "2.12.1+cu132",
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+  "threads": 24,
+  "processors": 32
+ },
+ "losses": {
+  "energy": {
+   "seconds_per_step_median": 0.6712774999996327,
+   "seconds_per_step_mean": 0.6848276099999566,
+   "seconds_per_step_max": 1.0993754000010085,
+   "hours_for_a_run_at_the_median": 19.09411555554511,
+   "steps_of_a_run": 102400,
+   "losses_finite": true,
+   "peak_memory_GiB": 0.3171253204345703
+  },
+  "supervised": {
+   "seconds_per_step_median": 0.16663175000030606,
+   "seconds_per_step_mean": 0.16754637750018447,
+   "seconds_per_step_max": 0.26982150000185356,
+   "hours_for_a_run_at_the_median": 4.739747555564261,
+   "steps_of_a_run": 102400,
+   "losses_finite": true,
+   "peak_memory_GiB": 0.2686271667480469
+  }
+ }
+}

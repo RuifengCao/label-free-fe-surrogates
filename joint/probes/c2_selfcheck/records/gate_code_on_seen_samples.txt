@@ -1,0 +1,143 @@
+{
+ "threshold": 0.0045,
+ "former": {
+  "runs": [
+   "5",
+   "6",
+   "7"
+  ],
+  "pairs": 448,
+  "flagged": 113,
+  "flagged_share": 0.25223214285714285,
+  "not_flagged_pairs_above_0.10_in_any_run": 0,
+  "not_flagged_readings": 1005,
+  "not_flagged_readings_above_0.05": 1,
+  "not_flagged_share_above_0.05": 0.0009950248756218905,
+  "largest_error_not_flagged": [
+   0.05093312681136042,
+   0.04601168605525974,
+   0.04804258918484572
+  ],
+  "pairs_above": {
+   "0.05": {
+    "total": [
+     22,
+     19,
+     19
+    ],
+    "flagged": [
+     21,
+     19,
+     19
+    ]
+   },
+   "0.1": {
+    "total": [
+     6,
+     3,
+     5
+    ],
+    "flagged": [
+     6,
+     3,
+     5
+    ]
+   }
+  },
+  "spread_quantiles": {
+   "0.5": 0.00182087219419419,
+   "0.75": 0.004504393458838893,
+   "0.9": 0.008867848928070974
+  },
+  "spread_max": 0.17551063013186324,
+  "S1": true,
+  "S2": true,
+  "S3": true,
+  "verdict": "PASS",
+  "ranking": {
+   "auc_above_0.05": [
+    0.956145966709347,
+    0.9717826033615508,
+    0.9668752300331248
+   ],
+   "auc_above_0.10": [
+    0.9615384615384616,
+    0.9183520599250936,
+    0.9498871331828442
+   ],
+   "R": "HOLDS"
+  },
+  "upper_quartile_of_the_spread": 0.004504393458838893,
+  "largest_difference_of_the_force_from_the_recorded_force_error": 0.0
+ },
+ "eval": {
+  "runs": [
+   "5",
+   "6",
+   "7"
+  ],
+  "pairs": 448,
+  "flagged": 118,
+  "flagged_share": 0.26339285714285715,
+  "not_flagged_pairs_above_0.10_in_any_run": 0,
+  "not_flagged_readings": 990,
+  "not_flagged_readings_above_0.05": 0,
+  "not_flagged_share_above_0.05": 0.0,
+  "largest_error_not_flagged": [
+   0.0491658109823645,
+   0.04789799695904895,
+   0.04918375389972818
+  ],
+  "pairs_above": {
+   "0.05": {
+    "total": [
+     26,
+     24,
+     25
+    ],
+    "flagged": [
+     26,
+     24,
+     25
+    ]
+   },
+   "0.1": {
+    "total": [
+     6,
+     5,
+     6
+    ],
+    "flagged": [
+     6,
+     5,
+     6
+    ]
+   }
+  },
+  "spread_quantiles": {
+   "0.5": 0.0019045742040117567,
+   "0.75": 0.004692703539363553,
+   "0.9": 0.009088899178393905
+  },
+  "spread_max": 0.11863591600153815,
+  "S1": true,
+  "S2": true,
+  "S3": true,
+  "verdict": "PASS",
+  "ranking": {
+   "auc_above_0.05": [
+    0.9557965730951513,
+    0.9436910377358491,
+    0.9520567375886525
+   ],
+   "auc_above_0.10": [
+    0.9992458521870287,
+    0.9968397291196388,
+    0.997737556561086
+   ],
+   "R": "HOLDS"
+  },
+  "upper_quartile_of_the_spread": 0.004692703539363553,
+  "largest_difference_of_the_force_from_the_recorded_force_error": 0.0
+ }
+}
