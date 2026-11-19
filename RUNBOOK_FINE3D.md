@@ -126,7 +126,11 @@ done
 ```
 Expected: `runs/data3d_phase2` with manifest `dc75628290bb...` and 2000
 instances; `runs/data3d_phase2_fine` with manifest `0f859ad98a01...`, 320
-instances, 320 labelled; the three states `a7b5c71c...`, `e9c0c400...`,
+instances, 60 labelled (corrected on 19 November 2026: this line said 320
+labelled; the count is the instances the manifest flags as labelled, 60, and
+the files of P3's 256 fine evaluation instances hold their reference
+solutions, so that R2a bought no label; DEVIATIONS_R2B B1); the three states
+`a7b5c71c...`, `e9c0c400...`,
 `e0f2210b...`; both R2a dry runs `"prereg_status": "verified"`; R3's dry runs
 one JSON line each, the first with `"arm": "energy"`, the second with `"arm":
 "labelled"`, each with `"states_verified": 3`, 16 training files

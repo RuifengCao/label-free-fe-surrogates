@@ -1,0 +1,14 @@
+r2b_s.log start 2026-11-10 01:02:06 host autodl-container-eb3344896e-709d725c driver 595.71.05
+r2b_s.log exit=0 2026-11-13 11:17:29
+amp_r2b_s.log start 2026-11-13 11:17:31 host autodl-container-eb3344896e-709d725c driver 595.71.05
+amp_r2b_s.log exit=0 2026-11-13 12:07:06
+r2b_b: r2b_s has a complete report
+r2b_b.log start 2026-11-13 12:07:08 host autodl-container-eb3344896e-709d725c driver 595.71.05
+r2b_s: report exists, skipped
+amp_r2b_s: record complete, skipped
+r2b_b: r2b_s has a complete report
+r2b_b: restarting from its states
+r2b_b.log start 2026-11-18 20:37:10 host autodl-container-1qjylxm03k-f5fe291f driver 595.71.05
+r2b_b.log exit=0 2026-11-19 03:01:59
+amp_r2b_b.log start 2026-11-19 03:02:00 host autodl-container-1qjylxm03k-f5fe291f driver 595.71.05
+amp_r2b_b.log exit=0 2026-11-19 03:38:19

@@ -104,9 +104,12 @@ done
 ```
 Expected: `runs/data3d_phase2` with manifest `dc75628290bb...` and 2000
 instances; `runs/data3d_phase2_fine` with manifest `0f859ad98a01...`, 320
-instances, 320 labelled; both dry runs `"prereg_status": "verified"`. Anything
+instances, 60 labelled; both dry runs `"prereg_status": "verified"`. Anything
 else (a traceback, `would refuse`, `null`, another hash or count): stop and
-report.
+report. (Corrected on 19 November 2026, after the session: this line said 320
+labelled. The count is the instances the manifest flags as labelled, 60; the
+files of P3's 256 fine evaluation instances hold their reference solutions,
+and the session bought no label. DEVIATIONS_R2B B1.)
 
 ## 1. The session (box; about 170 h; the same tmux window)
 ```bash
@@ -225,4 +228,8 @@ both reports to have run on `prereg-r2b`. R2b per PREREG_R2B Sec. 5, the
 secondary readings of Sec. 6, refusals and deviations; the inputs' SHA-256,
 the session's attempts and their last exits, and the adjudicating code (its
 files against the tag's) are recorded in the verdict file. A report refused
-or not in the return leaves R2b NOT EVALUATED.
+or not in the return leaves R2b NOT EVALUATED. (Note of 19 November 2026:
+run as written, the command records the Phase-2b report, fine3d's verdict
+file and PREREG_R2B.md by their absolute paths; the committed verdict was
+written with those three given relative to the repository, as
+records/wp9/README.md shows.)

@@ -319,3 +319,141 @@ own `git` string differently (`prereg-fine3d-...`), and only that field may
 then differ; where the tag `prereg-fine3d` is absent, so do its record of
 the comparison with the tag and a deviation saying that it could not be
 made.
+
+## R2b: the box's return (Stage 5, 19 November 2026)
+
+The return of RUNBOOK_R2B Sec. 2 is committed as received, unpacked byte
+for byte:
+
+| Directory | Return (RUNBOOK_R2B) | Tarball SHA-256 as received |
+|---|---|---|
+| `r2b/return/` | Sec. 2, the session of 10-19 November 2026 (box time), returned on 19 November 2026 | `104492bf6f9158dad42e8625ad01ca9eb87ff67affd851d36a52c17081717b5f` |
+
+The six trained states stay on the box; their SHA-256 are in
+`r2b/return/provenance.txt` and in the reports. S's arm and its amplitude
+pass ran once each, from 01:02:06 on 10 November to 12:07:06 on 13 November
+(box time, +0800; `session/status.txt`), each with exit 0, on host
+`autodl-container-eb3344896e-709d725c`. The baseline's first attempt started
+there at 12:07:08 on 13 November and ended during seed 5 without a record
+(the PI stated that the instance's weekly rental had run out).
+Its second attempt, on host `autodl-container-1qjylxm03k-f5fe291f` from
+20:37:10 on 18 November, read seeds 3 and 4 from their states, resumed seed
+5 from its checkpoint at epoch 161 and ended with exit 0 at 03:01:59 on 19
+November; the baseline's amplitude pass followed (exit 0 at 03:38:19). Both
+hosts read GPU driver 595.71.05. The provenance file, written on the second
+host, names an RTX 5090, 16 CPUs, torch 2.12.1+cu130 with CUDA and gmsh
+4.15.2, and no out-of-memory kill; its git lines are the stamped commit's,
+and `git status` lists one untracked file outside `runs/`, as in fine3d's
+return. Both solve ledgers read 0. The session's suite read `821 passed, 1
+skipped` (`session/pytest.log`; RUNBOOK_R2B Sec. 0c; undated, and its host is not
+recorded), the stamped commit's count.
+`DEVIATIONS_R2B.md` records what the adjudication cannot see: the fine
+set's labelled count, 60 against the runbook's 320 (B1), and the instance's
+rental, which ran out during the baseline, with the interrupted first
+attempt and the session's resumption on another host (B2).
+
+## R2b: the verdict (RUNBOOK_R2B Sec. 3)
+
+`r2b/r2b_verdict.json` was written on 19 November 2026 on the stamped code,
+in a clean checkout of `prereg-r2b` with the return in place
+(`adjudicator.git` = `prereg-r2b`; no adjudicating file differs from the
+tag):
+
+    python scripts/adjudicate_r2b.py \
+        --r2b-b records/wp9/r2b/return/r2b_b/report.json \
+        --r2b-s records/wp9/r2b/return/r2b_s/report.json \
+        --amp-b records/wp9/r2b/return/posthoc/amp_r2b_b.json \
+        --amp-s records/wp9/r2b/return/posthoc/amp_r2b_s.json \
+        --status records/wp9/r2b/return/session/status.txt \
+        --phase2b records/wp8/e2/baseline/report_phase2b.json \
+        --fine3d-verdict records/wp9/fine3d/fine3d_verdict.json \
+        --prereg PREREG_R2B.md \
+        --out records/wp9/r2b/r2b_verdict.json
+
+(The three optional paths are given so that the file names its inputs
+relative to the repository; a first run the same day, with the return
+outside the repository, gave the same file but for the paths.) No report
+was refused. The adjudication recorded three deviations, all of the
+baseline's interrupted first attempt (`DEVIATIONS_R2B.md` B2): the
+session's steps started on two hosts, the baseline's two attempts, and its
+restart (seeds 3 and 4 reused, seed 5 resumed from epoch 161); it recorded
+no note. The verdict of PREREG_R2B Sec. 5, with rel (the relative change of
+the seed means), tau (the guard, max(10%, 2 SE_rel)) and the per-seed
+values, the fresh baseline first:
+
+- **R2b: SUPPORTED.** S against the fresh baseline, both trained on seeds
+  3-5: (i) the fine displacement error, 0.193 / 0.252 / 0.308 and 0.090 /
+  0.016 / 0.043, rel -80.2%, tau 31.5%; (ii) the fine / in-band
+  displacement-error ratio, 5.79 / 8.70 / 7.72 and 0.99 / 1.12 / 1.02, rel
+  -85.9%, tau 23.2% (the ratio of the seed means 7.37 and 1.01); (iii) K1
+  on E8's in-band cell, neither worse beyond the guard: the energy gap,
+  0.0074 / 0.0080 / 0.0109 and 0.0834 / 0.0053 / 0.0150, rel +294.2%, tau
+  561.0%, and the displacement error, 0.033 / 0.029 / 0.040 and 0.091 /
+  0.014 / 0.042, rel +44.1%, tau 133.4%.
+- K1 holds because its guard is wide, not because S's in-band errors are as
+  low as the baseline's. S's seed 3 has an in-band energy gap of 0.0834 and
+  a displacement error of 0.091; seed against seed, S's in-band energy gap
+  differs from the baseline's by +1021.4%, -34.0% and +38.2% and its
+  displacement error by +172.6%, -51.7% and +6.2%. Resampling the instances
+  with the seeds kept, the 95% intervals of rel are +274.6% to +313.3% (the
+  energy gap) and +37.2% to +51.2% (the displacement error): on these seeds
+  S's in-band means are higher, and three seeds cannot place the increase
+  beyond the guard. On per-seed medians K1 reads +320.8% (tau 609.0%) and
+  +56.1% (tau 151.9%); rel's Welch 95% intervals are -908.5% to +1496.8%
+  and -232.6% to +320.9%. With three seeds this guard cannot fire on one
+  seed alone: with S's seeds 4 and 5 as they are, no value of seed 3 would
+  make K1 fail (rel / tau tends to 1/2 as it grows), so K1's pass says
+  nothing about seed 3. S's in-band errors at 1.43 and 1.31 times the
+  baseline's, seed by seed, would have failed it.
+- Beside (i) and (ii): on per-seed medians, -80.7% (tau 31.7%) and -87.2%
+  (tau 25.1%); rel's Welch 95% intervals, -126.8% to -33.6% and -135.5% to
+  -36.3% (intervals of the difference of the means over the baseline's
+  mean, so that they can reach below -100%); resampling the instances, -81.0% to -79.4% and -86.8% to
+  -84.9%; seed against seed, the fine displacement error -53.5%, -93.8% and
+  -85.9% and the ratio -82.9%, -87.1% and -86.7%.
+- Every metric on the fine set (Sec. 6), S against the baseline: the energy
+  gap, 0.075 / 0.139 / 0.249 and 0.085 / 0.007 / 0.023, -75.1% (tau 72.2%),
+  the von Mises error, 0.219 / 0.275 / 0.371 and 0.122 / 0.051 / 0.085,
+  -70.1% (tau 33.7%), and the peak von Mises error -63.1% (tau 40.3%),
+  lower beyond the guard; the
+  critical-region recall +4.1% (tau 10.0%), within it. In band, on P3's
+  pass and E8's cell alike, every metric is within the guard: the
+  displacement error +44.1%, the energy gap +294.2%, the von Mises error
+  +26.9% (tau 73.4%), the peak von Mises error +40.1% (tau 86.7%) and the
+  critical-region recall -0.8% (tau 10.0%).
+- The mechanism (Sec. 6). The fresh baseline shows the deficit: its fine /
+  in-band ratio of the seed means is 7.37, above KP4's line of 1.5 (S's,
+  1.01, is below it), and its median c* on the fine set is 1.194 / 1.205 /
+  1.318 (in band 1.000 / 0.999 / 1.002); S's is 0.994 / 0.997 / 0.985 (in
+  band 0.999 / 0.999 / 0.998). On the remesh geometries, at lc 0.0906 /
+  0.0742 / 0.0579 / 0.0374, the baseline's c_b reads 0.983 / 1.004 / 1.013
+  / 1.320 and its predicted energy norm 1.000 / 0.985 / 0.965 / 0.756 of the
+  coarsest mesh's; S's read 1.000 / 1.000 / 0.997 / 0.989 and 1.000 / 1.002
+  / 1.008 / 1.016.
+- Beyond the amplitude: S's fine displacement error, 0.090 / 0.016 / 0.043,
+  against the baseline's after scaling by c*, 0.052 / 0.088 / 0.115, rel
+  -41.5%, tau 66.8%, within the guard. On the transformer, S is not shown to
+  do more than correct the amplitude (on the bottleneck it did: 0.0310
+  against 0.122, PREREG_R2B Sec. 6).
+- The fresh baseline beside the Phase-2b seeds 0-2: the fine displacement
+  error -2.7% (tau 32.6%), E8's in-band energy gap -3.9% (tau 37.1%) and
+  displacement error +13.9% (tau 23.7%), all within the guard; no flag on
+  the training path.
+- R2a (SUPPORTED; `fine3d/fine3d_verdict.json`) beside R2b (SUPPORTED),
+  the bottleneck then the transformer: the fine
+  displacement error -94.0% (tau 13.7%) and -80.2% (tau 31.5%); the ratio
+  -75.9% (tau 29.4%) and -85.9% (tau 23.2%); K1's energy gap -72.3% (tau
+  46.5%) and +294.2% (tau 561.0%); K1's displacement error -75.8% (tau
+  27.1%) and +44.1% (tau 133.4%). The ratio of S's fine reductions on the
+  two is 0.854 (Sec. 5's 0.870, from c*).
+
+`tests/test_r2b_returns.py` checks the return whole and against its own
+hashes, re-runs this adjudication and compares it with the committed file,
+recomputes R2b from the reports without the adjudicator's code, and checks
+the facts quoted here, in `DEVIATIONS_R2B.md` and in the Stage 5 notes. To
+re-check the verdict by hand, write to a temporary file
+(`--out /tmp/r2b_verdict.json`), as the test does: run in a checkout that
+has commits after the stamp or local changes, the adjudicator records its
+own `git` string differently (`prereg-r2b-...`), and only that field may
+then differ; where the tag `prereg-r2b` is absent, so do its record of the
+comparison with the tag and a deviation saying that it could not be made.

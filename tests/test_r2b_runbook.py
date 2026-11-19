@@ -167,19 +167,22 @@ def test_the_fetch_is_direct_with_a_bundle_route():
 
 
 def test_the_runbook_states_the_suite_count():
-    """Sec. 0c states this checkout's suite, the count the branch notes' latest
-    entry records (the stamp changes no test)."""
+    """Sec. 0c states the suite of the stamped commit, which the box ran (Stage
+    4 r2's count in the branch notes); the notes' latest count is this
+    checkout's suite (Stage 5 on)."""
     res = subprocess.run([sys.executable, "-m", "pytest", "--collect-only", "-q",
                           "-p", "no:cacheprovider"], capture_output=True, text=True, cwd=ROOT)
     m = re.search(r"(\d+) tests? collected", res.stdout)
     assert m, res.stdout[-2000:]
     n = int(m.group(1))
     notes = (ROOT / "BRANCH_NOTES_wp9-pool.md").read_text(encoding="utf-8")
+    r2 = notes[notes.index("## Stage 4, r2"):]
+    stamped = int(re.search(r"^- Suite (\d+)", r2, re.M).group(1))
     assert int(re.findall(r"^- Suite (\d+)", notes, re.M)[-1]) == n
     sec = _section("0")
-    assert sec.count(f'"{n - 1} passed, 1 skipped"') == 1
-    assert sec.count(f"`{n - 1} passed, 1 skipped`") == 1
-    assert sec.count(f"`{n} passed`") == 1
+    assert sec.count(f'"{stamped - 1} passed, 1 skipped"') == 1
+    assert sec.count(f"`{stamped - 1} passed, 1 skipped`") == 1
+    assert sec.count(f"`{stamped} passed`") == 1
 
 
 # ------------------------------------------------------- the session script --

@@ -1,0 +1,42 @@
+HEAD 2913a17a46bef90579b98b68db0be8b1d827522a
+tree afe45e4e022fc361cd14874adfede2a8a7173d98
+describe prereg-r2b
+tags prereg-r2b 
+--- git status --porcelain ---
+?? "\345\256\213\345\215\232\345\243\253\346\223\215\344\275\234\346\211\213\345\206\214_v6_D10\351\207\215\345\220\257\350\265\267\346\255\245_2026-09-03.md"
+torch 2.12.1+cu130 True gmsh 4.15.2
+--- reports ---
+5d11ecd1f69918fa296b07af8574c92a0b862727b231283b035ce4fab0596597  runs/r2b/r2b_b/report.json
+8e6e76f012ed6b2aa024185d4bd6f4ae97965e01b4bd80a09ebbfb10993654e1  runs/r2b/r2b_s/report.json
+5b1bed7f7941a7085e3026e642e137e3879341317e74ba1251d706d229a267aa  runs/r2b/posthoc/amp_r2b_b.json
+133cab96dce067ac7c77919075cd387fcce7b87aa6aefdff42e8813b77912ae9  runs/r2b/posthoc/amp_r2b_s.json
+--- states ---
+runs/r2b/r2b_b/e8_states/:
+total 85884
+-rw-r--r-- 1 root root 29312021 2026-11-14 14:54:40.919491417 +0800 ar_p1024_s3.pt
+-rw-r--r-- 1 root root 29312021 2026-11-15 17:45:41.984230772 +0800 ar_p1024_s4.pt
+-rw-r--r-- 1 root root 29312021 2026-11-19 01:52:00.050176193 +0800 ar_p1024_s5.pt
+
+runs/r2b/r2b_s/e8_states/:
+total 85884
+-rw-r--r-- 1 root root 29312021 2026-11-11 03:46:19.732257591 +0800 ar_p1024_s3.pt
+-rw-r--r-- 1 root root 29312021 2026-11-12 06:37:26.478749621 +0800 ar_p1024_s4.pt
+-rw-r--r-- 1 root root 29312021 2026-11-13 09:31:10.940409094 +0800 ar_p1024_s5.pt
+09bfff1566be313f660654f5e2bf163cb9ff27a8fd2818536ab68c12541ce2b7  runs/r2b/r2b_b/e8_states/ar_p1024_s3.pt
+ad65980e9fc389ff9456c08a9efb53cd4359e634f909d2265e382f38d416b81b  runs/r2b/r2b_b/e8_states/ar_p1024_s4.pt
+26b24f8841fdbeea7b65eb7aabadc4e62ffff7b381d89720db051130bcfd477f  runs/r2b/r2b_b/e8_states/ar_p1024_s5.pt
+f898af296e07a1655191155ac23332f9527a777c6d3d2e3d7f7049aada77750f  runs/r2b/r2b_s/e8_states/ar_p1024_s3.pt
+d477c1698d46f8289cf6bd2161017b996a01f05f910a2181a31646b6574af160  runs/r2b/r2b_s/e8_states/ar_p1024_s4.pt
+a27c257cecc4b4d611d933344b11839d658b1fb1605cdc1609e599860abc1364  runs/r2b/r2b_s/e8_states/ar_p1024_s5.pt
+NVIDIA GeForce RTX 5090, 595.71.05, 32607 MiB, 2 MiB
+hostname autodl-container-1qjylxm03k-f5fe291f
+nproc 16
+Model name:                      Intel(R) Xeon(R) Gold 6459C
+98784247808
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+/dev/md0        100G   91G  9.8G  91% /root/autodl-tmp
+overlay          30G  1.9G   29G   7% /

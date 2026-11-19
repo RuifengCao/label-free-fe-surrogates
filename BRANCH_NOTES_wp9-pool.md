@@ -1924,3 +1924,89 @@ every deviation of Sec. 7 from one crafted return end to end; strict JSON.
   - `tests/test_r2b_prereg.py` (changed): the stamped status's wording read
     from the stamp script.
 - Suite 822 (802 + 20).
+
+## Stage 5 (19 November 2026) -- the R2b return committed; PREREG_R2B adjudicated: R2b SUPPORTED
+
+The box ran the R2b session from 10 to 19 November 2026 (box time, +0800)
+at the stamped commit `2913a17` (`prereg-r2b`). This stage commits the
+return and the adjudication. No change to `src`, the configurations, the
+pre-registration or the adjudicating code; the runbooks' expected labelled
+count of the fine set is corrected (below).
+
+- **The return** (`records/wp9/r2b/return/`), as received, with its
+  tarball's SHA-256 in `records/wp9/README.md`. S's arm and its amplitude
+  pass ran once each, exit 0. The baseline ran twice: its first attempt
+  ended during seed 5 without a record (the instance's weekly rental had run
+  out, the PI stated), and the second, on another host about two days later
+  (estimated), read seeds 3 and 4 from their states, resumed seed 5 from its
+  checkpoint at epoch 161 and ended with exit 0, as did its amplitude pass.
+  Both solve ledgers read 0; no out-of-memory kill on the second host (the
+  first host's count is not in the return).
+- **The verdict** (`records/wp9/r2b/r2b_verdict.json`): RUNBOOK_R2B Sec. 3
+  on the stamped code, in a clean checkout of `prereg-r2b` with the return
+  in place (`adjudicator.git` = `prereg-r2b`); the three optional paths are
+  given relative to the repository, so that the file holds no machine path.
+  No report was refused. Three deviations, all of the baseline's restart:
+  the steps started on two hosts (both GPU driver 595.71.05), the
+  baseline's two attempts, and its restart (seeds 3 and 4 reused, seed 5
+  resumed from epoch 161). No note.
+  - **R2b SUPPORTED.** S against the fresh baseline: the fine displacement
+    error -80.2% (tau 31.5%), the fine / in-band ratio -85.9% (tau 23.2%;
+    its mean over the seeds 7.40 to 1.04, the ratio of the seed means 7.37
+    to 1.01), and in band (K1) the energy gap +294.2% (tau 561.0%) and the
+    displacement error +44.1% (tau 133.4%), not worse beyond the guard.
+  - K1 holds on a wide guard. S's seed 3 reads an in-band energy gap of
+    0.0834 and a displacement error of 0.091 (the baseline's seeds 0.0074
+    to 0.0109 and 0.029 to 0.040); resampling the instances with the seeds
+    kept, S's in-band rel is +274.6% to +313.3% and +37.2% to +51.2%.
+- **Readings** (Sec. 6, no verdict; from the verdict file):
+  - Beyond the amplitude: S's fine displacement error against the
+    baseline's after scaling by c*, -41.5% (tau 66.8%), within the guard:
+    on the transformer S is not shown to do more than correct the
+    amplitude.
+  - The baseline's median c* on the fine set is 1.194 / 1.205 / 1.318, S's
+    0.994 / 0.997 / 0.985; at lc 0.0374 on the remesh geometries the
+    baseline's c_b is 1.320 and its predicted energy norm 0.756 of the
+    coarsest mesh's, S's 0.989 and 1.016.
+  - The fresh baseline against the Phase-2b seeds 0-2: fine displacement
+    error -2.7% (tau 32.6%), in-band energy gap -3.9% (tau 37.1%), in-band
+    displacement error +13.9% (tau 23.7%), all within the guard and no
+    flag. P3's in-band pass reproduced E8's cell exactly in both arms, and
+    the amplitude records reproduced the reports' predictions exactly.
+  - Beside R2a (SUPPORTED): the transformer's fine reduction is 0.854 of the
+    bottleneck's (Sec. 5's 0.870).
+- `DEVIATIONS_R2B.md` (new): B1, the fine set's labelled count read 60
+  against RUNBOOK_R2B Sec. 0d's 320, and the session started without the
+  stop that section asks for; B2, the instance's weekly rental ran out during
+  the baseline (the PI's account), against RUNBOOK_R2B's 210 h of balance:
+  the first attempt ended without a record, an estimated 53 h before the
+  session resumed on another host, which every baseline number the verdict
+  reads comes from. Neither changes the verdict.
+- `RUNBOOK_R2B.md` and `RUNBOOK_FINE3D.md` Sec. 0d: the fine set's expected
+  labelled count corrected from 320 to 60, each with a dated note (B1);
+  `RUNBOOK_R2B.md` Sec. 3: a dated note that its command, run as written,
+  records three inputs by absolute paths.
+- `records/wp9/README.md`: the return, the verdict and how to re-check it.
+- `tests/test_r2b_returns.py` (8 tests): the return whole, its hashes
+  against the provenance file and the reports, the amplitude records
+  against their reports and states; the session's suite against the
+  stamped count; the status file and the two attempts' logs as the ledger
+  reads them; the adjudication re-run on the committed return equals the
+  committed verdict but for the adjudicator's record of its own code, which
+  is checked against the tag's files where the tag is present; R2b
+  recomputed from the reports without the adjudicator's code; the numbers
+  and words that the ledger, the README and these notes quote, phrase by
+  phrase.
+- `tests/test_r2b_runbook.py`: RUNBOOK_R2B Sec. 0c keeps the stamped
+  commit's count, which the box ran; the test now checks it against Stage
+  4 r2's count, and the notes' latest count against the suite.
+- One independent review of the package: nothing blocking. Addressed: the
+  commit message stated the PI's account of the rental as a record; the
+  rental as a departure from the runbook (B2); R2a's verdict beside R2b's,
+  rel's Welch intervals and the fine energy gap's and von Mises error's
+  per-seed values in the README (PREREG_R2B's Publication line and Sec. 6);
+  that K1 cannot fire on one seed of three; that E8's cell of the baseline
+  was evaluated on the second host; B1's sources and dates; estimates and
+  one-host readings marked as such in these notes; more of the quoted facts
+  checked by the tests, among them both runbooks' corrected line.
+- Suite 830 (822 + 8).
