@@ -1,0 +1,36 @@
+=== 81_c23pre_pilot_labels started 2026-11-18T11:22:50+00:00: pilot_labels.py --out pre3_records/pilot_labels --members 32 --workers 16 --seed 101
+train_0015 83.23 s converged
+train_0010 83.77 s converged
+train_0013 84.97 s converged
+train_0008 88.33 s converged
+train_0014 89.51 s converged
+train_0011 91.38 s converged
+train_0012 100.18 s converged
+train_0006 102.7 s converged
+train_0004 117.59 s converged
+train_0007 123.47 s converged
+train_0000 125.38 s converged
+train_0002 147.5 s converged
+train_0003 151.23 s converged
+train_0001 170.72 s converged
+train_0018 89.79 s converged
+train_0005 183.23 s converged
+train_0021 98.96 s converged
+train_0009 191.48 s converged
+train_0022 111.22 s converged
+train_0020 124.0 s converged
+train_0017 137.35 s converged
+train_0025 110.28 s converged
+train_0016 153.18 s converged
+train_0030 63.48 s converged
+train_0026 141.02 s converged
+train_0027 123.11 s converged
+train_0029 107.16 s converged
+train_0028 132.36 s converged
+train_0023 187.84 s converged
+train_0019 212.68 s converged
+train_0024 184.84 s converged
+train_0031 124.36 s converged
+{"family_seed": 101, "members": 32, "levels_mm": [0.1, 0.75, 1.5, 2.5, 3.5, 5.0, 7.0, 8.0], "linear_solver": "scipy", "all_converged": true, "label_seconds_wall": 308.6, "label_seconds_per_member": {"median": 123.28999999999999, "max": 212.68, "sum": 4036.2999999999997}}
+{"splits": ["train"], "labels": 32, "needed": 32, "missing": [], "extra": [], "levels_ok": true, "converged": true, "worst": {"min_gap": 0.0, "min_lambda": -1.6351496876217603e-11, "max_complementarity": 1.1168185888553714e-11, "max_lambda_inactive": 2.0294071436799818e-11, "max_residual_unconstrained": 5.106302190219718e-11}, "within_limits": {"min_gap": true, "min_lambda": true, "max_complementarity": true, "max_lambda_inactive": true, "max_residual_unconstrained": true}, "max_F_vs_F_sigma": 3.1723291667429953e-13, "ok": true}
+=== 81_c23pre_pilot_labels ended 2026-11-18T11:28:10+00:00 with code 0

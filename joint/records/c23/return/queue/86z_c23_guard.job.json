@@ -1,0 +1,9 @@
+{
+ "script": "tools/guard.py",
+ "args": [
+  "86_c23_config",
+  "c23",
+  "86z_c23_guard"
+ ],
+ "note": "G-C2.3: guard after 86_c23_config"
+}

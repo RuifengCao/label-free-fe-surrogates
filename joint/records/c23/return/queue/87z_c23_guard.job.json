@@ -1,0 +1,9 @@
+{
+ "script": "tools/guard.py",
+ "args": [
+  "87_c23_generate",
+  "c23",
+  "87z_c23_guard"
+ ],
+ "note": "G-C2.3: guard after 87_c23_generate"
+}

@@ -1,0 +1,25 @@
+label_free raw third returned med ['1.441599%', '1.358019%', '1.275951%'] p90 ['8.789554%', '10.190997%', '9.635866%'] C1 1.358019% C2 9.635866% above10 [39, 46, 43]
+label_free raw third clean med ['1.441599%', '1.353574%', '1.275951%'] p90 ['8.789554%', '10.012299%', '9.635866%'] C1 1.353574% C2 9.635866% above10 [39, 45, 43]
+supervised_512 condensed eval returned med ['73.281323%', '72.582210%', '65.393665%'] p90 ['121.051029%', '120.457254%', '118.818328%'] C1 72.582210% C2 120.457254% above10 [448, 448, 448]
+supervised_512 condensed eval clean med ['73.281323%', '72.582210%', '65.393665%'] p90 ['121.051029%', '120.104349%', '118.818328%'] C1 72.582210% C2 120.104349% above10 [448, 448, 448]
+third raw/raw returned: 1.257020652491185 0.6862823515289022 | clean: 1.2611489436510706 0.6862823515289022
+eval condensed/condensed returned: 91.04205302056657 32.87645625209518 | clean: 91.04205302056657 32.78013783028572
+label_free raw third seed 6 level 0 median returned 0.9503% clean 0.9107% p90 returned 0.03697289792374918 clean 0.030646986395704432
+supervised_512 condensed eval seed 6 level 0 median returned 76.8506% clean 76.8506% p90 returned 0.9362960863279122 clean 0.9362960863279122
+supervised_512 condensed eval seed 6 level 1 median returned 76.1374% clean 76.1374% p90 returned 1.0006162676187222 clean 1.0006162676187222
+label_free raw third third_0034 0 spread 0.0008779793883708562 flagged False | block: S1 count 4 S2 31 of 708 auc [0.8487092391304348, 0.8591593377359081, 0.8580751505365493] pairs_above {'0.05': {'total': [80, 89, 81], 'flagged': [70, 78, 71]}, '0.1': {'total': [39, 46, 43], 'flagged': [36, 42, 40]}}
+    errors of the three runs at this pair (returned): [0.003068081411959689, inf, 0.0069728978722556345]
+supervised_512 condensed eval eval_0063 0 spread 0.007579325433646467 flagged True | block: S1 count 136 S2 408 of 408 auc [None, None, None] pairs_above {'0.05': {'total': [448, 448, 448], 'flagged': [312, 312, 312]}, '0.1': {'total': [448, 448, 448], 'flagged': [312, 312, 312]}}
+    errors of the three runs at this pair (returned): [0.925666847291869, inf, 0.8670815113534789]
+supervised_512 condensed eval eval_0063 1 spread 0.0020918862368415046 flagged False | block: S1 count 136 S2 408 of 408 auc [None, None, None] pairs_above {'0.05': {'total': [448, 448, 448], 'flagged': [312, 312, 312]}, '0.1': {'total': [448, 448, 448], 'flagged': [312, 312, 312]}}
+    errors of the three runs at this pair (returned): [1.0513665893581452, inf, 1.0111329248424887]
+ALL PRINTED FIGURES THAT CONTAIN ONE OF THE THREE ROWS: returned -> with the values from a zeroed bubble state
+part 1, label-free raw, third sample: pairs not flagged above 10%: 4 -> 3; readings not flagged above 5%: 31 of 708 -> 30 of 708; ranking probability of seed 6: 0.8592 -> 0.8678 (seeds 5 and 7: 0.8487, 0.8581, unchanged: True); flagged 212 -> 212; verdict FAIL -> FAIL; R DOES NOT HOLD -> DOES NOT HOLD
+label-free raw, third sample: median of seed 6 and over the seeds 1.358% -> 1.354%; 90th percentile of seed 6 10.191% -> 10.012% (over the seeds 9.636% -> 9.636%); pairs above 10% in seed 6: 46 -> 45; infinite: 1 -> 0
+ratio of the medians, both arms raw, third sample: 1.257 -> 1.261 (of the 90th percentiles: 0.686 -> 0.686)
+supervised condensed, fresh members of G-C2.2: 90th percentile of seed 6 and over the seeds 120.457% -> 120.104%; medians 72.582% -> 72.582%; infinite: 2 -> 0
+ratio of the 90th percentiles, both arms condensed, fresh members of G-C2.2: 32.876 -> 32.780 (of the medians: 91.042 -> 91.042)
+label-free raw, seed 6, third sample, at 0.5 mm: median 0.95% -> 0.91%; 90th percentile 3.70% -> 3.06%; median signed +0.06% -> +0.03%
+the same, median of the three runs' medians at 0.5 mm: 0.75% -> 0.75%
+part 1 applied to the supervised runs, condensed, fresh members of G-C2.2: pairs not flagged above 10%: 136 -> 136; readings not flagged above 5%: 408 -> 408 of 408
+rows with an infinite error: 3 -> 0

@@ -1,0 +1,3 @@
+=== 88d_c23_check_held_out started 2026-11-18T21:04:46+00:00: __main__.py check-labels --data gate3_data --splits third eval tested
+{"splits": ["third", "eval", "tested"], "labels": 132, "needed": 132, "missing": [], "extra": [], "levels_ok": true, "converged": true, "worst": {"min_gap": 0.0, "min_lambda": -6.148933747495898e-11, "max_complementarity": 2.2586229231927725e-11, "max_lambda_inactive": 6.148933747495898e-11, "max_residual_unconstrained": 1.490299922827821e-10}, "within_limits": {"min_gap": true, "min_lambda": true, "max_complementarity": true, "max_lambda_inactive": true, "max_residual_unconstrained": true}, "max_F_vs_F_sigma": 9.413412986653637e-13, "ok": true}
+=== 88d_c23_check_held_out ended 2026-11-18T21:04:47+00:00 with code 0

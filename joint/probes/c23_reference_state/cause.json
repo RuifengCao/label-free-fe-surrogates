@@ -1,0 +1,36 @@
+{
+ "kept": [
+  [
+   0.0023030515804223217,
+   ""
+  ],
+  [
+   Infinity,
+   "RuntimeError: bubble condensation did not converge"
+  ]
+ ],
+ "state_only": [
+  Infinity,
+  "RuntimeError: bubble condensation did not converge"
+ ],
+ "zeroed": [
+  [
+   0.0023030515804223217,
+   ""
+  ],
+  [
+   0.003727693919260533,
+   ""
+  ]
+ ],
+ "host_pair": {
+  "kept": [
+   Infinity,
+   "RuntimeError: bubble condensation did not converge"
+  ],
+  "zeroed": [
+   -0.0027282879135048788,
+   ""
+  ]
+ }
+}

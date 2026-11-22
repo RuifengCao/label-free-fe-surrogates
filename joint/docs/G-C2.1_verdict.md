@@ -1,5 +1,7 @@
 # Gate G-C2.1: verdict
 
+**Erratum, 22 November 2026.** The one failed reference solve that this verdict reports, for seed 1 of the supervised arm (`eval_0046`, 0.5 mm; "an infinite distance"), was a defect of the measuring code and no property of the prediction. The exact solve of a pair starts from the element state that the pair evaluated before it has left; here that pair was seed 0 at 8 mm, and the element iteration did not end within its cap. Solved from a zero element state, the pair has a signed distance of -0.45% (`probes/c23_reference_state/`; `docs/G-C2.3_verdict.md`, "A defect of the measuring code"). With that value the figures of that run would be: 127 pairs above 10% in place of 128, and no infinite distance; a 90th percentile of 20.5% in place of 20.6%, with the median at 6.0% as printed; at 0.5 mm a median of 10.6% in place of 10.8%, a 90th percentile of 27.8% in place of 28.7% and 33 pairs above 10% in place of 34; in the run's tail, 19 pairs at 6 and 8 mm in place of 18, and 22 at 0.5 and 1 mm in place of 23. The supervised arm is descriptive in this gate, so no criterion and no part of the verdict changes. The text and the tables below are as first published.
+
 **What was pre-specified**
 - `docs/PRESPEC_G-C2.1.md`, configuration SHA-256 `795515630ff6f37a819c7503931c7d7cf6e70a9f272e25ac96730394dd361fb4`, stamped at 20:38 GMT on 6 November 2026.
 - The tag `prereg-c2`, made at 22:10 GMT the same evening, points to commit `896e040` (21:18 GMT). The repository code the run imports is pinned file by file in `docs/G-C2.1_code.sha256`.

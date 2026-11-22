@@ -1,0 +1,253 @@
+=== 79_c23pre_smoke started 2026-11-18T10:42:28+00:00: smoke.py --repo pre3 --device cuda --workers 4 --out pre3_records/smoke
+former_0000 3.55 s converged
+eval_0001 17.11 s converged
+tested_BJ_T1_preloaded 14.94 s converged
+former_0001 19.45 s converged
+eval_0000 20.18 s converged
+start label_free_s5 2026-11-18T10:42:59+00:00
+W\pre3\joint\c2\torch_energy.py:177: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\aten\src\ATen\Context.cpp:767.)
+  return torch.sparse_coo_tensor(idx, torch.as_tensor(val, dtype=dtype), tuple(int(s) for s in shape),
+epoch 1 loss 10.5941 4.23 s; cap events 1, bursts 1
+epoch 2 loss 10.1671 1.66 s; cap events 3, bursts 1
+start label_free_s6 2026-11-18T10:43:23+00:00
+epoch 1 loss 10.5405 1.77 s; cap events 1, bursts 1
+epoch 2 loss 10.4567 1.5 s; cap events 5, bursts 3
+start label_free_s7 2026-11-18T10:43:40+00:00
+epoch 1 loss 10.8377 2.04 s; cap events 1, bursts 0
+epoch 2 loss 9.71224 1.96 s; cap events 4, bursts 1
+third_0001 3.01 s converged
+eval_0001 16.23 s converged
+tested_BJ_T1_preloaded 14.2 s converged
+eval_0000 19.17 s converged
+third_0000 37.87 s converged
+start label_free_s5 2026-11-18T10:46:45+00:00
+start label_free_s6 2026-11-18T10:46:59+00:00
+start label_free_s7 2026-11-18T10:47:12+00:00
+train_0003 14.21 s converged
+train_0001 32.8 s converged
+train_0000 33.82 s converged
+train_0002 40.18 s converged
+start supervised_512_s5 2026-11-18T10:49:19+00:00
+epoch 1 loss 0.0203273 0.28 s; cap events 1, bursts 1
+epoch 2 loss 0.0171291 0.3 s; cap events 5, bursts 3
+epoch 3 loss 0.0143558 0.08 s; cap events 9, bursts 5
+epoch 4 loss 0.0135101 0.17 s; cap events 13, bursts 6
+start supervised_512_s5 2026-11-18T10:49:32+00:00
+epoch 1 loss 0.0203273 0.05 s; cap events 1, bursts 1
+epoch 2 loss 0.0171291 0.05 s; cap events 5, bursts 3
+start supervised_512_s5 2026-11-18T10:49:33+00:00
+epoch 3 loss 0.0143558 0.05 s; cap events 9, bursts 5
+epoch 4 loss 0.0135101 0.05 s; cap events 13, bursts 6
+{
+ "device": "cuda",
+ "workers": 4,
+ "machine": {
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.16",
+  "numpy": "2.4.6",
+  "scipy": "1.18.1",
+  "torch": "2.12.1+cu132",
+  "processors": 32,
+  "start_methods": [
+   "spawn"
+  ],
+  "label_solver": "scipy",
+  "thread_variables_at_start": {
+   "OMP_NUM_THREADS": null,
+   "MKL_NUM_THREADS": null,
+   "OPENBLAS_NUM_THREADS": null
+  },
+  "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+  "gpu_memory_GiB": 8.0,
+  "gpu_memory_in_use_MiB": 1120,
+  "thread_variables_of_the_workers": {
+   "OMP_NUM_THREADS": "1",
+   "MKL_NUM_THREADS": "1",
+   "OPENBLAS_NUM_THREADS": "1"
+  }
+ },
+ "seconds": {
+  "base_gate": 207.8,
+  "generate": 0.8,
+  "label_held_out": 38.5,
+  "predict_label_free": 39.6,
+  "evaluate_label_free": 73.9,
+  "label_train": 40.8,
+  "train_full": 13.5,
+  "train_resumed": 11.8,
+  "evaluate_supervised_workers": 31.0,
+  "evaluate_supervised_single": 80.3,
+  "verdict": 0.03
+ },
+ "config_sha256": "d8d8613f164bf0181020bd099dee7593d2116c616576ab44870812c94aa39396",
+ "base_config_sha256": "4d4db7e57fe545c89be9982cde8a2fb1bc1919de35ea34f6266800a57b3ec6e6",
+ "check_labels_held_out": {
+  "splits": [
+   "third",
+   "eval",
+   "tested"
+  ],
+  "labels": 5,
+  "needed": 5,
+  "missing": [],
+  "extra": [],
+  "levels_ok": true,
+  "converged": true,
+  "worst": {
+   "min_gap": 0.0,
+   "min_lambda": -2.6476450923921884e-12,
+   "max_complementarity": 2.101562887658858e-12,
+   "max_lambda_inactive": 2.6476450923921884e-12,
+   "max_residual_unconstrained": 1.60833148652393e-11
+  },
+  "within_limits": {
+   "min_gap": true,
+   "min_lambda": true,
+   "max_complementarity": true,
+   "max_lambda_inactive": true,
+   "max_residual_unconstrained": true
+  },
+  "max_F_vs_F_sigma": 7.557625702353434e-14,
+  "ok": true
+ },
+ "before_supervised": {
+  "verdict": {
+   "identity": "OK",
+   "self_check": "FAIL",
+   "ranking": "NOT EVALUABLE",
+   "comparison": "INCOMPLETE"
+  },
+  "not_evaluated": [
+   "supervised_512"
+  ]
+ },
+ "check_labels": {
+  "splits": [
+   "train",
+   "third",
+   "eval",
+   "tested"
+  ],
+  "labels": 9,
+  "needed": 9,
+  "missing": [],
+  "extra": [],
+  "levels_ok": true,
+  "converged": true,
+  "worst": {
+   "min_gap": 0.0,
+   "min_lambda": -2.6476450923921884e-12,
+   "max_complementarity": 2.101562887658858e-12,
+   "max_lambda_inactive": 2.6476450923921884e-12,
+   "max_residual_unconstrained": 1.7365409521305242e-11
+  },
+  "within_limits": {
+   "min_gap": true,
+   "min_lambda": true,
+   "max_complementarity": true,
+   "max_lambda_inactive": true,
+   "max_residual_unconstrained": true
+  },
+  "max_F_vs_F_sigma": 7.557625702353434e-14,
+  "ok": true
+ },
+ "resume": {
+  "max_weight_difference": 0.0,
+  "loss_full": [
+   0.02032732148654759,
+   0.01712912367656827,
+   0.014355786377564073,
+   0.013510146178305149
+  ],
+  "loss_resumed": [
+   0.02032732148654759,
+   0.01712912367656827,
+   0.014355786377564073,
+   0.013510146178305149
+  ],
+  "reference_solutions": 16,
+  "max_prediction_difference": {
+   "preds.npz": 0.0,
+   "preds_condensed.npz": 0.0,
+   "preds_base.npz": 0.0
+  }
+ },
+ "members_predicted": [
+  "eval_0000",
+  "eval_0001",
+  "tested_BJ_T1_preloaded",
+  "third_0000",
+  "third_0001"
+ ],
+ "evaluate": {
+  "same_with_workers": true,
+  "verdict": {
+   "identity": "OK",
+   "self_check": "FAIL",
+   "ranking": "NOT EVALUABLE",
+   "comparison": "supervised closer"
+  },
+  "identity": {
+   "largest_difference": 0.0,
+   "tolerance": 1.0080429523562944,
+   "ok": true
+  },
+  "part1_same_as_first": true,
+  "self_check": {
+   "pairs": 4,
+   "flagged": 0,
+   "S1": false,
+   "S2": false,
+   "S3": true,
+   "verdict": "FAIL"
+  },
+  "comparison": {
+   "ratio_of_medians": 0.06545025374866906,
+   "ratio_of_p90": 0.053715983504252815,
+   "wording": "supervised closer"
+  },
+  "statistics_third": {
+   "label_free": {
+    "per_seed": {
+     "abs_curve_err_median": [
+      39.46527946652781,
+      37.12899638434416,
+      55.38808108211969
+     ],
+     "abs_curve_err_p90": [
+      63.73578754104757,
+      73.0769087495419,
+      226.68371241383636
+     ]
+    },
+    "C1_value": 39.46527946652781,
+    "C2_value": 73.0769087495419
+   },
+   "supervised_512": {
+    "per_seed": {
+     "abs_curve_err_median": [
+      2.583012555346384
+     ],
+     "abs_curve_err_p90": [
+      3.9253980249321807
+     ]
+    },
+    "C1_value": 2.583012555346384,
+    "C2_value": 3.9253980249321807
+   }
+  },
+  "cost": {
+   "training_members_labelled": 4,
+   "reference_solutions_for_training": 16,
+   "label_seconds_for_training_summed_over_workers": 121.00999999999999,
+   "note": "the label-free arm was trained in G-C2.2 (its records hold the times); its runs here only predict"
+  },
+  "sets": {
+   "third": 4,
+   "eval": 4,
+   "tested": 2
+  }
+ }
+}
+smoke test of c23 passed
+=== 79_c23pre_smoke ended 2026-11-18T10:51:36+00:00 with code 0

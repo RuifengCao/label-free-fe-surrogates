@@ -1,0 +1,13 @@
+{
+ "script": "gate3/joint/c23/__main__.py",
+ "args": [
+  "check-labels",
+  "--data",
+  "gate3_data",
+  "--splits",
+  "third",
+  "eval",
+  "tested"
+ ],
+ "note": "G-C2.3 runbook 3: the check of the held-out labels"
+}

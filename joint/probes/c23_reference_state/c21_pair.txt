@@ -1,0 +1,3 @@
+alone, new object: supervised_64_s1 l0: (-0.004491609982833267, '')
+after supervised_64_s0 l6 (the gate's order): (0.1855728692591978, '') -> (inf, 'RuntimeError: bubble condensation did not converge')
+same order, bubble state zeroed in between: (-0.004491609982833267, '')

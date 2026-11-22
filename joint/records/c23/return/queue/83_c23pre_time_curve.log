@@ -1,0 +1,11 @@
+=== 83_c23pre_time_curve started 2026-11-18T11:28:57+00:00: time_curve.py --repo pre3 --data gate_data --state gate_runs/label_free_s5/state.pt --out pre3_records/time_curve.json
+W\pre3\joint\c2\torch_energy.py:177: UserWarning: Sparse invariant checks are implicitly disabled. Memory errors (e.g. SEGFAULT) will occur when operating on a sparse tensor which violates the invariants, but checks incur performance overhead. To silence this warning, explicitly opt in or out. See `torch.sparse.check_sparse_tensor_invariants.__doc__` for guidance.  (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\aten\src\ATen\Context.cpp:767.)
+  return torch.sparse_coo_tensor(idx, torch.as_tensor(val, dtype=dtype), tuple(int(s) for s in shape),
+cuda {"prepare_s": 0.19407390000014857, "forward_s": 0.11762405000081344, "condense_s": 2.390416449999975, "predict_s": 2.5354645000006713, "with_preparation_s": 2.750848349998705}
+cpu {"prepare_s": 0.14988239999911457, "forward_s": 34.684445850001794, "condense_s": 8.223226899999645, "predict_s": 45.360171049998826, "with_preparation_s": 45.50248229999852}
+reference eval_0000 104.3 s
+reference eval_0001 122.5 s
+reference eval_0002 162.4 s
+reference eval_0003 66.4 s
+written pre3_records/time_curve.json
+=== 83_c23pre_time_curve ended 2026-11-18T11:44:32+00:00 with code 0

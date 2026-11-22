@@ -1,0 +1,77 @@
+G-C2.3: preconditions (RUNBOOK_C23.md, section 0), recorded by the operator on 18 November 2026. Times are GMT.
+
+Push check, 12:44 to 12:46: branch wp10-joint is at commit d603fd8342c1b52b3144ebf9a229cf830e95a47e (parent b9fbe68,
+tree cb560b080a10ca1475bd285a3c8c04af75ca6a9e, the tree of the stamped files as packed before the push). The tag prereg-c23 is an
+annotated tag (object e06c00ba0e2f0149b8313fc49cfa2a9ecc5aec0a, made 12:44:17) that points at this commit. Read from the
+repository on GitHub with git ls-remote and git fetch.
+
+0a. The tree. W is the folder c2dev of the laptop's queue.
+    12:47:15  ls -d gate3 gate3_data gate3_runs gate3_records 2>/dev/null | wc -l       -> 0   (and 0 again at 12:48:05, before unpacking)
+    12:47     git rev-parse --short 'prereg-c23^{commit}'                                 -> d603fd8
+    12:47     git -c core.autocrlf=false archive --format=tar -o gate3.tar prereg-c23 joint/c23 joint/c22 joint/c2 joint/fejoint
+              joint/docs/G-C2.3_code.sha256 joint/docs/PRESPEC_G-C2.3.md joint/RUNBOOK_C23.md src
+              (in the operator's clone on a Linux machine, git 2.43.0)
+              sha256sum gate3.tar -> 38efa55dcf0aa939d0d92e55122e105751bd3cb1f14e50d1ddbc79f32c36f1e7  (1,044,480 bytes, 108 files)
+    12:48     gate3.tar copied to W; its SHA-256 on the laptop is the same; unpacked at 12:48:24 with tar -xf gate3.tar -C gate3
+              in the laptop's Linux shell that mounts W. 108 files. No file under gate3/ holds a carriage return.
+
+0b. The files, in gate3/joint, in the same shell.
+    12:48:35  sha256sum -c docs/G-C2.3_code.sha256 | grep -vc ': OK$'                     -> 0   (41 lines)
+              find gate3 -name __pycache__ | wc -l                                        -> 0
+
+0c. The suite, on a full export of commit d603fd8 (git archive of the tag, 1,590 files) on the operator's Linux machine
+    (Python 3.13.18, numpy 2.5.3, scipy 1.18.1, torch 2.12.1+cu130, pytest 9.1.1, pypardiso 0.4.7), with the command of the
+    runbook as written:
+    12:46:56 to 13:10:19   cd joint && FEJEPA_REPO=.. python -m pytest -q -p no:cacheprovider tests/test_hex8i.py
+              tests/test_contact.py tests/test_c2.py tests/test_c22.py tests/test_c23.py   -> 69 passed, 5 warnings in 1402.57s (0:23:22)
+    One warning is torch's about sparse invariant checks; four are deprecation warnings of the standard library about fork in a
+    process with threads. After the run the export held the same 1,590 files, and the 41 lines of docs/G-C2.3_code.sha256 were OK.
+    The tests draw no member of this gate: they use family seeds seen before G-C2.1's stamp.
+
+0d. The state files, in W, in the shell of 0b.
+    12:48:43  sha256sum gate_runs/label_free_s5/state.pt gate_runs/label_free_s6/state.pt gate_runs/label_free_s7/state.pt
+              -> 5859ca7737e94b502660dddd082891a18f981b6df4228ff2a7c59d865ca7dcf5
+                 adb9992ae19846afd56e9f75d9dfe533edcf5a47fbca9c6a210f18581032c0b1
+                 80c56c73af04b4321f52a9acfd037a476837bfa6ec0cc8e55524dbf63988bc53
+              the values pinned in c23/config.py, in this order.
+
+The queue's scripts in W at 12:54, by SHA-256:
+    tools/make_jobs_c23.py  3131c8bef5559f95055d2ae453a0049be2f804faf9bccaddb87e1afda1c9aa6c  (the generator that wrote the jobs run before the stamp)
+    tools/guard.py          98a433cb5ce21c65e1fd6c890e21888fea093236741ceb5cf000d4cf8af41a54
+    tools/hold.py           d72fa9cfea0dfe917827597985d613243685c670060a5e0683622a446fad368b
+
+0e. The host: job 85_c23_smoke of the queue; its log is logs/85_c23_smoke.log and its report gate3_records/smoke/smoke_report.json.
+    Not queued at the time of this record: the owner gives the start. The operator's reading of the report is added below when
+    the job has ended.
+
+The start. The owner gave the start at 20:31, after opening the queue's window again; it had been closed in the afternoon, after
+16:37, while nothing was queued. At 20:32:01 the 41 lines of docs/G-C2.3_code.sha256 were OK again and gate3/ held no __pycache__.
+Set A (85_c23_smoke, 85z_c23_guard, 86_c23_config, 86z_c23_guard) was written into the queue at 20:32:26.
+
+0e, read by the operator at 20:43. Job 85_c23_smoke ran from the stamped tree from 20:32:43 to 20:38:18 (335.4 s) and ended with
+    code 0; the last line of its log before the queue's own is "smoke test of c23 passed". The report
+    gate3_records/smoke/smoke_report.json (4,904 bytes, SHA-256 c25948d4c49708f0bb63639ba8972cc222f71901d38d1069d5a74abe6e3380e1):
+    platform Windows-11-10.0.26200-SP0, Python 3.12.16, numpy 2.4.6, scipy 1.18.1, torch 2.12.1+cu132, 32 processors, start method
+    spawn, label solver scipy; GPU NVIDIA GeForce RTX 4070 Laptop GPU, 8.0 GiB, gpu_memory_in_use_MiB 1120 (at most 3,000 allowed);
+    the thread variables of the workers OMP_NUM_THREADS, MKL_NUM_THREADS and OPENBLAS_NUM_THREADS all "1" (unset at the job's start).
+    Its checks: check_labels_held_out.ok true, check_labels.ok true, resume differences 0.0 (weights and the three prediction
+    files), evaluate.same_with_workers true, evaluate.identity.ok true with largest_difference 0.0, evaluate.part1_same_as_first true.
+    Against the report of the same check made before the stamp from the draft copy of the code (in the repository as
+    records/c23/before_stamp/smoke_report.json): of 116 fields, 13 differ. Twelve are times. The other is config_sha256 of the
+    check's own reduced configuration, which holds the SHA-256 of the state files that the check trains for itself; these files
+    differ in their bytes from run to run. base_config_sha256 is the same.
+    Guard 85z_c23_guard ended with code 0.
+
+1. The configuration, read by the operator at 20:43. Job 86_c23_config (write-config --out gate3_records/c23_config.json
+    --repo gate3 --config-sha 3b41c266...) ran at 20:38:18 and ended with code 0. The three first lines of its output:
+        config sha256 3b41c26636637e7279f0a43f95406af3b37700c18d979c6d8dd8ec477e055f9e
+        state files pinned: True
+        code as stamped: True
+    then the 35 hashes of the code, each equal to its line of docs/G-C2.3_code.sha256, and six lines "repository ... checked".
+    gate3_records/c23_config.json: 13,875 bytes, SHA-256 6ee7ed75d9cbc3b7a10fa57f25c435375705ca8e60ebbe5d5d11bd22ac969de1, the same
+    bytes as the file that the same command writes from the same commit on the operator's Linux machine (tried at about 13:15 on
+    a copy of gate3.tar; write-config draws no member).
+    Guard 86z_c23_guard ended with code 0. No __pycache__ folder under gate3/ after the two jobs.
+
+The run. Sets B and C in one go (87_c23_generate to 99z_c23_guard, 30 jobs) were written into the queue at 20:44:59;
+87_c23_generate started at 20:45:19.

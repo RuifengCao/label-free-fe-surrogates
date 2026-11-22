@@ -1,0 +1,7 @@
+=== 88c_c23_label_tested started 2026-11-18T21:03:24+00:00: __main__.py label --data gate3_data --split tested --workers 16
+tested_BJ_T1_preloaded 50.49 s converged
+tested_BJ_T1_snug 51.04 s converged
+tested_BJ_T2_snug 57.32 s converged
+tested_BJ_T2_preloaded 80.44 s converged
+labelled 4
+=== 88c_c23_label_tested ended 2026-11-18T21:04:46+00:00 with code 0

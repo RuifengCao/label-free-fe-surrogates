@@ -1,0 +1,9 @@
+{
+ "script": "tools/guard.py",
+ "args": [
+  "85_c23_smoke",
+  "c23",
+  "85z_c23_guard"
+ ],
+ "note": "G-C2.3: guard after 85_c23_smoke"
+}

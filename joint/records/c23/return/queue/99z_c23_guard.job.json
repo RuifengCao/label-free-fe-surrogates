@@ -1,0 +1,9 @@
+{
+ "script": "tools/guard.py",
+ "args": [
+  "99_c23_verdict_final",
+  "c23",
+  "99z_c23_guard"
+ ],
+ "note": "G-C2.3: guard after 99_c23_verdict_final"
+}

@@ -1,0 +1,10 @@
+{
+ "script": "pre3/joint/probes/f2_cost/energy_cost.py",
+ "args": [
+  "--out",
+  "pre3_records/f2_energy_cost.json",
+  "--device",
+  "cuda"
+ ],
+ "note": "probe: the training energy of one CHS splice instance"
+}

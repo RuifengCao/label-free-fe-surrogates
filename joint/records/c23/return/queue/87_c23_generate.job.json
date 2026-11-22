@@ -1,0 +1,11 @@
+{
+ "script": "gate3/joint/c23/__main__.py",
+ "args": [
+  "generate",
+  "--data",
+  "gate3_data",
+  "--config-sha",
+  "3b41c26636637e7279f0a43f95406af3b37700c18d979c6d8dd8ec477e055f9e"
+ ],
+ "note": "G-C2.3 runbook 2: generation"
+}

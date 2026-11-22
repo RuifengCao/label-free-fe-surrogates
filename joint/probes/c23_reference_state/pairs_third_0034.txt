@@ -1,0 +1,17 @@
+# sequence 1: label_free_s6:condensed:6 then label_free_s7:condensed:0
+kept third_0034 label_free_s6 condensed 6 0.0023030515804223217 '' evaluate_failed False
+kept third_0034 label_free_s7 condensed 0 inf 'RuntimeError: bubble condensation did not converge' evaluate_failed False
+zeroed third_0034 label_free_s6 condensed 6 0.0023030515804223217 '' evaluate_failed False
+zeroed third_0034 label_free_s7 condensed 0 0.003727693919260533 '' evaluate_failed False
+
+# sequence 2: label_free_s6:raw:6 then label_free_s7:condensed:0 (the gate's order)
+kept third_0034 label_free_s6 raw 6 0.05202639576573076 '' evaluate_failed False
+kept third_0034 label_free_s7 condensed 0 0.003727693919260977 '' evaluate_failed False
+zeroed third_0034 label_free_s6 raw 6 0.05202639576573076 '' evaluate_failed False
+zeroed third_0034 label_free_s7 condensed 0 0.003727693919260533 '' evaluate_failed False
+
+# sequence 3: label_free_s6:condensed:6 then label_free_s6:raw:0 (the gate's order; the returned row is infinite)
+kept third_0034 label_free_s6 condensed 6 0.0023030515804223217 '' evaluate_failed False
+kept third_0034 label_free_s6 raw 0 inf 'RuntimeError: bubble condensation did not converge' evaluate_failed False
+zeroed third_0034 label_free_s6 condensed 6 0.0023030515804223217 '' evaluate_failed False
+zeroed third_0034 label_free_s6 raw 0 -0.0027282879135048788 '' evaluate_failed False

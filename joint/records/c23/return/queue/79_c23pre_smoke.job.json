@@ -1,0 +1,14 @@
+{
+ "script": "pre3/joint/c23/smoke.py",
+ "args": [
+  "--repo",
+  "pre3",
+  "--device",
+  "cuda",
+  "--workers",
+  "4",
+  "--out",
+  "pre3_records/smoke"
+ ],
+ "note": "G-C2.3 before the stamp: the host check from the draft tree"
+}

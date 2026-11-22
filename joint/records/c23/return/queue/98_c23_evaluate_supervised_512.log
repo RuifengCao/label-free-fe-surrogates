@@ -1,0 +1,3 @@
+=== 98_c23_evaluate_supervised_512 started 2026-11-19T16:20:26+00:00: __main__.py evaluate --data gate3_data --runs gate3_runs --config-sha 3b41c26636637e7279f0a43f95406af3b37700c18d979c6d8dd8ec477e055f9e --arm supervised_512 --workers 16
+{"supervised_512_s5": "finished", "supervised_512_s6": "finished", "supervised_512_s7": "finished"}
+=== 98_c23_evaluate_supervised_512 ended 2026-11-19T19:18:36+00:00 with code 0

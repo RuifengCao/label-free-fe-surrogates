@@ -1,0 +1,9 @@
+{
+ "script": "tools/guard.py",
+ "args": [
+  "98_c23_evaluate_supervised_512",
+  "c23",
+  "98z_c23_guard"
+ ],
+ "note": "G-C2.3: guard after 98_c23_evaluate_supervised_512"
+}

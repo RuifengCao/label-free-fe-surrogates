@@ -1,0 +1,14 @@
+{
+ "script": "gate3/joint/c23/smoke.py",
+ "args": [
+  "--repo",
+  "gate3",
+  "--device",
+  "cuda",
+  "--workers",
+  "4",
+  "--out",
+  "gate3_records/smoke"
+ ],
+ "note": "G-C2.3 runbook 0e: the host check from the stamped tree"
+}

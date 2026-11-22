@@ -1,0 +1,14 @@
+{
+ "script": "pre3/joint/probes/c23_precheck/repredict.py",
+ "args": [
+  "--repo",
+  "pre3",
+  "--data",
+  "gate_data",
+  "--runs",
+  "gate_runs",
+  "--out",
+  "pre3_records/repredict"
+ ],
+ "note": "G-C2.3 before the stamp: predictions from G-C2.2's state files against G-C2.2's prediction files (reads G-C2.2's folders, writes into the new folder only)"
+}

@@ -1,0 +1,9 @@
+{
+ "script": "tools/guard.py",
+ "args": [
+  "88d_c23_check_held_out",
+  "c23",
+  "88z_c23_guard"
+ ],
+ "note": "G-C2.3: guard after 88d_c23_check_held_out"
+}

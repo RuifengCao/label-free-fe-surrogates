@@ -1,0 +1,14 @@
+{
+ "script": "pre3/joint/probes/c23_precheck/pilot_labels.py",
+ "args": [
+  "--out",
+  "pre3_records/pilot_labels",
+  "--members",
+  "32",
+  "--workers",
+  "16",
+  "--seed",
+  "101"
+ ],
+ "note": "G-C2.3 before the stamp: the eight label levels on 32 members of a family seed used before G-C2.1's stamp, on the gate's mesh (draws nothing of the gate)"
+}

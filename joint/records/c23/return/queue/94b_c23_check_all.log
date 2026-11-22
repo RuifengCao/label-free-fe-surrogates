@@ -1,0 +1,3 @@
+=== 94b_c23_check_all started 2026-11-19T01:10:13+00:00: __main__.py check-labels --data gate3_data
+{"splits": ["train", "third", "eval", "tested"], "labels": 644, "needed": 644, "missing": [], "extra": [], "levels_ok": true, "converged": true, "worst": {"min_gap": 0.0, "min_lambda": -6.148933747495898e-11, "max_complementarity": 2.299151387296999e-11, "max_lambda_inactive": 6.148933747495898e-11, "max_residual_unconstrained": 3.8694861248802073e-10}, "within_limits": {"min_gap": true, "min_lambda": true, "max_complementarity": true, "max_lambda_inactive": true, "max_residual_unconstrained": true}, "max_F_vs_F_sigma": 9.413412986653637e-13, "ok": true}
+=== 94b_c23_check_all ended 2026-11-19T01:10:14+00:00 with code 0

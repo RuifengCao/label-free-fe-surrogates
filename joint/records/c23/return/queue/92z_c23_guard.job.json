@@ -1,0 +1,9 @@
+{
+ "script": "tools/guard.py",
+ "args": [
+  "92_c23_evaluate_label_free",
+  "c23",
+  "92z_c23_guard"
+ ],
+ "note": "G-C2.3: guard after 92_c23_evaluate_label_free"
+}

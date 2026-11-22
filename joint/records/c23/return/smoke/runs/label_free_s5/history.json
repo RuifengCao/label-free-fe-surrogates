@@ -1,0 +1,19 @@
+{
+ "config_sha256": "f90034cd42a1ec1b60162f61d9141e6b485e7a55b119dc42aa15ea37e877c287",
+ "arm": "label_free",
+ "seed": 5,
+ "torch": "2.12.1+cu132",
+ "device": "cuda",
+ "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+ "matmul_precision": "highest",
+ "trained_in": {
+  "gate": "G-C2.2",
+  "config_sha256": "4d4db7e57fe545c89be9982cde8a2fb1bc1919de35ea34f6266800a57b3ec6e6",
+  "state_sha256": "757dcbb82e10f0ff874cf9f043cdfdcf4110f8b4b21e401f4f6268ac7942b9dc",
+  "epoch": 2,
+  "step": 8,
+  "torch": "2.12.1+cu132"
+ },
+ "predict_seconds": 6.35,
+ "status": "finished"
+}

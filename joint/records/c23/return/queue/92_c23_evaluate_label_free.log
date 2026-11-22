@@ -1,0 +1,3 @@
+=== 92_c23_evaluate_label_free started 2026-11-18T21:27:24+00:00: __main__.py evaluate --data gate3_data --runs gate3_runs --config-sha 3b41c26636637e7279f0a43f95406af3b37700c18d979c6d8dd8ec477e055f9e --arm label_free --workers 16
+{"label_free_s5": "finished", "label_free_s6": "finished", "label_free_s7": "finished"}
+=== 92_c23_evaluate_label_free ended 2026-11-19T00:05:16+00:00 with code 0

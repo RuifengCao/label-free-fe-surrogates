@@ -1,0 +1,6 @@
+# The label and prediction files of the kept copy are deposited outside the repository (deposit.json).
+# audit/c23_deposit.py restore writes them into return/; they are not committed.
+return/labels/
+return/run_files/*/preds*.npz
+# The host check's folder of runs is part of the kept copy; the repository's rule for folders named runs/ does not apply to it.
+!return/smoke/runs/

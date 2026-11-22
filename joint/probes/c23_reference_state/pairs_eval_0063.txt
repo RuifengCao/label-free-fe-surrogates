@@ -1,0 +1,8 @@
+kept eval_0063 supervised_512_s5 raw 6 0.02223875542517595 '' evaluate_failed False
+kept eval_0063 supervised_512_s6 condensed 0 inf 'RuntimeError: bubble condensation did not converge' evaluate_failed False
+kept eval_0063 supervised_512_s6 condensed 1 inf 'RuntimeError: bubble condensation did not converge' evaluate_failed False
+kept eval_0063 supervised_512_s6 condensed 2 0.6404322964574589 '' evaluate_failed False
+zeroed eval_0063 supervised_512_s5 raw 6 0.02223875542517595 '' evaluate_failed False
+zeroed eval_0063 supervised_512_s6 condensed 0 1.020935954139211 '' evaluate_failed False
+zeroed eval_0063 supervised_512_s6 condensed 1 1.0537772160075902 '' evaluate_failed False
+zeroed eval_0063 supervised_512_s6 condensed 2 0.6404322964574594 '' evaluate_failed False

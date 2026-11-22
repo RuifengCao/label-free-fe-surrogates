@@ -1,0 +1,9 @@
+{
+ "script": "tools/guard.py",
+ "args": [
+  "97_c23_train_s7",
+  "c23",
+  "97z_c23_guard"
+ ],
+ "note": "G-C2.3: guard after 97_c23_train_s7"
+}

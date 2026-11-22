@@ -1,0 +1,14 @@
+{
+ "script": "pre3/joint/probes/c2_timing/time_curve.py",
+ "args": [
+  "--repo",
+  "pre3",
+  "--data",
+  "gate_data",
+  "--state",
+  "gate_runs/label_free_s5/state.pt",
+  "--out",
+  "pre3_records/time_curve.json"
+ ],
+ "note": "probe: the surrogate's curve against the reference solve (reads G-C2.2's exports and state)"
+}

@@ -1,0 +1,68 @@
+{
+ "config_sha256": "4d4db7e57fe545c89be9982cde8a2fb1bc1919de35ea34f6266800a57b3ec6e6",
+ "arm": "label_free",
+ "seed": 6,
+ "torch": "2.12.1+cu132",
+ "device": "cuda",
+ "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+ "matmul_precision": "highest",
+ "total_steps": 8,
+ "betas": [
+  0.9,
+  0.99
+ ],
+ "cap": {
+  "factor": 0.5,
+  "window_steps": 3,
+  "burst_factor": 1.0
+ },
+ "loss": [
+  10.540477514266968,
+  10.456724166870117
+ ],
+ "epoch_seconds": [
+  0.71,
+  0.7
+ ],
+ "cap_events": [
+  [
+   4,
+   1.057
+  ],
+  [
+   5,
+   1.195
+  ],
+  [
+   6,
+   0.671
+  ],
+  [
+   7,
+   0.863
+  ],
+  [
+   8,
+   1.505
+  ]
+ ],
+ "bursts": [
+  [
+   4,
+   1.057
+  ],
+  [
+   5,
+   1.195
+  ],
+  [
+   8,
+   1.505
+  ]
+ ],
+ "resumes": [],
+ "resumed_from_epoch": null,
+ "status": "finished",
+ "steps": 8,
+ "peak_memory_GiB": 0.03058004379272461
+}

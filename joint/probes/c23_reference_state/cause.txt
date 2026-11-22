@@ -1,0 +1,13 @@
+numpy 2.4.6 scipy 1.18.1
+bubble state of a new problem object: max abs [0.0, 0.0]
+1a s6 condensed l6: (0.0023030515804223217, '') | bubble state left: max abs [0.11983185973917061, 0.03604013392207509]
+1b then s7 condensed l0, state kept: (inf, 'RuntimeError: bubble condensation did not converge')
+2  new object, bubble state of 1a put in, s7 condensed l0: (inf, 'RuntimeError: bubble condensation did not converge')
+3  same order, bubble state zeroed in between: (0.0023030515804223217, '') (0.003727693919260533, '')
+4  s6 raw l0 after s6 condensed l6: state kept (inf, 'RuntimeError: bubble condensation did not converge') | zeroed (-0.0027282879135048788, '')
+5  e_pred 0.04123356565833092 nearest label level 0 of e [0.0414, 0.0929, 0.2192, 0.4219, 1.1808, 2.8239, 4.5953]
+   set 0: cap 60: converged in 15 element iterations, energy 172.2623055275566
+   set 0: from zero: 3 element iterations, energy 172.26230552755663
+   set 1: cap 60: bubble condensation did not converge
+   set 1: cap 200: converged in 62 element iterations, energy 125.87613177510924
+   set 1: from zero: 2 element iterations, energy 125.87613177510926

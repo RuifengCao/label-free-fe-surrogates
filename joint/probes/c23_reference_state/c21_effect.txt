@@ -1,0 +1,9 @@
+returned
+  the 448 pairs: median 5.9823%, 90th percentile 20.6081%, median signed -0.9262%, above 10%: 128, infinite: 1
+  the 64 pairs at 0.5 mm: median 10.7909%, 90th percentile 28.6853%, median signed -1.9276%, above 10%: 34
+  the tail: pairs above the 90th percentile 45, at 6 and 8 mm 18, at 0.5 and 1 mm 23, in members below 300 MPa 22
+with the converged value
+  the 448 pairs: median 5.9697%, 90th percentile 20.4660%, median signed -0.9262%, above 10%: 127, infinite: 0
+  the 64 pairs at 0.5 mm: median 10.6241%, 90th percentile 27.7512%, median signed -1.9276%, above 10%: 33
+  the tail: pairs above the 90th percentile 45, at 6 and 8 mm 19, at 0.5 and 1 mm 22, in members below 300 MPa 22
+the member eval_0046: yield stress 265.5 MPa; the pair is at 0.5 mm

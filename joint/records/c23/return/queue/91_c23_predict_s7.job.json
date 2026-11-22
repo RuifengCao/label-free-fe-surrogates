@@ -1,0 +1,19 @@
+{
+ "script": "gate3/joint/c23/__main__.py",
+ "args": [
+  "predict-label-free",
+  "--data",
+  "gate3_data",
+  "--runs",
+  "gate3_runs",
+  "--seed",
+  "7",
+  "--state",
+  "gate_runs/label_free_s7/state.pt",
+  "--repo",
+  "gate3",
+  "--config-sha",
+  "3b41c26636637e7279f0a43f95406af3b37700c18d979c6d8dd8ec477e055f9e"
+ ],
+ "note": "G-C2.3 runbook 4: predictions of the label-free state, seed 7"
+}

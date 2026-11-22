@@ -1,0 +1,377 @@
+{
+ "arms": {
+  "label_free": {
+   "epochs": 200,
+   "identity": {
+    "how": "the judged values of each run on G-C2.2's fresh members, computed again from the state files, must equal G-C2.2's within the tolerance",
+    "tolerance": 0.0001,
+    "values": {
+     "condensed": {
+      "abs_curve_err_median": [
+       0.008284227273415379,
+       0.007972382816471169,
+       0.007818943658160049
+      ],
+      "abs_curve_err_p90": [
+       0.03663936677608451,
+       0.03766036133923352,
+       0.036562399536675616
+      ]
+     },
+     "raw": {
+      "abs_curve_err_median": [
+       0.014451064308929451,
+       0.013340824465134682,
+       0.013638353687949134
+      ],
+      "abs_curve_err_p90": [
+       0.10944432481632067,
+       0.10470516659288157,
+       0.10542708497194714
+      ]
+     }
+    }
+   },
+   "labels": 0,
+   "loss": "energy",
+   "seeds": [
+    5,
+    6,
+    7
+   ],
+   "state_sha256": {
+    "5": "5859ca7737e94b502660dddd082891a18f981b6df4228ff2a7c59d865ca7dcf5",
+    "6": "adb9992ae19846afd56e9f75d9dfe533edcf5a47fbca9c6a210f18581032c0b1",
+    "7": "80c56c73af04b4321f52a9acfd037a476837bfa6ec0cc8e55524dbf63988bc53"
+   },
+   "trained_in": "G-C2.2; the state files are read, nothing is trained"
+  },
+  "supervised_512": {
+   "epochs": 200,
+   "how": "G-C2.2's run with the supervised loss of G-C2.1 in place of the energy: the same network, training members, steps, optimiser, schedule, clipping and stability recipe, and a fresh random order of the members every epoch; each step takes 4 of the labelled levels of its member",
+   "labels": 512,
+   "loss": "supervised",
+   "seeds": [
+    5,
+    6,
+    7
+   ]
+  }
+ },
+ "base": {
+  "config_sha256": "ef5376a4d6c3cc98d7888121439c8d959ee817d332958dd6b1141b25e78734bb",
+  "gate": "G-C2.2",
+  "unchanged": "family, training members, loading, evaluation levels, network, label-free loss, sampling, learning rate, schedule, budget, stability recipe, judged quantity, the raw and the condensed reading"
+ },
+ "comparison": {
+  "arms": [
+   "supervised_512",
+   "label_free"
+  ],
+  "band": [
+   0.6666666666666666,
+   1.5
+  ],
+  "band_ends": "included",
+  "ratios": "supervised over label-free, for each of the two statistics",
+  "reading": "condensed",
+  "set": "third",
+  "statistics": "for each arm, the median over its three seeds of the median, and of the 90th percentile, over the 448 pairs of |F / F*(e) - 1|"
+ },
+ "criteria": {
+  "R": "part 1, the ranking: in each run that has a pair above 0.05 and a pair at or below 0.05, the probability that a pair above 0.05 has a larger spread than a pair at or below 0.05 (ties count half) is at least 0.90; HOLDS iff so in every such run, NOT EVALUABLE if there is no such run",
+  "S1": "part 1: no pair that is not flagged has |F / F*(e) - 1| above 0.10 in any of the three runs",
+  "S2": "part 1: of the (pair, run) readings of the pairs that are not flagged, at most 0.01 have |F / F*(e) - 1| above 0.05",
+  "S3": "part 1: at most 0.35 of the 448 pairs are flagged",
+  "comparison": "part 2: 'comparable' iff both ratios lie in the band; 'supervised closer' iff both ratios are below 1 and at least one is below the band; 'label-free closer' iff both are above 1 and at least one is above the band; 'mixed' otherwise",
+  "final": "an outcome that is INVALID, and a part that is INCOMPLETE by a stop condition, are final: the gate is not run again on this sample",
+  "identity": "if a label-free run does not reproduce G-C2.2's judged values on G-C2.2's fresh members within the tolerance, neither part is evaluated: the verdict is INVALID. The same holds when a value cannot be computed: a label-free run without finite predictions, or a member of G-C2.2's fresh sample without metrics in a label-free run. An end without finite predictions is final: the run is not predicted again",
+  "incomplete": "part 1 is INCOMPLETE while the label-free arm has not been evaluated or one of its runs has neither predictions nor a non-finite end; part 2 is INCOMPLETE while an arm has not been evaluated or one of its runs has neither predictions nor a non-finite stop",
+  "infinite_pairs": "a pair whose reference solve at the predicted end displacement fails, or gives a force that is not positive, has an infinite error, which counts as above every threshold",
+  "member_without_metrics": "a member of the judged set whose metrics the reference code cannot compute: in a label-free run, part 1 is FAIL and R is NOT EVALUABLE; in a run of either arm, the seed enters the medians over seeds of part 2 with infinite errors",
+  "non_finite_seed": "a supervised seed whose run stopped on a non-finite loss or on non-finite predictions enters the medians over seeds with infinite errors",
+  "not_resumed": "a command that is stopped and not run again leaves INCOMPLETE what needs it: both parts for the evaluation of the label-free arm, part 2 for a supervised run or the evaluation of the supervised arm",
+  "reported_not_judged": "both readings of both arms on every set, with the values C1 and C2 of G-C2.2 would take; the median error of both arms at each level; the ratios of the supervised arm read raw over the label-free arm in the judged reading; the pairs above 0.05 and 0.10 and how many of them are flagged; the spread and the flags on the other sets and in the raw reading; the spread of the supervised runs; the time and the reference solutions each arm needed; the cap's actions",
+  "self_check": "PASS iff S1, S2 and S3",
+  "training_label_failure": "if a label of a training member does not converge or fails its checks, the supervised arm is not trained and part 2 stays INCOMPLETE; part 1 stands. No other solver settings are tried"
+ },
+ "data": {
+  "eval_levels_mm": [
+   0.5,
+   1.0,
+   2.0,
+   3.0,
+   4.0,
+   6.0,
+   8.0
+  ],
+  "eval_seed": 20261113,
+  "former_eval_seed": 20261107,
+  "kkt_limits": {
+   "max_complementarity": [
+    "<=",
+    1e-08
+   ],
+   "max_lambda_inactive": [
+    "<=",
+    1e-06
+   ],
+   "max_residual_unconstrained": [
+    "<=",
+    1e-06
+   ],
+   "min_gap": [
+    ">=",
+    -1e-12
+   ],
+   "min_lambda": [
+    ">=",
+    -1e-08
+   ]
+  },
+  "label_solver": {
+   "max_it": 80,
+   "order": "levels in increasing order, each from the previous level's solution",
+   "tol": 1e-12
+  },
+  "mesh": {
+   "h": 5.0,
+   "hx_max": 20.0,
+   "n_tf": 2
+  },
+  "n_eval": 64,
+  "n_former": 64,
+  "n_third": 64,
+  "n_train": 512,
+  "n_train_labelled": 512,
+  "seeds_seen_before_stamp": [
+   7,
+   8,
+   101,
+   102,
+   20261106,
+   20261107,
+   20261113
+  ],
+  "tested": {
+   "BJ_T1_preloaded": {
+    "fy": 431.0,
+    "n": 30.0,
+    "r": 15.0,
+    "rho": 0.8182357381645637,
+    "t_f": 10.7,
+    "t_w": 7.1,
+    "w": 90.0
+   },
+   "BJ_T1_snug": {
+    "fy": 431.0,
+    "n": 30.0,
+    "r": 15.0,
+    "rho": 0.0,
+    "t_f": 10.7,
+    "t_w": 7.1,
+    "w": 90.0
+   },
+   "BJ_T2_preloaded": {
+    "fy": 282.0,
+    "n": 30.0,
+    "r": 18.0,
+    "rho": 0.8182357381645637,
+    "t_f": 16.0,
+    "t_w": 9.5,
+    "w": 90.0
+   },
+   "BJ_T2_snug": {
+    "fy": 282.0,
+    "n": 30.0,
+    "r": 18.0,
+    "rho": 0.0,
+    "t_f": 16.0,
+    "t_w": 9.5,
+    "w": 90.0
+   }
+  },
+  "third_eval_seed": 20261118,
+  "train_label_levels_mm": [
+   0.1,
+   0.75,
+   1.5,
+   2.5,
+   3.5,
+   5.0,
+   7.0,
+   8.0
+  ],
+  "train_seed": 20261106,
+  "training_members": "seed 20261106, the 512 training members of G-C2.1 (the seed is reused on purpose)"
+ },
+ "evaluation": {
+  "contact_tolerance": "u_x <= 1e-3 (D + delta) on the plane between the flanges, for prediction and reference alike",
+  "force": "the point (e, F) of a field, F = 4 k_s (D - e) its spring reading; judged by its distance from the reference curve in force at the predicted end displacement, F / F*(e) - 1, F*(e) from an exact solve under displacement control",
+  "judged_set": "third",
+  "metrics": [
+   "F_pred / F*(e_pred) - 1",
+   "F_pred / F_ref - 1 at the same D",
+   "the stress reading F_sigma = 4 grad W . v over F_ref, minus 1",
+   "e_pred / e_ref - 1",
+   "energy gap (Pi - Pi*) / Pi*",
+   "certified bound 4 sqrt(2 k_s (Pi - Pi*)) / F_ref",
+   "contact intersection over union",
+   "plastic Gauss points intersection over union",
+   "bolt force N_pred / N_ref - 1",
+   "physical displacement relative L2 error"
+  ],
+  "precision": "float64, the reference code (fejoint.nlhex, fejoint.nlsolve) on the exported problem",
+  "readings": {
+   "condensed": {
+    "a_max": 3.0,
+    "a_min": 0.5,
+    "amplitude": "a minimises the training energy (float32, c2.torch_energy) of z_c at the level's D over a_min <= a <= a_max: a safeguarded secant iteration on dPi/da from a = 1, at most max_evaluations energy evaluations, stopped at |dPi/da| <= rtol Pi; the evaluated point of lowest energy is returned",
+    "base_level_mm": 0.1,
+    "field": "z_c = keep(z_0 + a (z - z_0)): z the network's field at the level's D, z_0 its field at base_level_mm, keep the contact unknowns set to at least zero",
+    "labels": "none: no reference solution enters a reading",
+    "max_evaluations": 12,
+    "rtol": 0.0001
+   },
+   "judged": "condensed",
+   "raw": "the point (e, F) of the network's field z at the level's D, as in G-C2.1",
+   "reported": [
+    "raw"
+   ]
+  },
+  "sets": [
+   "third",
+   "eval",
+   "tested"
+  ]
+ },
+ "family": {
+  "D_max_mm": 8.0,
+  "E": 210000.0,
+  "bolt": {
+   "law_strain_stress": [
+    [
+     0.004190476190476191,
+     880.0
+    ],
+    [
+     0.02,
+     880.0
+    ],
+    [
+     0.06,
+     960.0
+    ]
+   ],
+   "regulariser_MPa": 21.0
+  },
+  "clear_mm": 2.0,
+  "fixed": "rolled T-stub pair, quarter model; L 80 mm, one bolt row at y = 20 mm, web to H = 120 mm; M12 bolts, two washers, bearing radius 12 mm; E 210000, nu 0.3",
+  "loading": {
+   "how": "the web's end section rigid in x (one unknown e), joined by a linear spring to the loading device, whose displacement D is prescribed; the force on the pair F = 4 k_s (D - e)",
+   "spring_N_per_mm": 20000.0
+  },
+  "nu": 0.3,
+  "ranges": {
+   "fy": [
+    235.0,
+    460.0
+   ],
+   "n": [
+    20.0,
+    40.0
+   ],
+   "r": [
+    8.0,
+    18.0
+   ],
+   "rho": [
+    0.0,
+    0.9
+   ],
+   "t_f": [
+    8.0,
+    20.0
+   ],
+   "t_w": [
+    6.0,
+    12.0
+   ],
+   "w": [
+    70.0,
+    110.0
+   ]
+  },
+  "steel": "elastic to fy, plateau to 2% strain, linear to 1.35 fy at 15%, then E/10000; a slope of E/10000 added throughout the plastic range",
+  "theory": "J2 deformation theory (Hencky), small strain; frictionless unilateral contact"
+ },
+ "gate": "G-C2.3",
+ "map": {
+  "T": 0.001,
+  "kind": "softplus",
+  "on": "u_x of the plane between the flanges and the separation slots of the bearing patch"
+ },
+ "model": {
+  "activation_checkpointing": true,
+  "decoder": "a copy of the repository's FieldDecoder (node latent and pooled latent, two GELU layers), last layer zeroed at the start",
+  "depth": 8,
+  "dim": 256,
+  "features": "centred RMS-normalised coordinates (3), Dirichlet flags (3), node flags (7), family parameters over their range maxima (7), loading-device displacement over D_max (1)",
+  "head": "the end section's u_x (e) and the bolt head's three unknowns from the pooled latent (two GELU layers), last layer zeroed",
+  "heads": 8,
+  "lift": "web",
+  "output_scale": "D + delta (mm): every nodal output, e and the head's axial unknown times it, the head's two tilts times it over the bearing radius"
+ },
+ "repository_code": {
+  "src/fejepa/__init__.py": "6b4a69dde91fbd83c5c16707a00e4c9e6a2e02647aca1d3132b313e4b20f9fdc",
+  "src/fejepa/models/__init__.py": "88d852286c71e468491b7d0b34cec2c467bd4c96724a26ca8ebcc6b8f92306e4",
+  "src/fejepa/models/features.py": "0af43e0a87fda6bc177e9b446a720ac11e3e116bc29e445446edf846162c208d",
+  "src/fejepa/models/fejepa.py": "3263988641477cfab564c5c622f8cf3406d98e45078134da8c6905d4b410b847",
+  "src/fejepa/train/__init__.py": "88d852286c71e468491b7d0b34cec2c467bd4c96724a26ca8ebcc6b8f92306e4",
+  "src/fejepa/train/schedule.py": "d53b55877c65efc37ee0a3877362451d8227ef84f581df64138ac1b469bd57c5"
+ },
+ "self_check": {
+  "arm": "label_free",
+  "flag": "a pair is flagged when its spread is at least the threshold",
+  "force": "F = 4 k_s (D - e), the spring reading of a run's field at the level's D; no reference solution",
+  "reading": "condensed",
+  "set": "third",
+  "spread": "for each (member, level) pair, (max - min) / |median| of F over the three runs; a pair whose median F is zero is flagged",
+  "threshold": 0.0045,
+  "threshold_from": "the upper quartile of the spread over the 448 pairs of G-C2.1's held-out members (0.004504), rounded; found in an exploratory reading of G-C2.2's records"
+ },
+ "training": {
+  "D_min_mm": 0.1,
+  "D_sampling": "sqrt(D) uniform between sqrt(0.1) and sqrt(D_max) (label-free); 4 of the labelled levels without replacement (supervised)",
+  "batch": "one instance per step with 4 end displacements; instances in a fresh random order each epoch",
+  "beta2": 0.99,
+  "bubble_newton_steps": 10,
+  "checkpoint_every_epochs": 1,
+  "clip": 1.0,
+  "encoder_gradient_cap": {
+   "burst_factor": 10.0,
+   "factor": 5.0,
+   "how": "before the global clipping, the encoder's gradient is scaled down to at most factor times the median of its norm over the previous window_steps steps (norms before any scaling), from step window_steps + 1 on; a step whose ratio exceeds burst_factor is recorded as a burst",
+   "window_steps": 256
+  },
+  "energy_loss": "mean over the step's fields of log Pi (Pi > 0 for D > 0)",
+  "fields_per_step": 4,
+  "lr": 0.001,
+  "non_finite": "a non-finite loss stops the run; the stop is final and is not retried",
+  "optimizer": "AdamW",
+  "precision": "float32 weights, activations and energy; float32 matmul precision 'highest' (no TF32)",
+  "schedule": "cosine with linear warm-up over the first 5% of steps (the repository's)",
+  "supervised_loss": "mean squared error of the physical displacement over (D + delta)^2",
+  "weight_decay": 0.0001
+ },
+ "training_seeds_seen_before_stamp": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7
+ ]
+}

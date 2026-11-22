@@ -1,0 +1,12 @@
+{
+ "script": "pre3/joint/probes/c2_timing/step_cost.py",
+ "args": [
+  "--repo",
+  "pre3",
+  "--data",
+  "gate_data",
+  "--out",
+  "pre3_records/step_cost.json"
+ ],
+ "note": "probe: seconds per training step, energy and supervised loss (reads G-C2.2's exports)"
+}

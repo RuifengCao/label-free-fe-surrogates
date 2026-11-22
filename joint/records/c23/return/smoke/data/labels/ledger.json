@@ -1,0 +1,278 @@
+[
+ {
+  "id": "third_0001",
+  "levels": [
+   0.5,
+   4.0
+  ],
+  "seconds": 2.69,
+  "iterations": [
+   2,
+   7
+  ],
+  "converged": [
+   true,
+   true
+  ],
+  "kkt_worst": {
+   "min_gap": 0.0,
+   "min_lambda": -2.154685443178904e-14,
+   "max_complementarity": 3.3120329015857144e-13,
+   "max_lambda_inactive": 4.1663091157402385e-13,
+   "max_residual_unconstrained": 2.8341996573326415e-12
+  },
+  "F_vs_F_sigma": 8.42118758309409e-15,
+  "time": "2026-11-18 20:35:02 GMT \u6807\u51c6\u65f6\u95f4",
+  "solver": "scipy",
+  "inst_sha256": "9a95eabc0e979f970e00a02d92c279072d8d48f440db488f5915e76b36d2ca6f",
+  "label_sha256": "0dd4728204e54d9d898b8fc0eadd9cd5d51f6c3b08b8054cb4b6cf9091895497"
+ },
+ {
+  "id": "eval_0001",
+  "levels": [
+   0.5,
+   4.0
+  ],
+  "seconds": 10.83,
+  "iterations": [
+   2,
+   14
+  ],
+  "converged": [
+   true,
+   true
+  ],
+  "kkt_worst": {
+   "min_gap": 0.0,
+   "min_lambda": -1.5560707678958714e-14,
+   "max_complementarity": 9.667545581733683e-15,
+   "max_lambda_inactive": 1.82107845325805e-14,
+   "max_residual_unconstrained": 8.567222812939364e-14
+  },
+  "F_vs_F_sigma": 7.557625702353434e-14,
+  "time": "2026-11-18 20:35:11 GMT \u6807\u51c6\u65f6\u95f4",
+  "solver": "scipy",
+  "inst_sha256": "f28e2ee962d775e0234558b1d6b2885c187d3042a57b51a85f712d14969b19c7",
+  "label_sha256": "5fd23eb24cf7141ee4bc675ec813370f344f0e959defdbfb6dcb33a7b9baf752"
+ },
+ {
+  "id": "tested_BJ_T1_preloaded",
+  "levels": [
+   0.5,
+   4.0
+  ],
+  "seconds": 8.95,
+  "iterations": [
+   2,
+   13
+  ],
+  "converged": [
+   true,
+   true
+  ],
+  "kkt_worst": {
+   "min_gap": 0.0,
+   "min_lambda": -1.833365119383705e-14,
+   "max_complementarity": 2.011618154983316e-14,
+   "max_lambda_inactive": 2.2999687183160378e-14,
+   "max_residual_unconstrained": 1.0909740065251041e-13
+  },
+  "F_vs_F_sigma": 1.353528859900154e-14,
+  "time": "2026-11-18 20:35:11 GMT \u6807\u51c6\u65f6\u95f4",
+  "solver": "scipy",
+  "inst_sha256": "aa54f9ca3e73090841e276ca2e407494fe9f900f093180c6a8501125f42868fe",
+  "label_sha256": "9e69595b05a6d5027b4484e69ecd98d7d47fbaf64e9d669b472832cb2474deeb"
+ },
+ {
+  "id": "eval_0000",
+  "levels": [
+   0.5,
+   4.0
+  ],
+  "seconds": 12.67,
+  "iterations": [
+   2,
+   14
+  ],
+  "converged": [
+   true,
+   true
+  ],
+  "kkt_worst": {
+   "min_gap": 0.0,
+   "min_lambda": -2.6476450923921884e-12,
+   "max_complementarity": 2.101562887658858e-12,
+   "max_lambda_inactive": 2.6476450923921884e-12,
+   "max_residual_unconstrained": 1.60833148652393e-11
+  },
+  "F_vs_F_sigma": 1.0187006773107247e-14,
+  "time": "2026-11-18 20:35:12 GMT \u6807\u51c6\u65f6\u95f4",
+  "solver": "scipy",
+  "inst_sha256": "62086c9eb2609ef2fd99051c4790bbb250d5830c1e29bf4cc6f485ffeb01690a",
+  "label_sha256": "1a7fa72d2aa6f52db8c81214302e1679da6a7fe0da250e1a578fb7d8460ab14f"
+ },
+ {
+  "id": "third_0000",
+  "levels": [
+   0.5,
+   4.0
+  ],
+  "seconds": 22.24,
+  "iterations": [
+   2,
+   19
+  ],
+  "converged": [
+   true,
+   true
+  ],
+  "kkt_worst": {
+   "min_gap": 0.0,
+   "min_lambda": -3.505669417233629e-13,
+   "max_complementarity": 3.669943232611017e-13,
+   "max_lambda_inactive": 4.131128997642769e-13,
+   "max_residual_unconstrained": 7.927942396784584e-12
+  },
+  "F_vs_F_sigma": 4.899509024388339e-14,
+  "time": "2026-11-18 20:35:22 GMT \u6807\u51c6\u65f6\u95f4",
+  "solver": "scipy",
+  "inst_sha256": "196f1c3c5d3ffa0a2819bfe9e2c35d04f3f25427af4a371ab1fb473d1ffe0d0c",
+  "label_sha256": "97e3c285bf7b65664a3f86c6153162666b079b43f462450aae5a558252a6deb4"
+ },
+ {
+  "id": "train_0003",
+  "levels": [
+   0.1,
+   0.75,
+   2.5,
+   8.0
+  ],
+  "seconds": 10.27,
+  "iterations": [
+   2,
+   2,
+   8,
+   13
+  ],
+  "converged": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "kkt_worst": {
+   "min_gap": 0.0,
+   "min_lambda": -1.97107934887472e-14,
+   "max_complementarity": 2.445459612417477e-14,
+   "max_lambda_inactive": 2.71332680242587e-14,
+   "max_residual_unconstrained": 3.338464102194505e-13
+  },
+  "F_vs_F_sigma": 1.7560954283780753e-14,
+  "time": "2026-11-18 20:36:39 GMT \u6807\u51c6\u65f6\u95f4",
+  "solver": "scipy",
+  "inst_sha256": "1bcdf8f8c792e7e0134e1cab4a538e8b7e32dde3934b762d0d7eb58fb2532200",
+  "label_sha256": "f3bbc977d37750b62f507d0f939529e2d64f276374de73bade3289400143f077"
+ },
+ {
+  "id": "train_0001",
+  "levels": [
+   0.1,
+   0.75,
+   2.5,
+   8.0
+  ],
+  "seconds": 21.52,
+  "iterations": [
+   2,
+   2,
+   6,
+   16
+  ],
+  "converged": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "kkt_worst": {
+   "min_gap": 0.0,
+   "min_lambda": -2.02255315618633e-14,
+   "max_complementarity": 1.3565386912887193e-14,
+   "max_lambda_inactive": 2.592628108754591e-14,
+   "max_residual_unconstrained": 4.25494241193502e-13
+  },
+  "F_vs_F_sigma": 3.593243029522543e-14,
+  "time": "2026-11-18 20:36:51 GMT \u6807\u51c6\u65f6\u95f4",
+  "solver": "scipy",
+  "inst_sha256": "3d107e4c2ec12f5722c3849849b9dbe1334efd9e22d3bf16e692a548f9c109ab",
+  "label_sha256": "5404eb10f0c934f1dff1d12d2eb91d061d99dfb254183cd098f5b8c89e5f5514"
+ },
+ {
+  "id": "train_0000",
+  "levels": [
+   0.1,
+   0.75,
+   2.5,
+   8.0
+  ],
+  "seconds": 22.49,
+  "iterations": [
+   2,
+   2,
+   2,
+   18
+  ],
+  "converged": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "kkt_worst": {
+   "min_gap": 0.0,
+   "min_lambda": -6.787610458153996e-14,
+   "max_complementarity": 2.7504908821220866e-14,
+   "max_lambda_inactive": 6.787610458153996e-14,
+   "max_residual_unconstrained": 1.7365409521305242e-11
+  },
+  "F_vs_F_sigma": 5.5875580887261804e-14,
+  "time": "2026-11-18 20:36:51 GMT \u6807\u51c6\u65f6\u95f4",
+  "solver": "scipy",
+  "inst_sha256": "2d8e14b4876de415876377c28c052cd0ca182cb464aa51672a0112a980543e8a",
+  "label_sha256": "fba4ea6fc44e9def7fc354b57be7393469530e712e5989dff750f481790e6159"
+ },
+ {
+  "id": "train_0002",
+  "levels": [
+   0.1,
+   0.75,
+   2.5,
+   8.0
+  ],
+  "seconds": 26.13,
+  "iterations": [
+   2,
+   2,
+   2,
+   19
+  ],
+  "converged": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "kkt_worst": {
+   "min_gap": 0.0,
+   "min_lambda": -4.5411127349868405e-14,
+   "max_complementarity": 2.1150358916928414e-14,
+   "max_lambda_inactive": 4.5411127349868405e-14,
+   "max_residual_unconstrained": 9.549262875000353e-13
+  },
+  "F_vs_F_sigma": 6.067243431827328e-14,
+  "time": "2026-11-18 20:36:55 GMT \u6807\u51c6\u65f6\u95f4",
+  "solver": "scipy",
+  "inst_sha256": "be23e6911445dc04ce1d9c357d12bc6856d117674c45b143ff6006a079a0b68f",
+  "label_sha256": "9547c030b39785bc5c78f087d804f22a6bc22d796290646e07c1437b5a7f459a"
+ }
+]
