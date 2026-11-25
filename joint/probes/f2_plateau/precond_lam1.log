@@ -1,0 +1,53 @@
+contact unknowns: {'head': 36, 'plane': 591, 'root': 37} components [2]
+member tested_B-13_nominal lam 1.0 Theta 0.034746: Pi_ref 1.68137e+06 (re-evaluated 1.68137e+06), open contacts in the reference 488 of 664
+start (preload state): energy excess 45.372%
+factorisations: bonded 6565 unknowns 0.43 s; open 7156 unknowns 1.14 s
+open stiffness: smallest eigenvalue 83.79, largest 1.529e+11, ratio 1.82e+09
+
+qp: 25 iterations, 26 energy evaluations, 240 s
+   it    0: energy excess   45.3718%  theta/ref 0.000  ThetaD/ref 0.000  open  501  field error 0.999  
+   it    1: energy excess    3.9673%  theta/ref 0.730  ThetaD/ref 0.583  open  483  field error 0.386  
+   it    2: energy excess    2.4555%  theta/ref 0.792  ThetaD/ref 0.679  open  488  field error 0.297  
+   it    3: energy excess    1.6834%  theta/ref 0.832  ThetaD/ref 0.741  open  486  field error 0.240  
+   it    5: energy excess    0.9455%  theta/ref 0.881  ThetaD/ref 0.817  open  487  field error 0.169  
+   it   10: energy excess    0.3803%  theta/ref 0.937  ThetaD/ref 0.903  open  487  field error 0.089  
+   it   20: energy excess    0.1174%  theta/ref 0.973  ThetaD/ref 0.958  open  488  field error 0.039  
+   it   25: energy excess    0.0729%  theta/ref 0.980  ThetaD/ref 0.970  open  488  field error 0.028  
+
+open: 1 iterations, 9 energy evaluations, 18 s
+   it    0: energy excess   45.3718%  theta/ref 0.000  ThetaD/ref 0.000  open  501  field error 0.999  
+   it    1: energy excess   44.9640%  theta/ref 0.009  ThetaD/ref 0.005  open  413  field error 0.991  no descent direction
+
+bonded: 40 iterations, 56 energy evaluations, 121 s
+   it    0: energy excess   45.3718%  theta/ref 0.000  ThetaD/ref 0.000  open  501  field error 0.999  
+   it    1: energy excess   24.3651%  theta/ref 0.376  ThetaD/ref 0.045  open  501  field error 0.889  
+   it    2: energy excess   24.2580%  theta/ref 0.376  ThetaD/ref 0.045  open  519  field error 0.889  
+   it    3: energy excess   24.1747%  theta/ref 0.379  ThetaD/ref 0.047  open  519  field error 0.887  
+   it    5: energy excess   24.1094%  theta/ref 0.381  ThetaD/ref 0.049  open  495  field error 0.885  
+   it   10: energy excess   23.8096%  theta/ref 0.382  ThetaD/ref 0.051  open  465  field error 0.883  
+   it   20: energy excess   23.5109%  theta/ref 0.385  ThetaD/ref 0.056  open  460  field error 0.880  
+   it   40: energy excess   23.0542%  theta/ref 0.390  ThetaD/ref 0.063  open  457  field error 0.874  
+
+jacobi: 160 iterations, 323 energy evaluations, 581 s
+   it    0: energy excess   45.3718%  theta/ref 0.000  ThetaD/ref 0.000  open  501  field error 0.999  
+   it    1: energy excess   41.6146%  theta/ref 0.067  ThetaD/ref 0.000  open  501  field error 0.999  
+   it    2: energy excess   41.0865%  theta/ref 0.067  ThetaD/ref 0.000  open  501  field error 0.999  
+   it    3: energy excess   40.9210%  theta/ref 0.074  ThetaD/ref 0.000  open  501  field error 0.999  
+   it    5: energy excess   40.8023%  theta/ref 0.077  ThetaD/ref 0.000  open  501  field error 0.999  
+   it   10: energy excess   40.7038%  theta/ref 0.081  ThetaD/ref 0.000  open  501  field error 0.999  
+   it   20: energy excess   40.5289%  theta/ref 0.083  ThetaD/ref 0.000  open  501  field error 0.999  
+   it   40: energy excess   40.2419%  theta/ref 0.086  ThetaD/ref 0.000  open  501  field error 0.999  
+   it   80: energy excess   39.7418%  theta/ref 0.092  ThetaD/ref 0.000  open  501  field error 0.999  
+   it  160: energy excess   38.9735%  theta/ref 0.101  ThetaD/ref 0.000  open  501  field error 0.998  
+
+plain: 160 iterations, 357 energy evaluations, 508 s
+   it    0: energy excess   45.3718%  theta/ref 0.000  ThetaD/ref 0.000  open  501  field error 0.999  
+   it    1: energy excess   41.6620%  theta/ref 0.075  ThetaD/ref 0.000  open  501  field error 0.999  
+   it    2: energy excess   41.6146%  theta/ref 0.066  ThetaD/ref 0.000  open  501  field error 0.999  
+   it    3: energy excess   41.6138%  theta/ref 0.068  ThetaD/ref 0.000  open  501  field error 0.999  
+   it    5: energy excess   41.6129%  theta/ref 0.069  ThetaD/ref 0.000  open  501  field error 0.999  
+   it   10: energy excess   41.6063%  theta/ref 0.066  ThetaD/ref 0.000  open  501  field error 0.999  
+   it   20: energy excess   41.5951%  theta/ref 0.067  ThetaD/ref 0.000  open  501  field error 0.999  
+   it   40: energy excess   41.5741%  theta/ref 0.067  ThetaD/ref 0.000  open  501  field error 0.999  
+   it   80: energy excess   41.5344%  theta/ref 0.068  ThetaD/ref 0.000  open  501  field error 0.999  
+   it  160: energy excess   41.4636%  theta/ref 0.069  ThetaD/ref 0.000  open  501  field error 0.999  

@@ -1,0 +1,28 @@
+{
+ "what": "one training of the first cycle alone (seed 90) and three at the same time (seeds 91, 92, 93), two epochs each, by the development's command; seconds of the second epoch",
+ "session": {
+  "time_utc": "2026-11-25 13:09:21",
+  "colab_release": "release-colab-external-images_20261118-060058_RC00",
+  "python": "3.13.16",
+  "torch": "2.14.1+cu130",
+  "torch_cuda": "13.0",
+  "numpy": "2.4.6",
+  "scipy": "1.16.3",
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "gpu_memory_GiB": 79.3,
+  "nvidia_smi": "NVIDIA A100-SXM4-80GB, 81920 MiB, 580.82.07",
+  "cpu": "Intel(R) Xeon(R) CPU @ 2.20GHz",
+  "processors": 12,
+  "ram_GiB": 167.1
+ },
+ "one_alone": 187.43,
+ "three_together": [
+  495.52,
+  495.4,
+  496.14
+ ],
+ "median_of_the_three": 495.52,
+ "ratio": 2.6437603371925515,
+ "rule": "at the same time only if the ratio is at most 2.0",
+ "development_RTX_PRO_6000_median_epoch_seconds": 85.55
+}

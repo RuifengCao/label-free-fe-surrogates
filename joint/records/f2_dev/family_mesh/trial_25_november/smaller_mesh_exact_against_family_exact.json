@@ -1,0 +1,105 @@
+{
+ "members": 31,
+ "levels": 7,
+ "largest relative difference of the device rotations": 0.0,
+ "joint rotation, small over family, median by level": [
+  0.923,
+  0.953,
+  0.975,
+  0.973,
+  0.984,
+  0.947,
+  0.942
+ ],
+ "joint rotation, small over family: median, p10, least": [
+  0.955,
+  0.907,
+  0.858
+ ],
+ "joint rotation |error| %: median, p90, largest": [
+  4.535,
+  9.298,
+  14.22
+ ],
+ "moment at the same device rotation, signed %, median by level": [
+  0.67,
+  0.45,
+  0.29,
+  0.32,
+  0.23,
+  1.17,
+  1.97
+ ],
+ "moment at the same device rotation |error| %: median, p90, largest": [
+  0.727,
+  3.324,
+  8.486
+ ],
+ "moment at the same joint rotation (proxy) |error| %: median, p90, largest": [
+  3.823,
+  9.231,
+  11.793
+ ],
+ "moment at the same joint rotation (proxy) |error| %, median by level": [
+  8.21,
+  4.88,
+  2.43,
+  2.25,
+  1.08,
+  3.48,
+  2.48
+ ],
+ "energy, small over family minus one, signed %, median by level": [
+  5.99,
+  3.21,
+  1.26,
+  0.82,
+  0.58,
+  0.59,
+  1.0
+ ],
+ "worst members (proxy, largest over levels)": [
+  [
+   "eval_0001",
+   11.8
+  ],
+  [
+   "dev_W2",
+   11.6
+  ],
+  [
+   "eval_0009",
+   11.5
+  ],
+  [
+   "dev_X1",
+   11.2
+  ],
+  [
+   "tested_B-13_nominal",
+   11.0
+  ],
+  [
+   "eval_0003",
+   10.2
+  ]
+ ],
+ "trial, raw: proxy %: median, p90, largest": [
+  4.349,
+  10.226,
+  35.28
+ ],
+ "trial, raw: record %: median, p90, largest": [
+  4.774,
+  10.574,
+  36.192
+ ],
+ "trial, raw: |proxy - record| in points: median, p90, largest": [
+  0.046,
+  1.116,
+  1.753
+ ],
+ "rank correlation, small mesh's exact |error| (proxy) with the trial's record, 217 pairs": 0.857,
+ "trial record over small mesh's exact |error| (proxy), median of the ratio": 1.088,
+ "pairs where the trial's record is below the small mesh's exact |error| (proxy)": 86
+}

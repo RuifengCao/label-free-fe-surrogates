@@ -103,7 +103,8 @@ def export(m: chs.SpliceModel, q: Params, k_th: float, delta: float, pre: dict |
                bolt_e=np.asarray(m.bolts.curve[0], float), bolt_N=np.asarray(m.bolts.curve[1], float),
                bolt_hend=np.float64(m.bolts.curve[2]), delta=np.full(m.nb, float(delta)), v=s["v"],
                node_flags=node_flags(m), iD=np.int64(m.iD), iC=np.int64(m.iC), ring=m.ring,
-               d=np.float64(m.g.d), params=np.array([getattr(q, k) for k in Params.__dataclass_fields__]),
+               d=np.float64(m.g.d), z_h=np.float64(m.msh["grids"]["z_h"]),
+               params=np.array([getattr(q, k) for k in Params.__dataclass_fields__]),
                ThetaD_pre=np.float64(pre["ThetaD_abs"] if pre else 0.0),
                uzC_pre=np.float64(pre["uzC"] if pre else 0.0))
     for k, name in enumerate(PARTS):

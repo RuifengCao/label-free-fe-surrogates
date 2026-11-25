@@ -142,7 +142,16 @@ def violations(q: Params) -> list[str]:
     return out
 
 
-def sample(n: int, seed: int, max_tries: int = 100000):
+def sample(n: int, seed: int, max_tries: int = 100000, ranges: dict | None = None):
+    """n members drawn uniformly over the family's ranges (those that violate the geometry are drawn again), and
+    the number of draws. ranges: parts of the family's ranges to draw from instead, for example
+    {"tp": (10.0, 12.5)}; each must lie inside the family's range, so that what is drawn is a member."""
+    R = dict(RANGES)
+    for k, (a, b) in (ranges or {}).items():
+        lo, hi = RANGES[k]
+        if not lo <= a < b <= hi:
+            raise ValueError(f"the range of {k} must lie inside the family's {RANGES[k]}")
+        R[k] = (float(a), float(b))
     rng = np.random.default_rng(seed)
     keys = list(Params.__dataclass_fields__)
     out, draws = [], 0
@@ -150,7 +159,7 @@ def sample(n: int, seed: int, max_tries: int = 100000):
         draws += 1
         if draws > max_tries:
             raise RuntimeError("too many rejections")
-        q = Params(**{k: float(rng.uniform(*RANGES[k])) for k in keys})
+        q = Params(**{k: float(rng.uniform(*R[k])) for k in keys})
         if not violations(q):
             out.append(q)
     return out, draws

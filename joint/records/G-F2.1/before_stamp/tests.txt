@@ -1,0 +1,26 @@
+The whole suite of joint/tests on the stamped files, 25 November 2026, on the author's machine (two processors, no GPU; other jobs ran beside it, so the seconds are no measure):
+    FEJEPA_REPO=.. python3 -m pytest -q -p no:cacheprovider -rs --durations=15 tests
+
+suite started 15:18:08
+........................................................................ [ 35%]
+........................................................................ [ 70%]
+............................................................             [100%]
+============================= slowest 15 durations =============================
+2254.19s call     joint/tests/test_f21.py::test_host_check_on_the_reduced_configuration
+506.25s call     joint/tests/test_f2_dev.py::test_step_losses_and_starting_weights
+409.18s setup    joint/tests/test_c23.py::test_supervised_training_keeps_the_recipe_and_the_initial_weights
+337.55s call     joint/tests/test_f2_dev.py::test_training_on_a_field_underneath
+300.59s call     joint/tests/test_f2_dev.py::test_averages_of_the_weights
+283.83s call     joint/tests/test_f2_dev.py::test_second_cycle_with_uniform_rotations_and_extra_members
+266.33s call     joint/tests/test_c23.py::test_the_command_line_runs_the_runbooks_commands
+258.61s call     joint/tests/test_c22.py::test_the_host_check_passes_on_a_cpu
+219.50s setup    joint/tests/test_f2_dev.py::test_field_underneath_is_where_the_networks_start
+210.54s call     joint/tests/test_f2_dev.py::test_training_with_a_companion_mesh
+183.76s call     joint/tests/test_f1.py::test_dry_pipeline_tiny
+173.53s call     joint/tests/test_f2.py::test_reference_at_a_prescribed_ThetaD
+159.89s call     joint/tests/test_c22.py::test_the_condensed_reading_of_the_fresh_members_decides
+120.26s setup    joint/tests/test_f2_dev.py::test_training_pause_and_resume
+116.06s setup    joint/tests/test_f2.py::test_generate_label_and_check
+204 passed, 8 warnings in 7073.70s (1:57:53)
+exit code 0
+suite ended 17:16:03

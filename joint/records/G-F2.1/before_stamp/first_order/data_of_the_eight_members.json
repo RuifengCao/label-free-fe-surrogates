@@ -1,0 +1,37 @@
+{
+ "preset": "fam128_bending_more_ux",
+ "members": [
+  "dev_S1",
+  "dev_S2",
+  "dev_W1",
+  "dev_T25lo",
+  "dev_T10hi",
+  "dev_W2",
+  "dev_X2",
+  "eval_0013"
+ ],
+ "solver": [
+  "pardiso"
+ ],
+ "converged": true,
+ "export equal to the record's, by SHA-256": {
+  "dev_S1": false,
+  "dev_S2": false,
+  "dev_W1": false,
+  "dev_T25lo": false,
+  "dev_T10hi": false,
+  "dev_W2": false,
+  "dev_X2": false,
+  "eval_0013": false
+ },
+ "label equal to the record's, by SHA-256": {
+  "dev_S1": false,
+  "dev_S2": false,
+  "dev_W1": false,
+  "dev_T25lo": false,
+  "dev_T10hi": false,
+  "dev_W2": false,
+  "dev_X2": false,
+  "eval_0013": false
+ }
+}

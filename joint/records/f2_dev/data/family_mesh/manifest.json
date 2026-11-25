@@ -1,0 +1,2868 @@
+{
+ "config_sha256": "e46121c6a55482296dcd2a0e3ec62b1e63ec364cad7d9fea206e78df1615b71e",
+ "n": 159,
+ "instances": [
+  {
+   "id": "train_0000",
+   "split": "train",
+   "params": {
+    "tp": 21.055523944364623,
+    "e1": 57.99670504621456,
+    "e2": 71.66857768043045,
+    "fy": 412.86083004181023,
+    "Np": 105.70232446127984
+   },
+   "file": "inst/train_0000.npz",
+   "sha256": "1b5598c3fcabd265fb5689a5929ba19f00b6ccf27b5472dea766360c63cadb1f",
+   "pre_sha256": "03d10bfb64f6135d5beafc2483fff5337564d8cd10d20373b2ea8c8c3c185fa8",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.06002826901511818,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0001",
+   "split": "train",
+   "params": {
+    "tp": 16.173758033422494,
+    "e1": 73.50237022688277,
+    "e2": 62.98296601754592,
+    "fy": 350.9955818003781,
+    "Np": 91.9513896359313
+   },
+   "file": "inst/train_0001.npz",
+   "sha256": "65e5177c7bdda7274d3af3ff488f75df51f2928b02ef18b6ba95e3bdda03b014",
+   "pre_sha256": "c3c2cc5e7a623a3135258dbcdd79dc146c76dca7f4a206905591fe1313cf172c",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.039368204565031144,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0002",
+   "split": "train",
+   "params": {
+    "tp": 15.543946405914545,
+    "e1": 63.14595999284575,
+    "e2": 72.17276058509681,
+    "fy": 369.22488708677116,
+    "Np": 112.80261950429012
+   },
+   "file": "inst/train_0002.npz",
+   "sha256": "382c16d52689d156862885519341e9e0a82e8732860a069b7500be62e0900735",
+   "pre_sha256": "8258189a700510997a151f17a34f8de8feda72bccec3e7afdf612cb5a837c57e",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04308006640126737,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0003",
+   "split": "train",
+   "params": {
+    "tp": 12.647481802225021,
+    "e1": 72.39239716117686,
+    "e2": 71.13093245288975,
+    "fy": 425.83926363414844,
+    "Np": 60.37290793799187
+   },
+   "file": "inst/train_0003.npz",
+   "sha256": "6150ca3ab1f86f7e8959aff9c3e84561349e3f2b4e691e7d049863e25ab7503e",
+   "pre_sha256": "131b9a64d1e04d8f0385ef399fc0bb42b61ac3c737e8011a6efbd832bb4feabd",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.03420517807488811,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0004",
+   "split": "train",
+   "params": {
+    "tp": 21.848850149498112,
+    "e1": 74.0745795995774,
+    "e2": 68.26279464727976,
+    "fy": 446.5387288168285,
+    "Np": 106.27325859843984
+   },
+   "file": "inst/train_0004.npz",
+   "sha256": "0839e976f9c0abe569a5c5415ff07f4ecbc7494fb9cf053e39ce847e6ec21c68",
+   "pre_sha256": "8ea19b98af40b5d0bce9a222ac35c3f4a02b8b9088926d9cfe1c3d864cc010fb",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.05798144765840789,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0005",
+   "split": "train",
+   "params": {
+    "tp": 21.096280855370544,
+    "e1": 72.20419593888222,
+    "e2": 70.15562903698776,
+    "fy": 367.5474752228702,
+    "Np": 121.91149344903911
+   },
+   "file": "inst/train_0005.npz",
+   "sha256": "06ca961c5f608c53266ccbf97f195ede8169cbb9278bc104b3e19e57c02baded",
+   "pre_sha256": "c585b76200cdd32cb1526ab8da46ed7722ca007f2336ff931fe6a84e2d29af24",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.05366523393947008,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0006",
+   "split": "train",
+   "params": {
+    "tp": 21.474084453756518,
+    "e1": 56.722902791190975,
+    "e2": 65.47073610265909,
+    "fy": 418.25788999585063,
+    "Np": 128.55109295263713
+   },
+   "file": "inst/train_0006.npz",
+   "sha256": "b16814e7029af1d4b40036de2fe4168a3a449ee8d13af146cebfcf6eea064122",
+   "pre_sha256": "b05d4dd4aae8007a2f09d328587ab6f811bcada5651f8ab4ed4198187b92c018",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.0607208232268165,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0007",
+   "split": "train",
+   "params": {
+    "tp": 14.248699558003135,
+    "e1": 58.775869912783364,
+    "e2": 62.22681618082735,
+    "fy": 442.5153857163688,
+    "Np": 95.36186813548252
+   },
+   "file": "inst/train_0007.npz",
+   "sha256": "013a38f94f4c16770ace80f13d4a67685c9cc1b7a75939bf7d6427c2afd39e78",
+   "pre_sha256": "1cba395c862819d90a4596f023f462f86e7d8092ed6863d92b510d230e3342d8",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.043793685828597786,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0008",
+   "split": "train",
+   "params": {
+    "tp": 18.663289585503794,
+    "e1": 73.89354501441193,
+    "e2": 73.87349649402901,
+    "fy": 390.30132584146685,
+    "Np": 71.46642735752215
+   },
+   "file": "inst/train_0008.npz",
+   "sha256": "773d0e471a6c4b41fc62165252d5519dc409a69fb4a82f4be1fbaf3042255f3d",
+   "pre_sha256": "370878b1095883081a89400359645533524ad14731dd0f9c85babed455b068c0",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.049087623984637424,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0009",
+   "split": "train",
+   "params": {
+    "tp": 10.961757224661397,
+    "e1": 56.22094353382618,
+    "e2": 66.4359826692675,
+    "fy": 444.9279834630906,
+    "Np": 109.51196718040414
+   },
+   "file": "inst/train_0009.npz",
+   "sha256": "dc157133c077f830e90c265af561f0bb4dff2730d41803e94c695cc9c04a32b6",
+   "pre_sha256": "01c91c49d904d2271643fe80b6072d980af159ad3b2d9bfa565c2c3946926a2f",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.03432484612182146,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0010",
+   "split": "train",
+   "params": {
+    "tp": 19.66182642900499,
+    "e1": 74.78016479133056,
+    "e2": 72.78999178507584,
+    "fy": 433.7856929086156,
+    "Np": 89.58990982020066
+   },
+   "file": "inst/train_0010.npz",
+   "sha256": "df48c3bf53c74763cb71548641f516eaca273b7712815e7e3f90556a9d3ae344",
+   "pre_sha256": "eaafed967856cc8058d94c4bc4f9d6d10b02c7dea143db691c3ec28876be4476",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.053368914788996,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0011",
+   "split": "train",
+   "params": {
+    "tp": 23.925176621704864,
+    "e1": 60.82995181438648,
+    "e2": 66.51938791160481,
+    "fy": 347.29441741019997,
+    "Np": 70.62742520708265
+   },
+   "file": "inst/train_0011.npz",
+   "sha256": "6f2a87b2d545833e080d6188ef0b1c5645848eff8e9c64e9a7ff61ef963f9d49",
+   "pre_sha256": "e21151bedaae2be075b8f6eb3a36257a1d946f94915b4e3f8e8ea6f18377a34c",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.06034578338433812,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0012",
+   "split": "train",
+   "params": {
+    "tp": 15.94717148057868,
+    "e1": 71.71286749576849,
+    "e2": 63.11374371967692,
+    "fy": 441.7188239256923,
+    "Np": 88.86218569179627
+   },
+   "file": "inst/train_0012.npz",
+   "sha256": "268edd6af243ca55cd663315864059af835b6c6788e09a65eb4321898e585fd7",
+   "pre_sha256": "e1b811a8d1eef0263a269b32746ea12a57681516313205672d0045d3fe5b4b2e",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.044131314782774,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0013",
+   "split": "train",
+   "params": {
+    "tp": 13.835640669199236,
+    "e1": 67.54194674334546,
+    "e2": 62.12416445106271,
+    "fy": 377.0196673459412,
+    "Np": 124.50335729683177
+   },
+   "file": "inst/train_0013.npz",
+   "sha256": "f392d78c91427cfe151113789a3fb0dfdcf9b1529a70eafef6f9e2abbc550314",
+   "pre_sha256": "eeb8687a9641a5b7922f249bbd0867e44e5cf0d2a55b80add32b0ff2f6021ec0",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.03613625667407791,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0014",
+   "split": "train",
+   "params": {
+    "tp": 13.814096668350384,
+    "e1": 61.47165124372378,
+    "e2": 71.53425496488391,
+    "fy": 352.02453534869693,
+    "Np": 125.87252040005586
+   },
+   "file": "inst/train_0014.npz",
+   "sha256": "2e140b0f2f2e1f95141116654b6bd9774b9a6a2daf1621c77655202d73bc0397",
+   "pre_sha256": "ab49f10eb3432fe1364bc59fcebf91143bcada345ef5b1beb4e950c27a8468f4",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.03757230976981333,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0015",
+   "split": "train",
+   "params": {
+    "tp": 16.986130978699,
+    "e1": 60.32497860377454,
+    "e2": 65.33678002569935,
+    "fy": 454.59052193835055,
+    "Np": 89.60805825961691
+   },
+   "file": "inst/train_0015.npz",
+   "sha256": "0d45ac5aa5b8612141f626d0e27d0e3af73cd632105bc70d9e06b7d2d90e8b81",
+   "pre_sha256": "ecb9e6df6bf306bdc2bdcac78dff33f02450f9f3e7aab2455ae770f9e42cf82f",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05227955000664404,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0016",
+   "split": "train",
+   "params": {
+    "tp": 12.876042380307846,
+    "e1": 68.29728265073648,
+    "e2": 62.52139034060683,
+    "fy": 415.8613259441072,
+    "Np": 61.1704071879752
+   },
+   "file": "inst/train_0016.npz",
+   "sha256": "d9d45edfb64b635343f42ddf282dd37dce0990d45d37de04913c9018c671ee8b",
+   "pre_sha256": "06ac78ce1e85cd1fbaa8aba66abcfd8bdb472f5d77bc9f527f5fde4e08bfa683",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.0349502668781041,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0017",
+   "split": "train",
+   "params": {
+    "tp": 10.376515880979555,
+    "e1": 64.98201574683773,
+    "e2": 61.81048923317785,
+    "fy": 358.0174172848686,
+    "Np": 76.27781417523438
+   },
+   "file": "inst/train_0017.npz",
+   "sha256": "7f53cbe4ed5bfe3665dd93d74687d0c98f9fe8044391de41c9f1e65e2b9ce64d",
+   "pre_sha256": "68997ab354d20ad4ebeb3d3a53a1a2619339c3777837b4a2428268db39fd4dd7",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.026838524244297272,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0018",
+   "split": "train",
+   "params": {
+    "tp": 18.253474639336996,
+    "e1": 68.71848222099692,
+    "e2": 70.75473975046502,
+    "fy": 401.84579575512356,
+    "Np": 120.93111408123428
+   },
+   "file": "inst/train_0018.npz",
+   "sha256": "6da0e87780a6e7cfcf52646d293b82ec76bd2537b26c942df27a3913cd60234b",
+   "pre_sha256": "e00ae141402bfdb627cf0376a59166ad8b988f1ba7ffa00568fcdc96123d82e9",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.05023201679040755,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0019",
+   "split": "train",
+   "params": {
+    "tp": 10.692123722676287,
+    "e1": 61.69405852777477,
+    "e2": 70.15997809716845,
+    "fy": 397.6659165504677,
+    "Np": 118.32874686152402
+   },
+   "file": "inst/train_0019.npz",
+   "sha256": "e7d5cfca977bc9855d15d8c9c1607819c5f55b5aceff425cc297c3aadb4d2093",
+   "pre_sha256": "459968fde69495400fbeea17d9696fda434ed129835a16d6b5647c3b7f1dba88",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.03031520511749297,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0020",
+   "split": "train",
+   "params": {
+    "tp": 16.552327334464046,
+    "e1": 69.31826496254075,
+    "e2": 71.12643870404587,
+    "fy": 396.1959932920785,
+    "Np": 96.12170494833846
+   },
+   "file": "inst/train_0020.npz",
+   "sha256": "9d4097177b541b7384851e47f8537a0683bb63b73d7cb48f6cb018512f719d0e",
+   "pre_sha256": "c946aedc80ad943b7d7cf5b25d42b584fef8aebed72771d4421d9065f81258c3",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.04511391603484158,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0021",
+   "split": "train",
+   "params": {
+    "tp": 21.658133920463374,
+    "e1": 69.46588030601421,
+    "e2": 55.35087027401355,
+    "fy": 440.69941458382425,
+    "Np": 124.77753570906334
+   },
+   "file": "inst/train_0021.npz",
+   "sha256": "d372d37991ba5a0c2e6931e0fd51e84683027f016a862376ee2fcb6a8a0fd7a9",
+   "pre_sha256": "95df00e4098ebf428e415951840da2da702d611c9817e9a0f457b2dcee8f336f",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05764807413679866,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0022",
+   "split": "train",
+   "params": {
+    "tp": 21.52832779182951,
+    "e1": 63.41422190007182,
+    "e2": 73.39713457756172,
+    "fy": 430.4607908586469,
+    "Np": 60.52028656877648
+   },
+   "file": "inst/train_0022.npz",
+   "sha256": "ba8ccdc17ffe1751ab394f638fecd30a98d464b76d3195bbe4b5b11fc4f2c2d5",
+   "pre_sha256": "eb791d2f0daf83ba23a14fef7924ad172b4881b2dcb47130925e58b9bddb1944",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05994726453412033,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0023",
+   "split": "train",
+   "params": {
+    "tp": 14.15909391788914,
+    "e1": 67.47165871969388,
+    "e2": 62.38223474247508,
+    "fy": 367.5468810253708,
+    "Np": 129.8197515513881
+   },
+   "file": "inst/train_0023.npz",
+   "sha256": "491e0741e8e4a7b5d328b9a0ff211890e79579c0708e9423e049a17e5d8c83ef",
+   "pre_sha256": "9af4731bc88c6973a1980a7ed0ca5d44e5021e03ebbfba0d1deb6818be41782b",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.036619497494877536,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0024",
+   "split": "train",
+   "params": {
+    "tp": 18.817325949090055,
+    "e1": 62.7000497076048,
+    "e2": 61.765760633615955,
+    "fy": 385.07608109972654,
+    "Np": 116.76537996673719
+   },
+   "file": "inst/train_0024.npz",
+   "sha256": "6c76fe000cf72377c8264fe22246f127c9ec8add16984097fe4e87a442c200c7",
+   "pre_sha256": "7146b99039e855a6a2ced70c47813f66fd934d29dd5d360914a702529684b706",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.05212130979522736,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0025",
+   "split": "train",
+   "params": {
+    "tp": 24.15494959286844,
+    "e1": 69.94873913986746,
+    "e2": 56.10347042521213,
+    "fy": 348.7337840536438,
+    "Np": 70.13512890861908
+   },
+   "file": "inst/train_0025.npz",
+   "sha256": "456bc660a67bbd005c9c0f07ea4ece96f7a3790b21d1f3261449e065df19708f",
+   "pre_sha256": "860b50da2c70e4a514877a70004143144c2686234cf48078fcc20f88fccb2aba",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05757530373726945,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0026",
+   "split": "train",
+   "params": {
+    "tp": 15.846383854944365,
+    "e1": 73.51950019902709,
+    "e2": 55.25993501044415,
+    "fy": 350.99425809640275,
+    "Np": 80.1244212699956
+   },
+   "file": "inst/train_0026.npz",
+   "sha256": "76f2df0728bcc9aa28f49b14c409ca1588420dadb541322c7f0d084e946f5351",
+   "pre_sha256": "5735ffbf6e6c6730db8648767dfb6cb9df7f8a3a1c766c637b8343ab98b31d3f",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.03776149482527662,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0027",
+   "split": "train",
+   "params": {
+    "tp": 17.171692834793838,
+    "e1": 63.01763284589232,
+    "e2": 61.74436158027753,
+    "fy": 427.2733677949006,
+    "Np": 123.75750468747758
+   },
+   "file": "inst/train_0027.npz",
+   "sha256": "7fb0edc3a0ef38fee4e55b2e05d2c16a1ac3e9b58a7a368fd5ef433d23b8223a",
+   "pre_sha256": "75fa54f3fd2ea5d2225626c61d4cd21afe5e83f2b80bbbee489c331f18099875",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.050005111196336716,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0028",
+   "split": "train",
+   "params": {
+    "tp": 13.842363367621504,
+    "e1": 68.874938275675,
+    "e2": 67.01090413764695,
+    "fy": 406.28776497670725,
+    "Np": 92.91155957670568
+   },
+   "file": "inst/train_0028.npz",
+   "sha256": "91223dcc8ffd15e15651f9681506985373018bfec479241fc8db44da24287828",
+   "pre_sha256": "79baa90ff289c36f1c74bafc0a0679639ebb66d3d9534065aa03a0b80e0ff9ee",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.037538254042815994,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0029",
+   "split": "train",
+   "params": {
+    "tp": 16.033027997127917,
+    "e1": 63.141359633921155,
+    "e2": 63.50784597571758,
+    "fy": 349.62631982643256,
+    "Np": 87.04127089240335
+   },
+   "file": "inst/train_0029.npz",
+   "sha256": "755f40543eff359e1601dabb3ad8ad2ee3c87b0da80a84db398b16e9f838740e",
+   "pre_sha256": "a1e4993c476a3803cc5de8eb43bbdf1071417445c6896f53adeaa5ebd8655ebf",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.042532000907553213,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0030",
+   "split": "train",
+   "params": {
+    "tp": 11.050660253679796,
+    "e1": 66.57612227283977,
+    "e2": 74.73841270866407,
+    "fy": 362.8336800720476,
+    "Np": 86.59188932534578
+   },
+   "file": "inst/train_0030.npz",
+   "sha256": "f390c03f5fb9cb13f9d926149bc3d5b3acb8ec9547993955bccf15551ec66243",
+   "pre_sha256": "8812cc158b65df7f573260bc416e09d4ae2bf97d07b7ff72cd92ab6db4d4e0c4",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.029068786387614006,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0031",
+   "split": "train",
+   "params": {
+    "tp": 19.434768716016066,
+    "e1": 70.10052815909609,
+    "e2": 55.45020216794832,
+    "fy": 404.4245980968801,
+    "Np": 62.97288335008777
+   },
+   "file": "inst/train_0031.npz",
+   "sha256": "dd3c25ad9ea7b64d37b47ea3d011e274a8273010d771d3c070114c1229a97121",
+   "pre_sha256": "224d88d5d701c782a675a5ed11b4c43b3a50ad6ab89d1b680e6ccb3d097fbf23",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05123427613662597,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0032",
+   "split": "train",
+   "params": {
+    "tp": 15.600930393023976,
+    "e1": 59.09861290721166,
+    "e2": 72.04841240726881,
+    "fy": 406.97962519522366,
+    "Np": 74.01037797909112
+   },
+   "file": "inst/train_0032.npz",
+   "sha256": "9fd3313418e5ea271033f29a00a04831b1bba1d05e9e089732883362cd043b6c",
+   "pre_sha256": "150fe161b4ab0a4b4a0bbd29ce9c169711c83943f650b89362b04d1d5883bf6b",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04702167082369256,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0033",
+   "split": "train",
+   "params": {
+    "tp": 19.342010530838458,
+    "e1": 66.75888365564965,
+    "e2": 68.20238258259164,
+    "fy": 375.95451076430885,
+    "Np": 79.60646327612152
+   },
+   "file": "inst/train_0033.npz",
+   "sha256": "3f9dbda859b8ab0a6a7378f852496bdc825abeef84c3824a8626d44cd431da7d",
+   "pre_sha256": "aa80a568b919735c242f7948a945da4535e9de90cebdbb632d21f237e2b8af88",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.051956325645728274,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0034",
+   "split": "train",
+   "params": {
+    "tp": 15.656897514671073,
+    "e1": 60.86834113080543,
+    "e2": 71.87743422809064,
+    "fy": 425.6661013844282,
+    "Np": 75.36589272826735
+   },
+   "file": "inst/train_0034.npz",
+   "sha256": "3b03169f17639848ca73125df176ee35f0fe0ef9ba3d83c8309bb87de2457cd4",
+   "pre_sha256": "f15375aa0fe9c493c1ca7bc213e82ef6f90d49b3279ff1da9cdb5b76fc993c83",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04742116843710954,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0035",
+   "split": "train",
+   "params": {
+    "tp": 11.505406370350597,
+    "e1": 60.504882144048544,
+    "e2": 67.52767861219581,
+    "fy": 420.03759715748436,
+    "Np": 103.18591041161548
+   },
+   "file": "inst/train_0035.npz",
+   "sha256": "75cd87cfd5c4063bc137b403986ffc3c3f9f776b4a2a81844362adef22030428",
+   "pre_sha256": "45be134dd87b0627e1e6760b9670cb0cf975dbd759612daec4fa5bff0d4db019",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.03376526008530079,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0036",
+   "split": "train",
+   "params": {
+    "tp": 12.414521513793092,
+    "e1": 73.54163663636785,
+    "e2": 71.06129680017773,
+    "fy": 352.3417353218325,
+    "Np": 125.58158023778245
+   },
+   "file": "inst/train_0036.npz",
+   "sha256": "95471b4e663370c57096ffb587a3cfddcb77e7745740eb15a7a9ec449ac47666",
+   "pre_sha256": "2dfd46fcac5b9a931dca5dd26ca787ffa36ab44de9c3d95d01fa29c20d7be045",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.03033487129181046,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0037",
+   "split": "train",
+   "params": {
+    "tp": 15.631575785906687,
+    "e1": 55.44239028314332,
+    "e2": 58.7143484301337,
+    "fy": 405.60363799804475,
+    "Np": 120.73625408708745
+   },
+   "file": "inst/train_0037.npz",
+   "sha256": "885ef28eb20a0616f46a83d1f773bbb912033a218c849de22b91de7983ba0bfc",
+   "pre_sha256": "7d9039e3c943f1fa1aadec59db3cccd006ab128b1ca59cdf575f83b8a838a33d",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.047325714921738926,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0038",
+   "split": "train",
+   "params": {
+    "tp": 16.41379179524633,
+    "e1": 57.27446731566122,
+    "e2": 65.55932559667829,
+    "fy": 418.9795686384959,
+    "Np": 109.74388807707867
+   },
+   "file": "inst/train_0038.npz",
+   "sha256": "658a87f13e12fd32607ca562671811498aa268308bc6df16ec810e2d6d1f91a0",
+   "pre_sha256": "da83c8fbfdee7b9a2f8fb164bcbcfa0e6f69fbfa030318c5576580c13a3a0034",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05024284790572442,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0039",
+   "split": "train",
+   "params": {
+    "tp": 13.536565812570707,
+    "e1": 70.32471917919666,
+    "e2": 72.65828869916004,
+    "fy": 356.28920732745263,
+    "Np": 78.81948786447478
+   },
+   "file": "inst/train_0039.npz",
+   "sha256": "8a14a8354fc409e50df37a2904de1d6991b8484c3706358601b93d17a8fe935a",
+   "pre_sha256": "7f4d4aec3a6f933c4238fd2ab5554fc8ed1910bc9bcc1b43c7ed1e3950f0507c",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.03431814073185775,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0040",
+   "split": "train",
+   "params": {
+    "tp": 24.10842221012581,
+    "e1": 65.67038249719491,
+    "e2": 62.34830459196195,
+    "fy": 353.96787589530265,
+    "Np": 71.9650441850528
+   },
+   "file": "inst/train_0040.npz",
+   "sha256": "b3d04d8e9f9c03f9f3b7741325a1802d34199cd6c6c2c4ce6813002b6ab86358",
+   "pre_sha256": "f1ae63378f67737b5f9bb95c6e5c3452a6ce197d235fcf3cd85ce172f2ba4e38",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05936835132130776,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0041",
+   "split": "train",
+   "params": {
+    "tp": 16.30286801682066,
+    "e1": 73.2197542605912,
+    "e2": 56.37086854191562,
+    "fy": 423.31914582671004,
+    "Np": 62.82233854132756
+   },
+   "file": "inst/train_0041.npz",
+   "sha256": "8de9b316926d3a8143afcb1cdbc95149c7d1e7621e182e27b268a900068190bc",
+   "pre_sha256": "6c844e2021bf5a0cc177f288c3de49991f9e9fb74d2edbe8c8d196b124e9f8b1",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04300443246969092,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0042",
+   "split": "train",
+   "params": {
+    "tp": 16.836313994873905,
+    "e1": 71.72908628129923,
+    "e2": 70.64207247377459,
+    "fy": 445.9299816623619,
+    "Np": 110.31964437968782
+   },
+   "file": "inst/train_0042.npz",
+   "sha256": "f80772e60bcf89e166757845e96579be640594b39ebb73cc35a246a55bf3c9c3",
+   "pre_sha256": "9e0ddacca5c2a5587091842a929735a14361d0863e1966d089d39923344eabfe",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.04761656617959133,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0043",
+   "split": "train",
+   "params": {
+    "tp": 14.311482288289266,
+    "e1": 68.62465653579655,
+    "e2": 71.03259573958687,
+    "fy": 370.34196930752336,
+    "Np": 117.03905106749485
+   },
+   "file": "inst/train_0043.npz",
+   "sha256": "5dda3ddca88871f22b6c278650ecc2b5d2dfc5c507f007a329943f7fe86c32af",
+   "pre_sha256": "3cd43236748c8a5d9d21ea43b0e18e96103ece9a527efbbd92805b75d105d6f4",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.03753983721377056,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0044",
+   "split": "train",
+   "params": {
+    "tp": 15.073513185906318,
+    "e1": 70.67528404482826,
+    "e2": 58.383265024925535,
+    "fy": 433.0263022651942,
+    "Np": 111.73405209159043
+   },
+   "file": "inst/train_0044.npz",
+   "sha256": "b0c2ec43c89caeeb7876912ad0a36e469593cab32bbb6015a5348e242b5f56dd",
+   "pre_sha256": "f6ccd322c9c7225a3ec1ebd03a0e4367058bdcf9659c435ab5873701df3c0057",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.041022959504941975,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0045",
+   "split": "train",
+   "params": {
+    "tp": 13.159639807021774,
+    "e1": 66.54725129250977,
+    "e2": 56.81974694538914,
+    "fy": 457.2163699783523,
+    "Np": 107.78812439792483
+   },
+   "file": "inst/train_0045.npz",
+   "sha256": "cf8ca50cf6dfb5c65a84ad6ac96a9e97882e37d24b26c8895e8b02ecfc24757b",
+   "pre_sha256": "30cdfed8716fdd4aec8f78799b70e569c23ac86300a9b4403a3d35358d3e9461",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.037549272358573416,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0046",
+   "split": "train",
+   "params": {
+    "tp": 21.42710828892082,
+    "e1": 60.03175796345247,
+    "e2": 70.21863484263704,
+    "fy": 425.6335012204234,
+    "Np": 117.26600688020741
+   },
+   "file": "inst/train_0046.npz",
+   "sha256": "dd115bf9a76d37e0c6b72a55c82a2348ad77ae1a725c3f6a9fb80d5ea304b778",
+   "pre_sha256": "c5b62ecbceef28280df81397da1fea49cf9a3f42bd1081a6886a60e9d74cc4ce",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.060323544425777476,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0047",
+   "split": "train",
+   "params": {
+    "tp": 24.373574763170474,
+    "e1": 55.230051599531876,
+    "e2": 57.982036864487405,
+    "fy": 443.8088495588062,
+    "Np": 98.72039612472244
+   },
+   "file": "inst/train_0047.npz",
+   "sha256": "daa0587927a10b0ce31f80acf555d13700374826d78e165b7a3efc36a7b30863",
+   "pre_sha256": "68f90313d38fe8a7dd3a313d6233748c632366357bd50f444cf5e778ad321277",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.06364133714157835,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0048",
+   "split": "train",
+   "params": {
+    "tp": 14.649934080451422,
+    "e1": 57.36650882470048,
+    "e2": 63.56974439436874,
+    "fy": 451.8573231991815,
+    "Np": 86.45454041285169
+   },
+   "file": "inst/train_0048.npz",
+   "sha256": "df6befbcbef13fd258400dd392adde9fdddabce6aadc85ff1d0fc7880b3293b0",
+   "pre_sha256": "7527c408082ebf8035f22d43b7c8d207cbcddb660b828141f3e83b93400195b8",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.04629503441399832,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0049",
+   "split": "train",
+   "params": {
+    "tp": 16.033771640363707,
+    "e1": 70.82944583015353,
+    "e2": 74.92023314893252,
+    "fy": 362.9559484794085,
+    "Np": 77.08636721115687
+   },
+   "file": "inst/train_0049.npz",
+   "sha256": "4b3734c2450ddc636b2f1d01c27cfc778ee2869e731d952e17f64f6cf6911b0e",
+   "pre_sha256": "45284fc2232c0074701c8aba03e5c571f4af75725d2a161b0d15ad9477b40f87",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.041576178998564035,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0050",
+   "split": "train",
+   "params": {
+    "tp": 23.98809077392127,
+    "e1": 64.43441886306861,
+    "e2": 62.139499164663206,
+    "fy": 396.44325976096036,
+    "Np": 121.56236260411964
+   },
+   "file": "inst/train_0050.npz",
+   "sha256": "059f90444d065bfdd95ccda496abce7c326a8d123dafecd1c95c9134eb11999d",
+   "pre_sha256": "d9130ed2d685d36e0ac6e27e90b214880ca818f8c8090343fa1f3cf15861a540",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.06098631156838537,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0051",
+   "split": "train",
+   "params": {
+    "tp": 12.147015389289404,
+    "e1": 69.60493736216651,
+    "e2": 65.85193499108391,
+    "fy": 426.5127030269726,
+    "Np": 126.56675538722062
+   },
+   "file": "inst/train_0051.npz",
+   "sha256": "804a900caea945fbdb974415b5e4df1aaca4937bae797735ab4beeb2629e6eef",
+   "pre_sha256": "fc20ee413ec3aa456b010c01fc024757d3e4f4e4f1a50de28cc7402214c3147c",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.033165714262001225,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0052",
+   "split": "train",
+   "params": {
+    "tp": 11.109894865549245,
+    "e1": 70.34504535048735,
+    "e2": 57.68326156192245,
+    "fy": 372.1667251053246,
+    "Np": 87.84732347888196
+   },
+   "file": "inst/train_0052.npz",
+   "sha256": "91cbba76263aa087ca612e001aec1b64760aab182e5826dd114afbe2537ada78",
+   "pre_sha256": "88dfbf69881251cbb9140dc15a222d9c4922ad3d2fdcf0fe6f619664222467a7",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.027737808966350207,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0053",
+   "split": "train",
+   "params": {
+    "tp": 22.32983044527528,
+    "e1": 62.697349933615,
+    "e2": 68.84093392501,
+    "fy": 386.8448034688284,
+    "Np": 72.90051377032573
+   },
+   "file": "inst/train_0053.npz",
+   "sha256": "24c88fcdcdd786aacf63b41fe80d31fe3dd1e4ef4763ae8ea3d4bc8d001953e8",
+   "pre_sha256": "3ae0b9b5b50b6d13e58a18e668a890a65ef159a75232ab81570b22889a4a34d0",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.0594679868639499,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0054",
+   "split": "train",
+   "params": {
+    "tp": 24.614980324600847,
+    "e1": 73.41979727715668,
+    "e2": 72.87015036221375,
+    "fy": 364.7874501396124,
+    "Np": 110.76169485221584
+   },
+   "file": "inst/train_0054.npz",
+   "sha256": "b6f24a9145820c108f0036f8ea1b968269a751f5b4f3d2147795707c085fe862",
+   "pre_sha256": "a35e9b3dc46f8afc89bb976f9f0d2c8c5a900d61273847c707f45b3a80f0240e",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.05926274018845783,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0055",
+   "split": "train",
+   "params": {
+    "tp": 23.872645478867263,
+    "e1": 58.234608310628865,
+    "e2": 73.45424620716753,
+    "fy": 362.1009707580822,
+    "Np": 80.96377193764577
+   },
+   "file": "inst/train_0055.npz",
+   "sha256": "d4f6b2a9f08b381699afac7c0874e775b9dfe4ff34e2467232bf5490e248a06a",
+   "pre_sha256": "74ba404e321820ab3fc0a1361a57cad1cc4ce9c9379d27e6a9480a323b541782",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.061697622887631504,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0056",
+   "split": "train",
+   "params": {
+    "tp": 11.29376513399804,
+    "e1": 56.46342502614869,
+    "e2": 66.70436535615302,
+    "fy": 432.07670124417007,
+    "Np": 69.81884447292295
+   },
+   "file": "inst/train_0056.npz",
+   "sha256": "0c43f33faca6b7ab1edde1a95e7055b653ee7a22de1942bf64f512fc4d1d079a",
+   "pre_sha256": "b5bb82a6bed117dfe8299e80908350f57ef235ec9ade51a0e741bf8e74ceb245",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.03485493616384625,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0057",
+   "split": "train",
+   "params": {
+    "tp": 24.047750408906037,
+    "e1": 55.77029476666986,
+    "e2": 62.319243727990745,
+    "fy": 399.64692078804995,
+    "Np": 121.4474414683747
+   },
+   "file": "inst/train_0057.npz",
+   "sha256": "560048a2012775582175d4ded55e1913b7aa6795df173fcdd5cc346129497206",
+   "pre_sha256": "8721c3d0e3bd2c241285c706668d90ec98f146e352fcd9731925e7a18555bf7b",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.06276526548266258,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0058",
+   "split": "train",
+   "params": {
+    "tp": 18.034484363614784,
+    "e1": 70.2436344584442,
+    "e2": 56.360230671653,
+    "fy": 428.0359715478846,
+    "Np": 84.90388245840293
+   },
+   "file": "inst/train_0058.npz",
+   "sha256": "95ce7ff5bbaf300bdc792e054c6d7c8625224b234cec61e3b3e1aa0c969e96a5",
+   "pre_sha256": "fc856dc380082f40e019bbafb89bc4548595ae39abb981db542c44b86ed99193",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04902706656456558,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0059",
+   "split": "train",
+   "params": {
+    "tp": 23.531656721145225,
+    "e1": 74.68297071018728,
+    "e2": 68.477810865752,
+    "fy": 350.59623497888543,
+    "Np": 123.05765072953363
+   },
+   "file": "inst/train_0059.npz",
+   "sha256": "676cdfbea77389e8155e72b2fd3925d680542dd8dde0b7e352089bc01af1e4bd",
+   "pre_sha256": "7f16d26996b0a9cd5c811de825321386e4f1c933ee2577a145f1c54ba4690421",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.05639774904036979,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0060",
+   "split": "train",
+   "params": {
+    "tp": 24.413129435582686,
+    "e1": 74.54055122737401,
+    "e2": 64.81962836999521,
+    "fy": 412.748236344531,
+    "Np": 116.47111183199729
+   },
+   "file": "inst/train_0060.npz",
+   "sha256": "2b9063aa13018903f2d5e6cd7d088c5a52ca92a70414bf9384c3998cb8a1cff9",
+   "pre_sha256": "6528c4a7e859385a382ce83fab4174c634f2be2d9faa833e546df32193820c84",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.060021520878574125,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0061",
+   "split": "train",
+   "params": {
+    "tp": 23.63995967350333,
+    "e1": 66.1641204287226,
+    "e2": 68.39160211965597,
+    "fy": 455.0492826501476,
+    "Np": 112.58474554045179
+   },
+   "file": "inst/train_0061.npz",
+   "sha256": "0ed496dd411e2e9261c242ef044359dec126db22294b9b775b145c33a9fccd9a",
+   "pre_sha256": "25bb1ab79b97982ceed5bcc2daddb57f137de4adfb5fac4e08fb79c9e72b4f8c",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.062099022653533995,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0062",
+   "split": "train",
+   "params": {
+    "tp": 16.25169441235925,
+    "e1": 74.0874796242896,
+    "e2": 62.85346810297097,
+    "fy": 448.23297446503875,
+    "Np": 77.98243460784859
+   },
+   "file": "inst/train_0062.npz",
+   "sha256": "d7ad26cc96f89efad5c9c7f7582c637446b81f50b6f169fdb2f0a93ef11c650b",
+   "pre_sha256": "974c39cde2bcb4826857e78566853b9479360e94c78255d6fd650ece76fe7727",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04449188412387614,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0063",
+   "split": "train",
+   "params": {
+    "tp": 24.843311318784572,
+    "e1": 58.994704569050405,
+    "e2": 64.88607405492681,
+    "fy": 451.5468236884025,
+    "Np": 66.96973443236047
+   },
+   "file": "inst/train_0063.npz",
+   "sha256": "66cb2075180bcae57726efaf9ae45b9f7b59d68e01a43254efd879465aad6122",
+   "pre_sha256": "35f727fe69de4ff05fb1b38fba6ca498df871c6115de06c18c7c572a4c4f355b",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.0637355468357099,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0064",
+   "split": "train",
+   "params": {
+    "tp": 14.427596646032327,
+    "e1": 71.3603976561448,
+    "e2": 60.22956432417731,
+    "fy": 349.9076995967634,
+    "Np": 103.7399010819911
+   },
+   "file": "inst/train_0064.npz",
+   "sha256": "000419c63b6d466fc5c6b1a6ab0615191357917205774d7cd47a8ac0ed9a6655",
+   "pre_sha256": "174083a189963768a6b07a5f616c1e72307009f828e1f5cb4042556efc8e0825",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.035120337472997504,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0065",
+   "split": "train",
+   "params": {
+    "tp": 17.815038047106597,
+    "e1": 71.56899720794614,
+    "e2": 74.50846984822813,
+    "fy": 403.31113471607205,
+    "Np": 101.62013172771637
+   },
+   "file": "inst/train_0065.npz",
+   "sha256": "de275671f8e62f5484cf03b0eeecf4c2620dd992bd0b29276e159350f8c502de",
+   "pre_sha256": "cc6c59df3fbabfbc90d143ab722d4166c075f901e6039738f5e8abdcde6e5bfd",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.048475834814030214,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0066",
+   "split": "train",
+   "params": {
+    "tp": 23.20932035367798,
+    "e1": 62.515153798451465,
+    "e2": 60.48192519445231,
+    "fy": 446.4077013030287,
+    "Np": 83.39854008602504
+   },
+   "file": "inst/train_0066.npz",
+   "sha256": "fd7e393ab6391219b50e0dd2775ac5c4918bb9776fb9530626fd0949983b81d3",
+   "pre_sha256": "787acf25ce63298e675fa029726712d5078dab8d05717607a62fd067824aa18f",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.06180527075503102,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0067",
+   "split": "train",
+   "params": {
+    "tp": 20.981144560831144,
+    "e1": 57.70227283679641,
+    "e2": 62.406190776903564,
+    "fy": 459.97454164811313,
+    "Np": 80.40899516052008
+   },
+   "file": "inst/train_0067.npz",
+   "sha256": "47ba7c9ee7a05410597052523b705fff5584ac0ca7b0d9dc9a5ac226536f71a5",
+   "pre_sha256": "5e387a2b2b5cfb6a9cd772a64de4e5dc760bb5ec1f6cdae0236c29f4816bff2a",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.0608613624565737,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0068",
+   "split": "train",
+   "params": {
+    "tp": 14.213488919352628,
+    "e1": 65.61154259749168,
+    "e2": 70.93437534345092,
+    "fy": 358.51730892317266,
+    "Np": 125.63877271150928
+   },
+   "file": "inst/train_0068.npz",
+   "sha256": "d4eb5a35dd2128dc157920e365f62b449314af481078519602fda2e9f73ffb48",
+   "pre_sha256": "ba9c2e050940e6422ad193e500e2ed39bd6c87186f99cf2b47170986089f515d",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.03761325456214493,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0069",
+   "split": "train",
+   "params": {
+    "tp": 17.95161813250429,
+    "e1": 74.51251414627784,
+    "e2": 59.87396485712979,
+    "fy": 381.9808208120618,
+    "Np": 119.24051133473023
+   },
+   "file": "inst/train_0069.npz",
+   "sha256": "20a128d4b9006fc5bc4ece62dbe5b3dbe6c8586aac60abfd966789b1d8f3493c",
+   "pre_sha256": "bc73f843f3157d051fdae1030b0be9ae53acf6947d2d3fc5c7c283027adb61f7",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04519663418528756,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0070",
+   "split": "train",
+   "params": {
+    "tp": 24.21333838469696,
+    "e1": 68.36077077616056,
+    "e2": 56.08489609488799,
+    "fy": 345.3000755829327,
+    "Np": 63.362636436025554
+   },
+   "file": "inst/train_0070.npz",
+   "sha256": "286bea3c2718781ef86c0783718272ad6aee4b0d05cfc1277b53c171286bc87a",
+   "pre_sha256": "1fdd31140794112095e1485872fe8f69e8e0f8999952e874f4fd29199f21fcc6",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05793394505760166,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0071",
+   "split": "train",
+   "params": {
+    "tp": 11.23875533194613,
+    "e1": 67.52143881108194,
+    "e2": 56.579540182076386,
+    "fy": 427.1206010477778,
+    "Np": 95.11201327166746
+   },
+   "file": "inst/train_0071.npz",
+   "sha256": "d054894dba0730af898c9535cc5e0a24bb0089237ae125745bf5fd2c0905b575",
+   "pre_sha256": "c705bf860dfb452514a96c637561ec2e5b73a2b3325a421e6f491fa1aa531f8c",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.030480569237246284,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0072",
+   "split": "train",
+   "params": {
+    "tp": 16.033084431979507,
+    "e1": 71.81578773117539,
+    "e2": 71.11284089503414,
+    "fy": 459.2992709597032,
+    "Np": 127.7273292214007
+   },
+   "file": "inst/train_0072.npz",
+   "sha256": "c901227381b7a76036d9edb00dd99e7fc1fe1a4e444d5ea481580fa478b2b726",
+   "pre_sha256": "49879f5e425a3ed624d8d5e58acc7049bbaa16e3ef3a78181427ec8585626039",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.045968223285462434,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0073",
+   "split": "train",
+   "params": {
+    "tp": 23.199353154548554,
+    "e1": 73.34091654733498,
+    "e2": 57.40237466807817,
+    "fy": 356.2644474672037,
+    "Np": 84.18036801746028
+   },
+   "file": "inst/train_0073.npz",
+   "sha256": "ab187c152f85266e957d83b10ff9e325ed038439225dc1d65f172f4dfadcc8f1",
+   "pre_sha256": "80e02a770f316ccc47e9053b61b1fa342e79466ba77f12063309eae353703a61",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05554908151180092,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0074",
+   "split": "train",
+   "params": {
+    "tp": 19.4146827287791,
+    "e1": 74.70878450968385,
+    "e2": 74.97952612997274,
+    "fy": 439.4342719569114,
+    "Np": 104.74049230378097
+   },
+   "file": "inst/train_0074.npz",
+   "sha256": "650e16fe8f8d6d7c34121a85925a37ed61465681ff791ac035d07efacd474cb3",
+   "pre_sha256": "162700da9a20f5418b6d6b212cd5e1aff2d2159bea01acd4ba8af1aa7e5a8bd0",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.05327947199091737,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0075",
+   "split": "train",
+   "params": {
+    "tp": 15.488617316249679,
+    "e1": 59.17412320314952,
+    "e2": 72.96302726932541,
+    "fy": 368.1751921871145,
+    "Np": 92.35543471741451
+   },
+   "file": "inst/train_0075.npz",
+   "sha256": "adc148c2aaeb36edbc8dfbd28da71bf0e1da37d043118e877a8b1592797cdbc3",
+   "pre_sha256": "735657c04c87a46829d7174ba420df34b2ecf1a8945a21ed41d360a1983c8fe4",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04452893777950735,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0076",
+   "split": "train",
+   "params": {
+    "tp": 11.415630661380472,
+    "e1": 57.1163217274125,
+    "e2": 71.57054184350599,
+    "fy": 457.3616643133006,
+    "Np": 95.81686607039748
+   },
+   "file": "inst/train_0076.npz",
+   "sha256": "4a9a0754f0bf8af8a7f3883e939c6df719ba1bda051c53601baded444c6a8ca3",
+   "pre_sha256": "71c75b4ed887d6e0726b38aeef7ced36c2fb3917271411851b09138f779bd783",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.03641213839635407,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0077",
+   "split": "train",
+   "params": {
+    "tp": 10.2658156872611,
+    "e1": 60.627887353862945,
+    "e2": 61.72829298948469,
+    "fy": 401.9806532643548,
+    "Np": 89.46050093799442
+   },
+   "file": "inst/train_0077.npz",
+   "sha256": "e55a5c04f68eae0d8135fad8ed781dceeca7624be76ae635c16e05016a48b34b",
+   "pre_sha256": "c486e3e27431f90aeb8a38887e1148744a19dcf02d4658d470e16240dae5b68e",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.029009613124121064,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0078",
+   "split": "train",
+   "params": {
+    "tp": 11.377283875406572,
+    "e1": 67.40722043657668,
+    "e2": 63.61086818478052,
+    "fy": 400.507907620636,
+    "Np": 97.34522981630215
+   },
+   "file": "inst/train_0078.npz",
+   "sha256": "03926e7bdd6b18cea4ce33f43d0ef77e363d303ebf03c23eff2df4144cd7faa8",
+   "pre_sha256": "a60735d0502b7612ffece73eb2dd9c1b0dfc88c1afb4ed0b9fe3202e04f3ee2c",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.030456521262398555,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0079",
+   "split": "train",
+   "params": {
+    "tp": 24.768946995394295,
+    "e1": 63.72457549129837,
+    "e2": 59.58682782420102,
+    "fy": 448.0269649288549,
+    "Np": 70.3073134865616
+   },
+   "file": "inst/train_0079.npz",
+   "sha256": "8bba3c4f0dff987bdab6d7178e3a133a977a24bf716580bf254a1d9812246ee5",
+   "pre_sha256": "ae2e9e3650ed354fd4e85ed53d834044961bb27c6f863004ada10d3724956078",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.06285840800303016,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0080",
+   "split": "train",
+   "params": {
+    "tp": 22.95608168592867,
+    "e1": 63.118322070069595,
+    "e2": 63.37601522150317,
+    "fy": 374.4576776169863,
+    "Np": 121.7606162822896
+   },
+   "file": "inst/train_0080.npz",
+   "sha256": "215d383a976e1522c832d10dcbfe04c50075dc59135a0f1670a9f4e2e8eedc2a",
+   "pre_sha256": "8e29be5cc563f3f99dbcdcb25c9291d39f6a615929f7a896671c1e00863e926a",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.059391458845859724,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0081",
+   "split": "train",
+   "params": {
+    "tp": 16.211581229020897,
+    "e1": 58.735089418249835,
+    "e2": 66.7223424067837,
+    "fy": 415.38250703584,
+    "Np": 117.42910297111877
+   },
+   "file": "inst/train_0081.npz",
+   "sha256": "067ce6df5661529bf3b2ff6e8236491b4ca14d821be92e44fb95595b34ecbd71",
+   "pre_sha256": "c60e21f2a69a2dd3f346fa0b18cf7d4b976dd004ebbd45286ab21a0ffab944fc",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04894938694468494,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0082",
+   "split": "train",
+   "params": {
+    "tp": 24.2182093041898,
+    "e1": 62.501648503664214,
+    "e2": 67.89349932523875,
+    "fy": 419.2443412204954,
+    "Np": 105.82001997501268
+   },
+   "file": "inst/train_0082.npz",
+   "sha256": "c6e890bc765d62dbc60a41f709a0d88aef74c2347cbbfba553f7a416c3caf764",
+   "pre_sha256": "b3621ae9219d58c4712222e1d8f4c9215c163c5f63c53e3e5c11ff2adc2e3a2e",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.06240367835807828,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0083",
+   "split": "train",
+   "params": {
+    "tp": 12.944813362782506,
+    "e1": 73.2569273636784,
+    "e2": 66.12542524968616,
+    "fy": 430.60135485175533,
+    "Np": 126.0613369472047
+   },
+   "file": "inst/train_0083.npz",
+   "sha256": "6c2b6832b81c1b3c1c2eb5097ed213bc893b98c2d21f1001d0e1aa6b7737e079",
+   "pre_sha256": "270dc8ae36df6e097039dfdd90afa79eae0ea57b458f175ca633e66ac3635e47",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.03464582428332953,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0084",
+   "split": "train",
+   "params": {
+    "tp": 21.86881525677029,
+    "e1": 58.9083073492284,
+    "e2": 63.51729692748539,
+    "fy": 408.6850226342239,
+    "Np": 94.6554752397318
+   },
+   "file": "inst/train_0084.npz",
+   "sha256": "723a1a66dcaae783e8defe2746a513a958d7c79a885678476a1fe2fd065bba4a",
+   "pre_sha256": "536dcd08c11b29e25380001f2c9d8157130be2365d8429befc215458b1e25002",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.060261043197440856,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0085",
+   "split": "train",
+   "params": {
+    "tp": 18.800053024547083,
+    "e1": 62.05185292484232,
+    "e2": 55.60427932578412,
+    "fy": 430.51382441551675,
+    "Np": 111.63863409403194
+   },
+   "file": "inst/train_0085.npz",
+   "sha256": "609c5a4f89ebaa94cefe03605f822a43f030d22179ded87b5ebbcbd3a6535532",
+   "pre_sha256": "4a31205bc8a8100424cf53683b8d618dc68c3fc8a29571113af4142c07e1e396",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.05400027180710451,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0086",
+   "split": "train",
+   "params": {
+    "tp": 19.719058317185997,
+    "e1": 66.8290836985807,
+    "e2": 59.90420631508534,
+    "fy": 420.36727606576176,
+    "Np": 90.91594907536762
+   },
+   "file": "inst/train_0086.npz",
+   "sha256": "06c2bc3eaa7496b2ef0d871291ffcdeea50de4db402b7e9e75999269a4da99a4",
+   "pre_sha256": "ec259428bde8c365ed7560a57ff3138ad419afdf69283f8263102bc733127b45",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05430816649379083,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0087",
+   "split": "train",
+   "params": {
+    "tp": 13.398737298500686,
+    "e1": 64.54954743406091,
+    "e2": 69.37604413764622,
+    "fy": 441.613491144932,
+    "Np": 104.81247432171963
+   },
+   "file": "inst/train_0087.npz",
+   "sha256": "6744cd64d9a259384185bac806818b0f1fce50b4afc61456add554f581c02ae6",
+   "pre_sha256": "4c5238eddbad6aba0d5caa510999cd2d6228db0223e1dc66c1ca36d187d401f0",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.03944352506239664,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0088",
+   "split": "train",
+   "params": {
+    "tp": 22.608116079274282,
+    "e1": 68.5970319946096,
+    "e2": 66.12889745003504,
+    "fy": 358.69172023903457,
+    "Np": 71.70394003979676
+   },
+   "file": "inst/train_0088.npz",
+   "sha256": "47838893516dd37572637cc6e7c5da5acb862c3e7aeb166cca9f1e2c3128ec56",
+   "pre_sha256": "4823d0a00518295a0a357c7b0c922383498b039caaae22abcdb7f09cdf222795",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.05683287272349655,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0089",
+   "split": "train",
+   "params": {
+    "tp": 11.000246657078153,
+    "e1": 73.39640556951431,
+    "e2": 57.97275849715005,
+    "fy": 429.6021126985653,
+    "Np": 106.1719412908574
+   },
+   "file": "inst/train_0089.npz",
+   "sha256": "4d46699fc43060a64650c65c649eb3d6691bd1bb38b1d2b96829e23d90f9c8f3",
+   "pre_sha256": "5e0acdb0a5351cc800818b407549a799c40369a56d34ed9266a4b72c43e6cd10",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.028703082699729755,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0090",
+   "split": "train",
+   "params": {
+    "tp": 20.20340426865772,
+    "e1": 56.71393816434841,
+    "e2": 64.47299490128297,
+    "fy": 443.9765891322267,
+    "Np": 123.89491215828886
+   },
+   "file": "inst/train_0090.npz",
+   "sha256": "ea010a247679c94a9c7a6f526b5ce48bec5805ada122dd33c817de79982022d5",
+   "pre_sha256": "3ffc9ad7ae7f0aca5f1e6fca96102e21b360c4084d20bdc2927d231ae279493f",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.05973655948890322,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0091",
+   "split": "train",
+   "params": {
+    "tp": 20.287542139084334,
+    "e1": 55.04917762051029,
+    "e2": 70.3723070299976,
+    "fy": 364.90585434344007,
+    "Np": 75.31094227877483
+   },
+   "file": "inst/train_0091.npz",
+   "sha256": "c77a7de86b40492fdd4770ed5b248f1d02d6e83cefcadae3c5e7dcbd89c3783f",
+   "pre_sha256": "0d1a736a912b9147a9c62d0042511e3b9e24171197f9b7a19bfe932d43d16b2d",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05779012069048009,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0092",
+   "split": "train",
+   "params": {
+    "tp": 21.11984561867129,
+    "e1": 67.98374000199554,
+    "e2": 58.21766731673334,
+    "fy": 381.10479008020064,
+    "Np": 94.91054244964812
+   },
+   "file": "inst/train_0092.npz",
+   "sha256": "38820b49e5d2abe838fb3439068ff4dc765a51a5e577fde7cd88d5047ee27515",
+   "pre_sha256": "8aad17846c6d9778e78035921b1f106a4662bb73e831b91469e4a076816a009c",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05472295097314084,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0093",
+   "split": "train",
+   "params": {
+    "tp": 17.349364651190214,
+    "e1": 67.0460775030657,
+    "e2": 57.33221546413391,
+    "fy": 400.50828083537743,
+    "Np": 107.64397098984243
+   },
+   "file": "inst/train_0093.npz",
+   "sha256": "0c6f97ad00d370e85cf6b09a9a82ab31d5f47ccaf91f1bccbfb5c8e7903e0077",
+   "pre_sha256": "bf3e25e2c3f44a2363e3d76e15ca83395eeb486599807cc8965b0ea4860a3d64",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.047013853236659076,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0094",
+   "split": "train",
+   "params": {
+    "tp": 23.365899763746988,
+    "e1": 73.28060525649727,
+    "e2": 57.10572725856951,
+    "fy": 396.0974979133931,
+    "Np": 83.61098810771465
+   },
+   "file": "inst/train_0094.npz",
+   "sha256": "b2b9dfa8ac6022933cdb754904a2c7c3be4d5e7cd0be6d1ba10b3947f7d26ed8",
+   "pre_sha256": "f081d57782d748254c328858b7cdf130f5ae32499d3676ac58804304feea5914",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05771169202755577,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0095",
+   "split": "train",
+   "params": {
+    "tp": 18.51159377599984,
+    "e1": 55.37563663772571,
+    "e2": 55.02249884944059,
+    "fy": 401.3648955291216,
+    "Np": 86.93371962170673
+   },
+   "file": "inst/train_0095.npz",
+   "sha256": "27f66e8e12410bbce156330d2f9050b46286577f9c730c1282e38699a2d3db59",
+   "pre_sha256": "13bd10ec39a32161d97eb7e744357ab592f27e8aa6a7a80f8fefc55762bff4a0",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.05448349292376531,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0096",
+   "split": "train",
+   "params": {
+    "tp": 14.298993927114282,
+    "e1": 57.189534295679024,
+    "e2": 73.42602598417946,
+    "fy": 378.0389782323693,
+    "Np": 126.93753936077792
+   },
+   "file": "inst/train_0096.npz",
+   "sha256": "0cc01c52f71bf03396f412c9a7d73a881b0e120ffc8f67efce3e5bd26ef54db6",
+   "pre_sha256": "755d2bb98fe2c103cda91a2b86f53ce95f0c74d595044e1cc777e5e9d4733aac",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04230238140802596,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0097",
+   "split": "train",
+   "params": {
+    "tp": 23.244074436506963,
+    "e1": 62.856208453181765,
+    "e2": 73.0801765504601,
+    "fy": 455.33380472981423,
+    "Np": 76.70233705214213
+   },
+   "file": "inst/train_0097.npz",
+   "sha256": "c4b96a02efb2045d9b8861e866b15587bf4227360f4ff62d13962e31fe15d4bb",
+   "pre_sha256": "11ef1673c5204dca40fb0084899453920bc8ea2741d9f856285e95eb5203b226",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.06249064787084853,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0098",
+   "split": "train",
+   "params": {
+    "tp": 23.74625239053463,
+    "e1": 62.2582741221334,
+    "e2": 58.48350440948366,
+    "fy": 391.9218847447616,
+    "Np": 127.1162108298678
+   },
+   "file": "inst/train_0098.npz",
+   "sha256": "6bf03c6182b980780c0591bcb58b40d8eae92fe18a5d09893317f9d33cbac5b4",
+   "pre_sha256": "b57e1c6bdc1a8f079a05cf7e90e311d81e0d61683b1d39140a098585af0b22bf",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.060847743685032166,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0099",
+   "split": "train",
+   "params": {
+    "tp": 15.770103705407607,
+    "e1": 73.77631843978708,
+    "e2": 67.15457928503217,
+    "fy": 345.23215274590865,
+    "Np": 125.18300533921851
+   },
+   "file": "inst/train_0099.npz",
+   "sha256": "b578f1efee869fa6ca25fb358375c7784752565f35b1bbd794a95212b2c97b5f",
+   "pre_sha256": "ac1026c0f7be3050e1499ba80752a56f2531b9da525cdeed9c667ad9ae62c54f",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.03826987223904635,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0100",
+   "split": "train",
+   "params": {
+    "tp": 11.612874007364736,
+    "e1": 58.35342850123851,
+    "e2": 62.464692538886865,
+    "fy": 439.72617797433696,
+    "Np": 110.68988334732947
+   },
+   "file": "inst/train_0100.npz",
+   "sha256": "6f50a8eccafe42c525fd90aaa667f278ab9828c4076c180896418c087847d2e1",
+   "pre_sha256": "3252fb7ae9721d744f6dbbb424ccba4a2c3e16a8e9324d86bc9f20c96c368bcd",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.03520691034216871,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0101",
+   "split": "train",
+   "params": {
+    "tp": 23.95391310977285,
+    "e1": 74.08920454538152,
+    "e2": 56.058498058636225,
+    "fy": 381.826817680213,
+    "Np": 85.67743941745843
+   },
+   "file": "inst/train_0101.npz",
+   "sha256": "438105e6bfdb8153c8d2a6348e106168d1579cf99348c45dae061a7ddee6d4d3",
+   "pre_sha256": "3b35e51c7d133e2a0996010c203ae57ed28c7f4ac0358ff12637835894aa1a2e",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05768685036530054,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0102",
+   "split": "train",
+   "params": {
+    "tp": 11.79213333196351,
+    "e1": 61.73929516337402,
+    "e2": 73.33265454377128,
+    "fy": 430.0819700314711,
+    "Np": 87.57607455071197
+   },
+   "file": "inst/train_0102.npz",
+   "sha256": "1c060bc2fb43eb8b442531f463d8ad957a8108845862f878975ca6c5a35d8f60",
+   "pre_sha256": "01c822ef3ef26e2b6b8037c16bbdf8d3a900a38e355dd0ee04e572ce2a6e7db5",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.035088283097646465,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0103",
+   "split": "train",
+   "params": {
+    "tp": 24.22334187797719,
+    "e1": 64.3554564260577,
+    "e2": 62.01933329819332,
+    "fy": 395.9957801079366,
+    "Np": 119.99309777231824
+   },
+   "file": "inst/train_0103.npz",
+   "sha256": "c50cca94047d8279ccf381dd2e83e67ba693c4e78548d422d7f4d5cfccc47bfd",
+   "pre_sha256": "7d3212a017b3ab35640a615b01ab18abe03d1b107c262560f0f1d72584c16da3",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.061224082131002014,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0104",
+   "split": "train",
+   "params": {
+    "tp": 14.474875480825736,
+    "e1": 60.20332102484167,
+    "e2": 56.8210094379582,
+    "fy": 350.51087954168105,
+    "Np": 70.32270165160526
+   },
+   "file": "inst/train_0104.npz",
+   "sha256": "1ab8430d426a95d3549de2dfff8b599d0ef288c1902ea92b8bc607f3ecdc3705",
+   "pre_sha256": "edbba3331e43cf266623999cd65fa5f920e58c0ba5edeba778642600dce0f798",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.03856810684518057,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0105",
+   "split": "train",
+   "params": {
+    "tp": 19.431335039349705,
+    "e1": 73.0103042897801,
+    "e2": 60.702485847884034,
+    "fy": 433.18813004307066,
+    "Np": 86.06643229457883
+   },
+   "file": "inst/train_0105.npz",
+   "sha256": "a08af072683e7ea76b67614b34746d7cec110adf440fd0fb29c2b73532d8fd8a",
+   "pre_sha256": "8a452ab5098636b65a91643018c1b25375d54b5f9daaf0017b48bb22d2aab178",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05226856194421667,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0106",
+   "split": "train",
+   "params": {
+    "tp": 16.23538302110915,
+    "e1": 60.27741274397804,
+    "e2": 55.70357224506432,
+    "fy": 408.00821780680616,
+    "Np": 91.95192500747602
+   },
+   "file": "inst/train_0106.npz",
+   "sha256": "a0aeb007fd4b4a3fd08a6ca1a3ad7d9188c8dd79e5b3d928af7b7903536dc44b",
+   "pre_sha256": "d92af5c82790bbad6c08ab1eb20c0b1f7de3e56c17975628697bb60479478658",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.046789908645869724,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0107",
+   "split": "train",
+   "params": {
+    "tp": 10.423997671913822,
+    "e1": 57.57450437246454,
+    "e2": 55.89672789369528,
+    "fy": 451.07392155847435,
+    "Np": 103.87032677153702
+   },
+   "file": "inst/train_0107.npz",
+   "sha256": "8d68dc36d7d882bc28f4d4659d64c9d5fe95179aaee9c31c52af65ea1ef3531e",
+   "pre_sha256": "47013b1a0dfcfa009975b94732f508d40d0c87e480ba5e5cdc6a4c300963119e",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.03155384952816588,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0108",
+   "split": "train",
+   "params": {
+    "tp": 18.27410093525168,
+    "e1": 64.59780102270925,
+    "e2": 66.88455160601805,
+    "fy": 458.470039419381,
+    "Np": 67.47822710884621
+   },
+   "file": "inst/train_0108.npz",
+   "sha256": "509c7ff9af0e72a39269544bf1cd239f1a64b293a8fae2a1277947713f2351a5",
+   "pre_sha256": "fa08595fa041beccc8b0bf188f3cc6dac7fd1befa52b26e5849031fa27520bef",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.054210615487929006,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0109",
+   "split": "train",
+   "params": {
+    "tp": 23.372040031881575,
+    "e1": 56.32302933234921,
+    "e2": 65.90115516017846,
+    "fy": 417.28950937286936,
+    "Np": 76.93940113551173
+   },
+   "file": "inst/train_0109.npz",
+   "sha256": "4349936490afb7fc5e412f41c7ba2cb14df3f8281e44db5be8e98b5e81e7875e",
+   "pre_sha256": "cd80528f239f74ebee0a4559d9316400c79fb7dada471f9c980adecba436fc03",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.0626603853772115,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0110",
+   "split": "train",
+   "params": {
+    "tp": 23.532597127808177,
+    "e1": 55.92547096393516,
+    "e2": 56.11256095782398,
+    "fy": 433.3256184608673,
+    "Np": 129.75324570090203
+   },
+   "file": "inst/train_0110.npz",
+   "sha256": "765c5cf873bcbbbac9533a800d9a20c902e5b738f4596550ca8d8858a3c14058",
+   "pre_sha256": "d85628adb42a8be03891c58fa039ea337520b38ecee6aad835fa6eec86dff989",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.06276894958825895,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0111",
+   "split": "train",
+   "params": {
+    "tp": 23.403141438636986,
+    "e1": 65.58639264326197,
+    "e2": 64.02642633622959,
+    "fy": 373.88984284534513,
+    "Np": 94.16860938124597
+   },
+   "file": "inst/train_0111.npz",
+   "sha256": "ccee35003125389cead8660da3c3ac8bb200363741c83540c3941b9f5820ab3b",
+   "pre_sha256": "ec781ef4809d16c3ecd89a25cd5ce25ed9781516ddf1536130218db2ac7bb4d6",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05937480415591706,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0112",
+   "split": "train",
+   "params": {
+    "tp": 13.61052166357878,
+    "e1": 62.07035216728611,
+    "e2": 56.13374851126971,
+    "fy": 399.93603201225926,
+    "Np": 111.88627659182129
+   },
+   "file": "inst/train_0112.npz",
+   "sha256": "8415cc32ace7ba7023804cbff46d580330f4717f989f4c56bed0483b82768fb4",
+   "pre_sha256": "201855b916f27680c41fd2047000ed99db28fc942a48878a5cc3819641b412fa",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.03782536798049552,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0113",
+   "split": "train",
+   "params": {
+    "tp": 10.12948506156054,
+    "e1": 73.58090920261404,
+    "e2": 73.66626152629418,
+    "fy": 428.54797407407347,
+    "Np": 107.69853647732472
+   },
+   "file": "inst/train_0113.npz",
+   "sha256": "935f1fac0267af87b766e41a51994351c870316886cdcb745b74f0bbd4fa0d5a",
+   "pre_sha256": "be8778cd418b3568f0ec5b90c4e9b472102e69ade9a41cfead5d2d6b1a2bad90",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.02728901787590247,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0114",
+   "split": "train",
+   "params": {
+    "tp": 11.504394682367282,
+    "e1": 55.66508673055723,
+    "e2": 60.45203597651409,
+    "fy": 407.5517602152095,
+    "Np": 129.74456522570625
+   },
+   "file": "inst/train_0114.npz",
+   "sha256": "0ce30315c8cf07300d95531554c67d3431c1c3f2731d2370de6425362ea40682",
+   "pre_sha256": "f24fb8f84357b619c84e0a7d429633e5e0784860545b390993e780a736d04287",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.034313621474613656,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0115",
+   "split": "train",
+   "params": {
+    "tp": 15.55226261370954,
+    "e1": 55.19044315253242,
+    "e2": 69.39106862922405,
+    "fy": 419.4924280884897,
+    "Np": 126.8090904191138
+   },
+   "file": "inst/train_0115.npz",
+   "sha256": "835312d28a7cfd9ea8833bd2387cae0e4b399dc2ea5d4e30d0cdf17b78c5ad50",
+   "pre_sha256": "4f9aca75d93979d6ffa830e72c3959a1c5c76c6a9e6fdd8c4461ad6f1ac21ca5",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04903302666176006,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0116",
+   "split": "train",
+   "params": {
+    "tp": 14.540461445023492,
+    "e1": 57.048777511632764,
+    "e2": 61.12519710198331,
+    "fy": 450.3062941500323,
+    "Np": 79.85391348055686
+   },
+   "file": "inst/train_0116.npz",
+   "sha256": "c02036aea31a41140a67c6fa2de2b3d5db5cd98b735eca3e496ec9856d8905f7",
+   "pre_sha256": "891913d9f2895ad1034f99ea84eeb96678bf37ce06b7928e32bcb6c7d4654279",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.045751262963133754,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0117",
+   "split": "train",
+   "params": {
+    "tp": 24.060122521455337,
+    "e1": 73.20770281195972,
+    "e2": 61.04428295400183,
+    "fy": 408.8380947372644,
+    "Np": 91.80670625577048
+   },
+   "file": "inst/train_0117.npz",
+   "sha256": "bcad56f60634ca86bd3550a252f4f8f21e5eafef588981b38b007401f670c6e2",
+   "pre_sha256": "b39a65b243382d5a1e408c9c75894ca9953be1572689b6bbd6f391e15f203f9a",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05949900626623364,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0118",
+   "split": "train",
+   "params": {
+    "tp": 22.3758573568395,
+    "e1": 71.18846729839343,
+    "e2": 67.61508974144468,
+    "fy": 347.13761866089527,
+    "Np": 81.8935537729248
+   },
+   "file": "inst/train_0118.npz",
+   "sha256": "d01ef2a4da0e5d9aa417e226ff64648fb3d890571cc55116224dd4f42f38a039",
+   "pre_sha256": "42c3b65f69cdcd8abac5ba9de5b37bab8881ee5bae16be178938adb83644b2f6",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.055145850427582466,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0119",
+   "split": "train",
+   "params": {
+    "tp": 16.535191955237277,
+    "e1": 61.8264571153866,
+    "e2": 66.48174163302886,
+    "fy": 382.12188524713406,
+    "Np": 97.19654835492983
+   },
+   "file": "inst/train_0119.npz",
+   "sha256": "0e019f3f12228bb1d991ce5ceda3caaa798dd6138ea637cf601c907b08a46613",
+   "pre_sha256": "277a97e7f7ddbd1dc92b2d0abfdc7e8846e937b5552d76ed85abd0f4718332d4",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.046715835769543385,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0120",
+   "split": "train",
+   "params": {
+    "tp": 17.60605099932891,
+    "e1": 63.4990679398876,
+    "e2": 70.499068880562,
+    "fy": 347.2575774153716,
+    "Np": 105.93717177359055
+   },
+   "file": "inst/train_0120.npz",
+   "sha256": "9fdb0d0ecf83568ac52e97a7b96b43af9d7b9bdf69e7f74408e4a61f2451c570",
+   "pre_sha256": "ecc31eaede0479974e0ac458d764ded27347abf781123d25b659fb91f5ca9313",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04727814137436552,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0121",
+   "split": "train",
+   "params": {
+    "tp": 21.68378136235735,
+    "e1": 70.91246243350808,
+    "e2": 70.08476947087006,
+    "fy": 389.44142289386735,
+    "Np": 116.71157739809118
+   },
+   "file": "inst/train_0121.npz",
+   "sha256": "6ab4fae8efd8c3ba85f8a06fd079fe077aafbebef897c3b3d41e7a218b7fb27e",
+   "pre_sha256": "8f96c215af3c13533de93d946567a65cf496a2c5af6b7e3273d9947966d3ae9c",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.0563266329778689,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0122",
+   "split": "train",
+   "params": {
+    "tp": 10.815692922598032,
+    "e1": 66.78836804434913,
+    "e2": 62.20506168871548,
+    "fy": 424.8330795218039,
+    "Np": 98.26810129559117
+   },
+   "file": "inst/train_0122.npz",
+   "sha256": "219c2d483e74cb04703eebde0fbc58bb79b22cb91432773c5d420193e2ea4a61",
+   "pre_sha256": "52d4a79689374dfa0f1734edf0f667e1d7df5d9e8ace501b48146f00bcb2fa8d",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.029810253009583863,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0123",
+   "split": "train",
+   "params": {
+    "tp": 19.092725746439708,
+    "e1": 60.436082162825784,
+    "e2": 69.88660904030044,
+    "fy": 453.37402353404894,
+    "Np": 104.8100214666622
+   },
+   "file": "inst/train_0123.npz",
+   "sha256": "d29a1f729be4e30b660a8fed962f4fbfc9426e07c02efe9f142aa6ee0a084e0d",
+   "pre_sha256": "e0b7baa626512740c3f4594f347a99c5810596892dddc9f543dd80b85aa9c3e2",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.057419781278387455,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0124",
+   "split": "train",
+   "params": {
+    "tp": 10.229981053423785,
+    "e1": 61.079791040918295,
+    "e2": 72.50577112492806,
+    "fy": 443.59484153842357,
+    "Np": 83.90257929001895
+   },
+   "file": "inst/train_0124.npz",
+   "sha256": "b76f5ed5ba27bc7a1a789ae2036858ccfc7f5e85d3886f1bb8c446e9b35b47cc",
+   "pre_sha256": "58f7b5bc05b664527d0975a3e5d6229fcba7f4ae7752e34e1cdb2e0671b8b5b2",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.030835158397897675,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0125",
+   "split": "train",
+   "params": {
+    "tp": 13.01711757301383,
+    "e1": 59.6012523946102,
+    "e2": 64.25670712669553,
+    "fy": 354.35704862460915,
+    "Np": 94.88876649077454
+   },
+   "file": "inst/train_0125.npz",
+   "sha256": "7e2ad14caf7dae71085e96b8c58905aadb7c3db4c80ab44bf0f258e3ec32fdcf",
+   "pre_sha256": "4991dddf1a8fcb3a2b278d7f89e0618796a7ff877b145c15800b39bd7464e69c",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.0354314487575937,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0126",
+   "split": "train",
+   "params": {
+    "tp": 17.519437331854917,
+    "e1": 73.00525842172924,
+    "e2": 58.01591154634615,
+    "fy": 435.8521546107862,
+    "Np": 127.00527941946989
+   },
+   "file": "inst/train_0126.npz",
+   "sha256": "ff3984ecd6c011cbc63368d2c99dff87e72231467165c2d0dabb75f89900efef",
+   "pre_sha256": "7dd9e9a10c8ab33989d47a7dcfda2d5fe6adfeddac465af04588d17188133432",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04726564449070415,
+   "preload_ok": true
+  },
+  {
+   "id": "train_0127",
+   "split": "train",
+   "params": {
+    "tp": 22.573988356843508,
+    "e1": 74.37041869334053,
+    "e2": 55.83332497473718,
+    "fy": 388.9645286272416,
+    "Np": 98.20304446207857
+   },
+   "file": "inst/train_0127.npz",
+   "sha256": "d66bbb51ee598ee23b14653c1176b48223e7bb640bdf5d3ff67f18b3f5c091a8",
+   "pre_sha256": "385ebc96cffd31e3cc8423e2df83be788da91b406675eaaae8a48f861c33ba44",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05564679004622097,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0000",
+   "split": "eval",
+   "params": {
+    "tp": 19.556027823242886,
+    "e1": 74.31744966102777,
+    "e2": 70.55145322338129,
+    "fy": 455.6279685718539,
+    "Np": 97.98102985123916
+   },
+   "file": "inst/eval_0000.npz",
+   "sha256": "71136358dd4aace122403d578957752f11b24cc89ea28a661add35b4044929a0",
+   "pre_sha256": "d78c59d298fe54d0f16aaebecd3886569436ad10ec778178edaa2a49a00ad7c8",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.054092029957844984,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0001",
+   "split": "eval",
+   "params": {
+    "tp": 10.948896192765925,
+    "e1": 65.59037511370423,
+    "e2": 66.6123573748852,
+    "fy": 376.93083388386196,
+    "Np": 95.66552686989952
+   },
+   "file": "inst/eval_0001.npz",
+   "sha256": "b53c0d45cb5cc87ae930a5d493cf7519655b3deca84f737bcfbc5f60a84e8aef",
+   "pre_sha256": "99aaaf8463d101fcca8dc3936a6ed4a862da02922a849f4d6fbff4794b33deda",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.029089052217582817,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0002",
+   "split": "eval",
+   "params": {
+    "tp": 17.516197692447633,
+    "e1": 57.18563535373024,
+    "e2": 71.18540288990641,
+    "fy": 395.6283123215755,
+    "Np": 70.6509276480834
+   },
+   "file": "inst/eval_0002.npz",
+   "sha256": "e92ea837f6fb7269083c0d69b1d5e614321c8643f5bd5cf8a4d8cd2eda877fca",
+   "pre_sha256": "3b72a0bf35501b634756c7bd67c5997cc751d2cedb9da2a9b9c3b33e655e2d65",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05256184860945373,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0003",
+   "split": "eval",
+   "params": {
+    "tp": 11.506287168088825,
+    "e1": 63.58934893746836,
+    "e2": 60.192152665564244,
+    "fy": 454.0823357553276,
+    "Np": 60.71612286760541
+   },
+   "file": "inst/eval_0003.npz",
+   "sha256": "ea90193210537283d7042478d8eba5d8f86dd8458bcc3d1d261dbcff8364ebff",
+   "pre_sha256": "2205477dd71d17c0bf9c097d45ed711f412f14f9658fd64d0d0a7a4b01d4dd97",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.03355399081431637,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0004",
+   "split": "eval",
+   "params": {
+    "tp": 15.710638361667385,
+    "e1": 72.97777031674093,
+    "e2": 66.59664080270336,
+    "fy": 421.8282386218417,
+    "Np": 86.1002081699221
+   },
+   "file": "inst/eval_0004.npz",
+   "sha256": "c7d7c140eb490402682f19f0d356b6316481965617c29251c738a7add0f2a28f",
+   "pre_sha256": "7a84bf17d64cdf2d8c834278a38304323bc2d0571abc95a2e8f10b8ff048d650",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.0423692497424073,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0005",
+   "split": "eval",
+   "params": {
+    "tp": 12.151064619150812,
+    "e1": 68.17749255438589,
+    "e2": 59.274639422257415,
+    "fy": 443.4667654892221,
+    "Np": 118.99834364421542
+   },
+   "file": "inst/eval_0005.npz",
+   "sha256": "e4c8af2fd1ed4fb4bcf032711b3c2f42a7e8a74255e1791e35d07c11fbfa3999",
+   "pre_sha256": "bef0a2c254fd5ff8b2f448cc8284ebf634dd772850d8c69ddfcfdfb8316e8fd0",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.03369934176777172,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0006",
+   "split": "eval",
+   "params": {
+    "tp": 11.389130551454299,
+    "e1": 71.99963090067033,
+    "e2": 62.28734713734622,
+    "fy": 431.72060592325124,
+    "Np": 69.51757543772935
+   },
+   "file": "inst/eval_0006.npz",
+   "sha256": "48cb462ac68355fa58f5f2f44ceefbb750cba9ea01b5106a0027b6ab36f381b3",
+   "pre_sha256": "d384bf3bf9b10c94cf4b9e420340da4b7e33b157f34cd417dd3f91c153488fc7",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.03039250356843812,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0007",
+   "split": "eval",
+   "params": {
+    "tp": 15.059653402873197,
+    "e1": 69.19790731853553,
+    "e2": 55.817479315003794,
+    "fy": 369.91962776718725,
+    "Np": 80.18936639043527
+   },
+   "file": "inst/eval_0007.npz",
+   "sha256": "f685dc92a414d6ad906d80b048182a19ddeeb8c848924aff59baf4a9044bc31d",
+   "pre_sha256": "89d77659d216727ea24cd696df84fc64adb395838694fe47fe1d937b9f6e3aca",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.038063936855079125,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0008",
+   "split": "eval",
+   "params": {
+    "tp": 17.82729515084293,
+    "e1": 62.39402379953784,
+    "e2": 68.51655652561749,
+    "fy": 425.64515062320527,
+    "Np": 84.3840511839401
+   },
+   "file": "inst/eval_0008.npz",
+   "sha256": "f4b2852251d17861850a10077bed788a7cf8e587ef6b74f22b94d1a5e5c50538",
+   "pre_sha256": "bad5e24b085193e48689acd4da284c2f298028586fb1dd0d17be8a14ea333bf1",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.05255562750211468,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0009",
+   "split": "eval",
+   "params": {
+    "tp": 13.77972840834434,
+    "e1": 58.14462831527396,
+    "e2": 60.28786365065575,
+    "fy": 447.5522204041473,
+    "Np": 112.89082353517205
+   },
+   "file": "inst/eval_0009.npz",
+   "sha256": "7dee1231522b9bd68aff24ffc808e8472628f112b64d660ea269f3f7a73eea6e",
+   "pre_sha256": "36799f30fa826a8d4ff2a99c819beaf1db431db1914a6759f4f45a84087e639f",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.04256762625140924,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0010",
+   "split": "eval",
+   "params": {
+    "tp": 21.676353733135777,
+    "e1": 58.71824050442936,
+    "e2": 66.80891172868714,
+    "fy": 382.27532914147713,
+    "Np": 118.81186410005509
+   },
+   "file": "inst/eval_0010.npz",
+   "sha256": "a28045e92493264ad5977c1f5945732ee6f09f958defc6c25006ba5cc2d44c5b",
+   "pre_sha256": "40a0dcc09633bf988e6d588c6172dd27e3e7b9028efc705f52cef92ba68c63e9",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.059335486231508264,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0011",
+   "split": "eval",
+   "params": {
+    "tp": 16.97664304108732,
+    "e1": 68.29697390403373,
+    "e2": 58.253026146360135,
+    "fy": 427.26199072095665,
+    "Np": 68.91504419595107
+   },
+   "file": "inst/eval_0011.npz",
+   "sha256": "7812d0265df95a05455f3e082353249c8316f35fb7d7fbe38ff5d92417c2d405",
+   "pre_sha256": "a0a7dcdfadbe1b0bc30f4c7626b3fea359e9d7c593ced4e160d00d0653e6cfa5",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.047050470481785484,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0012",
+   "split": "eval",
+   "params": {
+    "tp": 13.652497474646264,
+    "e1": 65.50821177031546,
+    "e2": 74.3325768925603,
+    "fy": 373.0114073223412,
+    "Np": 75.98807964190075
+   },
+   "file": "inst/eval_0012.npz",
+   "sha256": "640aca877f1c2ae30f07bc4aff50ac26ad1441309cd936c3237d9c4d22dd9d9c",
+   "pre_sha256": "a4db0dee2d7992b44aa18b52043c1e02ee73253fde4e5d0a44e8a643f32526b0",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.03702989484943046,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0013",
+   "split": "eval",
+   "params": {
+    "tp": 10.668933222652406,
+    "e1": 64.33911347529728,
+    "e2": 57.02090810769223,
+    "fy": 411.32129463996057,
+    "Np": 113.36806044179394
+   },
+   "file": "inst/eval_0013.npz",
+   "sha256": "437f38e32cc9a7311814fa61055656231db470d614612828414b18760ff8942b",
+   "pre_sha256": "d74e97fca7b8ca7e3276933545b13957b3afc9c98b848b34003e16ad50e2b052",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.02919891396315116,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0014",
+   "split": "eval",
+   "params": {
+    "tp": 16.275223498226104,
+    "e1": 58.506319503425104,
+    "e2": 65.40260091956057,
+    "fy": 383.33896912778204,
+    "Np": 70.909950718134
+   },
+   "file": "inst/eval_0014.npz",
+   "sha256": "aa4d49c8bf7b652cf599d10a104e1e6d27f44742e12f9dc8cd805475be4df8b7",
+   "pre_sha256": "d442370fe6843f6a065af30f7447bb8c3ae9fb53d4f49eda961ed69161d7a43f",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.047327841918438834,
+   "preload_ok": true
+  },
+  {
+   "id": "eval_0015",
+   "split": "eval",
+   "params": {
+    "tp": 19.962102016497028,
+    "e1": 65.46119526894212,
+    "e2": 71.06155298247451,
+    "fy": 347.6849884675007,
+    "Np": 75.9209507340102
+   },
+   "file": "inst/eval_0015.npz",
+   "sha256": "d4dc47fb130c0b55b1cffe0c254a63bca236abb43d2631586b74e184aeaa16b9",
+   "pre_sha256": "b3a754e93fd078dbd9cc30aba52bc0ffcf4e2511c937b91e19f01b4658d03dea",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.05246508847898321,
+   "preload_ok": true
+  },
+  {
+   "id": "dev_W1",
+   "split": "dev",
+   "params": {
+    "tp": 10.0,
+    "e1": 75.0,
+    "e2": 55.0,
+    "fy": 345.0,
+    "Np": 60.0
+   },
+   "file": "inst/dev_W1.npz",
+   "sha256": "25d4ad4c5c3ab532e8436deafdb81eb8242f05324a8361e8bf4f4aae86359cd3",
+   "pre_sha256": "3a1b919dbc550118f6d36a6dbc325a108faa71d4cea7d276de903cb745e377c6",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.02350463556977948,
+   "preload_ok": true
+  },
+  {
+   "id": "dev_W2",
+   "split": "dev",
+   "params": {
+    "tp": 10.0,
+    "e1": 55.0,
+    "e2": 75.0,
+    "fy": 345.0,
+    "Np": 130.0
+   },
+   "file": "inst/dev_W2.npz",
+   "sha256": "795e7ffb9a7e545364e6837617974f164ae06a4fd04a43f0f7ecef6fe4999934",
+   "pre_sha256": "cbb672e1dee149e17112cb8f678c2a217de58fdee4462da2155c6c33774ea2f6",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.028479297455964156,
+   "preload_ok": true
+  },
+  {
+   "id": "dev_S1",
+   "split": "dev",
+   "params": {
+    "tp": 25.0,
+    "e1": 55.0,
+    "e2": 75.0,
+    "fy": 460.0,
+    "Np": 130.0
+   },
+   "file": "inst/dev_S1.npz",
+   "sha256": "f82404541176a25634ea05650bc368d84220df4d2b4107071cd7621f8ac1983b",
+   "pre_sha256": "d45ee60ab2df1d96ffd0093169b820c2cb0d9b7dbdc2e0c5ac69889de1da2950",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.06448882479733874,
+   "preload_ok": true
+  },
+  {
+   "id": "dev_S2",
+   "split": "dev",
+   "params": {
+    "tp": 25.0,
+    "e1": 75.0,
+    "e2": 55.0,
+    "fy": 460.0,
+    "Np": 60.0
+   },
+   "file": "inst/dev_S2.npz",
+   "sha256": "70a114c0be2a9cc59baf0ae3859f705cb0d435cee8ae0a30d07ac7ff1615abf4",
+   "pre_sha256": "696ec569e9263b9a55cff6e8154fa4020998bcdd9dee0644624cbba0b0cfbcee",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.061298948439263784,
+   "preload_ok": true
+  },
+  {
+   "id": "dev_C",
+   "split": "dev",
+   "params": {
+    "tp": 17.5,
+    "e1": 65.0,
+    "e2": 65.0,
+    "fy": 402.5,
+    "Np": 95.0
+   },
+   "file": "inst/dev_C.npz",
+   "sha256": "1e696449e857aea9ea558ac4fb3738cb43ff484eab52e46a3a67899def9bf3a8",
+   "pre_sha256": "0d6d05f5ae337cb73cee15825157c77fe42905760adc53e9604ea0a8315426d2",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.049136086306037025,
+   "preload_ok": true
+  },
+  {
+   "id": "dev_T10hi",
+   "split": "dev",
+   "params": {
+    "tp": 10.0,
+    "e1": 65.0,
+    "e2": 65.0,
+    "fy": 460.0,
+    "Np": 95.0
+   },
+   "file": "inst/dev_T10hi.npz",
+   "sha256": "f3d0fa4c6a9a79e08957002bccc6851b2808dc7d37ea00ddf0c27b05274a3bb8",
+   "pre_sha256": "115f19038c9c741b0341eac909e5c6e5c7ff82e89b560d5a67c66fa0d19fe28a",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.029199074824618865,
+   "preload_ok": true
+  },
+  {
+   "id": "dev_T25lo",
+   "split": "dev",
+   "params": {
+    "tp": 25.0,
+    "e1": 65.0,
+    "e2": 65.0,
+    "fy": 345.0,
+    "Np": 95.0
+   },
+   "file": "inst/dev_T25lo.npz",
+   "sha256": "db292aa6c41e1d039f346d7a237e227e913ee5b95a67800541fee419699cfc02",
+   "pre_sha256": "cbfb602b497b859c765220dbdf7639e3549e4bdd291b5a0bb3d481b0f8411f98",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.06040634680430078,
+   "preload_ok": true
+  },
+  {
+   "id": "dev_X1",
+   "split": "dev",
+   "params": {
+    "tp": 17.5,
+    "e1": 55.0,
+    "e2": 55.0,
+    "fy": 402.5,
+    "Np": 130.0
+   },
+   "file": "inst/dev_X1.npz",
+   "sha256": "b075664c93101b3239264900dcbaf1a9ea406ca6accd70be2e7cc0b67348fdbd",
+   "pre_sha256": "d8795bb914609662f21811b0be3264bfa11972c6e8b0a190ea385a9f7624d151",
+   "nodes": 8194,
+   "unknowns": 24602,
+   "Theta_max": 0.05222284934462429,
+   "preload_ok": true
+  },
+  {
+   "id": "dev_X2",
+   "split": "dev",
+   "params": {
+    "tp": 17.5,
+    "e1": 75.0,
+    "e2": 55.0,
+    "fy": 402.5,
+    "Np": 60.0
+   },
+   "file": "inst/dev_X2.npz",
+   "sha256": "c3b6cbfc56886deeff0ea0a7ffda7d3c37a993d48404ecf29618b1448fdad8a9",
+   "pre_sha256": "7adc8801e0b4e90d725ce1824c0f5d06297d5f92661ceed35cb7bbbeba0eabfe",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.04443894251834213,
+   "preload_ok": true
+  },
+  {
+   "id": "dev_X3",
+   "split": "dev",
+   "params": {
+    "tp": 17.5,
+    "e1": 55.0,
+    "e2": 75.0,
+    "fy": 402.5,
+    "Np": 60.0
+   },
+   "file": "inst/dev_X3.npz",
+   "sha256": "a56b661f98c11837d9b6d6ee056afba58e4e933e70f812356242747bf899ce78",
+   "pre_sha256": "efbd7853923b9a3c5f04bc3fa2ca4174ff1e7d0d4fb884f77b326b990c77a5c1",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.054112559282937206,
+   "preload_ok": true
+  },
+  {
+   "id": "dev_X4",
+   "split": "dev",
+   "params": {
+    "tp": 17.5,
+    "e1": 75.0,
+    "e2": 75.0,
+    "fy": 402.5,
+    "Np": 130.0
+   },
+   "file": "inst/dev_X4.npz",
+   "sha256": "d90dc3971174cfaf0ef6a72036462735b6f12044778c939ad068d699117e9de6",
+   "pre_sha256": "257b6f11ef5b825a349097131908be5b817b5d6c3d746ae807f6b831d4e57ecc",
+   "nodes": 8851,
+   "unknowns": 26573,
+   "Theta_max": 0.046441568620031085,
+   "preload_ok": true
+  },
+  {
+   "id": "tested_B-13_nominal",
+   "split": "tested",
+   "params": {
+    "tp": 12.6,
+    "e1": 64.4,
+    "e2": 65.5,
+    "fy": 397.0,
+    "Np": 125.0
+   },
+   "file": "inst/tested_B-13_nominal.npz",
+   "sha256": "27f49a1a6837b7249d55b140d989a33fca441396ab72677219f9f087e66e016f",
+   "pre_sha256": "6496a9cece1cd46db4bfae9d4b80b290382a3a4650a6cf50fbd1eab20e7dae2d",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.03474560335666183,
+   "preload_ok": true
+  },
+  {
+   "id": "tested_B-13_measured-mean",
+   "split": "tested",
+   "params": {
+    "tp": 12.6,
+    "e1": 64.4,
+    "e2": 65.5,
+    "fy": 397.0,
+    "Np": 111.46268518518518
+   },
+   "file": "inst/tested_B-13_measured-mean.npz",
+   "sha256": "bb8df64237df211c2f4c57a54f83c13ae9d1d3ed37b2966948ca8a35f017ad96",
+   "pre_sha256": "f6b03d953c66f3f0d9cea9cd749d49fea391c98df957cfe760d9da327ecf869d",
+   "nodes": 8632,
+   "unknowns": 25916,
+   "Theta_max": 0.03474560335666183,
+   "preload_ok": true
+  },
+  {
+   "id": "tested_B-19_nominal",
+   "split": "tested",
+   "params": {
+    "tp": 19.3,
+    "e1": 64.2,
+    "e2": 64.5,
+    "fy": 373.0,
+    "Np": 125.0
+   },
+   "file": "inst/tested_B-19_nominal.npz",
+   "sha256": "273ad9f2530c8b0d6e96ec8aabd5fba29f5d03cb095e558ddc556d936c9f901b",
+   "pre_sha256": "8c3d59020c7e283563c309f8e6c06c5d603d91d9d020ec344b20de0b1c1579b7",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.0522919403100196,
+   "preload_ok": true
+  },
+  {
+   "id": "tested_B-19_measured-mean",
+   "split": "tested",
+   "params": {
+    "tp": 19.3,
+    "e1": 64.2,
+    "e2": 64.5,
+    "fy": 373.0,
+    "Np": 120.88897414553998
+   },
+   "file": "inst/tested_B-19_measured-mean.npz",
+   "sha256": "f7b5cd360be5c6d867b19d039bd9bb844e9eba53311af2492e995d25d4236222",
+   "pre_sha256": "ebc30286cca5421a5c4cb4ded4ee1ea2319515dd07b78ca9e568eb02e9c38cb2",
+   "nodes": 8413,
+   "unknowns": 25259,
+   "Theta_max": 0.0522919403100196,
+   "preload_ok": true
+  }
+ ]
+}

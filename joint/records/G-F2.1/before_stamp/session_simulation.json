@@ -1,0 +1,164 @@
+{
+ "what": "the queue's notebook ran the task file of the gate, session after session, on a processor, in a copy of the tree whose configuration is a reduced one (the tiny mesh, two stand-in presets, four of the development's members, a sample of two drawn with the day 20260103) and which has its own stamp file; two sessions that must be refused (an archive without the stamp file, a task with another configuration hash), then the task with trainings that run out of time, a session that finds everything done and, one after another, the closing task after a stop for good on a copy of the finished task",
+ "modes": {
+  "one after another": {
+   "reduced_configuration_sha256": "93f2dd1113119e09dc510146d82ea11221063b7bf16d6e47fb8888b113eaa90f",
+   "sample_seed": 20260103,
+   "host_check_step": true,
+   "sessions": {
+    "bad_stamp": {
+     "as expected": true,
+     "steps": {
+      "check_stamp": "failed with exit code 1"
+     }
+    },
+    "bad_sha": {
+     "as expected": true,
+     "steps": {
+      "check_stamp": "failed with exit code 1"
+     }
+    },
+    "1": {
+     "as expected": true,
+     "steps": {
+      "check_stamp": "done",
+      "host_check": "done",
+      "data_train": "done",
+      "data_thin": "done",
+      "data_sample": "done",
+      "first_s5": "paused: it goes on in the next session"
+     }
+    },
+    "2": {
+     "as expected": true,
+     "steps": {
+      "check_stamp": "done in an earlier session",
+      "host_check": "done in an earlier session",
+      "data_train": "done in an earlier session",
+      "data_thin": "done in an earlier session",
+      "data_sample": "done in an earlier session",
+      "first_s5": "done",
+      "second_s5": "done",
+      "first_s6": "done",
+      "second_s6": "done",
+      "first_s7": "paused: it goes on in the next session"
+     }
+    },
+    "last": {
+     "as expected": true,
+     "steps": {
+      "check_stamp": "done in an earlier session",
+      "host_check": "done in an earlier session",
+      "data_train": "done in an earlier session",
+      "data_thin": "done in an earlier session",
+      "data_sample": "done in an earlier session",
+      "first_s5": "done in an earlier session",
+      "second_s5": "done in an earlier session",
+      "first_s6": "done in an earlier session",
+      "second_s6": "done in an earlier session",
+      "first_s7": "done",
+      "second_s7": "done",
+      "predict_s5": "done",
+      "predict_s6": "done",
+      "predict_s7": "done",
+      "evaluate_dev": "done",
+      "evaluate_sample": "done",
+      "verdict": "done"
+     }
+    },
+    "again": {
+     "as expected": true,
+     "steps": null
+    },
+    "closing": {
+     "as expected": true,
+     "steps": {
+      "check_stamp": "done in an earlier session",
+      "host_check": "done in an earlier session",
+      "data_train": "done in an earlier session",
+      "data_thin": "done in an earlier session",
+      "data_sample": "done in an earlier session",
+      "predict_s5": "done in an earlier session",
+      "predict_s6": "done in an earlier session",
+      "predict_s7": "done",
+      "evaluate_dev": "done",
+      "evaluate_sample": "done",
+      "verdict": "done"
+     }
+    }
+   },
+   "verdict_of_the_stand_in_networks": "FAIL",
+   "result": "PASSED",
+   "checks": {
+    "bad_stamp": true,
+    "bad_sha": true,
+    "1": true,
+    "2": true,
+    "last": true,
+    "again": true,
+    "closing": true,
+    "no_paths_in_records": true
+   }
+  },
+  "at the same time": {
+   "reduced_configuration_sha256": "93f2dd1113119e09dc510146d82ea11221063b7bf16d6e47fb8888b113eaa90f",
+   "sample_seed": 20260103,
+   "host_check_step": false,
+   "sessions": {
+    "bad_stamp": {
+     "as expected": true,
+     "steps": {
+      "check_stamp": "failed with exit code 1"
+     }
+    },
+    "bad_sha": {
+     "as expected": true,
+     "steps": {
+      "check_stamp": "failed with exit code 1"
+     }
+    },
+    "1": {
+     "as expected": true,
+     "steps": {
+      "check_stamp": "done",
+      "data_train": "done",
+      "data_thin": "done",
+      "data_sample": "done",
+      "first_all": "paused: it goes on in the next session"
+     }
+    },
+    "last": {
+     "as expected": true,
+     "steps": {
+      "check_stamp": "done in an earlier session",
+      "data_train": "done in an earlier session",
+      "data_thin": "done in an earlier session",
+      "data_sample": "done in an earlier session",
+      "first_all": "done",
+      "second_all": "done",
+      "predict_s5": "done",
+      "predict_s6": "done",
+      "predict_s7": "done",
+      "evaluate_dev": "done",
+      "evaluate_sample": "done",
+      "verdict": "done"
+     }
+    },
+    "again": {
+     "as expected": true,
+     "steps": null
+    }
+   },
+   "verdict_of_the_stand_in_networks": "FAIL",
+   "result": "PASSED",
+   "checks": {
+    "bad_stamp": true,
+    "bad_sha": true,
+    "1": true,
+    "last": true,
+    "again": true,
+    "no_paths_in_records": true
+   }
+  }
+ }
+}

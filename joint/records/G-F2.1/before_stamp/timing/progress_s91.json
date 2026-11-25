@@ -1,0 +1,21 @@
+{
+ "time": "2026-11-25T13:42:07+00:00",
+ "state": "paused",
+ "preset": "fam128_bending_e400",
+ "seed": 91,
+ "epoch": 2,
+ "epochs": 400,
+ "step": 256,
+ "total_steps": 51200,
+ "loss": [
+  12.555205754935741,
+  12.592695355415344
+ ],
+ "epoch_seconds": [
+  519.53,
+  495.52
+ ],
+ "cap_events": 0,
+ "bursts": 0,
+ "members_built": 128
+}

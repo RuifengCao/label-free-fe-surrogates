@@ -1,0 +1,428 @@
+{
+ "what": "stand-in trainings on a processor with one thread (probes/f21_code_equivalence): the first cycle's kind (preset dry, two members) under the f2 files of 21 November 2026 and under the stamped files, and the second cycle's kind (preset dry_more_ux, four members, from the first-cycle state of the stamped files' run) under the f2 files of 24 November 2026 and under the stamped files; the same data, seed and machine; with the presets' three epochs and with thirty; the stamped files twice as a control",
+ "runs": {
+  "three epochs": {
+   "f2 files of 2026-11-21, dry": {
+    "preset": "dry",
+    "config_sha256": "58498d0e5a1a6c8b2a58747b1f93bd13bbcef09882e31cfcf04e9f31e25d6e10",
+    "status": "finished",
+    "steps": 6,
+    "loss": [
+     12.9810152053833,
+     13.222090244293213,
+     12.452235221862793
+    ],
+    "f2_files": {
+     "__main__.py": "fc16c9cd5ab2cb2f912b7e860cdba34223a2540e979fe25cd983b82e129d1dea",
+     "config.py": "ff2e55b982bfd126da7c021e5848897aa40dd1503f9fb138de31474da5ce3e91",
+     "data.py": "b2f15e5d986dad2415cdaf2260cea2d168f3b1c2bb248589314ba4023b7fc918",
+     "devconfig.py": "760bd50e831eccf9736a8def031c669f101e02d28fa026f5011a7ba0e6e5cc44",
+     "evaluate.py": "6640f66e5aa11a421a3c70082949e064532847a94a7dac1d2f5911ddaf0a5376",
+     "family.py": "682e8eea0418c7b2588eafa2cb22902ba4839e009b8af3638f9ef8145413754a",
+     "instance.py": "89ff69e0d88610bc9358d6c9b2e4da344d1f20acf58cb4ab82d8c1deb3b20069",
+     "model.py": "ac2d2b989a9333f32906995b56b41df23d85e3f87132502d67404c3853a54fba",
+     "precond.py": "124f36527cf4356405ebc20c6073cdf6d04b2fbc6c58dc2184efa40f0035e775",
+     "prolong.py": "794921da644c5cccb84fb71b97f04704e8f0ac0e2b90f28afc8702105974f1dd",
+     "torch_energy.py": "c6dda8e488f5f904d7eab30852d335003396e9b136445b0e6b647a7b69f7261a",
+     "train.py": "7ade8723c2375d098e305a8ea19c79dd28d0d529742472a21bdcb929712ee093"
+    }
+   },
+   "stamped files, dry": {
+    "preset": "dry",
+    "config_sha256": "58498d0e5a1a6c8b2a58747b1f93bd13bbcef09882e31cfcf04e9f31e25d6e10",
+    "status": "finished",
+    "steps": 6,
+    "loss": [
+     12.9810152053833,
+     13.222090244293213,
+     12.452235221862793
+    ],
+    "f2_files": {
+     "__main__.py": "fc16c9cd5ab2cb2f912b7e860cdba34223a2540e979fe25cd983b82e129d1dea",
+     "config.py": "ff2e55b982bfd126da7c021e5848897aa40dd1503f9fb138de31474da5ce3e91",
+     "data.py": "608de8ddd1c02658aa5ddb55946c4c929d0f06a01d86066b574224f1eefbaa2d",
+     "devconfig.py": "8e8b338994dda9c9a1fed460a21665989669366fe2601a27368a4cc5b9f07411",
+     "evaluate.py": "6640f66e5aa11a421a3c70082949e064532847a94a7dac1d2f5911ddaf0a5376",
+     "family.py": "20b2631e1729112d616da07fe5a1e98bec6a2a3901c1058a363d4ee324e1a6dd",
+     "instance.py": "89ff69e0d88610bc9358d6c9b2e4da344d1f20acf58cb4ab82d8c1deb3b20069",
+     "model.py": "5304b4dd3b4a8f6486ca9c6199ff492db1153db9928879d6b3e245efaa296ccb",
+     "precond.py": "124f36527cf4356405ebc20c6073cdf6d04b2fbc6c58dc2184efa40f0035e775",
+     "prolong.py": "794921da644c5cccb84fb71b97f04704e8f0ac0e2b90f28afc8702105974f1dd",
+     "torch_energy.py": "c6dda8e488f5f904d7eab30852d335003396e9b136445b0e6b647a7b69f7261a",
+     "train.py": "00659fec79f824913ac28ffa1d8edf5df9b814411dd63947414764f522c21322"
+    }
+   },
+   "stamped files, dry, again": {
+    "preset": "dry",
+    "config_sha256": "58498d0e5a1a6c8b2a58747b1f93bd13bbcef09882e31cfcf04e9f31e25d6e10",
+    "status": "finished",
+    "steps": 6,
+    "loss": [
+     12.9810152053833,
+     13.222090244293213,
+     12.452235221862793
+    ],
+    "f2_files": {
+     "__main__.py": "fc16c9cd5ab2cb2f912b7e860cdba34223a2540e979fe25cd983b82e129d1dea",
+     "config.py": "ff2e55b982bfd126da7c021e5848897aa40dd1503f9fb138de31474da5ce3e91",
+     "data.py": "608de8ddd1c02658aa5ddb55946c4c929d0f06a01d86066b574224f1eefbaa2d",
+     "devconfig.py": "8e8b338994dda9c9a1fed460a21665989669366fe2601a27368a4cc5b9f07411",
+     "evaluate.py": "6640f66e5aa11a421a3c70082949e064532847a94a7dac1d2f5911ddaf0a5376",
+     "family.py": "20b2631e1729112d616da07fe5a1e98bec6a2a3901c1058a363d4ee324e1a6dd",
+     "instance.py": "89ff69e0d88610bc9358d6c9b2e4da344d1f20acf58cb4ab82d8c1deb3b20069",
+     "model.py": "5304b4dd3b4a8f6486ca9c6199ff492db1153db9928879d6b3e245efaa296ccb",
+     "precond.py": "124f36527cf4356405ebc20c6073cdf6d04b2fbc6c58dc2184efa40f0035e775",
+     "prolong.py": "794921da644c5cccb84fb71b97f04704e8f0ac0e2b90f28afc8702105974f1dd",
+     "torch_energy.py": "c6dda8e488f5f904d7eab30852d335003396e9b136445b0e6b647a7b69f7261a",
+     "train.py": "00659fec79f824913ac28ffa1d8edf5df9b814411dd63947414764f522c21322"
+    }
+   },
+   "f2 files of 2026-11-24, dry_more_ux": {
+    "preset": "dry_more_ux",
+    "config_sha256": "be58b6c1e9dbbc16bcf2d789bd3df208ece47b6cb939852d405ebe83b7ed2ff5",
+    "status": "finished",
+    "steps": 12,
+    "loss": [
+     13.434631586074829,
+     13.657022714614868,
+     13.767282724380493
+    ],
+    "f2_files": {
+     "__main__.py": "fc16c9cd5ab2cb2f912b7e860cdba34223a2540e979fe25cd983b82e129d1dea",
+     "config.py": "ff2e55b982bfd126da7c021e5848897aa40dd1503f9fb138de31474da5ce3e91",
+     "data.py": "6771743be61e6b01966fe5a8a0da505c7075d4f2a178ca6ba9cbe703b6eabd0f",
+     "devconfig.py": "93921e31eb10cfee415550b90737afdb58462bfe8ce8648c774eb0f1959fffd7",
+     "evaluate.py": "6640f66e5aa11a421a3c70082949e064532847a94a7dac1d2f5911ddaf0a5376",
+     "family.py": "20b2631e1729112d616da07fe5a1e98bec6a2a3901c1058a363d4ee324e1a6dd",
+     "instance.py": "89ff69e0d88610bc9358d6c9b2e4da344d1f20acf58cb4ab82d8c1deb3b20069",
+     "model.py": "5558cd3bf1c746bff6ce06c39bb6859c25ae4eb0f9974648311935948fb976c3",
+     "precond.py": "124f36527cf4356405ebc20c6073cdf6d04b2fbc6c58dc2184efa40f0035e775",
+     "prolong.py": "794921da644c5cccb84fb71b97f04704e8f0ac0e2b90f28afc8702105974f1dd",
+     "torch_energy.py": "c6dda8e488f5f904d7eab30852d335003396e9b136445b0e6b647a7b69f7261a",
+     "train.py": "d57d4d18545148141d1941a88286050d72ab7468d3a70c8e2abee003a4fdd9ef"
+    }
+   },
+   "stamped files, dry_more_ux": {
+    "preset": "dry_more_ux",
+    "config_sha256": "be58b6c1e9dbbc16bcf2d789bd3df208ece47b6cb939852d405ebe83b7ed2ff5",
+    "status": "finished",
+    "steps": 12,
+    "loss": [
+     13.434631586074829,
+     13.657022714614868,
+     13.767282724380493
+    ],
+    "f2_files": {
+     "__main__.py": "fc16c9cd5ab2cb2f912b7e860cdba34223a2540e979fe25cd983b82e129d1dea",
+     "config.py": "ff2e55b982bfd126da7c021e5848897aa40dd1503f9fb138de31474da5ce3e91",
+     "data.py": "608de8ddd1c02658aa5ddb55946c4c929d0f06a01d86066b574224f1eefbaa2d",
+     "devconfig.py": "8e8b338994dda9c9a1fed460a21665989669366fe2601a27368a4cc5b9f07411",
+     "evaluate.py": "6640f66e5aa11a421a3c70082949e064532847a94a7dac1d2f5911ddaf0a5376",
+     "family.py": "20b2631e1729112d616da07fe5a1e98bec6a2a3901c1058a363d4ee324e1a6dd",
+     "instance.py": "89ff69e0d88610bc9358d6c9b2e4da344d1f20acf58cb4ab82d8c1deb3b20069",
+     "model.py": "5304b4dd3b4a8f6486ca9c6199ff492db1153db9928879d6b3e245efaa296ccb",
+     "precond.py": "124f36527cf4356405ebc20c6073cdf6d04b2fbc6c58dc2184efa40f0035e775",
+     "prolong.py": "794921da644c5cccb84fb71b97f04704e8f0ac0e2b90f28afc8702105974f1dd",
+     "torch_energy.py": "c6dda8e488f5f904d7eab30852d335003396e9b136445b0e6b647a7b69f7261a",
+     "train.py": "00659fec79f824913ac28ffa1d8edf5df9b814411dd63947414764f522c21322"
+    }
+   }
+  },
+  "thirty epochs": {
+   "f2 files of 2026-11-21, dry": {
+    "preset": "dry",
+    "config_sha256": "5cc4fce4468c8f10d6f560bf5ce90f1f2fe8f5624f28f2766366540e1896e974",
+    "status": "finished",
+    "steps": 60,
+    "loss": [
+     12.87636137008667,
+     13.190017223358154,
+     12.44908618927002,
+     13.772059440612793,
+     13.22704792022705,
+     12.962920188903809,
+     12.069765567779541,
+     12.332001686096191,
+     13.280362129211426,
+     13.819515228271484,
+     13.704572200775146,
+     13.754578113555908,
+     13.162253379821777,
+     12.795623302459717,
+     12.674795150756836,
+     12.606494426727295,
+     13.167634010314941,
+     12.434330463409424,
+     12.614372253417969,
+     13.533714294433594,
+     13.927343845367432,
+     12.743646144866943,
+     12.853254795074463,
+     12.587093830108643,
+     12.4326753616333,
+     13.563041687011719,
+     12.336316585540771,
+     12.971840858459473,
+     13.816397190093994,
+     13.287981033325195
+    ],
+    "f2_files": {
+     "__main__.py": "fc16c9cd5ab2cb2f912b7e860cdba34223a2540e979fe25cd983b82e129d1dea",
+     "config.py": "ff2e55b982bfd126da7c021e5848897aa40dd1503f9fb138de31474da5ce3e91",
+     "data.py": "b2f15e5d986dad2415cdaf2260cea2d168f3b1c2bb248589314ba4023b7fc918",
+     "devconfig.py": "760bd50e831eccf9736a8def031c669f101e02d28fa026f5011a7ba0e6e5cc44",
+     "evaluate.py": "6640f66e5aa11a421a3c70082949e064532847a94a7dac1d2f5911ddaf0a5376",
+     "family.py": "682e8eea0418c7b2588eafa2cb22902ba4839e009b8af3638f9ef8145413754a",
+     "instance.py": "89ff69e0d88610bc9358d6c9b2e4da344d1f20acf58cb4ab82d8c1deb3b20069",
+     "model.py": "ac2d2b989a9333f32906995b56b41df23d85e3f87132502d67404c3853a54fba",
+     "precond.py": "124f36527cf4356405ebc20c6073cdf6d04b2fbc6c58dc2184efa40f0035e775",
+     "prolong.py": "794921da644c5cccb84fb71b97f04704e8f0ac0e2b90f28afc8702105974f1dd",
+     "torch_energy.py": "c6dda8e488f5f904d7eab30852d335003396e9b136445b0e6b647a7b69f7261a",
+     "train.py": "7ade8723c2375d098e305a8ea19c79dd28d0d529742472a21bdcb929712ee093"
+    }
+   },
+   "stamped files, dry": {
+    "preset": "dry",
+    "config_sha256": "5cc4fce4468c8f10d6f560bf5ce90f1f2fe8f5624f28f2766366540e1896e974",
+    "status": "finished",
+    "steps": 60,
+    "loss": [
+     12.87636137008667,
+     13.190017223358154,
+     12.44908618927002,
+     13.772059440612793,
+     13.22704792022705,
+     12.962920188903809,
+     12.069765567779541,
+     12.332001686096191,
+     13.280362129211426,
+     13.819515228271484,
+     13.704572200775146,
+     13.754578113555908,
+     13.162253379821777,
+     12.795623302459717,
+     12.674795150756836,
+     12.606494426727295,
+     13.167634010314941,
+     12.434330463409424,
+     12.614372253417969,
+     13.533714294433594,
+     13.927343845367432,
+     12.743646144866943,
+     12.853254795074463,
+     12.587093830108643,
+     12.4326753616333,
+     13.563041687011719,
+     12.336316585540771,
+     12.971840858459473,
+     13.816397190093994,
+     13.287981033325195
+    ],
+    "f2_files": {
+     "__main__.py": "fc16c9cd5ab2cb2f912b7e860cdba34223a2540e979fe25cd983b82e129d1dea",
+     "config.py": "ff2e55b982bfd126da7c021e5848897aa40dd1503f9fb138de31474da5ce3e91",
+     "data.py": "608de8ddd1c02658aa5ddb55946c4c929d0f06a01d86066b574224f1eefbaa2d",
+     "devconfig.py": "8e8b338994dda9c9a1fed460a21665989669366fe2601a27368a4cc5b9f07411",
+     "evaluate.py": "6640f66e5aa11a421a3c70082949e064532847a94a7dac1d2f5911ddaf0a5376",
+     "family.py": "20b2631e1729112d616da07fe5a1e98bec6a2a3901c1058a363d4ee324e1a6dd",
+     "instance.py": "89ff69e0d88610bc9358d6c9b2e4da344d1f20acf58cb4ab82d8c1deb3b20069",
+     "model.py": "5304b4dd3b4a8f6486ca9c6199ff492db1153db9928879d6b3e245efaa296ccb",
+     "precond.py": "124f36527cf4356405ebc20c6073cdf6d04b2fbc6c58dc2184efa40f0035e775",
+     "prolong.py": "794921da644c5cccb84fb71b97f04704e8f0ac0e2b90f28afc8702105974f1dd",
+     "torch_energy.py": "c6dda8e488f5f904d7eab30852d335003396e9b136445b0e6b647a7b69f7261a",
+     "train.py": "00659fec79f824913ac28ffa1d8edf5df9b814411dd63947414764f522c21322"
+    }
+   },
+   "f2 files of 2026-11-24, dry_more_ux": {
+    "preset": "dry_more_ux",
+    "config_sha256": "03cac81ced94248f92392d1bca001d4f762aa05ab7946f0d02f96644491e7cc6",
+    "status": "finished",
+    "steps": 120,
+    "loss": [
+     13.338753700256348,
+     13.58007264137268,
+     13.69835114479065,
+     12.910602331161499,
+     14.102044343948364,
+     13.858224868774414,
+     13.06739616394043,
+     13.712033987045288,
+     13.14425015449524,
+     13.914657592773438,
+     13.482745170593262,
+     13.30347752571106,
+     13.38429570198059,
+     13.822175025939941,
+     13.61865782737732,
+     13.808001279830933,
+     13.408407211303711,
+     13.626380205154419,
+     13.226202726364136,
+     13.421334266662598,
+     13.122460126876831,
+     13.419079303741455,
+     13.327601194381714,
+     13.988053798675537,
+     13.62624216079712,
+     13.7387535572052,
+     13.074190616607666,
+     13.680768489837646,
+     13.69533634185791,
+     13.480841636657715
+    ],
+    "f2_files": {
+     "__main__.py": "fc16c9cd5ab2cb2f912b7e860cdba34223a2540e979fe25cd983b82e129d1dea",
+     "config.py": "ff2e55b982bfd126da7c021e5848897aa40dd1503f9fb138de31474da5ce3e91",
+     "data.py": "6771743be61e6b01966fe5a8a0da505c7075d4f2a178ca6ba9cbe703b6eabd0f",
+     "devconfig.py": "93921e31eb10cfee415550b90737afdb58462bfe8ce8648c774eb0f1959fffd7",
+     "evaluate.py": "6640f66e5aa11a421a3c70082949e064532847a94a7dac1d2f5911ddaf0a5376",
+     "family.py": "20b2631e1729112d616da07fe5a1e98bec6a2a3901c1058a363d4ee324e1a6dd",
+     "instance.py": "89ff69e0d88610bc9358d6c9b2e4da344d1f20acf58cb4ab82d8c1deb3b20069",
+     "model.py": "5558cd3bf1c746bff6ce06c39bb6859c25ae4eb0f9974648311935948fb976c3",
+     "precond.py": "124f36527cf4356405ebc20c6073cdf6d04b2fbc6c58dc2184efa40f0035e775",
+     "prolong.py": "794921da644c5cccb84fb71b97f04704e8f0ac0e2b90f28afc8702105974f1dd",
+     "torch_energy.py": "c6dda8e488f5f904d7eab30852d335003396e9b136445b0e6b647a7b69f7261a",
+     "train.py": "d57d4d18545148141d1941a88286050d72ab7468d3a70c8e2abee003a4fdd9ef"
+    }
+   },
+   "stamped files, dry_more_ux": {
+    "preset": "dry_more_ux",
+    "config_sha256": "03cac81ced94248f92392d1bca001d4f762aa05ab7946f0d02f96644491e7cc6",
+    "status": "finished",
+    "steps": 120,
+    "loss": [
+     13.338753700256348,
+     13.58007264137268,
+     13.69835114479065,
+     12.910602331161499,
+     14.102044343948364,
+     13.858224868774414,
+     13.06739616394043,
+     13.712033987045288,
+     13.14425015449524,
+     13.914657592773438,
+     13.482745170593262,
+     13.30347752571106,
+     13.38429570198059,
+     13.822175025939941,
+     13.61865782737732,
+     13.808001279830933,
+     13.408407211303711,
+     13.626380205154419,
+     13.226202726364136,
+     13.421334266662598,
+     13.122460126876831,
+     13.419079303741455,
+     13.327601194381714,
+     13.988053798675537,
+     13.62624216079712,
+     13.7387535572052,
+     13.074190616607666,
+     13.680768489837646,
+     13.69533634185791,
+     13.480841636657715
+    ],
+    "f2_files": {
+     "__main__.py": "fc16c9cd5ab2cb2f912b7e860cdba34223a2540e979fe25cd983b82e129d1dea",
+     "config.py": "ff2e55b982bfd126da7c021e5848897aa40dd1503f9fb138de31474da5ce3e91",
+     "data.py": "608de8ddd1c02658aa5ddb55946c4c929d0f06a01d86066b574224f1eefbaa2d",
+     "devconfig.py": "8e8b338994dda9c9a1fed460a21665989669366fe2601a27368a4cc5b9f07411",
+     "evaluate.py": "6640f66e5aa11a421a3c70082949e064532847a94a7dac1d2f5911ddaf0a5376",
+     "family.py": "20b2631e1729112d616da07fe5a1e98bec6a2a3901c1058a363d4ee324e1a6dd",
+     "instance.py": "89ff69e0d88610bc9358d6c9b2e4da344d1f20acf58cb4ab82d8c1deb3b20069",
+     "model.py": "5304b4dd3b4a8f6486ca9c6199ff492db1153db9928879d6b3e245efaa296ccb",
+     "precond.py": "124f36527cf4356405ebc20c6073cdf6d04b2fbc6c58dc2184efa40f0035e775",
+     "prolong.py": "794921da644c5cccb84fb71b97f04704e8f0ac0e2b90f28afc8702105974f1dd",
+     "torch_energy.py": "c6dda8e488f5f904d7eab30852d335003396e9b136445b0e6b647a7b69f7261a",
+     "train.py": "00659fec79f824913ac28ffa1d8edf5df9b814411dd63947414764f522c21322"
+    }
+   }
+  }
+ },
+ "comparisons": {
+  "three epochs": {
+   "2026-11-21 against stamped (dry, 6 steps)": {
+    "configuration equal": true,
+    "status": [
+     "finished",
+     "finished"
+    ],
+    "steps": [
+     6,
+     6
+    ],
+    "losses equal to the last bit": true,
+    "largest difference of a loss": 0.0,
+    "tensors of the final states": 40,
+    "tensors that differ": 0,
+    "largest difference of a weight": 0.0
+   },
+   "stamped against stamped (dry, 6 steps)": {
+    "configuration equal": true,
+    "status": [
+     "finished",
+     "finished"
+    ],
+    "steps": [
+     6,
+     6
+    ],
+    "losses equal to the last bit": true,
+    "largest difference of a loss": 0.0,
+    "tensors of the final states": 40,
+    "tensors that differ": 0,
+    "largest difference of a weight": 0.0
+   },
+   "2026-11-24 against stamped (dry_more_ux, 12 steps)": {
+    "configuration equal": true,
+    "status": [
+     "finished",
+     "finished"
+    ],
+    "steps": [
+     12,
+     12
+    ],
+    "losses equal to the last bit": true,
+    "largest difference of a loss": 0.0,
+    "tensors of the final states": 40,
+    "tensors that differ": 0,
+    "largest difference of a weight": 0.0
+   }
+  },
+  "thirty epochs": {
+   "2026-11-21 against stamped (dry, 60 steps)": {
+    "configuration equal": true,
+    "status": [
+     "finished",
+     "finished"
+    ],
+    "steps": [
+     60,
+     60
+    ],
+    "losses equal to the last bit": true,
+    "largest difference of a loss": 0.0,
+    "tensors of the final states": 40,
+    "tensors that differ": 0,
+    "largest difference of a weight": 0.0
+   },
+   "2026-11-24 against stamped (dry_more_ux, 120 steps)": {
+    "configuration equal": true,
+    "status": [
+     "finished",
+     "finished"
+    ],
+    "steps": [
+     120,
+     120
+    ],
+    "losses equal to the last bit": true,
+    "largest difference of a loss": 0.0,
+    "tensors of the final states": 40,
+    "tensors that differ": 0,
+    "largest difference of a weight": 0.0
+   }
+  }
+ }
+}

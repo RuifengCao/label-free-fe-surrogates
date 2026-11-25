@@ -1,0 +1,151 @@
+{
+ "what": "G-F2.1 host check (reduced)",
+ "config_sha256": "442368dbacb6d49818b33884924d20a3e9b7f741b56956eb5153b66023da4f61",
+ "sample_seed": 20260102,
+ "device": "cpu",
+ "workers": 2,
+ "machine": {
+  "platform": "Linux-6.18.44-fc-v880-x86_64-with-glibc2.39",
+  "python": "3.13.18",
+  "processors": 2,
+  "numpy": "2.5.3",
+  "scipy": "1.18.1",
+  "torch": "2.12.1+cu130",
+  "gpu": null,
+  "gpu_memory_GiB": null
+ },
+ "seconds": {
+  "development_data": 294.7,
+  "sample": 151.3,
+  "training": 339.8,
+  "predictions": 106.4,
+  "evaluations": 1358.7
+ },
+ "checks": {
+  "used_seed_refused": true,
+  "early_seed_refused": true,
+  "late_seed_refused": true,
+  "day_that_has_not_come_refused": true,
+  "nothing_written_by_a_refused_sample": true,
+  "other_configuration_refused_in_the_sample_folder": true,
+  "second_cycle_without_first_refused": true,
+  "other_seed_refused": true,
+  "a_cycle_without_its_predictions_is_not_finished": true,
+  "no_prediction_on_the_sample_before_every_training_has_ended": true,
+  "no_evaluation_of_the_sample_before_every_seed_has_its_record": true,
+  "incomplete_before_the_last_prediction": true,
+  "a_prediction_is_not_made_twice": true,
+  "incomplete_before_the_evaluation": true,
+  "sparse_solver_not_loaded_where_torch_ran": true,
+  "torch_not_loaded_where_the_pools_were_forked": true,
+  "exact_for_the_judged_reading_only": true,
+  "the_evaluations_record_what_they_read": true,
+  "verdict_is_complete": true
+ },
+ "stages": {
+  "data": "ended with exit code 0",
+  "train": "ended with exit code 0",
+  "evaluate": "ended with exit code 0"
+ },
+ "verdict": {
+  "verdict": "FAIL",
+  "why": "median inf% against 5%; p90 inf% against 10%",
+  "complete": true,
+  "per_seed": {
+   "5": {
+    "median": Infinity,
+    "p90": Infinity,
+    "max": Infinity,
+    "n": 14,
+    "not_finite": 9
+   },
+   "6": {
+    "median": Infinity,
+    "p90": Infinity,
+    "max": Infinity,
+    "n": 14,
+    "not_finite": 7
+   },
+   "7": {
+    "median": Infinity,
+    "p90": Infinity,
+    "max": Infinity,
+    "n": 14,
+    "not_finite": 7
+   }
+  },
+  "across_seeds": {
+   "median": Infinity,
+   "p90": Infinity
+  },
+  "sample": {
+   "seed": 20260102,
+   "members": 2,
+   "levels": 7,
+   "pairs": 14,
+   "thin_members": 1,
+   "evaluation_sha256": "730e743aa017bd874f3e3d54363669f8479fdab06e99604f65fb7702e9822c8e",
+   "inputs": {
+    "predictions": {
+     "5": {
+      "preds.npz": "75772ce2f84ec26329903418272557acd19e12ab2160985c1734688663df23de",
+      "preds_condensed.npz": "9287360090e1ba3b9139859fe7f065ea5fed07817167410a2534b344abca6e47",
+      "preds_base.npz": "ea82a7117eefe3754ceac9d36828fe008d61d1864f0067ebbb26fd1bc1c296cc",
+      "condense.json": "964f48c57414105db8a88580de5b4a331dddde51506d25a43905b8015e2fb69e"
+     },
+     "6": {
+      "preds.npz": "ddc76781d07f8af406de0162632cb6a3069d514d5467d3f7bea74702ae88e555",
+      "preds_condensed.npz": "6db762311e569181cb242b296a37a2142b9b28840bfda4f68a83954f75d038d7",
+      "preds_base.npz": "888fd568a03f60227cbdb9a002bf3213f0beb7a1fc2d7b5ee619425277b75e15",
+      "condense.json": "adb213a2ebffc3e4b4d36f369e1b3c6583fd9ad17f198aea33d75104236d9efc"
+     },
+     "7": {
+      "preds.npz": "cbb40a781251b6fd3556bbd087b5b9a4cc6ea12fd9afcd6864ad3b2fa4339d5c",
+      "preds_condensed.npz": "fc9a485b964a9371db5f00b5d009a7162a282b351e574f17aa63cb0b0519feae",
+      "preds_base.npz": "e1046b0e62c8cae27952d988b91282d8835a41337644728a8db5c4056268d52e",
+      "condense.json": "c551934b56ab6cf2eb8ad8e44daf762132e3d497b2a533ac210e6cd22b0b9f9a"
+     }
+    },
+    "manifest_sha256": "a682f4817b1aec652576f925d80538d9258369f055c38ce9dc9391f4841f1b8e",
+    "ledger_sha256": "417b876156012301e3270b8ce05b0813be38047700001df092bb3e84bae85852",
+    "linear_solver": "pardiso"
+   }
+  },
+  "exact": {
+   "quantity": "curveD_exact_err",
+   "reading": "condensed",
+   "per_seed": {
+    "5": {
+     "median": Infinity,
+     "p90": Infinity,
+     "max": Infinity,
+     "n": 14,
+     "not_finite": 14
+    },
+    "6": {
+     "median": Infinity,
+     "p90": Infinity,
+     "max": Infinity,
+     "n": 14,
+     "not_finite": 11
+    },
+    "7": {
+     "median": Infinity,
+     "p90": Infinity,
+     "max": Infinity,
+     "n": 14,
+     "not_finite": 9
+    }
+   },
+   "across_seeds": {
+    "median": Infinity,
+    "p90": Infinity
+   },
+   "same_side_of_each_line": {
+    "median": true,
+    "p90": true
+   }
+  }
+ },
+ "ok": true
+}

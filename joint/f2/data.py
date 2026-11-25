@@ -14,6 +14,10 @@ Layout of a data directory:
     labels/ledger.json        every labelled instance: id, levels, time, iterations, convergence, worst optimality
                               residuals, the SHA-256 of the instance file solved and of the label file written
 Levels are fractions lam of the member's device range Theta_max (the export's), the same fractions for every member.
+
+The files carry the hash of the configuration's family and data sections (data_sha256): what the instances and the
+labels depend on. A development configuration may add hand-picked members under data["dev"] (split dev, labelled).
+Worker processes are forked where the operating system can and spawned otherwise (c22.data.pool).
 """
 from __future__ import annotations
 
@@ -25,26 +29,59 @@ from pathlib import Path
 
 import numpy as np
 
+from c22.data import pool, _replace
 from .family import Params, sample, violations, loading
 from .instance import make, ExportedProblem, KKT_KEYS
 
 SKIP = ("params_json", "config_sha256")
+LABELLED_SPLITS = ("eval", "dev", "tested")
+
+
+def data_sha256(cfg: dict) -> str:
+    """The hash of what the instances and their labels depend on: the family and the data sections."""
+    from .config import sha256
+
+    return sha256({"family": cfg["family"], "data": cfg["data"]})
 
 
 def members(cfg: dict) -> list[tuple[str, str, Params]]:
     """(id, split, parameters) for every instance, in a fixed order."""
     d = cfg["data"]
-    for s in (d["train_seed"], d["eval_seed"]):
-        assert s is not None and s not in d["seeds_seen_before_stamp"], "a seed unset or used before the stamp"
-    tr, _ = sample(d["n_train"], seed=d["train_seed"])
-    ev, _ = sample(d["n_eval"], seed=d["eval_seed"])
-    out = [(f"train_{i:04d}", "train", q) for i, q in enumerate(tr)]
-    out += [(f"eval_{i:04d}", "eval", q) for i, q in enumerate(ev)]
-    for name, p in d["tested"].items():
-        q = Params(**p)
-        assert not violations(q), f"{name} is not a member of the family"
-        out.append((f"tested_{name}", "tested", q))
+    for s, n in ((d["train_seed"], d["n_train"]), (d["eval_seed"], d["n_eval"])):      # a split of no member draws nothing
+        assert n == 0 or (s is not None and s not in d["seeds_seen_before_stamp"]), "a seed unset or used before the stamp"
+    tr = sample(d["n_train"], seed=d["train_seed"], ranges=d.get("ranges"))[0] if d["n_train"] else []   # "ranges": extra_config only
+    ev = sample(d["n_eval"], seed=d["eval_seed"])[0] if d["n_eval"] else []
+    pre, pre_ev = d.get("train_prefix", "train"), d.get("eval_prefix", "eval")       # "eval_prefix": a gate's sample only
+    out = [(f"{pre}_{i:04d}", "train", q) for i, q in enumerate(tr)]
+    out += [(f"{pre_ev}_{i:04d}", "eval", q) for i, q in enumerate(ev)]
+    for split in ("dev", "tested"):
+        for name, p in d.get(split, {}).items():
+            q = Params(**p)
+            assert not violations(q), f"{name} is not a member of the family"
+            out.append((f"{split}_{name}", split, q))
     return out
+
+
+def extra_config(cfg: dict) -> dict | None:
+    """The configuration whose members are the extra training members of cfg (training.extra_members), or None when
+    cfg has none. It has cfg's family and mesh and a data section that draws n members with the given seed, over the
+    family's ranges with the given parts replaced, named <prefix>_0000 and so on; no evaluation, development or
+    tested members. Its data have a directory and a hash (data_sha256) of their own, so the data of cfg stay as
+    they are. The extra members are training members only: they are exported and never solved beyond their preload."""
+    xm = cfg["training"].get("extra_members")
+    if xm is None:
+        return None
+    x = json.loads(json.dumps(cfg))
+    d = x["data"]
+    d["train_seed"], d["n_train"], d["n_eval"], d["n_train_labelled"] = int(xm["seed"]), int(xm["n"]), 0, 0
+    d["dev"], d["tested"] = {}, {}
+    d["ranges"] = {k: [float(v[0]), float(v[1])] for k, v in xm["ranges"].items()}
+    d["train_prefix"] = str(xm["prefix"])
+    if d["train_seed"] in (cfg["data"]["train_seed"], cfg["data"]["eval_seed"]):
+        raise ValueError("the extra members need a seed of their own")
+    if d["train_prefix"] in ("train", "eval", "dev", "tested"):
+        raise ValueError("the extra members need a prefix of their own")
+    return x
 
 
 def levels(cfg: dict, split: str) -> list[float]:
@@ -83,14 +120,14 @@ def stored_identity(path) -> tuple[dict, str]:
 def _write_json_atomic(p: Path, obj) -> None:
     tmp = p.with_suffix(".tmp")
     tmp.write_text(json.dumps(obj, indent=1))
-    tmp.replace(p)
+    _replace(tmp, p)
 
 
 def _savez_atomic(p: Path, **arrays) -> None:
     tmp = Path(str(p) + ".tmp")
     with open(tmp, "wb") as fh:
         np.savez_compressed(fh, **arrays)
-    tmp.replace(p)
+    _replace(tmp, p)
 
 
 def _sha256_file(p: Path) -> str:
@@ -114,18 +151,22 @@ def _export_one(job):
                                            "max_von_mises", "iterations")}}
 
 
-def generate(cfg: dict, data_dir, splits=("train", "eval", "tested"), limit: int | None = None,
-             workers: int = 1) -> Path:
-    """Export every member of the given splits (each with its preload solve) and write the manifest. Resumes: a
-    file already written is kept if it was made for the same member under the same configuration, and refused
-    otherwise. Each worker process exports whole members; the manifest is written by this process only."""
-    from .config import sha256
-
-    cfg_sha = sha256(cfg)
+def generate(cfg: dict, data_dir, splits=("train", "eval", "dev", "tested"), limit: int | None = None,
+             workers: int = 1, only=None) -> Path:
+    """Export every member of the given splits (each with its preload solve; with only, the listed ids among them)
+    and write the manifest. Resumes: a file already written is kept if it was made for the same member under the
+    same configuration, and refused otherwise. Each worker process exports whole members; the manifest is written
+    by this process only. The manifest lists every member whose files exist, whatever this call asked for."""
+    cfg_sha = data_sha256(cfg)
     data_dir = Path(data_dir)
     for sub in ("inst", "pre"):
         (data_dir / sub).mkdir(parents=True, exist_ok=True)
     todo = [m for m in members(cfg) if m[1] in splits]
+    if only is not None:
+        missing = sorted(set(only) - {m[0] for m in todo})
+        if missing:
+            raise RuntimeError(f"not members of the given splits: {missing}")
+        todo = [m for m in todo if m[0] in only]
     if limit is not None:
         per = {}
         todo = [m for m in todo if per.setdefault(m[1], []).append(m) or len(per[m[1]]) <= limit]
@@ -151,13 +192,17 @@ def generate(cfg: dict, data_dir, splits=("train", "eval", "tested"), limit: int
         for j in jobs:
             record(_export_one(j))
     else:
-        import multiprocessing as mp
-        with mp.get_context("fork").Pool(workers) as pool:
-            for e in pool.imap_unordered(_export_one, jobs):
+        with pool(workers) as pl:
+            for e in pl.imap_unordered(_export_one, jobs):
                 record(e)
     recs = []
-    for iid, split, q in todo:
+    for iid, split, q in members(cfg):
         p = data_dir / "inst" / f"{iid}.npz"
+        if not (p.exists() and (data_dir / "pre" / f"{iid}.npz").exists()):
+            continue
+        params, made_under = stored_identity(p)
+        if params != asdict(q) or made_under != cfg_sha:
+            raise RuntimeError(f"{p} was made for another member or configuration; use a fresh directory")
         with np.load(p) as z:
             n_nodes, n_z, Tm = int(z["nodes"].shape[0]), int(z["v"].size), float(z["Theta_max"])
         recs.append({"id": iid, "split": split, "params": asdict(q), "file": f"inst/{iid}.npz",
@@ -237,9 +282,8 @@ def label(cfg: dict, data_dir, ids, workers: int = 1) -> None:
         for j in jobs:
             record(_label_one(j))
     else:
-        import multiprocessing as mp
-        with mp.get_context("fork").Pool(workers) as pool:
-            for e in pool.imap_unordered(_label_one, jobs):
+        with pool(workers) as pl:
+            for e in pl.imap_unordered(_label_one, jobs):
                 record(e)
 
 
@@ -249,10 +293,10 @@ def _solver() -> str:
 
 
 def labelled_ids(cfg: dict, data_dir) -> list[str]:
-    """The members that must carry labels: eval, tested, and the first n_train_labelled training members."""
+    """The members that must carry labels: eval, dev, tested, and the first n_train_labelled training members."""
     man = manifest(data_dir)
     tr = [r["id"] for r in man["instances"] if r["split"] == "train"][:cfg["data"]["n_train_labelled"]]
-    return tr + [r["id"] for r in man["instances"] if r["split"] in ("eval", "tested")]
+    return tr + [r["id"] for r in man["instances"] if r["split"] in LABELLED_SPLITS]
 
 
 def check_files(data_dir, ids) -> None:
@@ -280,8 +324,6 @@ def check_labels(cfg: dict, data_dir) -> dict:
     """Every member that needs labels labelled once at its split's levels, files matching the manifest and the
     ledger, every preload on target, every level converged, the worst optimality residual of each kind within the
     configured limits, and the two moment readings of each reference (spring and stresses) equal."""
-    from .config import sha256
-
     man = manifest(data_dir)
     split = {r["id"]: r["split"] for r in man["instances"]}
     need = labelled_ids(cfg, data_dir)
@@ -296,7 +338,7 @@ def check_labels(cfg: dict, data_dir) -> dict:
     conv = all(all(e["converged"]) for e in led)
     pre_ok = all(r["preload_ok"] for r in man["instances"])
     fe = max(e["M_vs_M_sigma"] for e in led) if led else None
-    ok = (man["config_sha256"] == sha256(cfg) and not missing and lv_ok and conv and pre_ok and all(ok_kkt.values())
-          and fe is not None and fe <= 1e-6)
+    ok = (man["config_sha256"] == data_sha256(cfg) and not missing and lv_ok and conv and pre_ok
+          and all(ok_kkt.values()) and fe is not None and fe <= 1e-6)
     return {"labels": len(led), "needed": len(need), "missing": missing, "levels_ok": lv_ok, "converged": conv,
             "preload_ok": pre_ok, "worst": worst, "within_limits": ok_kkt, "max_M_vs_M_sigma": fe, "ok": bool(ok)}

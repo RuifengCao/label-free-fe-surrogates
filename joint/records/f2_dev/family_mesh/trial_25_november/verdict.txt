@@ -1,0 +1,9 @@
+all 31 members, seven levels, condensed reading, moment at the same joint rotation, per cent
+              control      first      trial
+median         0.9878     1.5312     4.6927
+p90            3.6862     5.3943    11.6374
+class C: the trial does not reach the first cycle's values
+outside the rule:
+  control: {"largest": 56.93360697413321, "largest member": "dev_W1", "thin band, last level, median": 7.074171485335501, "all members, last level, median": 3.420884531235857, "levels 1 and 2, median": 0.7890744286993767, "median by level": [0.8211, 0.7571, 1.118, 0.9685, 0.8481, 0.8135, 3.4209], "random 16: median, p90": [0.9717934867993883, 2.886930935411538], "points above 5 and above 10 per cent": [12, 3], "raw reading: median, p90, largest": [1.2352037740857469, 4.910210255747884, 36.26764876969668]}
+  first: {"largest": 67.87566351255737, "largest member": "dev_W1", "thin band, last level, median": 10.67510845589571, "all members, last level, median": 4.995886939211758, "levels 1 and 2, median": 1.0722261210955264, "median by level": [1.1784, 1.0602, 1.7926, 1.2065, 0.7909, 1.5744, 4.9959], "random 16: median, p90": [1.3730226249591193, 4.355487872813488], "points above 5 and above 10 per cent": [25, 7], "raw reading: median, p90, largest": [1.854831305024085, 6.736987744569159, 42.76765279025785]}
+  trial: {"largest": 34.30565323782584, "largest member": "dev_W1", "thin band, last level, median": 16.168666076039916, "all members, last level, median": 5.870134751775669, "levels 1 and 2, median": 5.8752248259384965, "median by level": [7.0531, 4.5938, 3.614, 3.1499, 3.0785, 3.5078, 5.8701], "random 16: median, p90": [4.845516927167726, 9.591760414649887], "points above 5 and above 10 per cent": [100, 26], "raw reading: median, p90, largest": [4.774266689357143, 10.574434929425523, 36.192445527543235]}

@@ -1,0 +1,56 @@
+31 members x 7 levels; per cent; median / p90 / largest
+moment at the same joint rotation (the judged quantity)
+   control_600        raw        1.24 / 4.91 / 36.3
+   control_600        condensed  0.99 / 3.69 / 56.9
+   first_400          raw        1.85 / 6.74 / 42.8
+   first_400          condensed  1.53 / 5.39 / 67.9
+   trial_150_under    raw        4.77 / 10.57 / 36.2
+   trial_150_under    condensed  4.69 / 11.64 / 34.3
+moment at the same device rotation
+   control_600        raw        0.23 / 2.79 / 27.7
+   control_600        condensed  0.16 / 2.08 / 41.4
+   first_400          raw        0.30 / 3.57 / 31.9
+   first_400          condensed  0.23 / 2.88 / 47.5
+   trial_150_under    raw        0.78 / 3.85 / 26.3
+   trial_150_under    condensed  0.85 / 3.73 / 25.0
+joint rotation at the same device rotation, |error|
+   control_600        raw        1.38 / 7.35 / 24.0
+   control_600        condensed  1.13 / 5.69 / 34.6
+   first_400          raw        1.91 / 10.07 / 28.2
+   first_400          condensed  1.70 / 8.40 / 40.0
+   trial_150_under    raw        4.84 / 11.33 / 26.7
+   trial_150_under    condensed  5.12 / 11.54 / 26.3
+energy over the exact energy, minus one
+   control_600        raw        0.13 / 0.60 / 25.3
+   control_600        condensed  0.13 / 0.59 / 23.8
+   first_400          raw        0.18 / 0.84 / 29.3
+   first_400          condensed  0.18 / 0.83 / 27.3
+   trial_150_under    raw        0.55 / 2.13 / 13.4
+   trial_150_under    condensed  0.54 / 2.13 / 13.4
+displacement field, relative L2
+   control_600        raw        1.54 / 7.34 / 23.7
+   control_600        condensed  1.47 / 5.48 / 34.2
+   first_400          raw        2.16 / 10.48 / 27.7
+   first_400          condensed  2.00 / 8.15 / 39.6
+   trial_150_under    raw        4.44 / 11.24 / 26.4
+   trial_150_under    condensed  4.55 / 10.86 / 25.8
+joint rotation over the exact one at the same device rotation, median by level (raw | condensed)
+   control_600        0.994 0.993 0.988 0.990 0.992 0.989 0.919 | 0.994 0.995 0.990 0.991 0.992 0.987 0.937
+   first_400          0.992 0.991 0.981 0.988 0.993 0.976 0.888 | 0.990 0.990 0.984 0.988 0.989 0.976 0.904
+   trial_150_under    0.933 0.953 0.969 0.978 0.974 0.945 0.888 | 0.933 0.953 0.965 0.968 0.965 0.941 0.897
+signed moment error at the same device rotation, median by level, per cent (raw)
+   control_600        +0.12 +0.11 +0.18 +0.14 +0.08 +0.26 +2.88
+   first_400          +0.15 +0.18 +0.34 +0.20 +0.10 +0.48 +3.90
+   trial_150_under    +0.71 +0.52 +0.43 +0.29 +0.45 +1.13 +3.68
+judged quantity, condensed, by member group: median / p90 / largest
+   control_600        tested 4: 0.57 / 3.39 / 3.9; random 16: 0.97 / 2.89 / 9.5; chosen 11: 1.54 / 4.99 / 56.9
+   first_400          tested 4: 0.70 / 4.93 / 6.3; random 16: 1.37 / 4.36 / 13.3; chosen 11: 2.08 / 7.30 / 67.9
+   trial_150_under    tested 4: 5.07 / 10.24 / 12.3; random 16: 4.85 / 9.59 / 21.4; chosen 11: 3.89 / 14.09 / 34.3
+judged quantity, condensed, worst members (largest over levels), per cent
+   control_600        dev_W1 56.9, dev_W2 14.7, eval_0001 9.5, dev_T10hi 7.5, eval_0013 6.6, eval_0006 6.1
+   first_400          dev_W1 67.9, dev_W2 19.2, eval_0001 13.3, dev_T10hi 11.3, eval_0013 10.0, eval_0006 9.4
+   trial_150_under    dev_W1 34.3, dev_W2 25.2, eval_0001 21.4, dev_T10hi 18.2, eval_0013 16.3, eval_0006 13.5
+members in which the trial is better than the control (largest over levels, condensed):
+    [('dev_W1', np.float64(56.9), np.float64(34.3))]
+pairs in which the trial is better than the control: 10 of 217 ; better than the first cycle: 18
+failed evaluations (trial): 0
